@@ -30,50 +30,42 @@ class DMManager {
       return;
     }
 
+    // Erstelle das unsignedKind14 Event
     const unsignedKind14 = {
-      id: "",
       pubkey: this.manager.publicKey,
       created_at: Math.floor(Date.now() / 1000),
       kind: 14,
       tags: [
         ["p", receiverPubKey],
+        ["p", this.manager.publicKey],
         ...(subject ? [["subject", subject]] : []),
       ],
       content: messageContent,
     };
 
+    // Versiegeln des unsignedKind14 Events (Kind 13)
     const sealContent = await window.nostr.nip44.encrypt(receiverPubKey, JSON.stringify(unsignedKind14));
-
     const seal = {
-      id: "",
-      pubkey: this.manager.publicKey,
       created_at: Math.floor(Date.now() / 1000),
       kind: 13,
       tags: [],
       content: sealContent,
     };
 
-    const giftWrapContent = await window.nostr.nip44.encrypt(receiverPubKey, JSON.stringify(seal));
+    await window.nostr.signEvent(seal);
 
-    const giftWrap = {
-      id: "",
-      pubkey: await this.generateRandomPublicKey(),
-      created_at: Math.floor(Date.now() / 1000),
-      kind: 1059,
-      tags: [["p", receiverPubKey]],
-      content: giftWrapContent,
-    };
+    // Wickele das versiegelte Event ein (Kind 1059)
+    const giftWrapContent = await window.nostr.nip44.encrypt(receiverPubKey, JSON.stringify(seal));
+    const tags = [["p", receiverPubKey]];
 
     try {
-      await this.manager.sendEvent(giftWrap.kind, giftWrap.content, giftWrap.tags);
+      await this.manager.sendAnonEvent(1059, giftWrapContent, tags);
       console.log("Message sent successfully.");
     } catch (error) {
       console.error("Error sending message:", error);
     }
   }
 
-
-  // Fügt diese Methode zu DMManager hinzu
   async getMessagesForRoom(participants) {
     const decryptedMessages = await this.getMessages();
     const roomMessages = decryptedMessages.filter(message => {
@@ -82,18 +74,6 @@ class DMManager {
     });
 
     return roomMessages.sort((a, b) => a.created_at - b.created_at);
-  }
-
-
-  async generateRandomPublicKey() {
-    const privateKey = this.generateRandomPrivateKey();
-    return nip19.nsecEncode(privateKey);
-  }
-
-  generateRandomPrivateKey() {
-    const array = new Uint8Array(32);
-    window.crypto.getRandomValues(array);
-    return Array.from(array, byte => byte.toString(16).padStart(2, '0')).join('');
   }
 
   async fetchMessages() {
@@ -110,7 +90,6 @@ class DMManager {
       const unsignedKind14 = JSON.parse(await window.nostr.nip44.decrypt(this.manager.publicKey, seal.content));
       return unsignedKind14;
     } catch (error) {
-      console.error("Error decrypting message:", error);
       return null;
     }
   }
@@ -120,10 +99,10 @@ class DMManager {
       console.error("NostrManager is not initialized.");
       return [];
     }
-  
+
     const messages = await this.fetchMessages();
     const decryptedMessages = [];
-  
+
     for (const message of messages) {
       if (message.decryptedContent) {
         decryptedMessages.push(message.decryptedContent);
@@ -134,7 +113,7 @@ class DMManager {
         }
       }
     }
-  
+
     return decryptedMessages;
   }
 
@@ -149,6 +128,7 @@ class DMManager {
         .sort()
         .join(',');
 
+      console.log(participants);
       if (!chatRooms[participants]) {
         chatRooms[participants] = {
           participants,
