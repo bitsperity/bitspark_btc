@@ -295,7 +295,7 @@ var app = (function () {
     const managed_styles = new Map();
     let active = 0;
     // https://github.com/darkskyapp/string-hash/blob/master/index.js
-    function hash(str) {
+    function hash$2(str) {
         let hash = 5381;
         let i = str.length;
         while (i--)
@@ -315,7 +315,7 @@ var app = (function () {
             keyframes += p * 100 + `%{${fn(t, 1 - t)}}\n`;
         }
         const rule = keyframes + `100% {${fn(b, 1 - b)}}\n}`;
-        const name = `__svelte_${hash(rule)}_${uid}`;
+        const name = `__svelte_${hash$2(rule)}_${uid}`;
         const doc = get_root_for_style(node);
         const { stylesheet, rules } = managed_styles.get(doc) || create_style_information(doc, node);
         if (!rules[name]) {
@@ -1524,7 +1524,7 @@ var app = (function () {
     	location: /*$location*/ ctx[0]
     });
 
-    function create_fragment$P(ctx) {
+    function create_fragment$X(ctx) {
     	let current;
     	const default_slot_template = /*#slots*/ ctx[12].default;
     	const default_slot = create_slot(default_slot_template, ctx, /*$$scope*/ ctx[11], get_default_slot_context$2);
@@ -1571,7 +1571,7 @@ var app = (function () {
     	};
     }
 
-    function instance$O($$self, $$props, $$invalidate) {
+    function instance$W($$self, $$props, $$invalidate) {
     	let $location;
     	let $routes;
     	let $base;
@@ -1728,7 +1728,7 @@ var app = (function () {
     class Router extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$O, create_fragment$P, safe_not_equal, { basepath: 6, url: 7, history: 8 });
+    		init(this, options, instance$W, create_fragment$X, safe_not_equal, { basepath: 6, url: 7, history: 8 });
     	}
     }
 
@@ -1737,12 +1737,12 @@ var app = (function () {
     const get_default_slot_context$1 = ctx => ({ params: /*routeParams*/ ctx[2] });
 
     // (44:0) {#if $activeRoute && $activeRoute.route === route}
-    function create_if_block$l(ctx) {
+    function create_if_block$q(ctx) {
     	let current_block_type_index;
     	let if_block;
     	let if_block_anchor;
     	let current;
-    	const if_block_creators = [create_if_block_1$6, create_else_block$4];
+    	const if_block_creators = [create_if_block_1$7, create_else_block$7];
     	const if_blocks = [];
 
     	function select_block_type(ctx, dirty) {
@@ -1807,7 +1807,7 @@ var app = (function () {
     }
 
     // (53:4) {:else}
-    function create_else_block$4(ctx) {
+    function create_else_block$7(ctx) {
     	let current;
     	const default_slot_template = /*#slots*/ ctx[8].default;
     	const default_slot = create_slot(default_slot_template, ctx, /*$$scope*/ ctx[7], get_default_slot_context$1);
@@ -1855,7 +1855,7 @@ var app = (function () {
     }
 
     // (45:4) {#if component}
-    function create_if_block_1$6(ctx) {
+    function create_if_block_1$7(ctx) {
     	let await_block_anchor;
     	let promise;
     	let current;
@@ -2020,10 +2020,10 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$O(ctx) {
+    function create_fragment$W(ctx) {
     	let if_block_anchor;
     	let current;
-    	let if_block = /*$activeRoute*/ ctx[1] && /*$activeRoute*/ ctx[1].route === /*route*/ ctx[5] && create_if_block$l(ctx);
+    	let if_block = /*$activeRoute*/ ctx[1] && /*$activeRoute*/ ctx[1].route === /*route*/ ctx[5] && create_if_block$q(ctx);
 
     	return {
     		c() {
@@ -2044,7 +2044,7 @@ var app = (function () {
     						transition_in(if_block, 1);
     					}
     				} else {
-    					if_block = create_if_block$l(ctx);
+    					if_block = create_if_block$q(ctx);
     					if_block.c();
     					transition_in(if_block, 1);
     					if_block.m(if_block_anchor.parentNode, if_block_anchor);
@@ -2075,7 +2075,7 @@ var app = (function () {
     	};
     }
 
-    function instance$N($$self, $$props, $$invalidate) {
+    function instance$V($$self, $$props, $$invalidate) {
     	let $activeRoute;
     	let { $$slots: slots = {}, $$scope } = $$props;
     	let { path = "" } = $$props;
@@ -2139,7 +2139,7 @@ var app = (function () {
     class Route extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$N, create_fragment$O, safe_not_equal, { path: 6, component: 0 });
+    		init(this, options, instance$V, create_fragment$W, safe_not_equal, { path: 6, component: 0 });
     	}
     }
 
@@ -2147,7 +2147,7 @@ var app = (function () {
     const get_default_slot_changes = dirty => ({ active: dirty & /*ariaCurrent*/ 4 });
     const get_default_slot_context = ctx => ({ active: !!/*ariaCurrent*/ ctx[2] });
 
-    function create_fragment$N(ctx) {
+    function create_fragment$V(ctx) {
     	let a;
     	let current;
     	let mounted;
@@ -2229,7 +2229,7 @@ var app = (function () {
     	};
     }
 
-    function instance$M($$self, $$props, $$invalidate) {
+    function instance$U($$self, $$props, $$invalidate) {
     	let ariaCurrent;
     	const omit_props_names = ["to","replace","state","getProps"];
     	let $$restProps = compute_rest_props($$props, omit_props_names);
@@ -2323,7 +2323,7 @@ var app = (function () {
     	constructor(options) {
     		super();
 
-    		init(this, options, instance$M, create_fragment$N, safe_not_equal, {
+    		init(this, options, instance$U, create_fragment$V, safe_not_equal, {
     			to: 7,
     			replace: 8,
     			state: 9,
@@ -6397,6 +6397,133 @@ var app = (function () {
     if (node.is_node())
         commonjsGlobal.WebSocket = WebSocket_1.WebSocket;
 
+    // helperStore.js
+    const sidebarOpen = writable(false);
+
+
+    const contentContainerClass = derived(sidebarOpen, $sidebarOpen =>
+        $sidebarOpen ? "combined-content-container sidebar-open" : "combined-content-container"
+    );
+
+    const tutorials = [
+        {
+            bannerImage: "../../img/tutorial/nostr_banner.png",
+            title: "What is Nostr?",
+            subtitle: "Nostr - The decentralized State",
+            content: `
+        <div style="font-family: Arial, sans-serif; padding-top: 20px;">
+            <h1>Welcome to the world of Nostr!</h1>
+            <p>Perhaps you've heard about Nostr, the protocol that's sparking conversations and stretching imaginations all across the digital world. Well, we're here to guide you through it and make understanding and using Nostr as easy as possible. Let's dive in!</p>
+    
+            <h2>So, what is Nostr?</h2>
+            <p>Nostr is a decentralized messaging protocol. But don't worry if this sounds too technical! Simply put, Nostr allows you to send messages on the internet in a whole new way - free from central control.</p>
+    
+            <h2>What makes Nostr unique?</h2>
+            <p>Every user in Nostr has a public key, which is like your address that everyone can see, and a private key, which acts like your secret password. Be sure to keep your private key safe because just like a house key, it cannot be replaced if lost!</p>
+            <p>What's even more exciting is that with Nostr, your account can act as a universal key! Imagine being able to log in to multiple platforms and websites with just a single account. Want to post on a social media platform? Check. Need to log in to your online workspace? Done. Want to comment on your favorite blog? Easy peasy! All these and many more are possible with your Nostr account.</p>
+    
+            <h2>But, how does it work?</h2>
+            <p>You can access Nostr through an app on your computer, your smartphone, or directly in your web browser. These apps allow you to send and receive messages. And the best part? Each message you send is signed with your private key, assuring everyone that the message is genuinely yours. It's like your personal signature on every message you send.</p>
+    
+            <h2>The magic of Nostr</h2>
+            <p>Now, you might wonder why Nostr seems to be stirring up so much buzz. The magic of Nostr lies in its decentralization. Unlike traditional systems where there's a central authority, Nostr is spread out. This means there's no single entity controlling your messages. You're in control of your own communication. And that's truly magical.</p>
+    
+            <h2>Let's get started!</h2>
+            <p>Now that you've gotten a glimpse of the amazing world of Nostr, you're probably eager to jump in. And we're here to guide you every step of the way. Stay tuned for our next tutorial, where we'll walk you through setting up your first Nostr app. The future of communication awaits!</p>
+        </div>`
+        },
+        {
+            bannerImage: "../../img/Banner1u.png",
+            title: "How can I use Nostr with GetAlby?",
+            subtitle: "Embrace the Future of Communication with GetAlby",
+            content: `
+        <div style="font-family: Arial, sans-serif; padding-top: 20px;">
+            <h1>Welcome, future Nostronaut!</h1>
+            <p>Welcome to a revolutionary change in communication! We're here to guide you through the world of Nostr, a vast decentralized network. And the best part? You can navigate this new world with GetAlby - your trusty companion on this journey. Let's dive in!</p>
+            <img src="../../img/tutorial/alby_0.png" alt="Introduction">
+    
+            <h2>Step 1: Meet GetAlby, your New Ally</h2>
+            <p>GetAlby is a browser extension for Chrome or Firefox, designed to make your journey through Nostr simple and effortless. Go to <a href="https://getalby.com/">https://getalby.com/</a>, click "add browser extension" and set the pace for your Nostr adventure.</p>
+            <img src="../../img/tutorial/alby_1.png" alt="GetAlby">
+    
+            <h2>Step 2: Set Up Your Account</h2>
+            <p>After you've added GetAlby to your browser, it's time to create your account. Click the "Create Account" button. Follow the prompts in GetAlby to create your account. Remember, one account can have multiple identities - each for a different adventure!</p>
+            <img src="../../img/tutorial/alby_2.png" alt="Create Account">
+    
+            <h2>Step 3: Crafting Your Unique Identity</h2>
+            <p>Now that your account is set up, it's time to create your unique identity in Nostr. Click on the GetAlby icon in your browser to open the extension. From there, click on the menu button and select "settings". Scroll down to the Nostr section and click "go to accounts". Select your account and click on "generate new key". Congratulations! You've just created your unique identity on Nostr.</p>
+            <img src="../../img/tutorial/alby_3.png" alt="Craft Identity">
+    
+            <h2>Step 4: Discover, Engage, and Express Freely</h2>
+            <p>With your unique identity and GetAlby at your fingertips, you're ready to explore the limitless possibilities of Nostr. Engage with the community, publish your thoughts, subscribe to other explorers, and carve out your unique space in this decentralized network.</p>
+            <img src="../../img/tutorial/alby_4.png" alt="Discover, Engage, Express">
+    
+            <h2>Step 5: Navigate the Ocean of Opportunities</h2>
+            <p>Nostr is an ocean of diverse events and experiences. Using GetAlby's intuitive interface, you can chart your course and navigate to the areas that interest you most. Set your filters, find your points of interest, and tailor your journey to your liking.</p>
+            <img src="../../img/tutorial/alby_5.png" alt="Navigate">
+    
+            <h2>The GetAlby Experience</h2>
+            <p>GetAlby is more than just a Nostr client - it's a gateway to a world where you're in control. With Nostr and GetAlby, you have the freedom and the tools to shape your communication in a way that suits you best. Embrace the thrill, the pace, and the unbound possibilities of Nostr with GetAlby.</p>
+            <img src="../../img/tutorial/alby_6.png" alt="Experience">
+    
+            <h2>Ready to take the Leap?</h2>
+            <p>The future of communication is here, and it's exciting, fast, and liberating. With Nostr and GetAlby, you're embarking on a journey that puts you at the helm. So, what are you waiting for, future Nostronaut? Let's dive into the ocean of possibilities!</p>
+            <img src="../../img/tutorial/alby_7.png" alt="Ready">
+        </div>
+        `
+        },
+        {
+            bannerImage: "../../img/Banner1u.png",
+            title: "How can I verify my Account?",
+            subtitle: "This is a subtitle for tutorial 3",
+            content: "This is the content for tutorial 3."
+        },
+        {
+            bannerImage: "../../img/Banner1u.png",
+            title: "How can I use Nostr??!?!?!?!",
+            subtitle: "This is a subtitle for tutorial 4",
+            content: `
+        <html>
+        <body>
+            <h1>Willkommen zum vierten Tutorial!</h1>
+            <p>In diesem Kapitel werden wir tiefer in die spannenden Aspekte unserer Anwendung eintauchen. Sie werden lernen, wie Sie die <span class="highlight">erweiterten Funktionen</span> nutzen können, um das Beste aus Ihrer Erfahrung herauszuholen.</p>
+            <p>Sind Sie bereit, loszulegen? Lassen Sie uns zusammen die nächste Stufe der <span class="highlight">Digitalen Revolution</span> erreichen!</p>
+        </body>
+        </html>
+        `
+        }
+    ];
+
+    function styleInject(css, ref) {
+      if ( ref === void 0 ) ref = {};
+      var insertAt = ref.insertAt;
+
+      if (!css || typeof document === 'undefined') { return; }
+
+      var head = document.head || document.getElementsByTagName('head')[0];
+      var style = document.createElement('style');
+      style.type = 'text/css';
+
+      if (insertAt === 'top') {
+        if (head.firstChild) {
+          head.insertBefore(style, head.firstChild);
+        } else {
+          head.appendChild(style);
+        }
+      } else {
+        head.appendChild(style);
+      }
+
+      if (style.styleSheet) {
+        style.styleSheet.cssText = css;
+      } else {
+        style.appendChild(document.createTextNode(css));
+      }
+    }
+
+    var css_248z$E = ".color-for-bg {\n    color: rgb(71 85 105)\n}\n\n.text-color-df {\n    color: #4a5568;\n}\n\n/* Layout */\n.overview-page {\n    position: relative;\n    display: flex;\n    flex-direction: column;\n    background-color: rgb(71 85 105)\n        /* background-color: #E2E8F0; Assuming you have this variable defined */\n}\n\nfooter {\n    z-index: 10;\n    background-color: rgb(12, 12, 12);\n}\n\n.move-up {\n    transform: translateY(-2px);\n}\n\n.content-overlay {\n    position: absolute;\n    left: 0;\n    right: 0;\n    top: 50%;\n    /* Equivalent to top-1/2 */\n    transform: translateY(-50%);\n    /* Equivalent to -translate-y-1/2 */\n    padding: 0 1rem;\n    /* Equivalent to px-4 */\n    display: flex;\n    flex-direction: column;\n    /* Equivalent to flex-col */\n    align-items: flex-start;\n    /* Equivalent to items-start */\n    justify-content: center;\n    /* Equivalent to justify-center */\n    height: 100%;\n    /* Equivalent to h-full */\n}\n\n.content-icons {\n    position: absolute;\n    top: 1rem;\n    /* Equivalent to top-4 */\n    right: 1rem;\n    /* Equivalent to right-4 */\n    font-size: 1.875rem;\n    /* Equivalent to text-3xl */\n    color: white;\n    /* Equivalent to text-white */\n    display: flex;\n    justify-content: flex-end;\n    /* Equivalent to justify-end */\n    align-items: center;\n    /* Equivalent to items-center */\n    gap: 1.5rem;\n    /* Equivalent to gap-6 */\n}\n\n.support-button {\n    padding: 0;\n    display: flex;\n    align-items: center;\n    background: none;\n    border: none;\n    cursor: pointer;\n}\n\n.support-button img {\n    height: 2.5rem;\n    width: 2.5rem;\n}\n\n\n.bg-card {\n    background-color: white;\n    width: 100%;\n    margin-bottom: 6rem;\n    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),\n        0 2px 4px -1px rgba(0, 0, 0, 0.06);\n    border-radius: 1.25rem;\n}\n\n/* Base class for h2 */\n.base-h2 {\n    font-size: 4rem;\n    font-weight: 700;\n    /* blueGray-700 */\n    margin-bottom: 1rem;\n    margin-top: 1.5rem;\n    /* Equivalent to mt-6 */\n}\n\n/* Base class for h3 */\n.base-h3 {\n    font-size: 3rem;\n    font-weight: 600;\n    /* blueGray-700 */\n    margin-bottom: 0.75rem;\n    margin-top: 1.25rem;\n}\n\n/* Base class for h4 */\n.base-h4 {\n    font-size: 2rem;\n    font-weight: 500;\n    /* blueGray-700 */\n    margin-bottom: 0.5rem;\n    margin-top: 1rem;\n}\n\n.flex-grow {\n    /* Other styles */\n    z-index: 0;\n    /* This will keep the div behind the button */\n}\n\n.content-section {\n    display: flex;\n    /* background-color: #e2e8f0 !important;*/\n}\n\n.content-container {\n    margin-left: 0;\n    /* This is the starting state */\n    transition: margin-left 0.3s ease-in-out;\n    flex-grow: 1;\n    z-index: 0;\n    /* This will keep the div behind the button */\n}\n\n.content-container.sidebar-open {\n    margin-left: 200px;\n    /* This should be equal to the width of the sidebar */\n}\n\n.combined-content-container {\n    /* From .content-container */\n    margin-left: 0;\n    transition: margin-left 0.3s ease-in-out;\n    flex-grow: 1;\n    z-index: 0;\n\n    /* From .relative (assuming it sets position: relative) */\n    position: relative;\n\n    /* From .py-16 (assuming it sets padding-top and padding-bottom to 4rem) */\n    padding-top: 32px;\n\n    /* From .bg-blueGray-200 */\n    /* background-color: #e2e8f0; */\n    /* This is a guess based on the name. Replace with the actual color if different. */\n\n    /* From .container (assuming it centers content with max-width and auto margins) */\n    max-width: 100%;\n    /* Adjust this value based on your design */\n    /* margin-right: auto;\n    margin-left: auto; */\n\n    /* From .mx-auto */\n    /* Already covered by the .container styles above */\n\n    /* From .px-4 (assuming it sets padding-left and padding-right to 1rem) */\n    padding-left: 1rem;\n    padding-right: 1rem;\n}\n\n.combined-content-container.sidebar-open {\n    margin-left: 200px;\n}\n\n\n.title-class {\n    position: absolute;\n    left: 0;\n    right: 0;\n    top: 1/2;\n    transition: left 0.3s ease-in-out;\n    left: 55px;\n}\n\n.title-class.sidebar-open {\n    left: 215px;\n}\n\n.html-content {\n    width: 70%;\n    margin: 0 auto;\n    text-align: justify;\n}\n\n.github-icon-size {\n    font-size: 2.5rem;\n    /* This is equivalent to 40px for most browsers */\n    width: 40px;\n    height: 40px;\n    display: inline-flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.single-card {\n    background-color: white;\n    width: 100%;\n    margin-bottom: 4rem;\n    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),\n        0 2px 4px -1px rgba(0, 0, 0, 0.06);\n    border-radius: 1.25rem;\n    position: relative;\n    display: flex;\n    flex-direction: column;\n}\n\n\n.single-card-profile-img {\n    width: 150px;\n    height: 150px;\n    border-radius: 50%;\n    overflow: hidden;\n    position: relative;\n    top: -75px;\n}\n\n.single-card-content {\n    width: 70%;\n    margin: 0 auto;\n    text-align: justify;\n    margin-bottom: 90px;\n    font-size: 1.2em;\n}\n\n.abstract-text {\n    width: 50%;\n    margin: 2rem auto;\n    text-align: justify;\n    font-size: 1.1em;\n    line-height: 1.6em;\n}\n\n.single-card-content h2,\n.single-card-content h3,\n.single-card-content h4,\n.single-card-content h5,\n.single-card-content h6 {\n    margin-top: 1.5em;\n    /* Adjust as needed */\n}\n\n.diagonal-cut {\n    bottom: -1px;\n    width: 100%;\n    position: inherit;\n}\n\n.input-style {\n    font-size: 19.2px;\n    line-height: 28.8px;\n    height: 45px;\n    width: 100%;\n    display: flex;\n    justify-content: center;\n    border: 1px solid #D1D5DB;\n    /* border-gray-300 */\n    border-radius: 0.375rem;\n    /* rounded-md */\n    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);\n    /* shadow-sm */\n    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;\n}\n\n.input-style:focus {\n    border-color: #93C5FD;\n    /* focus:border-indigo-300 */\n    box-shadow: 0 0 0 3px rgba(147, 197, 253, 0.5);\n    /* focus:ring-indigo-200 with focus:ring-opacity-50 */\n}\n\n.input-style-resize {\n    resize: none;\n    overflow: hidden;\n}\n\n.bs-orange {\n    background-color: rgb(249 115 22);\n}\n\n.bs-orange:active {\n    background-color: rgb(234 88 12);\n}\n\n.bs-blue {\n    background-color: #223d6d;\n}\n\n.bs-blue:active {\n    background-color: #1a2f53;\n}\n\n.modal-button {\n    font-size: 1.0rem;\n}\n\n.remove-button {\n    /* Remove the flex-grow property if you don't want the buttons to grow */\n    padding: 2px 8px;\n    /* Adjust padding to fit the text */\n    background-color: rgb(238, 238, 238);\n    border: none;\n    /* Remove border if you don't need it */\n    cursor: pointer;\n    /* Makes it clear the element is clickable */\n    white-space: nowrap;\n    /* Prevent text inside the button from wrapping */\n    /* You can remove min-width if you want the button to only be as wide as its content plus padding */\n    /* min-width: 120px; */\n    margin: 2px;\n    /* Provide some space around the buttons */\n    border-radius: 4px;\n    /* If you want rounded corners */\n    /* Add text alignment and other styles as needed */\n    text-align: center;\n    font-size: 1rem;\n    /* Adjust font size as needed */\n}\n\n.remove-button:hover {\n    background-color: #223d6d;\n    position: relative;\n    color: #adadad;\n}\n\n.remove-button:focus {\n    outline: none;\n}\n\n.add-button {\n    /* Remove the flex-grow property if you don't want the buttons to grow */\n    padding: 2px 8px;\n    /* Adjust padding to fit the text */\n    background-color: rgb(238, 238, 238);\n    border: none;\n    /* Remove border if you don't need it */\n    cursor: pointer;\n    /* Makes it clear the element is clickable */\n    white-space: nowrap;\n    /* Prevent text inside the button from wrapping */\n    /* You can remove min-width if you want the button to only be as wide as its content plus padding */\n    /* min-width: 120px; */\n    margin: 2px;\n    /* Provide some space around the buttons */\n    border-radius: 4px;\n    /* If you want rounded corners */\n    /* Add text alignment and other styles as needed */\n    text-align: center;\n    font-size: 1rem;\n    /* Adjust font size as needed */\n}\n\n.add-button:hover {\n    background-color: rgb(249 115 22);\n    position: relative;\n    color: #fff;\n}\n\n.add-button:focus {\n    outline: none;\n}";
+    styleInject(css_248z$E);
+
     // NostrCacheStore.js
     const { nip19 } = window.NostrTools;
 
@@ -6549,6 +6676,47 @@ var app = (function () {
         // Weitere spezifische Verarbeitung kann hier hinzugefügt werden
       }
 
+      async processEncryptedMessage(event) {
+        // Prüfen, ob es sich um eine verschlüsselte Nachricht handelt (kind 1059)
+        if (event.kind !== 1059) {
+          return;
+        }
+      
+        try {
+          // Zugriff auf den nostrManager Store
+          let publicKey;
+          nostrManager.subscribe(manager => {
+            publicKey = manager.publicKey;
+          })();
+      
+          if (!publicKey) {
+            console.error("NostrManager public key is not available.");
+            event.decryptedContent = null;
+            return;
+          }
+      
+          // Entschlüsseln der Nachricht
+          const seal = JSON.parse(await window.nostr.nip44.decrypt(publicKey, event.content));
+          const unsignedKind14 = JSON.parse(await window.nostr.nip44.decrypt(publicKey, seal.content));
+      
+          // Speichern der entschlüsselten Nachricht im Event
+          event.decryptedContent = unsignedKind14;
+        } catch (error) {
+          console.error("Error decrypting message:", error);
+          event.decryptedContent = null;
+        }
+      }
+
+      getDecryptedMessages() {
+        let decryptedMessages = [];
+        for (let event of this.events.values()) {
+          if (event.decryptedContent) {
+            decryptedMessages.push(event.decryptedContent);
+          }
+        }
+        return decryptedMessages;
+      }
+
       // Fügt ein Event hinzu oder aktualisiert es
       addOrUpdateEvent(event) {
         // Prüfen, ob das Event bereits existiert
@@ -6556,6 +6724,7 @@ var app = (function () {
 
         if (!existingEvent) {
           this.processProfileEvent(event);
+          this.processEncryptedMessage(event);
           // Add new event if it does not exist
           this.events.set(event.id, event);
           console.log("Event Added:", event);
@@ -6810,8 +6979,6 @@ var app = (function () {
                     console.error('Error unsubscribing:', error);
                 }
             }
-
-            console.log("subscriptions:", this.subscriptions);
         }
 
         unsubscribeAll() {
@@ -6857,918 +7024,6 @@ var app = (function () {
     // Aufruf der Initialisierungsfunktion
     //initializeNostrManager(true);
 
-    // SocialMediaManager.js
-
-    class SocialMediaManager {
-      constructor() {
-        this.init();
-      }
-
-      async likeEvent(event_id) {
-        if (!event_id) {
-          console.error("Event ID is required to like an event.");
-          return;
-        }
-
-        if (!this.manager || !this.manager.publicKey) {
-          console.error("User must be logged in to like events.");
-          return;
-        }
-
-        if (await this.checkIfLiked(event_id)) {
-          console.error("Must be unliked");
-          return;
-        }
-
-        // Definition der Tags für das Like-Event
-        const tags = [
-          ["e", event_id],         // Event-ID, die geliked wird
-        ];
-
-        // Erstellen und Versenden des Like-Events
-        try {
-          await this.manager.sendEvent(7, "+", tags);  // Annahme: 7 ist der Event-Typ für Likes
-          console.log("Like event created and sent successfully");
-        } catch (error) {
-          console.error("Error sending like event:", error);
-        }
-      }
-
-      async unlikeEvent(event_id) {
-        if (!event_id) {
-          console.error("Event ID is required to unlike an event.");
-          return;
-        }
-
-        if (!this.manager || !this.manager.publicKey) {
-          console.error("User must be logged in to unlike events.");
-          return;
-        }
-
-        if (!await this.checkIfLiked(event_id)) {
-          console.error("Must be liked!");
-          return;
-        }
-
-        try {
-          // Zuerst finden wir das Like-Event, das der Benutzer für die spezifische Event-ID erstellt hat.
-          const likeEvents = await this.cache.getEventsByCriteria({
-            kinds: [7], // Annahme, dass 7 der Typ für Like-Events ist
-            authors: [this.manager.publicKey],
-            tags: {
-              e: [event_id],
-            }
-          });
-
-          if (likeEvents.length > 0) {
-            const likeEventId = likeEvents[0].id; // Nehmen das erste gefundene Like-Event
-            await this.manager.deleteEvent(likeEventId);
-            console.log("Event unliked successfully:", likeEventId);
-          } else {
-            console.log("No like event found to unlike.");
-          }
-        } catch (error) {
-          console.error("Error unliking the event:", error);
-        }
-      }
-
-      async checkIfLiked(event_id) {
-        if (!event_id) {
-          console.error("Event ID is required to check if liked.");
-          return false;
-        }
-
-        if (!this.manager || !this.manager.publicKey) {
-          console.error("Not logged in");
-          return false;
-        }
-
-        const events = await this.cache.getEventsByCriteria({
-          kinds: [7],
-          authors: [this.manager.publicKey],
-          tags: {
-            e: [event_id],
-          }
-        });
-
-        return events.length > 0;
-      }
-
-      async getLikes(event_id) {
-        if (!event_id) {
-          console.error("Event ID is required to get likes.");
-          return;
-        }
-
-        if (!this.cache) {
-          console.error("Cache is not initialized.");
-          return;
-        }
-
-        try {
-          const events = await this.cache.getEventsByCriteria({
-            kinds: [7], // Annahme, dass 7 der Kind-Code für Like-Events ist
-            tags: {
-              e: [event_id]
-            }
-          });
-
-          console.log("getLikes - Events fetched:", events);
-
-          // Erstellen eines Sets, um eindeutige PublicKeys zu speichern
-          const uniqueLikers = new Set();
-
-          // Filtern der Events auf den Inhalt "+" und Überprüfung auf doppelte PublicKeys
-          events.forEach(event => {
-            if (event.content === "+") {
-              uniqueLikers.add(event.pubkey);
-            }
-          });
-
-          // Die Größe des Sets gibt die Anzahl der einzigartigen Likes zurück
-          return uniqueLikers.size;
-        } catch (error) {
-          console.error("Error fetching likes:", error);
-          return 0;
-        }
-      }
-
-      subscribeLikes(event_id) {
-        if (!event_id) {
-          console.error("Event ID is required to subscribe for likes.");
-          return;
-        }
-
-        if (!this.manager) {
-          console.error("Manager is not initialized.");
-          return;
-        }
-
-        this.manager.subscribeToEvents({
-          kinds: [7], // Likes-Event-Typ
-          "#e": [event_id]
-        });
-
-        console.log(`Subscribed to like updates for event_id: ${event_id}`);
-      }
-
-      unsubscribeLikes(event_id) {
-        if (!event_id) {
-          console.error("Event ID is required to unsubscribe from likes.");
-          return;
-        }
-
-        if (!this.manager) {
-          console.error("Manager is not initialized.");
-          return;
-        }
-
-        this.manager.unsubscribeEvent({
-          kinds: [7], // Likes-Event-Typ
-          "#e": [event_id]
-        });
-
-        console.log(`Unsubscribed from like updates for event_id: ${event_id}`);
-      }
-
-      init() {
-        // Initialisiere die Store-Abonnements
-        this.cacheSubscription = this.subscribeToStore(nostrCache, (value) => {
-          this.cache = value;
-        });
-
-        this.managerSubscription = this.subscribeToStore(nostrManager, (value) => {
-          this.manager = value;
-        });
-      }
-
-      subscribeToStore(store, updateFunction) {
-        const unsubscribe = store.subscribe(updateFunction);
-        return unsubscribe; // Rückgabe der Unsubscribe-Funktion für spätere Aufräumaktionen
-      }
-
-      async getProfile(pubkey) {
-        if (!pubkey) {
-          console.error("Public key is required to get a profile.", pubkey);
-          return null;
-        }
-
-        // Stelle sicher, dass der Cache initialisiert ist
-        if (!this.cache) {
-          console.error("Cache is not initialized.");
-          return null;
-        }
-
-        const profileEvents = this.cache.getEventsByCriteria({
-          kinds: [0], // Annahme: Kind 0 steht für Profil-Events
-          authors: [pubkey],
-        });
-
-        if (profileEvents.length > 0) {
-          profileEvents.sort((a, b) => b.created_at - a.created_at);
-          return profileEvents[0].profileData; // Gibt das neueste Profil-Event zurück
-        } else {
-          console.log("No profile found for the provided public key. Attempting to subscribe for updates.");
-          this.subscribeProfile(pubkey);
-          return null;
-        }
-      }
-
-      subscribeProfile(pubkey) {
-        if (!pubkey) {
-          console.error("Public key is required to subscribe to a profile.");
-          return;
-        }
-
-        // Stelle sicher, dass der Manager initialisiert ist
-        if (!this.manager) {
-          console.error("Manager is not initialized.");
-          return;
-        }
-
-        this.manager.subscribeToEvents({
-          kinds: [0], // Profil-Event
-          authors: [pubkey],
-        });
-
-        console.log(`Subscribed to profile updates for pubkey: ${pubkey}`);
-      }
-
-      subscribeProfiles(pubkeys) {
-        if (!pubkeys) {
-          console.error("Public key is required to subscribe to a profile.");
-          return;
-        }
-
-        // Stelle sicher, dass der Manager initialisiert ist
-        if (!this.manager) {
-          console.error("Manager is not initialized.");
-          return;
-        }
-
-        this.manager.subscribeToEvents({
-          kinds: [0], // Profil-Event
-          authors: pubkeys,
-        });
-
-        console.log(`Subscribed to profile updates for pubkey: ${pubkeys}`);
-      }
-
-      subscribeFollowList(pubkey) {
-        if (!this.manager) {
-          console.error("Manager is not initialized.");
-          return;
-        }
-
-        try {
-          this.manager.subscribeToEvents({
-            kinds: [3],
-            authors: [pubkey]
-          });
-          console.log(`Subscribed to follow list updates for pubkey: ${pubkey}`);
-        } catch (error) {
-          console.error("Error subscribing to follow list updates:", error);
-        }
-      }
-
-      async getFollowList(pubkey) {
-        if (!this.manager) {
-          console.error("Manager not ready");
-          return [];
-        }
-
-        try {
-          const followEvents = await this.cache.getEventsByCriteria({
-            kinds: [3],
-            authors: [pubkey]
-          });
-
-          // Nimm das neueste Follow-List-Event
-          if (followEvents.length > 0) {
-            return followEvents.sort((a, b) => b.created_at - a.created_at)[0].tags;
-          }
-          return [];
-        } catch (error) {
-          console.error("Error fetching follow list:", error);
-          return [];
-        }
-      }
-
-      async follow(pubkey) {
-        if (!this.manager || !this.manager.publicKey) {
-          console.error("User must be logged in to follow.");
-          return;
-        }
-
-        const currentList = await this.getFollowList(this.manager.publicKey);
-        // Überprüfen, ob der PublicKey bereits gefolgt wird, um Duplikate zu vermeiden
-        if (currentList.some(tag => tag[1] === pubkey)) {
-          console.error("Already following this profile.");
-          return;
-        }
-
-        // Hinzufügen des neuen Follows zur aktuellen Liste
-        currentList.push(["p", pubkey, "", ""]); // Hier könnten auch Relay-URL und Petname hinzugefügt werden
-
-        try {
-          await this.manager.sendEvent(3, "", currentList);
-          console.log("Updated follow list sent successfully");
-        } catch (error) {
-          console.error("Error updating follow list:", error);
-        }
-      }
-
-      async unfollow(pubkey) {
-        if (!this.manager || !this.manager.publicKey) {
-          console.error("User must be logged in to unfollow.");
-          return;
-        }
-
-        const currentList = await this.getFollowList(this.manager.publicKey);
-
-        // Entfernen des Unfollows aus der aktuellen Liste
-        const updatedList = currentList.filter(tag => tag[1] !== pubkey);
-
-        try {
-          await this.manager.sendEvent(3, "", updatedList);
-          console.log("Updated follow list sent successfully after unfollowing");
-        } catch (error) {
-          console.error("Error updating follow list after unfollowing:", error);
-        }
-      }
-
-      async isFollowing(fromPubKey, toPubKey) {
-        if (!this.manager) {
-          console.error("Manager not initialized.");
-          return false;
-        }
-
-        try {
-          const followList = await this.getFollowList(fromPubKey);
-          return followList.some(tag => tag[1] === toPubKey);
-        } catch (error) {
-          console.error("Error checking if following:", error);
-          return false;
-        }
-      }
-
-      async followsMe(otherPubKey) {
-        if (!this.manager || !this.manager.publicKey) {
-          console.error("User must be logged in to check if being followed.");
-          return false;
-        }
-
-        return await this.isFollowing(otherPubKey, this.manager.publicKey);
-      }
-
-      async iFollow(otherPubKey) {
-        if (!this.manager || !this.manager.publicKey) {
-          console.error("User must be logged in to check if following someone.");
-          return false;
-        }
-
-        return await this.isFollowing(this.manager.publicKey, otherPubKey);
-      }
-
-      // Aufräumfunktion, um die Subscriptions zu beenden
-      cleanup() {
-        this.cacheSubscription();
-        this.managerSubscription();
-      }
-    }
-
-    const socialMediaManager = new SocialMediaManager();
-
-    function styleInject(css, ref) {
-      if ( ref === void 0 ) ref = {};
-      var insertAt = ref.insertAt;
-
-      if (!css || typeof document === 'undefined') { return; }
-
-      var head = document.head || document.getElementsByTagName('head')[0];
-      var style = document.createElement('style');
-      style.type = 'text/css';
-
-      if (insertAt === 'top') {
-        if (head.firstChild) {
-          head.insertBefore(style, head.firstChild);
-        } else {
-          head.appendChild(style);
-        }
-      } else {
-        head.appendChild(style);
-      }
-
-      if (style.styleSheet) {
-        style.styleSheet.cssText = css;
-      } else {
-        style.appendChild(document.createTextNode(css));
-      }
-    }
-
-    var css_248z$w = ".like-icon.svelte-168p8ba{cursor:pointer;color:var(--heart-color, #f7931a)}.like-icon.filled.svelte-168p8ba{color:#f7931a}.like-icon.svelte-168p8ba:hover{color:#b4690e}";
-    styleInject(css_248z$w);
-
-    /* src/components/LikeIcon.svelte generated by Svelte v3.59.1 */
-
-    function create_fragment$M(ctx) {
-    	let span1;
-    	let i;
-    	let i_class_value;
-    	let t0;
-    	let span0;
-    	let t1;
-    	let mounted;
-    	let dispose;
-
-    	return {
-    		c() {
-    			span1 = element("span");
-    			i = element("i");
-    			t0 = space();
-    			span0 = element("span");
-    			t1 = text(/*likesCount*/ ctx[0]);
-    			attr(i, "class", i_class_value = "" + (null_to_empty(`like-icon fa${/*liked*/ ctx[1] ? "s" : "r"} fa-heart ${/*liked*/ ctx[1] ? "filled" : ""}`) + " svelte-168p8ba"));
-    			attr(span1, "class", "like-container");
-    		},
-    		m(target, anchor) {
-    			insert(target, span1, anchor);
-    			append(span1, i);
-    			append(span1, t0);
-    			append(span1, span0);
-    			append(span0, t1);
-
-    			if (!mounted) {
-    				dispose = listen(i, "click", function () {
-    					if (is_function(/*userPublicKey*/ ctx[2]
-    					? /*toggleLike*/ ctx[3]
-    					: undefined)) (/*userPublicKey*/ ctx[2]
-    					? /*toggleLike*/ ctx[3]
-    					: undefined).apply(this, arguments);
-    				});
-
-    				mounted = true;
-    			}
-    		},
-    		p(new_ctx, [dirty]) {
-    			ctx = new_ctx;
-
-    			if (dirty & /*liked*/ 2 && i_class_value !== (i_class_value = "" + (null_to_empty(`like-icon fa${/*liked*/ ctx[1] ? "s" : "r"} fa-heart ${/*liked*/ ctx[1] ? "filled" : ""}`) + " svelte-168p8ba"))) {
-    				attr(i, "class", i_class_value);
-    			}
-
-    			if (dirty & /*likesCount*/ 1) set_data(t1, /*likesCount*/ ctx[0]);
-    		},
-    		i: noop,
-    		o: noop,
-    		d(detaching) {
-    			if (detaching) detach(span1);
-    			mounted = false;
-    			dispose();
-    		}
-    	};
-    }
-
-    function instance$L($$self, $$props, $$invalidate) {
-    	let userPublicKey;
-    	let $nostrCache;
-    	let $nostrManager;
-    	component_subscribe($$self, nostrCache, $$value => $$invalidate(5, $nostrCache = $$value));
-    	component_subscribe($$self, nostrManager, $$value => $$invalidate(6, $nostrManager = $$value));
-    	let { event_id } = $$props;
-    	let likesCount = 0;
-    	let liked = false;
-
-    	const checkLikes = async () => {
-    		$$invalidate(0, likesCount = await socialMediaManager.getLikes(event_id));
-    		$$invalidate(1, liked = await socialMediaManager.checkIfLiked(event_id));
-    	};
-
-    	const toggleLike = async () => {
-    		if (!userPublicKey) {
-    			console.error("User must be logged in to toggle likes.");
-    			return;
-    		}
-
-    		if (liked) {
-    			await socialMediaManager.unlikeEvent(event_id);
-    			$$invalidate(0, likesCount--, likesCount);
-    		} else {
-    			await socialMediaManager.likeEvent(event_id);
-    			$$invalidate(0, likesCount++, likesCount);
-    		}
-
-    		$$invalidate(1, liked = !liked);
-    	};
-
-    	onMount(() => {
-    		checkLikes();
-    		socialMediaManager.subscribeLikes(event_id);
-
-    		return () => {
-    			socialMediaManager.unsubscribeLikes(event_id);
-    		};
-    	});
-
-    	$$self.$$set = $$props => {
-    		if ('event_id' in $$props) $$invalidate(4, event_id = $$props.event_id);
-    	};
-
-    	$$self.$$.update = () => {
-    		if ($$self.$$.dirty & /*$nostrManager*/ 64) {
-    			// Verwende einen reaktiven Ausdruck, um auf Änderungen im NostrManager zu reagieren
-    			$$invalidate(2, userPublicKey = $nostrManager ? $nostrManager.publicKey : null);
-    		}
-
-    		if ($$self.$$.dirty & /*$nostrCache*/ 32) {
-    			(checkLikes());
-    		}
-    	};
-
-    	return [
-    		likesCount,
-    		liked,
-    		userPublicKey,
-    		toggleLike,
-    		event_id,
-    		$nostrCache,
-    		$nostrManager
-    	];
-    }
-
-    class LikeIcon extends SvelteComponent {
-    	constructor(options) {
-    		super();
-    		init(this, options, instance$L, create_fragment$M, safe_not_equal, { event_id: 4 });
-    	}
-    }
-
-    var css_248z$v = ".share-icon.svelte-99v011{color:#f7931a;cursor:pointer;font-size:24px;transition:color 0.3s}.share-icon.svelte-99v011:hover{color:#b4690e}";
-    styleInject(css_248z$v);
-
-    /* src/components/ShareIcon.svelte generated by Svelte v3.59.1 */
-
-    function create_fragment$L(ctx) {
-    	let i;
-    	let mounted;
-    	let dispose;
-
-    	return {
-    		c() {
-    			i = element("i");
-    			attr(i, "class", "fas fa-retweet share-icon svelte-99v011");
-    			attr(i, "title", "Share Idea");
-    		},
-    		m(target, anchor) {
-    			insert(target, i, anchor);
-
-    			if (!mounted) {
-    				dispose = listen(i, "click", /*shareIdea*/ ctx[0]);
-    				mounted = true;
-    			}
-    		},
-    		p: noop,
-    		i: noop,
-    		o: noop,
-    		d(detaching) {
-    			if (detaching) detach(i);
-    			mounted = false;
-    			dispose();
-    		}
-    	};
-    }
-
-    function instance$K($$self, $$props, $$invalidate) {
-    	let $nostrManager;
-    	let $nostrCache;
-    	component_subscribe($$self, nostrManager, $$value => $$invalidate(4, $nostrManager = $$value));
-    	component_subscribe($$self, nostrCache, $$value => $$invalidate(2, $nostrCache = $$value));
-    	let { event_id } = $$props;
-    	let ideaEvent = null;
-
-    	async function fetchIdea() {
-    		console.log("eventID:", event_id);
-    		ideaEvent = await $nostrCache.getEventById(event_id);
-
-    		if (!ideaEvent) {
-    			console.error("Idea event not found");
-    			return;
-    		}
-
-    		console.log("Idea found");
-    	}
-
-    	async function shareIdea() {
-    		if (!ideaEvent) {
-    			console.error("No idea event to share");
-    			return;
-    		}
-
-    		// Erstellen des Inhalts für das Content Event
-    		const content = `${ideaEvent.tags.find(tag => tag[0] === "iName")[1]} - ${ideaEvent.tags.find(tag => tag[0] === "iSub")[1]}\n\n${ideaEvent.tags.find(tag => tag[0] === "abstract")[1]}\n\nhttps://bitspark.bitsperity.dev/idea/${event_id}`;
-
-    		const tags = [["s", "bitspark"]];
-
-    		// Senden des Content Events
-    		await $nostrManager.sendEvent(1, content, tags);
-    	}
-
-    	onMount(fetchIdea);
-
-    	$$self.$$set = $$props => {
-    		if ('event_id' in $$props) $$invalidate(1, event_id = $$props.event_id);
-    	};
-
-    	$$self.$$.update = () => {
-    		if ($$self.$$.dirty & /*$nostrCache*/ 4) {
-    			(fetchIdea());
-    		}
-    	};
-
-    	return [shareIdea, event_id, $nostrCache];
-    }
-
-    class ShareIcon extends SvelteComponent {
-    	constructor(options) {
-    		super();
-    		init(this, options, instance$K, create_fragment$L, safe_not_equal, { event_id: 1 });
-    	}
-    }
-
-    var css_248z$u = ".card.svelte-179l7uc{background:#ffffff;overflow:hidden;border-radius:8px;overflow:hidden;display:flex;flex-direction:column;border:4px solid #ffffff;box-shadow:0 5px 10px #0000008c}.card.svelte-179l7uc:hover{transform:scale(1.03);background:#ffffff;box-shadow:0 10px 20px #0000008c}.card-content.svelte-179l7uc{cursor:pointer;background:#ffffff}.banner-image.svelte-179l7uc{width:100%;height:200px;object-fit:cover}.content.svelte-179l7uc,.actions.svelte-179l7uc{padding:15px}.actions.svelte-179l7uc{display:flex;align-items:center;justify-content:space-between;background:#f4f4f4}";
-    styleInject(css_248z$u);
-
-    /* src/components/Cards/IdeaCard.svelte generated by Svelte v3.59.1 */
-
-    function create_fragment$K(ctx) {
-    	let div3;
-    	let div1;
-    	let img;
-    	let img_src_value;
-    	let img_alt_value;
-    	let t0;
-    	let div0;
-    	let h3;
-    	let t1_value = /*card*/ ctx[0].name + "";
-    	let t1;
-    	let t2;
-    	let h4;
-    	let t3_value = /*card*/ ctx[0].subtitle + "";
-    	let t3;
-    	let t4;
-    	let p;
-    	let t5_value = truncateMessage(/*card*/ ctx[0].abstract, 100) + "";
-    	let t5;
-    	let t6;
-    	let div2;
-    	let likeicon;
-    	let t7;
-    	let shareicon;
-    	let current;
-    	let mounted;
-    	let dispose;
-    	likeicon = new LikeIcon({ props: { event_id: /*card*/ ctx[0].id } });
-    	shareicon = new ShareIcon({ props: { event_id: /*card*/ ctx[0].id } });
-
-    	return {
-    		c() {
-    			div3 = element("div");
-    			div1 = element("div");
-    			img = element("img");
-    			t0 = space();
-    			div0 = element("div");
-    			h3 = element("h3");
-    			t1 = text(t1_value);
-    			t2 = space();
-    			h4 = element("h4");
-    			t3 = text(t3_value);
-    			t4 = space();
-    			p = element("p");
-    			t5 = text(t5_value);
-    			t6 = space();
-    			div2 = element("div");
-    			create_component(likeicon.$$.fragment);
-    			t7 = space();
-    			create_component(shareicon.$$.fragment);
-    			if (!src_url_equal(img.src, img_src_value = /*card*/ ctx[0].bannerImage)) attr(img, "src", img_src_value);
-    			attr(img, "alt", img_alt_value = "Banner of " + /*card*/ ctx[0].name);
-    			attr(img, "class", "banner-image svelte-179l7uc");
-    			attr(div0, "class", "content svelte-179l7uc");
-    			attr(div1, "class", "card-content svelte-179l7uc");
-    			attr(div2, "class", "actions svelte-179l7uc");
-    			attr(div3, "class", "card svelte-179l7uc");
-    		},
-    		m(target, anchor) {
-    			insert(target, div3, anchor);
-    			append(div3, div1);
-    			append(div1, img);
-    			append(div1, t0);
-    			append(div1, div0);
-    			append(div0, h3);
-    			append(h3, t1);
-    			append(div0, t2);
-    			append(div0, h4);
-    			append(h4, t3);
-    			append(div0, t4);
-    			append(div0, p);
-    			append(p, t5);
-    			append(div3, t6);
-    			append(div3, div2);
-    			mount_component(likeicon, div2, null);
-    			append(div2, t7);
-    			mount_component(shareicon, div2, null);
-    			current = true;
-
-    			if (!mounted) {
-    				dispose = listen(div1, "click", /*goToIdea*/ ctx[1]);
-    				mounted = true;
-    			}
-    		},
-    		p(ctx, [dirty]) {
-    			if (!current || dirty & /*card*/ 1 && !src_url_equal(img.src, img_src_value = /*card*/ ctx[0].bannerImage)) {
-    				attr(img, "src", img_src_value);
-    			}
-
-    			if (!current || dirty & /*card*/ 1 && img_alt_value !== (img_alt_value = "Banner of " + /*card*/ ctx[0].name)) {
-    				attr(img, "alt", img_alt_value);
-    			}
-
-    			if ((!current || dirty & /*card*/ 1) && t1_value !== (t1_value = /*card*/ ctx[0].name + "")) set_data(t1, t1_value);
-    			if ((!current || dirty & /*card*/ 1) && t3_value !== (t3_value = /*card*/ ctx[0].subtitle + "")) set_data(t3, t3_value);
-    			if ((!current || dirty & /*card*/ 1) && t5_value !== (t5_value = truncateMessage(/*card*/ ctx[0].abstract, 100) + "")) set_data(t5, t5_value);
-    			const likeicon_changes = {};
-    			if (dirty & /*card*/ 1) likeicon_changes.event_id = /*card*/ ctx[0].id;
-    			likeicon.$set(likeicon_changes);
-    			const shareicon_changes = {};
-    			if (dirty & /*card*/ 1) shareicon_changes.event_id = /*card*/ ctx[0].id;
-    			shareicon.$set(shareicon_changes);
-    		},
-    		i(local) {
-    			if (current) return;
-    			transition_in(likeicon.$$.fragment, local);
-    			transition_in(shareicon.$$.fragment, local);
-    			current = true;
-    		},
-    		o(local) {
-    			transition_out(likeicon.$$.fragment, local);
-    			transition_out(shareicon.$$.fragment, local);
-    			current = false;
-    		},
-    		d(detaching) {
-    			if (detaching) detach(div3);
-    			destroy_component(likeicon);
-    			destroy_component(shareicon);
-    			mounted = false;
-    			dispose();
-    		}
-    	};
-    }
-
-    function truncateMessage(message, maxLength) {
-    	const strippedMessage = message.replace(/<[^>]+>/g, "");
-
-    	return strippedMessage.length <= maxLength
-    	? message
-    	: message.slice(0, maxLength) + "...";
-    }
-
-    function instance$J($$self, $$props, $$invalidate) {
-    	let $nostrManager;
-    	component_subscribe($$self, nostrManager, $$value => $$invalidate(2, $nostrManager = $$value));
-    	let { card } = $$props;
-
-    	function goToIdea() {
-    		navigate(`/idea/${card.id}`);
-    	}
-
-    	onMount(() => {
-    		initialize();
-    	});
-
-    	function initialize() {
-    		socialMediaManager.getProfile(card.pubkey);
-    	}
-
-    	$$self.$$set = $$props => {
-    		if ('card' in $$props) $$invalidate(0, card = $$props.card);
-    	};
-
-    	$$self.$$.update = () => {
-    		if ($$self.$$.dirty & /*$nostrManager*/ 4) {
-    			(initialize());
-    		}
-    	};
-
-    	return [card, goToIdea, $nostrManager];
-    }
-
-    class IdeaCard extends SvelteComponent {
-    	constructor(options) {
-    		super();
-    		init(this, options, instance$J, create_fragment$K, safe_not_equal, { card: 0 });
-    	}
-    }
-
-    // helperStore.js
-    const sidebarOpen = writable(false);
-
-
-    const contentContainerClass = derived(sidebarOpen, $sidebarOpen =>
-        $sidebarOpen ? "combined-content-container sidebar-open" : "combined-content-container"
-    );
-
-    const tutorials = [
-        {
-            bannerImage: "../../img/tutorial/nostr_banner.png",
-            title: "What is Nostr?",
-            subtitle: "Nostr - The decentralized State",
-            content: `
-        <div style="font-family: Arial, sans-serif; padding-top: 20px;">
-            <h1>Welcome to the world of Nostr!</h1>
-            <p>Perhaps you've heard about Nostr, the protocol that's sparking conversations and stretching imaginations all across the digital world. Well, we're here to guide you through it and make understanding and using Nostr as easy as possible. Let's dive in!</p>
-    
-            <h2>So, what is Nostr?</h2>
-            <p>Nostr is a decentralized messaging protocol. But don't worry if this sounds too technical! Simply put, Nostr allows you to send messages on the internet in a whole new way - free from central control.</p>
-    
-            <h2>What makes Nostr unique?</h2>
-            <p>Every user in Nostr has a public key, which is like your address that everyone can see, and a private key, which acts like your secret password. Be sure to keep your private key safe because just like a house key, it cannot be replaced if lost!</p>
-            <p>What's even more exciting is that with Nostr, your account can act as a universal key! Imagine being able to log in to multiple platforms and websites with just a single account. Want to post on a social media platform? Check. Need to log in to your online workspace? Done. Want to comment on your favorite blog? Easy peasy! All these and many more are possible with your Nostr account.</p>
-    
-            <h2>But, how does it work?</h2>
-            <p>You can access Nostr through an app on your computer, your smartphone, or directly in your web browser. These apps allow you to send and receive messages. And the best part? Each message you send is signed with your private key, assuring everyone that the message is genuinely yours. It's like your personal signature on every message you send.</p>
-    
-            <h2>The magic of Nostr</h2>
-            <p>Now, you might wonder why Nostr seems to be stirring up so much buzz. The magic of Nostr lies in its decentralization. Unlike traditional systems where there's a central authority, Nostr is spread out. This means there's no single entity controlling your messages. You're in control of your own communication. And that's truly magical.</p>
-    
-            <h2>Let's get started!</h2>
-            <p>Now that you've gotten a glimpse of the amazing world of Nostr, you're probably eager to jump in. And we're here to guide you every step of the way. Stay tuned for our next tutorial, where we'll walk you through setting up your first Nostr app. The future of communication awaits!</p>
-        </div>`
-        },
-        {
-            bannerImage: "../../img/Banner1u.png",
-            title: "How can I use Nostr with GetAlby?",
-            subtitle: "Embrace the Future of Communication with GetAlby",
-            content: `
-        <div style="font-family: Arial, sans-serif; padding-top: 20px;">
-            <h1>Welcome, future Nostronaut!</h1>
-            <p>Welcome to a revolutionary change in communication! We're here to guide you through the world of Nostr, a vast decentralized network. And the best part? You can navigate this new world with GetAlby - your trusty companion on this journey. Let's dive in!</p>
-            <img src="../../img/tutorial/alby_0.png" alt="Introduction">
-    
-            <h2>Step 1: Meet GetAlby, your New Ally</h2>
-            <p>GetAlby is a browser extension for Chrome or Firefox, designed to make your journey through Nostr simple and effortless. Go to <a href="https://getalby.com/">https://getalby.com/</a>, click "add browser extension" and set the pace for your Nostr adventure.</p>
-            <img src="../../img/tutorial/alby_1.png" alt="GetAlby">
-    
-            <h2>Step 2: Set Up Your Account</h2>
-            <p>After you've added GetAlby to your browser, it's time to create your account. Click the "Create Account" button. Follow the prompts in GetAlby to create your account. Remember, one account can have multiple identities - each for a different adventure!</p>
-            <img src="../../img/tutorial/alby_2.png" alt="Create Account">
-    
-            <h2>Step 3: Crafting Your Unique Identity</h2>
-            <p>Now that your account is set up, it's time to create your unique identity in Nostr. Click on the GetAlby icon in your browser to open the extension. From there, click on the menu button and select "settings". Scroll down to the Nostr section and click "go to accounts". Select your account and click on "generate new key". Congratulations! You've just created your unique identity on Nostr.</p>
-            <img src="../../img/tutorial/alby_3.png" alt="Craft Identity">
-    
-            <h2>Step 4: Discover, Engage, and Express Freely</h2>
-            <p>With your unique identity and GetAlby at your fingertips, you're ready to explore the limitless possibilities of Nostr. Engage with the community, publish your thoughts, subscribe to other explorers, and carve out your unique space in this decentralized network.</p>
-            <img src="../../img/tutorial/alby_4.png" alt="Discover, Engage, Express">
-    
-            <h2>Step 5: Navigate the Ocean of Opportunities</h2>
-            <p>Nostr is an ocean of diverse events and experiences. Using GetAlby's intuitive interface, you can chart your course and navigate to the areas that interest you most. Set your filters, find your points of interest, and tailor your journey to your liking.</p>
-            <img src="../../img/tutorial/alby_5.png" alt="Navigate">
-    
-            <h2>The GetAlby Experience</h2>
-            <p>GetAlby is more than just a Nostr client - it's a gateway to a world where you're in control. With Nostr and GetAlby, you have the freedom and the tools to shape your communication in a way that suits you best. Embrace the thrill, the pace, and the unbound possibilities of Nostr with GetAlby.</p>
-            <img src="../../img/tutorial/alby_6.png" alt="Experience">
-    
-            <h2>Ready to take the Leap?</h2>
-            <p>The future of communication is here, and it's exciting, fast, and liberating. With Nostr and GetAlby, you're embarking on a journey that puts you at the helm. So, what are you waiting for, future Nostronaut? Let's dive into the ocean of possibilities!</p>
-            <img src="../../img/tutorial/alby_7.png" alt="Ready">
-        </div>
-        `
-        },
-        {
-            bannerImage: "../../img/Banner1u.png",
-            title: "How can I verify my Account?",
-            subtitle: "This is a subtitle for tutorial 3",
-            content: "This is the content for tutorial 3."
-        },
-        {
-            bannerImage: "../../img/Banner1u.png",
-            title: "How can I use Nostr??!?!?!?!",
-            subtitle: "This is a subtitle for tutorial 4",
-            content: `
-        <html>
-        <body>
-            <h1>Willkommen zum vierten Tutorial!</h1>
-            <p>In diesem Kapitel werden wir tiefer in die spannenden Aspekte unserer Anwendung eintauchen. Sie werden lernen, wie Sie die <span class="highlight">erweiterten Funktionen</span> nutzen können, um das Beste aus Ihrer Erfahrung herauszuholen.</p>
-            <p>Sind Sie bereit, loszulegen? Lassen Sie uns zusammen die nächste Stufe der <span class="highlight">Digitalen Revolution</span> erreichen!</p>
-        </body>
-        </html>
-        `
-        }
-    ];
-
-    var css_248z$t = ".color-for-bg {\n    color: rgb(71 85 105)\n}\n\n.text-color-df {\n    color: #4a5568;\n}\n\n/* Layout */\n.overview-page {\n    position: relative;\n    display: flex;\n    flex-direction: column;\n    background-color: rgb(71 85 105)\n        /* background-color: #E2E8F0; Assuming you have this variable defined */\n}\n\nfooter {\n    z-index: 10;\n    background-color: rgb(12, 12, 12);\n}\n\n.move-up {\n    transform: translateY(-2px);\n}\n\n.content-overlay {\n    position: absolute;\n    left: 0;\n    right: 0;\n    top: 50%;\n    /* Equivalent to top-1/2 */\n    transform: translateY(-50%);\n    /* Equivalent to -translate-y-1/2 */\n    padding: 0 1rem;\n    /* Equivalent to px-4 */\n    display: flex;\n    flex-direction: column;\n    /* Equivalent to flex-col */\n    align-items: flex-start;\n    /* Equivalent to items-start */\n    justify-content: center;\n    /* Equivalent to justify-center */\n    height: 100%;\n    /* Equivalent to h-full */\n}\n\n.content-icons {\n    position: absolute;\n    top: 1rem;\n    /* Equivalent to top-4 */\n    right: 1rem;\n    /* Equivalent to right-4 */\n    font-size: 1.875rem;\n    /* Equivalent to text-3xl */\n    color: white;\n    /* Equivalent to text-white */\n    display: flex;\n    justify-content: flex-end;\n    /* Equivalent to justify-end */\n    align-items: center;\n    /* Equivalent to items-center */\n    gap: 1.5rem;\n    /* Equivalent to gap-6 */\n}\n\n.support-button {\n    padding: 0;\n    display: flex;\n    align-items: center;\n    background: none;\n    border: none;\n    cursor: pointer;\n}\n\n.support-button img {\n    height: 2.5rem;\n    width: 2.5rem;\n}\n\n\n.bg-card {\n    background-color: white;\n    width: 100%;\n    margin-bottom: 6rem;\n    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),\n        0 2px 4px -1px rgba(0, 0, 0, 0.06);\n    border-radius: 1.25rem;\n}\n\n/* Base class for h2 */\n.base-h2 {\n    font-size: 4rem;\n    font-weight: 700;\n    /* blueGray-700 */\n    margin-bottom: 1rem;\n    margin-top: 1.5rem;\n    /* Equivalent to mt-6 */\n}\n\n/* Base class for h3 */\n.base-h3 {\n    font-size: 3rem;\n    font-weight: 600;\n    /* blueGray-700 */\n    margin-bottom: 0.75rem;\n    margin-top: 1.25rem;\n}\n\n/* Base class for h4 */\n.base-h4 {\n    font-size: 2rem;\n    font-weight: 500;\n    /* blueGray-700 */\n    margin-bottom: 0.5rem;\n    margin-top: 1rem;\n}\n\n.flex-grow {\n    /* Other styles */\n    z-index: 0;\n    /* This will keep the div behind the button */\n}\n\n.content-section {\n    display: flex;\n    /* background-color: #e2e8f0 !important;*/\n}\n\n.content-container {\n    margin-left: 0;\n    /* This is the starting state */\n    transition: margin-left 0.3s ease-in-out;\n    flex-grow: 1;\n    z-index: 0;\n    /* This will keep the div behind the button */\n}\n\n.content-container.sidebar-open {\n    margin-left: 200px;\n    /* This should be equal to the width of the sidebar */\n}\n\n.combined-content-container {\n    /* From .content-container */\n    margin-left: 0;\n    transition: margin-left 0.3s ease-in-out;\n    flex-grow: 1;\n    z-index: 0;\n\n    /* From .relative (assuming it sets position: relative) */\n    position: relative;\n\n    /* From .py-16 (assuming it sets padding-top and padding-bottom to 4rem) */\n    padding-top: 32px;\n\n    /* From .bg-blueGray-200 */\n    /* background-color: #e2e8f0; */\n    /* This is a guess based on the name. Replace with the actual color if different. */\n\n    /* From .container (assuming it centers content with max-width and auto margins) */\n    max-width: 100%;\n    /* Adjust this value based on your design */\n    /* margin-right: auto;\n    margin-left: auto; */\n\n    /* From .mx-auto */\n    /* Already covered by the .container styles above */\n\n    /* From .px-4 (assuming it sets padding-left and padding-right to 1rem) */\n    padding-left: 1rem;\n    padding-right: 1rem;\n}\n\n.combined-content-container.sidebar-open {\n    margin-left: 200px;\n}\n\n\n.title-class {\n    position: absolute;\n    left: 0;\n    right: 0;\n    top: 1/2;\n    transition: left 0.3s ease-in-out;\n    left: 55px;\n}\n\n.title-class.sidebar-open {\n    left: 215px;\n}\n\n.html-content {\n    width: 70%;\n    margin: 0 auto;\n    text-align: justify;\n}\n\n.github-icon-size {\n    font-size: 2.5rem;\n    /* This is equivalent to 40px for most browsers */\n    width: 40px;\n    height: 40px;\n    display: inline-flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.single-card {\n    background-color: white;\n    width: 100%;\n    margin-bottom: 4rem;\n    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),\n        0 2px 4px -1px rgba(0, 0, 0, 0.06);\n    border-radius: 1.25rem;\n    position: relative;\n    display: flex;\n    flex-direction: column;\n}\n\n\n.single-card-profile-img {\n    width: 150px;\n    height: 150px;\n    border-radius: 50%;\n    overflow: hidden;\n    position: relative;\n    top: -75px;\n}\n\n.single-card-content {\n    width: 70%;\n    margin: 0 auto;\n    text-align: justify;\n    margin-bottom: 90px;\n    font-size: 1.2em;\n}\n\n.abstract-text {\n    width: 50%;\n    margin: 2rem auto;\n    text-align: justify;\n    font-size: 1.1em;\n    line-height: 1.6em;\n}\n\n.single-card-content h2,\n.single-card-content h3,\n.single-card-content h4,\n.single-card-content h5,\n.single-card-content h6 {\n    margin-top: 1.5em;\n    /* Adjust as needed */\n}\n\n.diagonal-cut {\n    bottom: -1px;\n    width: 100%;\n    position: inherit;\n}\n\n.input-style {\n    font-size: 19.2px;\n    line-height: 28.8px;\n    height: 45px;\n    width: 100%;\n    display: flex;\n    justify-content: center;\n    border: 1px solid #D1D5DB;\n    /* border-gray-300 */\n    border-radius: 0.375rem;\n    /* rounded-md */\n    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);\n    /* shadow-sm */\n    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;\n}\n\n.input-style:focus {\n    border-color: #93C5FD;\n    /* focus:border-indigo-300 */\n    box-shadow: 0 0 0 3px rgba(147, 197, 253, 0.5);\n    /* focus:ring-indigo-200 with focus:ring-opacity-50 */\n}\n\n.input-style-resize {\n    resize: none;\n    overflow: hidden;\n}\n\n.bs-orange {\n    background-color: rgb(249 115 22);\n}\n\n.bs-orange:active {\n    background-color: rgb(234 88 12);\n}\n\n.bs-blue {\n    background-color: #223d6d;\n}\n\n.bs-blue:active {\n    background-color: #1a2f53;\n}\n\n.modal-button {\n    font-size: 1.0rem;\n}\n\n.remove-button {\n    /* Remove the flex-grow property if you don't want the buttons to grow */\n    padding: 2px 8px;\n    /* Adjust padding to fit the text */\n    background-color: rgb(238, 238, 238);\n    border: none;\n    /* Remove border if you don't need it */\n    cursor: pointer;\n    /* Makes it clear the element is clickable */\n    white-space: nowrap;\n    /* Prevent text inside the button from wrapping */\n    /* You can remove min-width if you want the button to only be as wide as its content plus padding */\n    /* min-width: 120px; */\n    margin: 2px;\n    /* Provide some space around the buttons */\n    border-radius: 4px;\n    /* If you want rounded corners */\n    /* Add text alignment and other styles as needed */\n    text-align: center;\n    font-size: 1rem;\n    /* Adjust font size as needed */\n}\n\n.remove-button:hover {\n    background-color: #223d6d;\n    position: relative;\n    color: #adadad;\n}\n\n.remove-button:focus {\n    outline: none;\n}\n\n.add-button {\n    /* Remove the flex-grow property if you don't want the buttons to grow */\n    padding: 2px 8px;\n    /* Adjust padding to fit the text */\n    background-color: rgb(238, 238, 238);\n    border: none;\n    /* Remove border if you don't need it */\n    cursor: pointer;\n    /* Makes it clear the element is clickable */\n    white-space: nowrap;\n    /* Prevent text inside the button from wrapping */\n    /* You can remove min-width if you want the button to only be as wide as its content plus padding */\n    /* min-width: 120px; */\n    margin: 2px;\n    /* Provide some space around the buttons */\n    border-radius: 4px;\n    /* If you want rounded corners */\n    /* Add text alignment and other styles as needed */\n    text-align: center;\n    font-size: 1rem;\n    /* Adjust font size as needed */\n}\n\n.add-button:hover {\n    background-color: rgb(249 115 22);\n    position: relative;\n    color: #fff;\n}\n\n.add-button:focus {\n    outline: none;\n}";
-    styleInject(css_248z$t);
-
     // src/constants/nostrKinds.js
 
     const idea_categories = [
@@ -7811,21 +7066,21 @@ var app = (function () {
         "css",
     ];
 
-    var css_248z$s = ".toggle-button.svelte-ajm12u.svelte-ajm12u{display:flex;justify-content:center;align-items:center}.menu-card.svelte-ajm12u.svelte-ajm12u{width:200px;margin-top:80px;color:#000;position:relative}.menu-item.svelte-ajm12u.svelte-ajm12u{color:#103f70;font-size:1rem;padding:15px;padding-left:30px;cursor:pointer;transition:color 0.3s;display:block;text-decoration:none;outline:none;width:200px;text-align:left}.menu-item.svelte-ajm12u.svelte-ajm12u:hover{color:#eb6f1a;text-decoration:none;outline:none}.category-style.svelte-ajm12u.svelte-ajm12u{font-size:1rem;padding:15px;padding-left:15px;cursor:pointer;transition:color 0.3s;display:block;text-decoration:none;color:#494949;outline:none;width:200px;text-align:left}.category-style.svelte-ajm12u.svelte-ajm12u:hover{color:#60adff;text-decoration:none;outline:none}.categories-wrapper.svelte-ajm12u.svelte-ajm12u{position:fixed;left:180px;background:#d1d1d1;width:310px;max-height:100vh;height:100vh;padding:10px 0;box-shadow:0px 10px 30px -5px rgba(0, 0, 0, 0.3);border-radius:20px;transition:opacity 0.3s,\n            visibility 0.3s;opacity:1;visibility:visible;z-index:50;padding-top:14px;padding-bottom:14px}.categories-wrapper.hidden.svelte-ajm12u.svelte-ajm12u{opacity:0;visibility:hidden}.categories-outer.svelte-ajm12u.svelte-ajm12u{width:100%;max-height:100%;overflow-y:auto;border-radius:20px}.categories.svelte-ajm12u.svelte-ajm12u{width:100%}.categories.hidden.svelte-ajm12u.svelte-ajm12u{opacity:0;visibility:hidden}.category-item.svelte-ajm12u.svelte-ajm12u{color:#000;padding:10px 15px;cursor:pointer;transition:color 0.3s}.category-item.svelte-ajm12u.svelte-ajm12u:hover{color:#007bff}.hide.svelte-ajm12u.svelte-ajm12u{display:none}.button-container.svelte-ajm12u.svelte-ajm12u{position:fixed;top:0;left:0;z-index:11;background-color:#33333300;display:flex;justify-content:center;align-items:center;border-radius:10%;padding:5px;margin:10px}svg.svelte-ajm12u path.svelte-ajm12u{fill:#f97316}.menu-container.svelte-ajm12u.svelte-ajm12u{position:fixed;top:0;left:0;width:200px;min-width:200px;z-index:10;flex-basis:200px;background-color:rgba(255, 255, 255, 0.7);opacity:3.7;height:100vh;overflow-y:auto;transform:translateX(-100%);transition:transform 0.3s ease-in-out}.menu-container.show.svelte-ajm12u.svelte-ajm12u{transform:translateX(0)}button.svelte-ajm12u.svelte-ajm12u:focus{outline:none}.svelte-ajm12u.svelte-ajm12u::-webkit-scrollbar{width:10px;height:10px}.svelte-ajm12u.svelte-ajm12u::-webkit-scrollbar-track{background:#f1f1f1;border-radius:20px}.svelte-ajm12u.svelte-ajm12u::-webkit-scrollbar-thumb{background:#888;border-radius:20px}.svelte-ajm12u.svelte-ajm12u::-webkit-scrollbar-thumb:hover{background:#555}.categories.svelte-ajm12u.svelte-ajm12u::-webkit-scrollbar{width:10px}.categories.svelte-ajm12u.svelte-ajm12u::-webkit-scrollbar-track{background:#f1f1f1}.categories.svelte-ajm12u.svelte-ajm12u::-webkit-scrollbar-thumb{background:#888;border-radius:20px}.categories.svelte-ajm12u.svelte-ajm12u::-webkit-scrollbar-thumb:hover{background:#555}.divider-line.svelte-ajm12u.svelte-ajm12u{margin-left:12%;border-top:1px solid #d1d1d1;padding:1px;width:76%}";
-    styleInject(css_248z$s);
+    var css_248z$D = ".toggle-button.svelte-ajm12u.svelte-ajm12u{display:flex;justify-content:center;align-items:center}.menu-card.svelte-ajm12u.svelte-ajm12u{width:200px;margin-top:80px;color:#000;position:relative}.menu-item.svelte-ajm12u.svelte-ajm12u{color:#103f70;font-size:1rem;padding:15px;padding-left:30px;cursor:pointer;transition:color 0.3s;display:block;text-decoration:none;outline:none;width:200px;text-align:left}.menu-item.svelte-ajm12u.svelte-ajm12u:hover{color:#eb6f1a;text-decoration:none;outline:none}.category-style.svelte-ajm12u.svelte-ajm12u{font-size:1rem;padding:15px;padding-left:15px;cursor:pointer;transition:color 0.3s;display:block;text-decoration:none;color:#494949;outline:none;width:200px;text-align:left}.category-style.svelte-ajm12u.svelte-ajm12u:hover{color:#60adff;text-decoration:none;outline:none}.categories-wrapper.svelte-ajm12u.svelte-ajm12u{position:fixed;left:180px;background:#d1d1d1;width:310px;max-height:100vh;height:100vh;padding:10px 0;box-shadow:0px 10px 30px -5px rgba(0, 0, 0, 0.3);border-radius:20px;transition:opacity 0.3s,\n            visibility 0.3s;opacity:1;visibility:visible;z-index:50;padding-top:14px;padding-bottom:14px}.categories-wrapper.hidden.svelte-ajm12u.svelte-ajm12u{opacity:0;visibility:hidden}.categories-outer.svelte-ajm12u.svelte-ajm12u{width:100%;max-height:100%;overflow-y:auto;border-radius:20px}.categories.svelte-ajm12u.svelte-ajm12u{width:100%}.categories.hidden.svelte-ajm12u.svelte-ajm12u{opacity:0;visibility:hidden}.category-item.svelte-ajm12u.svelte-ajm12u{color:#000;padding:10px 15px;cursor:pointer;transition:color 0.3s}.category-item.svelte-ajm12u.svelte-ajm12u:hover{color:#007bff}.hide.svelte-ajm12u.svelte-ajm12u{display:none}.button-container.svelte-ajm12u.svelte-ajm12u{position:fixed;top:0;left:0;z-index:11;background-color:#33333300;display:flex;justify-content:center;align-items:center;border-radius:10%;padding:5px;margin:10px}svg.svelte-ajm12u path.svelte-ajm12u{fill:#f97316}.menu-container.svelte-ajm12u.svelte-ajm12u{position:fixed;top:0;left:0;width:200px;min-width:200px;z-index:10;flex-basis:200px;background-color:rgba(255, 255, 255, 0.7);opacity:3.7;height:100vh;overflow-y:auto;transform:translateX(-100%);transition:transform 0.3s ease-in-out}.menu-container.show.svelte-ajm12u.svelte-ajm12u{transform:translateX(0)}button.svelte-ajm12u.svelte-ajm12u:focus{outline:none}.svelte-ajm12u.svelte-ajm12u::-webkit-scrollbar{width:10px;height:10px}.svelte-ajm12u.svelte-ajm12u::-webkit-scrollbar-track{background:#f1f1f1;border-radius:20px}.svelte-ajm12u.svelte-ajm12u::-webkit-scrollbar-thumb{background:#888;border-radius:20px}.svelte-ajm12u.svelte-ajm12u::-webkit-scrollbar-thumb:hover{background:#555}.categories.svelte-ajm12u.svelte-ajm12u::-webkit-scrollbar{width:10px}.categories.svelte-ajm12u.svelte-ajm12u::-webkit-scrollbar-track{background:#f1f1f1}.categories.svelte-ajm12u.svelte-ajm12u::-webkit-scrollbar-thumb{background:#888;border-radius:20px}.categories.svelte-ajm12u.svelte-ajm12u::-webkit-scrollbar-thumb:hover{background:#555}.divider-line.svelte-ajm12u.svelte-ajm12u{margin-left:12%;border-top:1px solid #d1d1d1;padding:1px;width:76%}";
+    styleInject(css_248z$D);
 
     /* src/components/Sidebar/Sidebar.svelte generated by Svelte v3.59.1 */
 
-    function get_each_context$e(ctx, list, i) {
+    function get_each_context$g(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[32] = list[i];
-    	child_ctx[34] = i;
+    	child_ctx[33] = list[i];
+    	child_ctx[35] = i;
     	return child_ctx;
     }
 
-    function get_each_context_1$2(ctx, list, i) {
+    function get_each_context_1$1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[35] = list[i];
+    	child_ctx[36] = list[i];
     	return child_ctx;
     }
 
@@ -7847,6 +7102,11 @@ var app = (function () {
     	let button2;
     	let i2;
     	let t5;
+    	let t6;
+    	let li3;
+    	let button3;
+    	let i3;
+    	let t7;
     	let mounted;
     	let dispose;
 
@@ -7862,28 +7122,38 @@ var app = (function () {
     			li1 = element("li");
     			button1 = element("button");
     			i1 = element("i");
-    			t3 = text(" Edit Profile");
+    			t3 = text(" Messages");
     			t4 = space();
     			li2 = element("li");
     			button2 = element("button");
     			i2 = element("i");
-    			t5 = text("\n                        Job Manager");
+    			t5 = text(" Edit Profile");
+    			t6 = space();
+    			li3 = element("li");
+    			button3 = element("button");
+    			i3 = element("i");
+    			t7 = text("\n                        Job Manager");
     			attr(hr, "class", "divider-line svelte-ajm12u");
     			attr(i0, "class", "fas fa-user svelte-ajm12u");
     			set_style(i0, "color", "#223d6d");
     			set_style(i0, "margin-right", "10px");
     			attr(button0, "class", "" + (null_to_empty(linkStyle) + " svelte-ajm12u"));
     			attr(li0, "class", "svelte-ajm12u");
-    			attr(i1, "class", "fas fa-cog svelte-ajm12u");
+    			attr(i1, "class", "fas fa-envelope svelte-ajm12u");
     			set_style(i1, "color", "#223d6d");
     			set_style(i1, "margin-right", "10px");
     			attr(button1, "class", "" + (null_to_empty(linkStyle) + " svelte-ajm12u"));
     			attr(li1, "class", "svelte-ajm12u");
-    			attr(i2, "class", "fas fa-briefcase svelte-ajm12u");
+    			attr(i2, "class", "fas fa-cog svelte-ajm12u");
     			set_style(i2, "color", "#223d6d");
     			set_style(i2, "margin-right", "10px");
     			attr(button2, "class", "" + (null_to_empty(linkStyle) + " svelte-ajm12u"));
     			attr(li2, "class", "svelte-ajm12u");
+    			attr(i3, "class", "fas fa-briefcase svelte-ajm12u");
+    			set_style(i3, "color", "#223d6d");
+    			set_style(i3, "margin-right", "10px");
+    			attr(button3, "class", "" + (null_to_empty(linkStyle) + " svelte-ajm12u"));
+    			attr(li3, "class", "svelte-ajm12u");
     		},
     		m(target, anchor) {
     			insert(target, hr, anchor);
@@ -7902,12 +7172,18 @@ var app = (function () {
     			append(li2, button2);
     			append(button2, i2);
     			append(button2, t5);
+    			insert(target, t6, anchor);
+    			insert(target, li3, anchor);
+    			append(li3, button3);
+    			append(button3, i3);
+    			append(button3, t7);
 
     			if (!mounted) {
     				dispose = [
     					listen(button0, "click", /*click_handler_3*/ ctx[22]),
     					listen(button1, "click", /*click_handler_4*/ ctx[23]),
-    					listen(button2, "click", /*click_handler_5*/ ctx[24])
+    					listen(button2, "click", /*click_handler_5*/ ctx[24]),
+    					listen(button3, "click", /*click_handler_6*/ ctx[25])
     				];
 
     				mounted = true;
@@ -7922,14 +7198,16 @@ var app = (function () {
     			if (detaching) detach(li1);
     			if (detaching) detach(t4);
     			if (detaching) detach(li2);
+    			if (detaching) detach(t6);
+    			if (detaching) detach(li3);
     			mounted = false;
     			run_all(dispose);
     		}
     	};
     }
 
-    // (268:16) {:else}
-    function create_else_block$3(ctx) {
+    // (281:16) {:else}
+    function create_else_block$6(ctx) {
     	let button;
     	let i;
     	let t0;
@@ -7979,8 +7257,8 @@ var app = (function () {
     	};
     }
 
-    // (257:47) 
-    function create_if_block_1$5(ctx) {
+    // (270:47) 
+    function create_if_block_1$6(ctx) {
     	let button;
     	let i;
     	let t;
@@ -8020,8 +7298,8 @@ var app = (function () {
     	};
     }
 
-    // (246:16) {#if !$menuState.use_extension}
-    function create_if_block$k(ctx) {
+    // (259:16) {#if !$menuState.use_extension}
+    function create_if_block$p(ctx) {
     	let button;
     	let i;
     	let t0;
@@ -8047,7 +7325,7 @@ var app = (function () {
     			append(button, t1);
 
     			if (!mounted) {
-    				dispose = listen(button, "click", /*click_handler_6*/ ctx[25]);
+    				dispose = listen(button, "click", /*click_handler_7*/ ctx[26]);
     				mounted = true;
     			}
     		},
@@ -8060,54 +7338,16 @@ var app = (function () {
     	};
     }
 
-    // (322:12) {#each idea_categories as category}
-    function create_each_block_1$2(ctx) {
+    // (335:12) {#each idea_categories as category}
+    function create_each_block_1$1(ctx) {
     	let button;
-    	let t_value = /*category*/ ctx[35] + "";
-    	let t;
-    	let mounted;
-    	let dispose;
-
-    	function click_handler_7() {
-    		return /*click_handler_7*/ ctx[26](/*category*/ ctx[35]);
-    	}
-
-    	return {
-    		c() {
-    			button = element("button");
-    			t = text(t_value);
-    			attr(button, "class", "" + (null_to_empty(categoryStyle) + " svelte-ajm12u"));
-    		},
-    		m(target, anchor) {
-    			insert(target, button, anchor);
-    			append(button, t);
-
-    			if (!mounted) {
-    				dispose = listen(button, "click", click_handler_7);
-    				mounted = true;
-    			}
-    		},
-    		p(new_ctx, dirty) {
-    			ctx = new_ctx;
-    		},
-    		d(detaching) {
-    			if (detaching) detach(button);
-    			mounted = false;
-    			dispose();
-    		}
-    	};
-    }
-
-    // (342:12) {#each tutorial_titles as tutorial, index}
-    function create_each_block$e(ctx) {
-    	let button;
-    	let t_value = /*tutorial*/ ctx[32] + "";
+    	let t_value = /*category*/ ctx[36] + "";
     	let t;
     	let mounted;
     	let dispose;
 
     	function click_handler_8() {
-    		return /*click_handler_8*/ ctx[27](/*index*/ ctx[34]);
+    		return /*click_handler_8*/ ctx[27](/*category*/ ctx[36]);
     	}
 
     	return {
@@ -8136,7 +7376,45 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$J(ctx) {
+    // (355:12) {#each tutorial_titles as tutorial, index}
+    function create_each_block$g(ctx) {
+    	let button;
+    	let t_value = /*tutorial*/ ctx[33] + "";
+    	let t;
+    	let mounted;
+    	let dispose;
+
+    	function click_handler_9() {
+    		return /*click_handler_9*/ ctx[28](/*index*/ ctx[35]);
+    	}
+
+    	return {
+    		c() {
+    			button = element("button");
+    			t = text(t_value);
+    			attr(button, "class", "" + (null_to_empty(categoryStyle) + " svelte-ajm12u"));
+    		},
+    		m(target, anchor) {
+    			insert(target, button, anchor);
+    			append(button, t);
+
+    			if (!mounted) {
+    				dispose = listen(button, "click", click_handler_9);
+    				mounted = true;
+    			}
+    		},
+    		p(new_ctx, dirty) {
+    			ctx = new_ctx;
+    		},
+    		d(detaching) {
+    			if (detaching) detach(button);
+    			mounted = false;
+    			dispose();
+    		}
+    	};
+    }
+
+    function create_fragment$U(ctx) {
     	let div0;
     	let button0;
     	let t0;
@@ -8192,9 +7470,9 @@ var app = (function () {
     	let if_block0 = /*$menuState*/ ctx[0].logged_in && create_if_block_2$3(ctx);
 
     	function select_block_type(ctx, dirty) {
-    		if (!/*$menuState*/ ctx[0].use_extension) return create_if_block$k;
-    		if (/*$menuState*/ ctx[0].logged_in) return create_if_block_1$5;
-    		return create_else_block$3;
+    		if (!/*$menuState*/ ctx[0].use_extension) return create_if_block$p;
+    		if (/*$menuState*/ ctx[0].logged_in) return create_if_block_1$6;
+    		return create_else_block$6;
     	}
 
     	let current_block_type = select_block_type(ctx);
@@ -8203,14 +7481,14 @@ var app = (function () {
     	let each_blocks_1 = [];
 
     	for (let i = 0; i < each_value_1.length; i += 1) {
-    		each_blocks_1[i] = create_each_block_1$2(get_each_context_1$2(ctx, each_value_1, i));
+    		each_blocks_1[i] = create_each_block_1$1(get_each_context_1$1(ctx, each_value_1, i));
     	}
 
     	let each_value = /*tutorial_titles*/ ctx[7];
     	let each_blocks = [];
 
     	for (let i = 0; i < each_value.length; i += 1) {
-    		each_blocks[i] = create_each_block$e(get_each_context$e(ctx, each_value, i));
+    		each_blocks[i] = create_each_block$g(get_each_context$g(ctx, each_value, i));
     	}
 
     	return {
@@ -8453,12 +7731,12 @@ var app = (function () {
     				let i;
 
     				for (i = 0; i < each_value_1.length; i += 1) {
-    					const child_ctx = get_each_context_1$2(ctx, each_value_1, i);
+    					const child_ctx = get_each_context_1$1(ctx, each_value_1, i);
 
     					if (each_blocks_1[i]) {
     						each_blocks_1[i].p(child_ctx, dirty);
     					} else {
-    						each_blocks_1[i] = create_each_block_1$2(child_ctx);
+    						each_blocks_1[i] = create_each_block_1$1(child_ctx);
     						each_blocks_1[i].c();
     						each_blocks_1[i].m(div5, null);
     					}
@@ -8482,12 +7760,12 @@ var app = (function () {
     				let i;
 
     				for (i = 0; i < each_value.length; i += 1) {
-    					const child_ctx = get_each_context$e(ctx, each_value, i);
+    					const child_ctx = get_each_context$g(ctx, each_value, i);
 
     					if (each_blocks[i]) {
     						each_blocks[i].p(child_ctx, dirty);
     					} else {
-    						each_blocks[i] = create_each_block$e(child_ctx);
+    						each_blocks[i] = create_each_block$g(child_ctx);
     						each_blocks[i].c();
     						each_blocks[i].m(div8, null);
     					}
@@ -8530,7 +7808,7 @@ var app = (function () {
     let linkStyle = "block menu-item";
     let categoryStyle = "category-style";
 
-    function instance$I($$self, $$props, $$invalidate) {
+    function instance$T($$self, $$props, $$invalidate) {
     	let $nostrCache;
     	let $menuState;
     	let $nostrManager;
@@ -8538,7 +7816,7 @@ var app = (function () {
     	let $sidebarOpen;
     	component_subscribe($$self, nostrCache, $$value => $$invalidate(18, $nostrCache = $$value));
     	component_subscribe($$self, nostrManager, $$value => $$invalidate(3, $nostrManager = $$value));
-    	component_subscribe($$self, contentContainerClass, $$value => $$invalidate(29, $contentContainerClass = $$value));
+    	component_subscribe($$self, contentContainerClass, $$value => $$invalidate(30, $contentContainerClass = $$value));
     	component_subscribe($$self, sidebarOpen, $$value => $$invalidate(4, $sidebarOpen = $$value));
 
     	function toggleSidebar() {
@@ -8661,11 +7939,12 @@ var app = (function () {
     	const click_handler_1 = () => navigate("/postidea");
     	const click_handler_2 = () => navigate("/jobmarket");
     	const click_handler_3 = () => navigate(`/profile/${$nostrManager.publicKey}`);
-    	const click_handler_4 = () => navigate(`/edit_profile/${$nostrManager.publicKey}`);
-    	const click_handler_5 = () => navigate("/jobmanager");
-    	const click_handler_6 = () => navigate("https://getalby.com/");
-    	const click_handler_7 = category => navigate(`/overview/${category}`);
-    	const click_handler_8 = index => navigate(`/tutorial/${index}`);
+    	const click_handler_4 = () => navigate(`/dm`);
+    	const click_handler_5 = () => navigate(`/edit_profile/${$nostrManager.publicKey}`);
+    	const click_handler_6 = () => navigate("/jobmanager");
+    	const click_handler_7 = () => navigate("https://getalby.com/");
+    	const click_handler_8 = category => navigate(`/overview/${category}`);
+    	const click_handler_9 = index => navigate(`/tutorial/${index}`);
 
     	$$self.$$.update = () => {
     		if ($$self.$$.dirty[0] & /*$menuState*/ 1) ;
@@ -8707,20 +7986,21 @@ var app = (function () {
     		click_handler_5,
     		click_handler_6,
     		click_handler_7,
-    		click_handler_8
+    		click_handler_8,
+    		click_handler_9
     	];
     }
 
     class Sidebar extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$I, create_fragment$J, safe_not_equal, {}, null, [-1, -1]);
+    		init(this, options, instance$T, create_fragment$U, safe_not_equal, {}, null, [-1, -1]);
     	}
     }
 
     /* src/components/Banner.svelte generated by Svelte v3.59.1 */
 
-    function create_if_block$j(ctx) {
+    function create_if_block$o(ctx) {
     	let p0;
     	let t1;
     	let p1;
@@ -8752,7 +8032,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$I(ctx) {
+    function create_fragment$T(ctx) {
     	let section;
     	let div5;
     	let span0;
@@ -8772,7 +8052,7 @@ var app = (function () {
     	let t5;
     	let svg;
     	let polygon;
-    	let if_block = /*show_right_text*/ ctx[3] && create_if_block$j();
+    	let if_block = /*show_right_text*/ ctx[3] && create_if_block$o();
 
     	return {
     		c() {
@@ -8855,7 +8135,7 @@ var app = (function () {
 
     			if (/*show_right_text*/ ctx[3]) {
     				if (if_block) ; else {
-    					if_block = create_if_block$j();
+    					if_block = create_if_block$o();
     					if_block.c();
     					if_block.m(div2, null);
     				}
@@ -8877,7 +8157,7 @@ var app = (function () {
     	};
     }
 
-    function instance$H($$self, $$props, $$invalidate) {
+    function instance$S($$self, $$props, $$invalidate) {
     	let $sidebarOpen;
     	component_subscribe($$self, sidebarOpen, $$value => $$invalidate(5, $sidebarOpen = $$value));
     	let { title } = $$props;
@@ -8912,7 +8192,7 @@ var app = (function () {
     	constructor(options) {
     		super();
 
-    		init(this, options, instance$H, create_fragment$I, safe_not_equal, {
+    		init(this, options, instance$S, create_fragment$T, safe_not_equal, {
     			title: 0,
     			bannerImage: 1,
     			subtitle: 2,
@@ -8923,7 +8203,7 @@ var app = (function () {
 
     /* src/components/Footers/Footer.svelte generated by Svelte v3.59.1 */
 
-    function create_fragment$H(ctx) {
+    function create_fragment$S(ctx) {
     	let footer;
 
     	return {
@@ -8951,7 +8231,7 @@ var app = (function () {
     	};
     }
 
-    function instance$G($$self) {
+    function instance$R($$self) {
     	new Date().getFullYear();
     	return [];
     }
@@ -8959,12 +8239,12 @@ var app = (function () {
     class Footer extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$G, create_fragment$H, safe_not_equal, {});
+    		init(this, options, instance$R, create_fragment$S, safe_not_equal, {});
     	}
     }
 
-    var css_248z$r = ".profile-image.svelte-1281914{width:50px;height:50px;border-radius:50%;object-fit:cover;object-position:center}";
-    styleInject(css_248z$r);
+    var css_248z$C = ".profile-image.svelte-1281914{width:50px;height:50px;border-radius:50%;object-fit:cover;object-position:center}";
+    styleInject(css_248z$C);
 
     /* src/components/ProfileImg.svelte generated by Svelte v3.59.1 */
 
@@ -9003,7 +8283,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$G(ctx) {
+    function create_fragment$R(ctx) {
     	let link;
     	let current;
 
@@ -9048,7 +8328,7 @@ var app = (function () {
     	};
     }
 
-    function instance$F($$self, $$props, $$invalidate) {
+    function instance$Q($$self, $$props, $$invalidate) {
     	let styleString;
     	let { profile = {} } = $$props;
     	let { style = {} } = $$props;
@@ -9083,11 +8363,11 @@ var app = (function () {
     class ProfileImg extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$F, create_fragment$G, safe_not_equal, { profile: 4, style: 5 });
+    		init(this, options, instance$Q, create_fragment$R, safe_not_equal, { profile: 4, style: 5 });
     	}
     }
 
-    const a=async(e,t)=>{const{boost:r}=e;t||(t={});const n=t.webln||globalThis.webln;if(!n)throw new Error("WebLN not available");if(!n.keysend)throw new Error("Keysend not available in current WebLN provider");const o=e.amount||Math.floor(r.value_msat/1e3),a={destination:e.destination,amount:o,customRecords:{7629169:JSON.stringify(r)}};return e.customKey&&e.customValue&&(a.customRecords[e.customKey]=e.customValue),await n.enable(),await n.keysend(a)};function i(){return i=Object.assign?Object.assign.bind():function(e){for(var t=1;t<arguments.length;t++){var r=arguments[t];for(var n in r)Object.prototype.hasOwnProperty.call(r,n)&&(e[n]=r[n]);}return e},i.apply(this,arguments)}async function c(e){const t="string"==typeof e?(new TextEncoder).encode(e):e,r=await crypto.subtle.digest("SHA-256",t);return Array.from(new Uint8Array(r)).map(e=>e.toString(16).padStart(2,"0")).join("")}const l=/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[\w]*))?)/,h=e=>!!e&&l.test(e),u=({amount:e,min:t,max:r})=>e>0&&e>=t&&e<=r;var d,f,p=(d=function(e,t){function r(e){if(!Number.isSafeInteger(e))throw new Error(`Wrong integer: ${e}`)}function n(...e){const t=(e,t)=>r=>e(t(r));return {encode:Array.from(e).reverse().reduce((e,r)=>e?t(e,r.encode):r.encode,void 0),decode:e.reduce((e,r)=>e?t(e,r.decode):r.decode,void 0)}}function o(e){return {encode:t=>{if(!Array.isArray(t)||t.length&&"number"!=typeof t[0])throw new Error("alphabet.encode input should be an array of numbers");return t.map(t=>{if(r(t),t<0||t>=e.length)throw new Error(`Digit index outside alphabet: ${t} (alphabet: ${e.length})`);return e[t]})},decode:t=>{if(!Array.isArray(t)||t.length&&"string"!=typeof t[0])throw new Error("alphabet.decode input should be array of strings");return t.map(t=>{if("string"!=typeof t)throw new Error(`alphabet.decode: not string element=${t}`);const r=e.indexOf(t);if(-1===r)throw new Error(`Unknown letter: "${t}". Allowed: ${e}`);return r})}}}function a(e=""){if("string"!=typeof e)throw new Error("join separator should be string");return {encode:t=>{if(!Array.isArray(t)||t.length&&"string"!=typeof t[0])throw new Error("join.encode input should be array of strings");for(let e of t)if("string"!=typeof e)throw new Error(`join.encode: non-string input=${e}`);return t.join(e)},decode:t=>{if("string"!=typeof t)throw new Error("join.decode input should be string");return t.split(e)}}}function s(e,t="="){if(r(e),"string"!=typeof t)throw new Error("padding chr should be string");return {encode(r){if(!Array.isArray(r)||r.length&&"string"!=typeof r[0])throw new Error("padding.encode input should be array of strings");for(let e of r)if("string"!=typeof e)throw new Error(`padding.encode: non-string input=${e}`);for(;r.length*e%8;)r.push(t);return r},decode(r){if(!Array.isArray(r)||r.length&&"string"!=typeof r[0])throw new Error("padding.encode input should be array of strings");for(let e of r)if("string"!=typeof e)throw new Error(`padding.decode: non-string input=${e}`);let n=r.length;if(n*e%8)throw new Error("Invalid padding: string should have whole number of bytes");for(;n>0&&r[n-1]===t;n--)if(!((n-1)*e%8))throw new Error("Invalid padding: string has too much padding");return r.slice(0,n)}}}function i(e){if("function"!=typeof e)throw new Error("normalize fn should be function");return {encode:e=>e,decode:t=>e(t)}}function c(e,t,n){if(t<2)throw new Error(`convertRadix: wrong from=${t}, base cannot be less than 2`);if(n<2)throw new Error(`convertRadix: wrong to=${n}, base cannot be less than 2`);if(!Array.isArray(e))throw new Error("convertRadix: data should be array");if(!e.length)return [];let o=0;const a=[],s=Array.from(e);for(s.forEach(e=>{if(r(e),e<0||e>=t)throw new Error(`Wrong integer: ${e}`)});;){let e=0,r=!0;for(let a=o;a<s.length;a++){const i=s[a],c=t*e+i;if(!Number.isSafeInteger(c)||t*e/t!==e||c-i!=t*e)throw new Error("convertRadix: carry overflow");if(e=c%n,s[a]=Math.floor(c/n),!Number.isSafeInteger(s[a])||s[a]*n+e!==c)throw new Error("convertRadix: carry overflow");r&&(s[a]?r=!1:o=a);}if(a.push(e),r)break}for(let t=0;t<e.length-1&&0===e[t];t++)a.push(0);return a.reverse()}Object.defineProperty(t,"__esModule",{value:!0}),t.bytes=t.stringToBytes=t.str=t.bytesToString=t.hex=t.utf8=t.bech32m=t.bech32=t.base58check=t.base58xmr=t.base58xrp=t.base58flickr=t.base58=t.base64url=t.base64=t.base32crockford=t.base32hex=t.base32=t.base16=t.utils=t.assertNumber=void 0,t.assertNumber=r;const l=(e,t)=>t?l(t,e%t):e,h=(e,t)=>e+(t-l(e,t));function u(e,t,n,o){if(!Array.isArray(e))throw new Error("convertRadix2: data should be array");if(t<=0||t>32)throw new Error(`convertRadix2: wrong from=${t}`);if(n<=0||n>32)throw new Error(`convertRadix2: wrong to=${n}`);if(h(t,n)>32)throw new Error(`convertRadix2: carry overflow from=${t} to=${n} carryBits=${h(t,n)}`);let a=0,s=0;const i=2**n-1,c=[];for(const o of e){if(r(o),o>=2**t)throw new Error(`convertRadix2: invalid data word=${o} from=${t}`);if(a=a<<t|o,s+t>32)throw new Error(`convertRadix2: carry overflow pos=${s} from=${t}`);for(s+=t;s>=n;s-=n)c.push((a>>s-n&i)>>>0);a&=2**s-1;}if(a=a<<n-s&i,!o&&s>=t)throw new Error("Excess padding");if(!o&&a)throw new Error(`Non-zero padding: ${a}`);return o&&s>0&&c.push(a>>>0),c}function d(e){return r(e),{encode:t=>{if(!(t instanceof Uint8Array))throw new Error("radix.encode input should be Uint8Array");return c(Array.from(t),256,e)},decode:t=>{if(!Array.isArray(t)||t.length&&"number"!=typeof t[0])throw new Error("radix.decode input should be array of strings");return Uint8Array.from(c(t,e,256))}}}function f(e,t=!1){if(r(e),e<=0||e>32)throw new Error("radix2: bits should be in (0..32]");if(h(8,e)>32||h(e,8)>32)throw new Error("radix2: carry overflow");return {encode:r=>{if(!(r instanceof Uint8Array))throw new Error("radix2.encode input should be Uint8Array");return u(Array.from(r),8,e,!t)},decode:r=>{if(!Array.isArray(r)||r.length&&"number"!=typeof r[0])throw new Error("radix2.decode input should be array of strings");return Uint8Array.from(u(r,e,8,t))}}}function p(e){if("function"!=typeof e)throw new Error("unsafeWrapper fn should be function");return function(...t){try{return e.apply(null,t)}catch(e){}}}function w(e,t){if(r(e),"function"!=typeof t)throw new Error("checksum fn should be function");return {encode(r){if(!(r instanceof Uint8Array))throw new Error("checksum.encode: input should be Uint8Array");const n=t(r).slice(0,e),o=new Uint8Array(r.length+e);return o.set(r),o.set(n,r.length),o},decode(r){if(!(r instanceof Uint8Array))throw new Error("checksum.decode: input should be Uint8Array");const n=r.slice(0,-e),o=t(n).slice(0,e),a=r.slice(-e);for(let t=0;t<e;t++)if(o[t]!==a[t])throw new Error("Invalid checksum");return n}}}t.utils={alphabet:o,chain:n,checksum:w,radix:d,radix2:f,join:a,padding:s},t.base16=n(f(4),o("0123456789ABCDEF"),a("")),t.base32=n(f(5),o("ABCDEFGHIJKLMNOPQRSTUVWXYZ234567"),s(5),a("")),t.base32hex=n(f(5),o("0123456789ABCDEFGHIJKLMNOPQRSTUV"),s(5),a("")),t.base32crockford=n(f(5),o("0123456789ABCDEFGHJKMNPQRSTVWXYZ"),a(""),i(e=>e.toUpperCase().replace(/O/g,"0").replace(/[IL]/g,"1"))),t.base64=n(f(6),o("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"),s(6),a("")),t.base64url=n(f(6),o("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_"),s(6),a(""));const m=e=>n(d(58),o(e),a(""));t.base58=m("123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"),t.base58flickr=m("123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ"),t.base58xrp=m("rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz");const y=[0,2,3,5,6,7,9,10,11];t.base58xmr={encode(e){let r="";for(let n=0;n<e.length;n+=8){const o=e.subarray(n,n+8);r+=t.base58.encode(o).padStart(y[o.length],"1");}return r},decode(e){let r=[];for(let n=0;n<e.length;n+=11){const o=e.slice(n,n+11),a=y.indexOf(o.length),s=t.base58.decode(o);for(let e=0;e<s.length-a;e++)if(0!==s[e])throw new Error("base58xmr: wrong padding");r=r.concat(Array.from(s.slice(s.length-a)));}return Uint8Array.from(r)}},t.base58check=e=>n(w(4,t=>e(e(t))),t.base58);const g=n(o("qpzry9x8gf2tvdw0s3jn54khce6mua7l"),a("")),b=[996825010,642813549,513874426,1027748829,705979059];function v(e){const t=e>>25;let r=(33554431&e)<<5;for(let e=0;e<b.length;e++)1==(t>>e&1)&&(r^=b[e]);return r}function E(e,t,r=1){const n=e.length;let o=1;for(let t=0;t<n;t++){const r=e.charCodeAt(t);if(r<33||r>126)throw new Error(`Invalid prefix (${e})`);o=v(o)^r>>5;}o=v(o);for(let t=0;t<n;t++)o=v(o)^31&e.charCodeAt(t);for(let e of t)o=v(o)^e;for(let e=0;e<6;e++)o=v(o);return o^=r,g.encode(u([o%2**30],30,5,!1))}function x(e){const t="bech32"===e?1:734539939,r=f(5),n=r.decode,o=r.encode,a=p(n);function s(e,r=90){if("string"!=typeof e)throw new Error("bech32.decode input should be string, not "+typeof e);if(e.length<8||!1!==r&&e.length>r)throw new TypeError(`Wrong string length: ${e.length} (${e}). Expected (8..${r})`);const n=e.toLowerCase();if(e!==n&&e!==e.toUpperCase())throw new Error("String must be lowercase or uppercase");const o=(e=n).lastIndexOf("1");if(0===o||-1===o)throw new Error('Letter "1" must be present between prefix and data only');const a=e.slice(0,o),s=e.slice(o+1);if(s.length<6)throw new Error("Data must be at least 6 characters long");const i=g.decode(s).slice(0,-6),c=E(a,i,t);if(!s.endsWith(c))throw new Error(`Invalid checksum in ${e}: expected "${c}"`);return {prefix:a,words:i}}return {encode:function(e,r,n=90){if("string"!=typeof e)throw new Error("bech32.encode prefix should be string, not "+typeof e);if(!Array.isArray(r)||r.length&&"number"!=typeof r[0])throw new Error("bech32.encode words should be array of numbers, not "+typeof r);const o=e.length+7+r.length;if(!1!==n&&o>n)throw new TypeError(`Length ${o} exceeds limit ${n}`);return `${e=e.toLowerCase()}1${g.encode(r)}${E(e,r,t)}`},decode:s,decodeToBytes:function(e){const{prefix:t,words:r}=s(e,!1);return {prefix:t,words:r,bytes:n(r)}},decodeUnsafe:p(s),fromWords:n,fromWordsUnsafe:a,toWords:o}}t.bech32=x("bech32"),t.bech32m=x("bech32m"),t.utf8={encode:e=>(new TextDecoder).decode(e),decode:e=>(new TextEncoder).encode(e)},t.hex=n(f(4),o("0123456789abcdef"),a(""),i(e=>{if("string"!=typeof e||e.length%2)throw new TypeError(`hex.decode: expected string, got ${typeof e} with length ${e.length}`);return e.toLowerCase()}));const _={utf8:t.utf8,hex:t.hex,base16:t.base16,base32:t.base32,base64:t.base64,base64url:t.base64url,base58:t.base58,base58xmr:t.base58xmr},A=`Invalid encoding type. Available types: ${Object.keys(_).join(", ")}`;t.bytesToString=(e,t)=>{if("string"!=typeof e||!_.hasOwnProperty(e))throw new TypeError(A);if(!(t instanceof Uint8Array))throw new TypeError("bytesToString() expects Uint8Array");return _[e].encode(t)},t.str=t.bytesToString,t.stringToBytes=(e,t)=>{if(!_.hasOwnProperty(e))throw new TypeError(A);if("string"!=typeof t)throw new TypeError("stringToBytes() expects string");return _[e].decode(t)},t.bytes=t.stringToBytes;},d(f={exports:{}},f.exports),f.exports);const{bech32:w,hex:m,utf8:y}=p,g={bech32:"bc",pubKeyHash:0,scriptHash:5,validWitnessVersions:[0]},b={bech32:"tb",pubKeyHash:111,scriptHash:196,validWitnessVersions:[0]},v={bech32:"bcrt",pubKeyHash:111,scriptHash:196,validWitnessVersions:[0]},E={bech32:"sb",pubKeyHash:63,scriptHash:123,validWitnessVersions:[0]},x=["option_data_loss_protect","initial_routing_sync","option_upfront_shutdown_script","gossip_queries","var_onion_optin","gossip_queries_ex","option_static_remotekey","payment_secret","basic_mpp","option_support_large_channel"],_={m:BigInt(1e3),u:BigInt(1e6),n:BigInt(1e9),p:BigInt(1e12)},A=BigInt("2100000000000000000"),k=BigInt(1e11),$={payment_hash:1,payment_secret:16,description:13,payee:19,description_hash:23,expiry:6,min_final_cltv_expiry:24,fallback_address:9,route_hint:3,feature_bits:5,metadata:27},N={};for(let e=0,t=Object.keys($);e<t.length;e++){const r=t[e],n=$[t[e]].toString();N[n]=r;}const S={1:e=>m.encode(w.fromWordsUnsafe(e)),16:e=>m.encode(w.fromWordsUnsafe(e)),13:e=>y.encode(w.fromWordsUnsafe(e)),19:e=>m.encode(w.fromWordsUnsafe(e)),23:e=>m.encode(w.fromWordsUnsafe(e)),27:e=>m.encode(w.fromWordsUnsafe(e)),6:U,24:U,3:function(e){const t=[];let r,n,o,a,s,i=w.fromWordsUnsafe(e);for(;i.length>0;)r=m.encode(i.slice(0,33)),n=m.encode(i.slice(33,41)),o=parseInt(m.encode(i.slice(41,45)),16),a=parseInt(m.encode(i.slice(45,49)),16),s=parseInt(m.encode(i.slice(49,51)),16),i=i.slice(51),t.push({pubkey:r,short_channel_id:n,fee_base_msat:o,fee_proportional_millionths:a,cltv_expiry_delta:s});return t},5:function(e){const t=e.slice().reverse().map(e=>[!!(1&e),!!(2&e),!!(4&e),!!(8&e),!!(16&e)]).reduce((e,t)=>e.concat(t),[]);for(;t.length<2*x.length;)t.push(!1);const r={};x.forEach((e,n)=>{let o;o=t[2*n]?"required":t[2*n+1]?"supported":"unsupported",r[e]=o;});const n=t.slice(2*x.length);return r.extra_bits={start_bit:2*x.length,bits:n,has_required:n.reduce((e,t,r)=>r%2!=0?e||!1:e||t,!1)},r}};function I(e){return t=>({tagCode:parseInt(e),words:w.encode("unknown",t,Number.MAX_SAFE_INTEGER)})}function U(e){return e.reverse().reduce((e,t,r)=>e+t*Math.pow(32,r),0)}class D{constructor(e){var t,r,n;if(this.paymentRequest=void 0,this.paymentHash=void 0,this.preimage=void 0,this.verify=void 0,this.satoshi=void 0,this.expiry=void 0,this.timestamp=void 0,this.createdDate=void 0,this.expiryDate=void 0,this.description=void 0,this.paymentRequest=e.pr,!this.paymentRequest)throw new Error("Invalid payment request");const o=(e=>{if(!e)return null;try{const t=function(e,t){if("string"!=typeof e)throw new Error("Lightning Payment Request must be string");if("ln"!==e.slice(0,2).toLowerCase())throw new Error("Not a proper lightning payment request");const r=[],n=w.decode(e,Number.MAX_SAFE_INTEGER);e=e.toLowerCase();const o=n.prefix;let a=n.words,s=e.slice(o.length+1),i=a.slice(-104);a=a.slice(0,-104);let c=o.match(/^ln(\S+?)(\d*)([a-zA-Z]?)$/);if(c&&!c[2]&&(c=o.match(/^ln(\S+)$/)),!c)throw new Error("Not a proper lightning payment request");r.push({name:"lightning_network",letters:"ln"});const l=c[1];let h;switch(l){case g.bech32:h=g;break;case b.bech32:h=b;break;case v.bech32:h=v;break;case E.bech32:h=E;}if(!h||h.bech32!==l)throw new Error("Unknown coin bech32 prefix");r.push({name:"coin_network",letters:l,value:h});const u=c[2];let d;u?(d=function(e,t){let r,n;if(e.slice(-1).match(/^[munp]$/))r=e.slice(-1),n=e.slice(0,-1);else {if(e.slice(-1).match(/^[^munp0-9]$/))throw new Error("Not a valid multiplier for the amount");n=e;}if(!n.match(/^\d+$/))throw new Error("Not a valid human readable amount");const o=BigInt(n),a=r?o*k/_[r]:o*k;if("p"===r&&o%BigInt(10)!==BigInt(0)||a>A)throw new Error("Amount is outside of valid range");return a.toString()}(u+c[3]),r.push({name:"amount",letters:c[2]+c[3],value:d})):d=null,r.push({name:"separator",letters:"1"});const f=U(a.slice(0,7));let p,y,x,D;for(a=a.slice(7),r.push({name:"timestamp",letters:s.slice(0,7),value:f}),s=s.slice(7);a.length>0;){const e=a[0].toString();p=N[e]||"unknown_tag",y=S[e]||I(e),a=a.slice(1),x=U(a.slice(0,2)),a=a.slice(2),D=a.slice(0,x),a=a.slice(x),r.push({name:p,tag:s[0],letters:s.slice(0,3+x),value:y(D)}),s=s.slice(3+x);}r.push({name:"signature",letters:s.slice(0,104),value:m.encode(w.fromWordsUnsafe(i))}),s=s.slice(104),r.push({name:"checksum",letters:s});let R={paymentRequest:e,sections:r,get expiry(){let e=r.find(e=>"expiry"===e.name);if(e)return W("timestamp")+e.value},get route_hints(){return r.filter(e=>"route_hint"===e.name).map(e=>e.value)}};for(let e in $)"route_hint"!==e&&Object.defineProperty(R,e,{get:()=>W(e)});return R;function W(e){let t=r.find(t=>t.name===e);return t?t.value:void 0}}(e);if(!t||!t.sections)return null;const r=t.sections.find(e=>"payment_hash"===e.name);if("payment_hash"!==(null==r?void 0:r.name)||!r.value)return null;const n=r.value,o=t.sections.find(e=>"amount"===e.name);if("amount"!==(null==o?void 0:o.name)||void 0===o.value)return null;const a=parseInt(o.value)/1e3,s=t.sections.find(e=>"expiry"===e.name),i=t.sections.find(e=>"timestamp"===e.name);if("timestamp"!==(null==i?void 0:i.name)||!i.value)return null;const c=i.value;if("expiry"!==(null==s?void 0:s.name)||void 0===s.value)return null;const l=s.value,h=t.sections.find(e=>"description"===e.name);return {paymentHash:n,satoshi:a,timestamp:c,expiry:l,description:"description"===(null==h?void 0:h.name)?null==h?void 0:h.value:void 0}}catch(e){return null}})(this.paymentRequest);if(!o)throw new Error("Failed to decode payment request");this.paymentHash=o.paymentHash,this.satoshi=o.satoshi,this.timestamp=o.timestamp,this.expiry=o.expiry,this.createdDate=new Date(1e3*this.timestamp),this.expiryDate=new Date(1e3*(this.timestamp+this.expiry)),this.description=null!=(t=o.description)?t:null,this.verify=null!=(r=e.verify)?r:null,this.preimage=null!=(n=e.preimage)?n:null;}async isPaid(){if(this.preimage)return this.validatePreimage(this.preimage);if(this.verify)return await this.verifyPayment();throw new Error("Could not verify payment")}async validatePreimage(e){if(!e||!this.paymentHash)return !1;try{const r=await c((t=e,Uint8Array.from(t.match(/.{1,2}/g).map(e=>parseInt(e,16)))));return this.paymentHash===r}catch(e){return !1}var t;}async verifyPayment(){if(!this.verify)throw new Error("LNURL verify not available");const e=await fetch(this.verify),t=await e.json();return t.preimage&&(this.preimage=t.preimage),t.settled}}async function R({satoshi:e,comment:t,p:r,e:n,relays:o},a={}){const s=a.nostr||globalThis.nostr;if(!s)throw new Error("nostr option or window.nostr is not available");const i=[["relays",...o],["amount",e.toString()]];r&&i.push(["p",r]),n&&i.push(["e",n]);const c={pubkey:await s.getPublicKey(),created_at:Math.floor(Date.now()/1e3),kind:9734,tags:i,content:null!=t?t:""};return c.id=await L(c),await s.signEvent(c)}function W(e){if("string"!=typeof e.content)return !1;if("number"!=typeof e.created_at)return !1;if(!Array.isArray(e.tags))return !1;for(let t=0;t<e.tags.length;t++){const r=e.tags[t];if(!Array.isArray(r))return !1;for(let e=0;e<r.length;e++)if("object"==typeof r[e])return !1}return !0}function P(e){if(!W(e))throw new Error("can't serialize event with wrong or missing properties");return JSON.stringify([0,e.pubkey,e.created_at,e.kind,e.tags,e.content])}function L(e){return c(P(e))}function T(e,t){let r,n;var o,a;return t&&e&&(r=null==(o=e.names)?void 0:o[t],n=r?null==(a=e.relays)?void 0:a[r]:void 0),[e,r,n]}const O=/^((?:[^<>()[\]\\.,;:\s@"]+(?:\.[^<>()[\]\\.,;:\s@"]+)*)|(?:".+"))@((?:\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(?:(?:[a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;class K{constructor(e,t){this.address=void 0,this.options=void 0,this.username=void 0,this.domain=void 0,this.pubkey=void 0,this.lnurlpData=void 0,this.keysendData=void 0,this.nostrData=void 0,this.nostrPubkey=void 0,this.nostrRelays=void 0,this.webln=void 0,this.address=e,this.options={proxy:"https://api.getalby.com/lnurl"},this.options=Object.assign(this.options,t),this.parse(),this.webln=this.options.webln;}parse(){const e=O.exec(this.address.toLowerCase());e&&(this.username=e[1],this.domain=e[2]);}getWebLN(){return this.webln||globalThis.webln}async fetch(){return this.options.proxy?this.fetchWithProxy():this.fetchWithoutProxy()}async fetchWithProxy(){const e=await fetch(`${this.options.proxy}/lightning-address-details?${new URLSearchParams({ln:this.address}).toString()}`),t=await e.json();await this.parseResponse(t.lnurlp,t.keysend,t.nostr);}async fetchWithoutProxy(){if(!this.domain||!this.username)return;const e=await fetch(this.lnurlpUrl()),t=await fetch(this.keysendUrl()),r=await fetch(this.nostrUrl());let n,o,a;e.ok&&(n=await e.json()),t.ok&&(o=await t.json()),r.ok&&(a=await r.json()),await this.parseResponse(n,o,a);}lnurlpUrl(){return `https://${this.domain}/.well-known/lnurlp/${this.username}`}keysendUrl(){return `https://${this.domain}/.well-known/keysend/${this.username}`}nostrUrl(){return `https://${this.domain}/.well-known/nostr.json?name=${this.username}`}async generateInvoice(e){let t;if(this.options.proxy){const r=await fetch(`${this.options.proxy}/generate-invoice?${new URLSearchParams(i({ln:this.address},e)).toString()}`);t=(await r.json()).invoice;}else {if(!this.lnurlpData)throw new Error("No lnurlpData available. Please call fetch() first.");if(!this.lnurlpData.callback||!h(this.lnurlpData.callback))throw new Error("Valid callback does not exist in lnurlpData");const r=new URL(this.lnurlpData.callback);r.search=new URLSearchParams(e).toString();const n=await fetch(r.toString());t=await n.json();}const r=t&&t.pr&&t.pr.toString();if(!r)throw new Error("Invalid pay service invoice");const n={pr:r};return t&&t.verify&&(n.verify=t.verify.toString()),new D(n)}async requestInvoice(e){if(!this.lnurlpData)throw new Error("No lnurlpData available. Please call fetch() first.");const t=1e3*e.satoshi,{commentAllowed:r,min:n,max:o}=this.lnurlpData;if(!u({amount:t,min:n,max:o}))throw new Error("Invalid amount");if(e.comment&&r&&r>0&&e.comment.length>r)throw new Error(`The comment length must be ${r} characters or fewer`);const a={amount:t.toString()};return e.comment&&(a.comment=e.comment),e.payerdata&&(a.payerdata=JSON.stringify(e.payerdata)),this.generateInvoice(a)}async boost(e,t=0){if(!this.keysendData)throw new Error("No keysendData available. Please call fetch() first.");const{destination:r,customKey:n,customValue:o}=this.keysendData,s=this.getWebLN();if(!s)throw new Error("WebLN not available");return a({destination:r,customKey:n,customValue:o,amount:t,boost:e},{webln:s})}async zapInvoice({satoshi:e,comment:t,relays:r,e:n},o={}){if(!this.lnurlpData)throw new Error("No lnurlpData available. Please call fetch() first.");if(!this.nostrPubkey)throw new Error("Nostr Pubkey is missing");const a=this.nostrPubkey,s=1e3*e,{allowsNostr:i,min:c,max:l}=this.lnurlpData;if(!u({amount:s,min:c,max:l}))throw new Error("Invalid amount");if(!i)throw new Error("Your provider does not support zaps");const h=await R({satoshi:s,comment:t,p:a,e:n,relays:r},o),d={amount:s.toString(),nostr:JSON.stringify(h)};return await this.generateInvoice(d)}async zap(e,t={}){const r=this.zapInvoice(e,t),n=this.getWebLN();if(!n)throw new Error("WebLN not available");return await n.enable(),n.sendPayment((await r).paymentRequest)}async parseResponse(e,t,r){e&&(this.lnurlpData=await(async e=>{if("payRequest"!==e.tag)throw new Error("Invalid pay service params");const t=(e.callback+"").trim();if(!h(t))throw new Error("Callback must be a valid url");const r=Math.ceil(Number(e.minSendable||0)),n=Math.floor(Number(e.maxSendable));if(!r||!n||r>n)throw new Error("Invalid pay service params");let o,a;try{o=JSON.parse(e.metadata+""),a=await c(e.metadata+"");}catch(e){o=[],a=await c("[]");}let s="",i="",l="";for(let e=0;e<o.length;e++){const[t,r]=o[e];switch(t){case"text/plain":i=r;break;case"text/identifier":l=r;break;case"image/png;base64":case"image/jpeg;base64":s="data:"+t+","+r;}}const u=e.payerData;let d;try{d=new URL(t).hostname;}catch(e){}return {callback:t,fixed:r===n,min:r,max:n,domain:d,metadata:o,metadataHash:a,identifier:l,description:i,image:s,payerData:u,commentAllowed:Number(e.commentAllowed)||0,rawData:e,allowsNostr:e.allowsNostr||!1}})(e)),t&&(this.keysendData=(e=>{if("keysend"!==e.tag)throw new Error("Invalid keysend params");if("OK"!==e.status)throw new Error("Keysend status not OK");if(!("customKey"in e.customData[0])||"696969"!=e.customData[0].customKey)throw new Error("Unable to find customKey");if(!("customValue"in e.customData[0])||!e.customData[0].customValue)throw new Error("Unable to find customValue");if(!e.pubkey)throw new Error("Pubkey does not exist");return {destination:e.pubkey,customKey:e.customData[0].customKey,customValue:e.customData[0].customValue}})(t)),r&&([this.nostrData,this.nostrPubkey,this.nostrRelays]=T(r,this.username));}}
+    const a=async(e,t)=>{const{boost:r}=e;t||(t={});const n=t.webln||globalThis.webln;if(!n)throw new Error("WebLN not available");if(!n.keysend)throw new Error("Keysend not available in current WebLN provider");const o=e.amount||Math.floor(r.value_msat/1e3),a={destination:e.destination,amount:o,customRecords:{7629169:JSON.stringify(r)}};return e.customKey&&e.customValue&&(a.customRecords[e.customKey]=e.customValue),await n.enable(),await n.keysend(a)};function i(){return i=Object.assign?Object.assign.bind():function(e){for(var t=1;t<arguments.length;t++){var r=arguments[t];for(var n in r)Object.prototype.hasOwnProperty.call(r,n)&&(e[n]=r[n]);}return e},i.apply(this,arguments)}async function c(e){const t="string"==typeof e?(new TextEncoder).encode(e):e,r=await crypto.subtle.digest("SHA-256",t);return Array.from(new Uint8Array(r)).map(e=>e.toString(16).padStart(2,"0")).join("")}const l=/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[\w]*))?)/,h=e=>!!e&&l.test(e),u=({amount:e,min:t,max:r})=>e>0&&e>=t&&e<=r;var d,f$1,p=(d=function(e,t){function r(e){if(!Number.isSafeInteger(e))throw new Error(`Wrong integer: ${e}`)}function n(...e){const t=(e,t)=>r=>e(t(r));return {encode:Array.from(e).reverse().reduce((e,r)=>e?t(e,r.encode):r.encode,void 0),decode:e.reduce((e,r)=>e?t(e,r.decode):r.decode,void 0)}}function o(e){return {encode:t=>{if(!Array.isArray(t)||t.length&&"number"!=typeof t[0])throw new Error("alphabet.encode input should be an array of numbers");return t.map(t=>{if(r(t),t<0||t>=e.length)throw new Error(`Digit index outside alphabet: ${t} (alphabet: ${e.length})`);return e[t]})},decode:t=>{if(!Array.isArray(t)||t.length&&"string"!=typeof t[0])throw new Error("alphabet.decode input should be array of strings");return t.map(t=>{if("string"!=typeof t)throw new Error(`alphabet.decode: not string element=${t}`);const r=e.indexOf(t);if(-1===r)throw new Error(`Unknown letter: "${t}". Allowed: ${e}`);return r})}}}function a(e=""){if("string"!=typeof e)throw new Error("join separator should be string");return {encode:t=>{if(!Array.isArray(t)||t.length&&"string"!=typeof t[0])throw new Error("join.encode input should be array of strings");for(let e of t)if("string"!=typeof e)throw new Error(`join.encode: non-string input=${e}`);return t.join(e)},decode:t=>{if("string"!=typeof t)throw new Error("join.decode input should be string");return t.split(e)}}}function s(e,t="="){if(r(e),"string"!=typeof t)throw new Error("padding chr should be string");return {encode(r){if(!Array.isArray(r)||r.length&&"string"!=typeof r[0])throw new Error("padding.encode input should be array of strings");for(let e of r)if("string"!=typeof e)throw new Error(`padding.encode: non-string input=${e}`);for(;r.length*e%8;)r.push(t);return r},decode(r){if(!Array.isArray(r)||r.length&&"string"!=typeof r[0])throw new Error("padding.encode input should be array of strings");for(let e of r)if("string"!=typeof e)throw new Error(`padding.decode: non-string input=${e}`);let n=r.length;if(n*e%8)throw new Error("Invalid padding: string should have whole number of bytes");for(;n>0&&r[n-1]===t;n--)if(!((n-1)*e%8))throw new Error("Invalid padding: string has too much padding");return r.slice(0,n)}}}function i(e){if("function"!=typeof e)throw new Error("normalize fn should be function");return {encode:e=>e,decode:t=>e(t)}}function c(e,t,n){if(t<2)throw new Error(`convertRadix: wrong from=${t}, base cannot be less than 2`);if(n<2)throw new Error(`convertRadix: wrong to=${n}, base cannot be less than 2`);if(!Array.isArray(e))throw new Error("convertRadix: data should be array");if(!e.length)return [];let o=0;const a=[],s=Array.from(e);for(s.forEach(e=>{if(r(e),e<0||e>=t)throw new Error(`Wrong integer: ${e}`)});;){let e=0,r=!0;for(let a=o;a<s.length;a++){const i=s[a],c=t*e+i;if(!Number.isSafeInteger(c)||t*e/t!==e||c-i!=t*e)throw new Error("convertRadix: carry overflow");if(e=c%n,s[a]=Math.floor(c/n),!Number.isSafeInteger(s[a])||s[a]*n+e!==c)throw new Error("convertRadix: carry overflow");r&&(s[a]?r=!1:o=a);}if(a.push(e),r)break}for(let t=0;t<e.length-1&&0===e[t];t++)a.push(0);return a.reverse()}Object.defineProperty(t,"__esModule",{value:!0}),t.bytes=t.stringToBytes=t.str=t.bytesToString=t.hex=t.utf8=t.bech32m=t.bech32=t.base58check=t.base58xmr=t.base58xrp=t.base58flickr=t.base58=t.base64url=t.base64=t.base32crockford=t.base32hex=t.base32=t.base16=t.utils=t.assertNumber=void 0,t.assertNumber=r;const l=(e,t)=>t?l(t,e%t):e,h=(e,t)=>e+(t-l(e,t));function u(e,t,n,o){if(!Array.isArray(e))throw new Error("convertRadix2: data should be array");if(t<=0||t>32)throw new Error(`convertRadix2: wrong from=${t}`);if(n<=0||n>32)throw new Error(`convertRadix2: wrong to=${n}`);if(h(t,n)>32)throw new Error(`convertRadix2: carry overflow from=${t} to=${n} carryBits=${h(t,n)}`);let a=0,s=0;const i=2**n-1,c=[];for(const o of e){if(r(o),o>=2**t)throw new Error(`convertRadix2: invalid data word=${o} from=${t}`);if(a=a<<t|o,s+t>32)throw new Error(`convertRadix2: carry overflow pos=${s} from=${t}`);for(s+=t;s>=n;s-=n)c.push((a>>s-n&i)>>>0);a&=2**s-1;}if(a=a<<n-s&i,!o&&s>=t)throw new Error("Excess padding");if(!o&&a)throw new Error(`Non-zero padding: ${a}`);return o&&s>0&&c.push(a>>>0),c}function d(e){return r(e),{encode:t=>{if(!(t instanceof Uint8Array))throw new Error("radix.encode input should be Uint8Array");return c(Array.from(t),256,e)},decode:t=>{if(!Array.isArray(t)||t.length&&"number"!=typeof t[0])throw new Error("radix.decode input should be array of strings");return Uint8Array.from(c(t,e,256))}}}function f(e,t=!1){if(r(e),e<=0||e>32)throw new Error("radix2: bits should be in (0..32]");if(h(8,e)>32||h(e,8)>32)throw new Error("radix2: carry overflow");return {encode:r=>{if(!(r instanceof Uint8Array))throw new Error("radix2.encode input should be Uint8Array");return u(Array.from(r),8,e,!t)},decode:r=>{if(!Array.isArray(r)||r.length&&"number"!=typeof r[0])throw new Error("radix2.decode input should be array of strings");return Uint8Array.from(u(r,e,8,t))}}}function p(e){if("function"!=typeof e)throw new Error("unsafeWrapper fn should be function");return function(...t){try{return e.apply(null,t)}catch(e){}}}function w(e,t){if(r(e),"function"!=typeof t)throw new Error("checksum fn should be function");return {encode(r){if(!(r instanceof Uint8Array))throw new Error("checksum.encode: input should be Uint8Array");const n=t(r).slice(0,e),o=new Uint8Array(r.length+e);return o.set(r),o.set(n,r.length),o},decode(r){if(!(r instanceof Uint8Array))throw new Error("checksum.decode: input should be Uint8Array");const n=r.slice(0,-e),o=t(n).slice(0,e),a=r.slice(-e);for(let t=0;t<e;t++)if(o[t]!==a[t])throw new Error("Invalid checksum");return n}}}t.utils={alphabet:o,chain:n,checksum:w,radix:d,radix2:f,join:a,padding:s},t.base16=n(f(4),o("0123456789ABCDEF"),a("")),t.base32=n(f(5),o("ABCDEFGHIJKLMNOPQRSTUVWXYZ234567"),s(5),a("")),t.base32hex=n(f(5),o("0123456789ABCDEFGHIJKLMNOPQRSTUV"),s(5),a("")),t.base32crockford=n(f(5),o("0123456789ABCDEFGHJKMNPQRSTVWXYZ"),a(""),i(e=>e.toUpperCase().replace(/O/g,"0").replace(/[IL]/g,"1"))),t.base64=n(f(6),o("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"),s(6),a("")),t.base64url=n(f(6),o("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_"),s(6),a(""));const m=e=>n(d(58),o(e),a(""));t.base58=m("123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"),t.base58flickr=m("123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ"),t.base58xrp=m("rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz");const y=[0,2,3,5,6,7,9,10,11];t.base58xmr={encode(e){let r="";for(let n=0;n<e.length;n+=8){const o=e.subarray(n,n+8);r+=t.base58.encode(o).padStart(y[o.length],"1");}return r},decode(e){let r=[];for(let n=0;n<e.length;n+=11){const o=e.slice(n,n+11),a=y.indexOf(o.length),s=t.base58.decode(o);for(let e=0;e<s.length-a;e++)if(0!==s[e])throw new Error("base58xmr: wrong padding");r=r.concat(Array.from(s.slice(s.length-a)));}return Uint8Array.from(r)}},t.base58check=e=>n(w(4,t=>e(e(t))),t.base58);const g=n(o("qpzry9x8gf2tvdw0s3jn54khce6mua7l"),a("")),b=[996825010,642813549,513874426,1027748829,705979059];function v(e){const t=e>>25;let r=(33554431&e)<<5;for(let e=0;e<b.length;e++)1==(t>>e&1)&&(r^=b[e]);return r}function E(e,t,r=1){const n=e.length;let o=1;for(let t=0;t<n;t++){const r=e.charCodeAt(t);if(r<33||r>126)throw new Error(`Invalid prefix (${e})`);o=v(o)^r>>5;}o=v(o);for(let t=0;t<n;t++)o=v(o)^31&e.charCodeAt(t);for(let e of t)o=v(o)^e;for(let e=0;e<6;e++)o=v(o);return o^=r,g.encode(u([o%2**30],30,5,!1))}function x(e){const t="bech32"===e?1:734539939,r=f(5),n=r.decode,o=r.encode,a=p(n);function s(e,r=90){if("string"!=typeof e)throw new Error("bech32.decode input should be string, not "+typeof e);if(e.length<8||!1!==r&&e.length>r)throw new TypeError(`Wrong string length: ${e.length} (${e}). Expected (8..${r})`);const n=e.toLowerCase();if(e!==n&&e!==e.toUpperCase())throw new Error("String must be lowercase or uppercase");const o=(e=n).lastIndexOf("1");if(0===o||-1===o)throw new Error('Letter "1" must be present between prefix and data only');const a=e.slice(0,o),s=e.slice(o+1);if(s.length<6)throw new Error("Data must be at least 6 characters long");const i=g.decode(s).slice(0,-6),c=E(a,i,t);if(!s.endsWith(c))throw new Error(`Invalid checksum in ${e}: expected "${c}"`);return {prefix:a,words:i}}return {encode:function(e,r,n=90){if("string"!=typeof e)throw new Error("bech32.encode prefix should be string, not "+typeof e);if(!Array.isArray(r)||r.length&&"number"!=typeof r[0])throw new Error("bech32.encode words should be array of numbers, not "+typeof r);const o=e.length+7+r.length;if(!1!==n&&o>n)throw new TypeError(`Length ${o} exceeds limit ${n}`);return `${e=e.toLowerCase()}1${g.encode(r)}${E(e,r,t)}`},decode:s,decodeToBytes:function(e){const{prefix:t,words:r}=s(e,!1);return {prefix:t,words:r,bytes:n(r)}},decodeUnsafe:p(s),fromWords:n,fromWordsUnsafe:a,toWords:o}}t.bech32=x("bech32"),t.bech32m=x("bech32m"),t.utf8={encode:e=>(new TextDecoder).decode(e),decode:e=>(new TextEncoder).encode(e)},t.hex=n(f(4),o("0123456789abcdef"),a(""),i(e=>{if("string"!=typeof e||e.length%2)throw new TypeError(`hex.decode: expected string, got ${typeof e} with length ${e.length}`);return e.toLowerCase()}));const _={utf8:t.utf8,hex:t.hex,base16:t.base16,base32:t.base32,base64:t.base64,base64url:t.base64url,base58:t.base58,base58xmr:t.base58xmr},A=`Invalid encoding type. Available types: ${Object.keys(_).join(", ")}`;t.bytesToString=(e,t)=>{if("string"!=typeof e||!_.hasOwnProperty(e))throw new TypeError(A);if(!(t instanceof Uint8Array))throw new TypeError("bytesToString() expects Uint8Array");return _[e].encode(t)},t.str=t.bytesToString,t.stringToBytes=(e,t)=>{if(!_.hasOwnProperty(e))throw new TypeError(A);if("string"!=typeof t)throw new TypeError("stringToBytes() expects string");return _[e].decode(t)},t.bytes=t.stringToBytes;},d(f$1={exports:{}},f$1.exports),f$1.exports);const{bech32:w,hex:m,utf8:y}=p,g={bech32:"bc",pubKeyHash:0,scriptHash:5,validWitnessVersions:[0]},b={bech32:"tb",pubKeyHash:111,scriptHash:196,validWitnessVersions:[0]},v={bech32:"bcrt",pubKeyHash:111,scriptHash:196,validWitnessVersions:[0]},E={bech32:"sb",pubKeyHash:63,scriptHash:123,validWitnessVersions:[0]},x=["option_data_loss_protect","initial_routing_sync","option_upfront_shutdown_script","gossip_queries","var_onion_optin","gossip_queries_ex","option_static_remotekey","payment_secret","basic_mpp","option_support_large_channel"],_={m:BigInt(1e3),u:BigInt(1e6),n:BigInt(1e9),p:BigInt(1e12)},A=BigInt("2100000000000000000"),k=BigInt(1e11),$={payment_hash:1,payment_secret:16,description:13,payee:19,description_hash:23,expiry:6,min_final_cltv_expiry:24,fallback_address:9,route_hint:3,feature_bits:5,metadata:27},N={};for(let e=0,t=Object.keys($);e<t.length;e++){const r=t[e],n=$[t[e]].toString();N[n]=r;}const S={1:e=>m.encode(w.fromWordsUnsafe(e)),16:e=>m.encode(w.fromWordsUnsafe(e)),13:e=>y.encode(w.fromWordsUnsafe(e)),19:e=>m.encode(w.fromWordsUnsafe(e)),23:e=>m.encode(w.fromWordsUnsafe(e)),27:e=>m.encode(w.fromWordsUnsafe(e)),6:U,24:U,3:function(e){const t=[];let r,n,o,a,s,i=w.fromWordsUnsafe(e);for(;i.length>0;)r=m.encode(i.slice(0,33)),n=m.encode(i.slice(33,41)),o=parseInt(m.encode(i.slice(41,45)),16),a=parseInt(m.encode(i.slice(45,49)),16),s=parseInt(m.encode(i.slice(49,51)),16),i=i.slice(51),t.push({pubkey:r,short_channel_id:n,fee_base_msat:o,fee_proportional_millionths:a,cltv_expiry_delta:s});return t},5:function(e){const t=e.slice().reverse().map(e=>[!!(1&e),!!(2&e),!!(4&e),!!(8&e),!!(16&e)]).reduce((e,t)=>e.concat(t),[]);for(;t.length<2*x.length;)t.push(!1);const r={};x.forEach((e,n)=>{let o;o=t[2*n]?"required":t[2*n+1]?"supported":"unsupported",r[e]=o;});const n=t.slice(2*x.length);return r.extra_bits={start_bit:2*x.length,bits:n,has_required:n.reduce((e,t,r)=>r%2!=0?e||!1:e||t,!1)},r}};function I(e){return t=>({tagCode:parseInt(e),words:w.encode("unknown",t,Number.MAX_SAFE_INTEGER)})}function U(e){return e.reverse().reduce((e,t,r)=>e+t*Math.pow(32,r),0)}class D{constructor(e){var t,r,n;if(this.paymentRequest=void 0,this.paymentHash=void 0,this.preimage=void 0,this.verify=void 0,this.satoshi=void 0,this.expiry=void 0,this.timestamp=void 0,this.createdDate=void 0,this.expiryDate=void 0,this.description=void 0,this.paymentRequest=e.pr,!this.paymentRequest)throw new Error("Invalid payment request");const o=(e=>{if(!e)return null;try{const t=function(e,t){if("string"!=typeof e)throw new Error("Lightning Payment Request must be string");if("ln"!==e.slice(0,2).toLowerCase())throw new Error("Not a proper lightning payment request");const r=[],n=w.decode(e,Number.MAX_SAFE_INTEGER);e=e.toLowerCase();const o=n.prefix;let a=n.words,s=e.slice(o.length+1),i=a.slice(-104);a=a.slice(0,-104);let c=o.match(/^ln(\S+?)(\d*)([a-zA-Z]?)$/);if(c&&!c[2]&&(c=o.match(/^ln(\S+)$/)),!c)throw new Error("Not a proper lightning payment request");r.push({name:"lightning_network",letters:"ln"});const l=c[1];let h;switch(l){case g.bech32:h=g;break;case b.bech32:h=b;break;case v.bech32:h=v;break;case E.bech32:h=E;}if(!h||h.bech32!==l)throw new Error("Unknown coin bech32 prefix");r.push({name:"coin_network",letters:l,value:h});const u=c[2];let d;u?(d=function(e,t){let r,n;if(e.slice(-1).match(/^[munp]$/))r=e.slice(-1),n=e.slice(0,-1);else {if(e.slice(-1).match(/^[^munp0-9]$/))throw new Error("Not a valid multiplier for the amount");n=e;}if(!n.match(/^\d+$/))throw new Error("Not a valid human readable amount");const o=BigInt(n),a=r?o*k/_[r]:o*k;if("p"===r&&o%BigInt(10)!==BigInt(0)||a>A)throw new Error("Amount is outside of valid range");return a.toString()}(u+c[3]),r.push({name:"amount",letters:c[2]+c[3],value:d})):d=null,r.push({name:"separator",letters:"1"});const f=U(a.slice(0,7));let p,y,x,D;for(a=a.slice(7),r.push({name:"timestamp",letters:s.slice(0,7),value:f}),s=s.slice(7);a.length>0;){const e=a[0].toString();p=N[e]||"unknown_tag",y=S[e]||I(e),a=a.slice(1),x=U(a.slice(0,2)),a=a.slice(2),D=a.slice(0,x),a=a.slice(x),r.push({name:p,tag:s[0],letters:s.slice(0,3+x),value:y(D)}),s=s.slice(3+x);}r.push({name:"signature",letters:s.slice(0,104),value:m.encode(w.fromWordsUnsafe(i))}),s=s.slice(104),r.push({name:"checksum",letters:s});let R={paymentRequest:e,sections:r,get expiry(){let e=r.find(e=>"expiry"===e.name);if(e)return W("timestamp")+e.value},get route_hints(){return r.filter(e=>"route_hint"===e.name).map(e=>e.value)}};for(let e in $)"route_hint"!==e&&Object.defineProperty(R,e,{get:()=>W(e)});return R;function W(e){let t=r.find(t=>t.name===e);return t?t.value:void 0}}(e);if(!t||!t.sections)return null;const r=t.sections.find(e=>"payment_hash"===e.name);if("payment_hash"!==(null==r?void 0:r.name)||!r.value)return null;const n=r.value,o=t.sections.find(e=>"amount"===e.name);if("amount"!==(null==o?void 0:o.name)||void 0===o.value)return null;const a=parseInt(o.value)/1e3,s=t.sections.find(e=>"expiry"===e.name),i=t.sections.find(e=>"timestamp"===e.name);if("timestamp"!==(null==i?void 0:i.name)||!i.value)return null;const c=i.value;if("expiry"!==(null==s?void 0:s.name)||void 0===s.value)return null;const l=s.value,h=t.sections.find(e=>"description"===e.name);return {paymentHash:n,satoshi:a,timestamp:c,expiry:l,description:"description"===(null==h?void 0:h.name)?null==h?void 0:h.value:void 0}}catch(e){return null}})(this.paymentRequest);if(!o)throw new Error("Failed to decode payment request");this.paymentHash=o.paymentHash,this.satoshi=o.satoshi,this.timestamp=o.timestamp,this.expiry=o.expiry,this.createdDate=new Date(1e3*this.timestamp),this.expiryDate=new Date(1e3*(this.timestamp+this.expiry)),this.description=null!=(t=o.description)?t:null,this.verify=null!=(r=e.verify)?r:null,this.preimage=null!=(n=e.preimage)?n:null;}async isPaid(){if(this.preimage)return this.validatePreimage(this.preimage);if(this.verify)return await this.verifyPayment();throw new Error("Could not verify payment")}async validatePreimage(e){if(!e||!this.paymentHash)return !1;try{const r=await c((t=e,Uint8Array.from(t.match(/.{1,2}/g).map(e=>parseInt(e,16)))));return this.paymentHash===r}catch(e){return !1}var t;}async verifyPayment(){if(!this.verify)throw new Error("LNURL verify not available");const e=await fetch(this.verify),t=await e.json();return t.preimage&&(this.preimage=t.preimage),t.settled}}async function R({satoshi:e,comment:t,p:r,e:n,relays:o},a={}){const s=a.nostr||globalThis.nostr;if(!s)throw new Error("nostr option or window.nostr is not available");const i=[["relays",...o],["amount",e.toString()]];r&&i.push(["p",r]),n&&i.push(["e",n]);const c={pubkey:await s.getPublicKey(),created_at:Math.floor(Date.now()/1e3),kind:9734,tags:i,content:null!=t?t:""};return c.id=await L(c),await s.signEvent(c)}function W(e){if("string"!=typeof e.content)return !1;if("number"!=typeof e.created_at)return !1;if(!Array.isArray(e.tags))return !1;for(let t=0;t<e.tags.length;t++){const r=e.tags[t];if(!Array.isArray(r))return !1;for(let e=0;e<r.length;e++)if("object"==typeof r[e])return !1}return !0}function P(e){if(!W(e))throw new Error("can't serialize event with wrong or missing properties");return JSON.stringify([0,e.pubkey,e.created_at,e.kind,e.tags,e.content])}function L(e){return c(P(e))}function T(e,t){let r,n;var o,a;return t&&e&&(r=null==(o=e.names)?void 0:o[t],n=r?null==(a=e.relays)?void 0:a[r]:void 0),[e,r,n]}const O=/^((?:[^<>()[\]\\.,;:\s@"]+(?:\.[^<>()[\]\\.,;:\s@"]+)*)|(?:".+"))@((?:\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(?:(?:[a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;class K{constructor(e,t){this.address=void 0,this.options=void 0,this.username=void 0,this.domain=void 0,this.pubkey=void 0,this.lnurlpData=void 0,this.keysendData=void 0,this.nostrData=void 0,this.nostrPubkey=void 0,this.nostrRelays=void 0,this.webln=void 0,this.address=e,this.options={proxy:"https://api.getalby.com/lnurl"},this.options=Object.assign(this.options,t),this.parse(),this.webln=this.options.webln;}parse(){const e=O.exec(this.address.toLowerCase());e&&(this.username=e[1],this.domain=e[2]);}getWebLN(){return this.webln||globalThis.webln}async fetch(){return this.options.proxy?this.fetchWithProxy():this.fetchWithoutProxy()}async fetchWithProxy(){const e=await fetch(`${this.options.proxy}/lightning-address-details?${new URLSearchParams({ln:this.address}).toString()}`),t=await e.json();await this.parseResponse(t.lnurlp,t.keysend,t.nostr);}async fetchWithoutProxy(){if(!this.domain||!this.username)return;const e=await fetch(this.lnurlpUrl()),t=await fetch(this.keysendUrl()),r=await fetch(this.nostrUrl());let n,o,a;e.ok&&(n=await e.json()),t.ok&&(o=await t.json()),r.ok&&(a=await r.json()),await this.parseResponse(n,o,a);}lnurlpUrl(){return `https://${this.domain}/.well-known/lnurlp/${this.username}`}keysendUrl(){return `https://${this.domain}/.well-known/keysend/${this.username}`}nostrUrl(){return `https://${this.domain}/.well-known/nostr.json?name=${this.username}`}async generateInvoice(e){let t;if(this.options.proxy){const r=await fetch(`${this.options.proxy}/generate-invoice?${new URLSearchParams(i({ln:this.address},e)).toString()}`);t=(await r.json()).invoice;}else {if(!this.lnurlpData)throw new Error("No lnurlpData available. Please call fetch() first.");if(!this.lnurlpData.callback||!h(this.lnurlpData.callback))throw new Error("Valid callback does not exist in lnurlpData");const r=new URL(this.lnurlpData.callback);r.search=new URLSearchParams(e).toString();const n=await fetch(r.toString());t=await n.json();}const r=t&&t.pr&&t.pr.toString();if(!r)throw new Error("Invalid pay service invoice");const n={pr:r};return t&&t.verify&&(n.verify=t.verify.toString()),new D(n)}async requestInvoice(e){if(!this.lnurlpData)throw new Error("No lnurlpData available. Please call fetch() first.");const t=1e3*e.satoshi,{commentAllowed:r,min:n,max:o}=this.lnurlpData;if(!u({amount:t,min:n,max:o}))throw new Error("Invalid amount");if(e.comment&&r&&r>0&&e.comment.length>r)throw new Error(`The comment length must be ${r} characters or fewer`);const a={amount:t.toString()};return e.comment&&(a.comment=e.comment),e.payerdata&&(a.payerdata=JSON.stringify(e.payerdata)),this.generateInvoice(a)}async boost(e,t=0){if(!this.keysendData)throw new Error("No keysendData available. Please call fetch() first.");const{destination:r,customKey:n,customValue:o}=this.keysendData,s=this.getWebLN();if(!s)throw new Error("WebLN not available");return a({destination:r,customKey:n,customValue:o,amount:t,boost:e},{webln:s})}async zapInvoice({satoshi:e,comment:t,relays:r,e:n},o={}){if(!this.lnurlpData)throw new Error("No lnurlpData available. Please call fetch() first.");if(!this.nostrPubkey)throw new Error("Nostr Pubkey is missing");const a=this.nostrPubkey,s=1e3*e,{allowsNostr:i,min:c,max:l}=this.lnurlpData;if(!u({amount:s,min:c,max:l}))throw new Error("Invalid amount");if(!i)throw new Error("Your provider does not support zaps");const h=await R({satoshi:s,comment:t,p:a,e:n,relays:r},o),d={amount:s.toString(),nostr:JSON.stringify(h)};return await this.generateInvoice(d)}async zap(e,t={}){const r=this.zapInvoice(e,t),n=this.getWebLN();if(!n)throw new Error("WebLN not available");return await n.enable(),n.sendPayment((await r).paymentRequest)}async parseResponse(e,t,r){e&&(this.lnurlpData=await(async e=>{if("payRequest"!==e.tag)throw new Error("Invalid pay service params");const t=(e.callback+"").trim();if(!h(t))throw new Error("Callback must be a valid url");const r=Math.ceil(Number(e.minSendable||0)),n=Math.floor(Number(e.maxSendable));if(!r||!n||r>n)throw new Error("Invalid pay service params");let o,a;try{o=JSON.parse(e.metadata+""),a=await c(e.metadata+"");}catch(e){o=[],a=await c("[]");}let s="",i="",l="";for(let e=0;e<o.length;e++){const[t,r]=o[e];switch(t){case"text/plain":i=r;break;case"text/identifier":l=r;break;case"image/png;base64":case"image/jpeg;base64":s="data:"+t+","+r;}}const u=e.payerData;let d;try{d=new URL(t).hostname;}catch(e){}return {callback:t,fixed:r===n,min:r,max:n,domain:d,metadata:o,metadataHash:a,identifier:l,description:i,image:s,payerData:u,commentAllowed:Number(e.commentAllowed)||0,rawData:e,allowsNostr:e.allowsNostr||!1}})(e)),t&&(this.keysendData=(e=>{if("keysend"!==e.tag)throw new Error("Invalid keysend params");if("OK"!==e.status)throw new Error("Keysend status not OK");if(!("customKey"in e.customData[0])||"696969"!=e.customData[0].customKey)throw new Error("Unable to find customKey");if(!("customValue"in e.customData[0])||!e.customData[0].customValue)throw new Error("Unable to find customValue");if(!e.pubkey)throw new Error("Pubkey does not exist");return {destination:e.pubkey,customKey:e.customData[0].customKey,customValue:e.customData[0].customValue}})(t)),r&&([this.nostrData,this.nostrPubkey,this.nostrRelays]=T(r,this.username));}}
 
     async function sendSatsLNurl(lnurl) {
       if (typeof window.webln !== "undefined") {
@@ -9135,8 +8415,411 @@ var app = (function () {
 
     const balance = writable(-1);
 
-    var css_248z$q = ".balance-display.svelte-1ny4mlp{font-size:2rem;margin-right:20px;color:white}.sat-symbol.svelte-1ny4mlp{height:40px;margin-left:5px}";
-    styleInject(css_248z$q);
+    // src/constants/nostrKinds.js
+
+    const NOSTR_KIND_JOB = 1340;
+    const NOSTR_KIND_IDEA = 1341;
+
+    // SocialMediaManager.js
+
+    class SocialMediaManager {
+      constructor() {
+        this.init();
+      }
+
+      async likeEvent(event_id) {
+        if (!event_id) {
+          console.error("Event ID is required to like an event.");
+          return;
+        }
+
+        if (!this.manager || !this.manager.publicKey) {
+          console.error("User must be logged in to like events.");
+          return;
+        }
+
+        if (await this.checkIfLiked(event_id)) {
+          console.error("Must be unliked");
+          return;
+        }
+
+        // Definition der Tags für das Like-Event
+        const tags = [
+          ["e", event_id],         // Event-ID, die geliked wird
+        ];
+
+        // Erstellen und Versenden des Like-Events
+        try {
+          await this.manager.sendEvent(7, "+", tags);  // Annahme: 7 ist der Event-Typ für Likes
+          console.log("Like event created and sent successfully");
+        } catch (error) {
+          console.error("Error sending like event:", error);
+        }
+      }
+
+      async unlikeEvent(event_id) {
+        if (!event_id) {
+          console.error("Event ID is required to unlike an event.");
+          return;
+        }
+
+        if (!this.manager || !this.manager.publicKey) {
+          console.error("User must be logged in to unlike events.");
+          return;
+        }
+
+        if (!await this.checkIfLiked(event_id)) {
+          console.error("Must be liked!");
+          return;
+        }
+
+        try {
+          // Zuerst finden wir das Like-Event, das der Benutzer für die spezifische Event-ID erstellt hat.
+          const likeEvents = await this.cache.getEventsByCriteria({
+            kinds: [7], // Annahme, dass 7 der Typ für Like-Events ist
+            authors: [this.manager.publicKey],
+            tags: {
+              e: [event_id],
+            }
+          });
+
+          if (likeEvents.length > 0) {
+            const likeEventId = likeEvents[0].id; // Nehmen das erste gefundene Like-Event
+            await this.manager.deleteEvent(likeEventId);
+            console.log("Event unliked successfully:", likeEventId);
+          } else {
+            console.log("No like event found to unlike.");
+          }
+        } catch (error) {
+          console.error("Error unliking the event:", error);
+        }
+      }
+
+      async checkIfLiked(event_id) {
+        if (!event_id) {
+          console.error("Event ID is required to check if liked.");
+          return false;
+        }
+
+        if (!this.manager || !this.manager.publicKey) {
+          return false;
+        }
+
+        const events = await this.cache.getEventsByCriteria({
+          kinds: [7],
+          authors: [this.manager.publicKey],
+          tags: {
+            e: [event_id],
+          }
+        });
+
+        return events.length > 0;
+      }
+
+      async getLikes(event_id) {
+        if (!event_id) {
+          console.error("Event ID is required to get likes.");
+          return;
+        }
+
+        if (!this.cache) {
+          console.error("Cache is not initialized.");
+          return;
+        }
+
+        try {
+          const events = await this.cache.getEventsByCriteria({
+            kinds: [7], // Annahme, dass 7 der Kind-Code für Like-Events ist
+            tags: {
+              e: [event_id]
+            }
+          });
+
+          // Erstellen eines Sets, um eindeutige PublicKeys zu speichern
+          const uniqueLikers = new Set();
+
+          // Filtern der Events auf den Inhalt "+" und Überprüfung auf doppelte PublicKeys
+          events.forEach(event => {
+            if (event.content === "+") {
+              uniqueLikers.add(event.pubkey);
+            }
+          });
+
+          // Die Größe des Sets gibt die Anzahl der einzigartigen Likes zurück
+          return uniqueLikers.size;
+        } catch (error) {
+          console.error("Error fetching likes:", error);
+          return 0;
+        }
+      }
+
+      subscribeLikes(event_id) {
+        if (!event_id) {
+          console.error("Event ID is required to subscribe for likes.");
+          return;
+        }
+
+        if (!this.manager) {
+          console.error("Manager is not initialized.");
+          return;
+        }
+
+        this.manager.subscribeToEvents({
+          kinds: [7], // Likes-Event-Typ
+          "#e": [event_id]
+        });
+      }
+
+      unsubscribeLikes(event_id) {
+        if (!event_id) {
+          console.error("Event ID is required to unsubscribe from likes.");
+          return;
+        }
+
+        if (!this.manager) {
+          console.error("Manager is not initialized.");
+          return;
+        }
+
+        this.manager.unsubscribeEvent({
+          kinds: [7], // Likes-Event-Typ
+          "#e": [event_id]
+        });
+      }
+
+      init() {
+        // Initialisiere die Store-Abonnements
+        this.cacheSubscription = this.subscribeToStore(nostrCache, (value) => {
+          this.cache = value;
+        });
+
+        this.managerSubscription = this.subscribeToStore(nostrManager, (value) => {
+          this.manager = value;
+        });
+      }
+
+      subscribeToStore(store, updateFunction) {
+        const unsubscribe = store.subscribe(updateFunction);
+        return unsubscribe; // Rückgabe der Unsubscribe-Funktion für spätere Aufräumaktionen
+      }
+
+      async getProfile(pubkey) {
+        if (!pubkey) {
+          console.error("Public key is required to get a profile.", pubkey);
+          return null;
+        }
+
+        // Stelle sicher, dass der Cache initialisiert ist
+        if (!this.cache) {
+          console.error("Cache is not initialized.");
+          return null;
+        }
+
+        const profileEvents = this.cache.getEventsByCriteria({
+          kinds: [0], // Annahme: Kind 0 steht für Profil-Events
+          authors: [pubkey],
+        });
+
+        if (profileEvents.length > 0) {
+          profileEvents.sort((a, b) => b.created_at - a.created_at);
+          return profileEvents[0].profileData; // Gibt das neueste Profil-Event zurück
+        } else {
+          console.log("No profile found for the provided public key. Attempting to subscribe for updates.");
+          this.subscribeProfile(pubkey);
+          return null;
+        }
+      }
+
+      subscribeProfile(pubkey) {
+        if (!pubkey) {
+          console.error("Public key is required to subscribe to a profile.");
+          return;
+        }
+
+        // Stelle sicher, dass der Manager initialisiert ist
+        if (!this.manager) {
+          console.error("Manager is not initialized.");
+          return;
+        }
+
+        this.manager.subscribeToEvents({
+          kinds: [0], // Profil-Event
+          authors: [pubkey],
+        });
+      }
+
+      subscribeProfiles(pubkeys) {
+        if (!pubkeys) {
+          console.error("Public key is required to subscribe to a profile.");
+          return;
+        }
+
+        // Stelle sicher, dass der Manager initialisiert ist
+        if (!this.manager) {
+          console.error("Manager is not initialized.");
+          return;
+        }
+
+        this.manager.subscribeToEvents({
+          kinds: [0], // Profil-Event
+          authors: pubkeys,
+        });
+      }
+
+      subscribeFollowList(pubkey) {
+        if (!this.manager) {
+          console.error("Manager is not initialized.");
+          return;
+        }
+
+        try {
+          this.manager.subscribeToEvents({
+            kinds: [3],
+            authors: [pubkey]
+          });
+        } catch (error) {
+          console.error("Error subscribing to follow list updates:", error);
+        }
+      }
+
+      async getFollowList(pubkey) {
+        if (!this.manager) {
+          console.error("Manager not ready");
+          return [];
+        }
+
+        try {
+          const followEvents = await this.cache.getEventsByCriteria({
+            kinds: [3],
+            authors: [pubkey]
+          });
+
+          // Nimm das neueste Follow-List-Event
+          if (followEvents.length > 0) {
+            return followEvents.sort((a, b) => b.created_at - a.created_at)[0].tags;
+          }
+          return [];
+        } catch (error) {
+          console.error("Error fetching follow list:", error);
+          return [];
+        }
+      }
+
+      async follow(pubkey) {
+        if (!this.manager || !this.manager.publicKey) {
+          console.error("User must be logged in to follow.");
+          return;
+        }
+
+        const currentList = await this.getFollowList(this.manager.publicKey);
+        // Überprüfen, ob der PublicKey bereits gefolgt wird, um Duplikate zu vermeiden
+        if (currentList.some(tag => tag[1] === pubkey)) {
+          console.error("Already following this profile.");
+          return;
+        }
+
+        // Hinzufügen des neuen Follows zur aktuellen Liste
+        currentList.push(["p", pubkey, "", ""]); // Hier könnten auch Relay-URL und Petname hinzugefügt werden
+
+        try {
+          await this.manager.sendEvent(3, "", currentList);
+          console.log("Updated follow list sent successfully");
+        } catch (error) {
+          console.error("Error updating follow list:", error);
+        }
+      }
+
+      async unfollow(pubkey) {
+        if (!this.manager || !this.manager.publicKey) {
+          console.error("User must be logged in to unfollow.");
+          return;
+        }
+
+        const currentList = await this.getFollowList(this.manager.publicKey);
+
+        // Entfernen des Unfollows aus der aktuellen Liste
+        const updatedList = currentList.filter(tag => tag[1] !== pubkey);
+
+        try {
+          await this.manager.sendEvent(3, "", updatedList);
+          console.log("Updated follow list sent successfully after unfollowing");
+        } catch (error) {
+          console.error("Error updating follow list after unfollowing:", error);
+        }
+      }
+
+      async isFollowing(fromPubKey, toPubKey) {
+        if (!this.manager) {
+          console.error("Manager not initialized.");
+          return false;
+        }
+
+        try {
+          const followList = await this.getFollowList(fromPubKey);
+          return followList.some(tag => tag[1] === toPubKey);
+        } catch (error) {
+          console.error("Error checking if following:", error);
+          return false;
+        }
+      }
+
+      async followsMe(otherPubKey) {
+        if (!this.manager || !this.manager.publicKey) {
+          console.error("User must be logged in to check if being followed.");
+          return false;
+        }
+
+        return await this.isFollowing(otherPubKey, this.manager.publicKey);
+      }
+
+      async iFollow(otherPubKey) {
+        if (!this.manager || !this.manager.publicKey) {
+          console.error("User must be logged in to check if following someone.");
+          return false;
+        }
+
+        return await this.isFollowing(this.manager.publicKey, otherPubKey);
+      }
+
+      async getFollowedPubKeys() {
+        if (!this.manager || !this.manager.publicKey) {
+          console.error("User must be logged in to retrieve followed list.");
+          return [];
+        }
+
+        const followList = await this.getFollowList(this.manager.publicKey);
+        return followList.map(tag => tag[1]); // Annahme, dass die Pubkeys an der zweiten Stelle des Tag Arrays stehen.
+      }
+
+      async fetchFollowedEvents() {
+        const followedPubKeys = await this.getFollowedPubKeys();
+        if (followedPubKeys.length === 0) {
+          return [];
+        }
+
+        try {
+          const events = await this.cache.getEventsByCriteria({
+            kinds: [NOSTR_KIND_IDEA], // Oder andere relevante Event-Typen
+            authors: followedPubKeys
+          });
+          return events;
+        } catch (error) {
+          console.error("Error fetching events for followed profiles:", error);
+          return [];
+        }
+      }
+
+      // Aufräumfunktion, um die Subscriptions zu beenden
+      cleanup() {
+        this.cacheSubscription();
+        this.managerSubscription();
+      }
+    }
+
+    const socialMediaManager = new SocialMediaManager();
+
+    var css_248z$B = ".balance-display.svelte-1ny4mlp{font-size:2rem;margin-right:20px;color:white}.sat-symbol.svelte-1ny4mlp{height:40px;margin-left:5px}";
+    styleInject(css_248z$B);
 
     /* src/components/Toolbar/Toolbar.svelte generated by Svelte v3.59.1 */
 
@@ -9259,7 +8942,7 @@ var app = (function () {
     }
 
     // (124:16) {#if profile && profile.picture}
-    function create_if_block_1$4(ctx) {
+    function create_if_block_1$5(ctx) {
     	let profileimg;
     	let current;
 
@@ -9299,7 +8982,7 @@ var app = (function () {
     }
 
     // (133:20) {:else}
-    function create_else_block$2(ctx) {
+    function create_else_block$5(ctx) {
     	let t;
 
     	return {
@@ -9319,7 +9002,7 @@ var app = (function () {
     }
 
     // (131:20) {#if $balance == -1}
-    function create_if_block$i(ctx) {
+    function create_if_block$n(ctx) {
     	let t;
 
     	return {
@@ -9336,7 +9019,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$F(ctx) {
+    function create_fragment$Q(ctx) {
     	let div4;
     	let div3;
     	let div2;
@@ -9355,11 +9038,11 @@ var app = (function () {
     	let if_block1 = /*creator_profile*/ ctx[2] && /*creator_profile*/ ctx[2].picture && create_if_block_4(ctx);
     	let if_block2 = /*githubRepo*/ ctx[1] && create_if_block_3(ctx);
     	let if_block3 = (/*lnAddress*/ ctx[0] || /*creator_profile*/ ctx[2] && /*creator_profile*/ ctx[2].picture || /*githubRepo*/ ctx[1]) && /*profile*/ ctx[3] && /*profile*/ ctx[3].picture && create_if_block_2$2();
-    	let if_block4 = /*profile*/ ctx[3] && /*profile*/ ctx[3].picture && create_if_block_1$4(ctx);
+    	let if_block4 = /*profile*/ ctx[3] && /*profile*/ ctx[3].picture && create_if_block_1$5(ctx);
 
     	function select_block_type(ctx, dirty) {
-    		if (/*$balance*/ ctx[5] == -1) return create_if_block$i;
-    		return create_else_block$2;
+    		if (/*$balance*/ ctx[5] == -1) return create_if_block$n;
+    		return create_else_block$5;
     	}
 
     	let current_block_type = select_block_type(ctx);
@@ -9491,7 +9174,7 @@ var app = (function () {
     						transition_in(if_block4, 1);
     					}
     				} else {
-    					if_block4 = create_if_block_1$4(ctx);
+    					if_block4 = create_if_block_1$5(ctx);
     					if_block4.c();
     					transition_in(if_block4, 1);
     					if_block4.m(div1, t4);
@@ -9551,7 +9234,7 @@ var app = (function () {
     	return url;
     }
 
-    function instance$E($$self, $$props, $$invalidate) {
+    function instance$P($$self, $$props, $$invalidate) {
     	let formattedGithubRepo;
     	let $nostrManager;
     	let $balance;
@@ -9649,179 +9332,1001 @@ var app = (function () {
     class Toolbar extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$E, create_fragment$F, safe_not_equal, { lnAddress: 0, pubkey: 6, githubRepo: 1 });
+    		init(this, options, instance$P, create_fragment$Q, safe_not_equal, { lnAddress: 0, pubkey: 6, githubRepo: 1 });
     	}
     }
 
-    // src/constants/nostrKinds.js
+    var css_248z$A = ".like-icon.svelte-168p8ba{cursor:pointer;color:var(--heart-color, #f7931a)}.like-icon.filled.svelte-168p8ba{color:#f7931a}.like-icon.svelte-168p8ba:hover{color:#b4690e}";
+    styleInject(css_248z$A);
 
-    const NOSTR_KIND_JOB = 1340;
-    const NOSTR_KIND_IDEA = 1341;
+    /* src/components/LikeIcon.svelte generated by Svelte v3.59.1 */
 
-    var css_248z$p = ".content-section.svelte-1azc90t{display:flex;background-color:#e2e8f0 !important}.content-container.svelte-1azc90t{flex-grow:1;z-index:0}.flex-grow.svelte-1azc90t{z-index:0}.content-container.svelte-1azc90t{margin-left:0;transition:margin-left 0.3s ease-in-out;flex-grow:1;z-index:0}.content-container.sidebar-open.svelte-1azc90t{margin-left:200px}";
-    styleInject(css_248z$p);
+    function create_fragment$P(ctx) {
+    	let span1;
+    	let i;
+    	let i_class_value;
+    	let t0;
+    	let span0;
+    	let t1;
+    	let mounted;
+    	let dispose;
+
+    	return {
+    		c() {
+    			span1 = element("span");
+    			i = element("i");
+    			t0 = space();
+    			span0 = element("span");
+    			t1 = text(/*likesCount*/ ctx[0]);
+    			attr(i, "class", i_class_value = "" + (null_to_empty(`like-icon fa${/*liked*/ ctx[1] ? "s" : "r"} fa-heart ${/*liked*/ ctx[1] ? "filled" : ""}`) + " svelte-168p8ba"));
+    			attr(span1, "class", "like-container");
+    		},
+    		m(target, anchor) {
+    			insert(target, span1, anchor);
+    			append(span1, i);
+    			append(span1, t0);
+    			append(span1, span0);
+    			append(span0, t1);
+
+    			if (!mounted) {
+    				dispose = listen(i, "click", function () {
+    					if (is_function(/*userPublicKey*/ ctx[2]
+    					? /*toggleLike*/ ctx[3]
+    					: undefined)) (/*userPublicKey*/ ctx[2]
+    					? /*toggleLike*/ ctx[3]
+    					: undefined).apply(this, arguments);
+    				});
+
+    				mounted = true;
+    			}
+    		},
+    		p(new_ctx, [dirty]) {
+    			ctx = new_ctx;
+
+    			if (dirty & /*liked*/ 2 && i_class_value !== (i_class_value = "" + (null_to_empty(`like-icon fa${/*liked*/ ctx[1] ? "s" : "r"} fa-heart ${/*liked*/ ctx[1] ? "filled" : ""}`) + " svelte-168p8ba"))) {
+    				attr(i, "class", i_class_value);
+    			}
+
+    			if (dirty & /*likesCount*/ 1) set_data(t1, /*likesCount*/ ctx[0]);
+    		},
+    		i: noop,
+    		o: noop,
+    		d(detaching) {
+    			if (detaching) detach(span1);
+    			mounted = false;
+    			dispose();
+    		}
+    	};
+    }
+
+    function instance$O($$self, $$props, $$invalidate) {
+    	let userPublicKey;
+    	let $nostrCache;
+    	let $nostrManager;
+    	component_subscribe($$self, nostrCache, $$value => $$invalidate(5, $nostrCache = $$value));
+    	component_subscribe($$self, nostrManager, $$value => $$invalidate(6, $nostrManager = $$value));
+    	let { event_id } = $$props;
+    	let likesCount = 0;
+    	let liked = false;
+
+    	const checkLikes = async () => {
+    		$$invalidate(0, likesCount = await socialMediaManager.getLikes(event_id));
+    		$$invalidate(1, liked = await socialMediaManager.checkIfLiked(event_id));
+    	};
+
+    	const toggleLike = async () => {
+    		if (!userPublicKey) {
+    			console.error("User must be logged in to toggle likes.");
+    			return;
+    		}
+
+    		if (liked) {
+    			await socialMediaManager.unlikeEvent(event_id);
+    			$$invalidate(0, likesCount--, likesCount);
+    		} else {
+    			await socialMediaManager.likeEvent(event_id);
+    			$$invalidate(0, likesCount++, likesCount);
+    		}
+
+    		$$invalidate(1, liked = !liked);
+    	};
+
+    	onMount(() => {
+    		checkLikes();
+    		socialMediaManager.subscribeLikes(event_id);
+
+    		return () => {
+    			socialMediaManager.unsubscribeLikes(event_id);
+    		};
+    	});
+
+    	$$self.$$set = $$props => {
+    		if ('event_id' in $$props) $$invalidate(4, event_id = $$props.event_id);
+    	};
+
+    	$$self.$$.update = () => {
+    		if ($$self.$$.dirty & /*$nostrManager*/ 64) {
+    			// Verwende einen reaktiven Ausdruck, um auf Änderungen im NostrManager zu reagieren
+    			$$invalidate(2, userPublicKey = $nostrManager ? $nostrManager.publicKey : null);
+    		}
+
+    		if ($$self.$$.dirty & /*$nostrCache*/ 32) {
+    			(checkLikes());
+    		}
+    	};
+
+    	return [
+    		likesCount,
+    		liked,
+    		userPublicKey,
+    		toggleLike,
+    		event_id,
+    		$nostrCache,
+    		$nostrManager
+    	];
+    }
+
+    class LikeIcon extends SvelteComponent {
+    	constructor(options) {
+    		super();
+    		init(this, options, instance$O, create_fragment$P, safe_not_equal, { event_id: 4 });
+    	}
+    }
+
+    var css_248z$z = ".share-icon.svelte-99v011{color:#f7931a;cursor:pointer;font-size:24px;transition:color 0.3s}.share-icon.svelte-99v011:hover{color:#b4690e}";
+    styleInject(css_248z$z);
+
+    /* src/components/ShareIcon.svelte generated by Svelte v3.59.1 */
+
+    function create_fragment$O(ctx) {
+    	let i;
+    	let mounted;
+    	let dispose;
+
+    	return {
+    		c() {
+    			i = element("i");
+    			attr(i, "class", "fas fa-retweet share-icon svelte-99v011");
+    			attr(i, "title", "Share Idea");
+    		},
+    		m(target, anchor) {
+    			insert(target, i, anchor);
+
+    			if (!mounted) {
+    				dispose = listen(i, "click", /*shareIdea*/ ctx[0]);
+    				mounted = true;
+    			}
+    		},
+    		p: noop,
+    		i: noop,
+    		o: noop,
+    		d(detaching) {
+    			if (detaching) detach(i);
+    			mounted = false;
+    			dispose();
+    		}
+    	};
+    }
+
+    function instance$N($$self, $$props, $$invalidate) {
+    	let $nostrManager;
+    	let $nostrCache;
+    	component_subscribe($$self, nostrManager, $$value => $$invalidate(4, $nostrManager = $$value));
+    	component_subscribe($$self, nostrCache, $$value => $$invalidate(2, $nostrCache = $$value));
+    	let { event_id } = $$props;
+    	let ideaEvent = null;
+
+    	async function fetchIdea() {
+    		ideaEvent = await $nostrCache.getEventById(event_id);
+
+    		if (!ideaEvent) {
+    			console.error("Idea event not found");
+    			return;
+    		}
+    	}
+
+    	async function shareIdea() {
+    		if (!ideaEvent) {
+    			console.error("No idea event to share");
+    			return;
+    		}
+
+    		// Erstellen des Inhalts für das Content Event
+    		const content = `${ideaEvent.tags.find(tag => tag[0] === "iName")[1]} - ${ideaEvent.tags.find(tag => tag[0] === "iSub")[1]}\n\n${ideaEvent.tags.find(tag => tag[0] === "abstract")[1]}\n\nhttps://bitspark.bitsperity.dev/idea/${event_id}`;
+
+    		const tags = [["s", "bitspark"]];
+
+    		// Senden des Content Events
+    		await $nostrManager.sendEvent(1, content, tags);
+    	}
+
+    	onMount(fetchIdea);
+
+    	$$self.$$set = $$props => {
+    		if ('event_id' in $$props) $$invalidate(1, event_id = $$props.event_id);
+    	};
+
+    	$$self.$$.update = () => {
+    		if ($$self.$$.dirty & /*$nostrCache*/ 4) {
+    			(fetchIdea());
+    		}
+    	};
+
+    	return [shareIdea, event_id, $nostrCache];
+    }
+
+    class ShareIcon extends SvelteComponent {
+    	constructor(options) {
+    		super();
+    		init(this, options, instance$N, create_fragment$O, safe_not_equal, { event_id: 1 });
+    	}
+    }
+
+    var css_248z$y = ".card.svelte-179l7uc{background:#ffffff;overflow:hidden;border-radius:8px;overflow:hidden;display:flex;flex-direction:column;border:4px solid #ffffff;box-shadow:0 5px 10px #0000008c}.card.svelte-179l7uc:hover{transform:scale(1.03);background:#ffffff;box-shadow:0 10px 20px #0000008c}.card-content.svelte-179l7uc{cursor:pointer;background:#ffffff}.banner-image.svelte-179l7uc{width:100%;height:200px;object-fit:cover}.content.svelte-179l7uc,.actions.svelte-179l7uc{padding:15px}.actions.svelte-179l7uc{display:flex;align-items:center;justify-content:space-between;background:#f4f4f4}";
+    styleInject(css_248z$y);
+
+    /* src/components/Cards/IdeaCard.svelte generated by Svelte v3.59.1 */
+
+    function create_fragment$N(ctx) {
+    	let div3;
+    	let div1;
+    	let img;
+    	let img_src_value;
+    	let img_alt_value;
+    	let t0;
+    	let div0;
+    	let h3;
+    	let t1_value = /*card*/ ctx[0].name + "";
+    	let t1;
+    	let t2;
+    	let h4;
+    	let t3_value = /*card*/ ctx[0].subtitle + "";
+    	let t3;
+    	let t4;
+    	let p;
+    	let t5_value = truncateMessage(/*card*/ ctx[0].abstract, 100) + "";
+    	let t5;
+    	let t6;
+    	let div2;
+    	let likeicon;
+    	let t7;
+    	let shareicon;
+    	let current;
+    	let mounted;
+    	let dispose;
+    	likeicon = new LikeIcon({ props: { event_id: /*card*/ ctx[0].id } });
+    	shareicon = new ShareIcon({ props: { event_id: /*card*/ ctx[0].id } });
+
+    	return {
+    		c() {
+    			div3 = element("div");
+    			div1 = element("div");
+    			img = element("img");
+    			t0 = space();
+    			div0 = element("div");
+    			h3 = element("h3");
+    			t1 = text(t1_value);
+    			t2 = space();
+    			h4 = element("h4");
+    			t3 = text(t3_value);
+    			t4 = space();
+    			p = element("p");
+    			t5 = text(t5_value);
+    			t6 = space();
+    			div2 = element("div");
+    			create_component(likeicon.$$.fragment);
+    			t7 = space();
+    			create_component(shareicon.$$.fragment);
+    			if (!src_url_equal(img.src, img_src_value = /*card*/ ctx[0].bannerImage)) attr(img, "src", img_src_value);
+    			attr(img, "alt", img_alt_value = "Banner of " + /*card*/ ctx[0].name);
+    			attr(img, "class", "banner-image svelte-179l7uc");
+    			attr(div0, "class", "content svelte-179l7uc");
+    			attr(div1, "class", "card-content svelte-179l7uc");
+    			attr(div2, "class", "actions svelte-179l7uc");
+    			attr(div3, "class", "card svelte-179l7uc");
+    		},
+    		m(target, anchor) {
+    			insert(target, div3, anchor);
+    			append(div3, div1);
+    			append(div1, img);
+    			append(div1, t0);
+    			append(div1, div0);
+    			append(div0, h3);
+    			append(h3, t1);
+    			append(div0, t2);
+    			append(div0, h4);
+    			append(h4, t3);
+    			append(div0, t4);
+    			append(div0, p);
+    			append(p, t5);
+    			append(div3, t6);
+    			append(div3, div2);
+    			mount_component(likeicon, div2, null);
+    			append(div2, t7);
+    			mount_component(shareicon, div2, null);
+    			current = true;
+
+    			if (!mounted) {
+    				dispose = listen(div1, "click", /*goToIdea*/ ctx[1]);
+    				mounted = true;
+    			}
+    		},
+    		p(ctx, [dirty]) {
+    			if (!current || dirty & /*card*/ 1 && !src_url_equal(img.src, img_src_value = /*card*/ ctx[0].bannerImage)) {
+    				attr(img, "src", img_src_value);
+    			}
+
+    			if (!current || dirty & /*card*/ 1 && img_alt_value !== (img_alt_value = "Banner of " + /*card*/ ctx[0].name)) {
+    				attr(img, "alt", img_alt_value);
+    			}
+
+    			if ((!current || dirty & /*card*/ 1) && t1_value !== (t1_value = /*card*/ ctx[0].name + "")) set_data(t1, t1_value);
+    			if ((!current || dirty & /*card*/ 1) && t3_value !== (t3_value = /*card*/ ctx[0].subtitle + "")) set_data(t3, t3_value);
+    			if ((!current || dirty & /*card*/ 1) && t5_value !== (t5_value = truncateMessage(/*card*/ ctx[0].abstract, 100) + "")) set_data(t5, t5_value);
+    			const likeicon_changes = {};
+    			if (dirty & /*card*/ 1) likeicon_changes.event_id = /*card*/ ctx[0].id;
+    			likeicon.$set(likeicon_changes);
+    			const shareicon_changes = {};
+    			if (dirty & /*card*/ 1) shareicon_changes.event_id = /*card*/ ctx[0].id;
+    			shareicon.$set(shareicon_changes);
+    		},
+    		i(local) {
+    			if (current) return;
+    			transition_in(likeicon.$$.fragment, local);
+    			transition_in(shareicon.$$.fragment, local);
+    			current = true;
+    		},
+    		o(local) {
+    			transition_out(likeicon.$$.fragment, local);
+    			transition_out(shareicon.$$.fragment, local);
+    			current = false;
+    		},
+    		d(detaching) {
+    			if (detaching) detach(div3);
+    			destroy_component(likeicon);
+    			destroy_component(shareicon);
+    			mounted = false;
+    			dispose();
+    		}
+    	};
+    }
+
+    function truncateMessage(message, maxLength) {
+    	const strippedMessage = message.replace(/<[^>]+>/g, "");
+
+    	return strippedMessage.length <= maxLength
+    	? message
+    	: message.slice(0, maxLength) + "...";
+    }
+
+    function instance$M($$self, $$props, $$invalidate) {
+    	let $nostrManager;
+    	component_subscribe($$self, nostrManager, $$value => $$invalidate(2, $nostrManager = $$value));
+    	let { card } = $$props;
+
+    	function goToIdea() {
+    		navigate(`/idea/${card.id}`);
+    	}
+
+    	onMount(() => {
+    		initialize();
+    	});
+
+    	function initialize() {
+    		if (card) {
+    			socialMediaManager.getProfile(card.pubkey);
+    		}
+    	}
+
+    	$$self.$$set = $$props => {
+    		if ('card' in $$props) $$invalidate(0, card = $$props.card);
+    	};
+
+    	$$self.$$.update = () => {
+    		if ($$self.$$.dirty & /*$nostrManager*/ 4) {
+    			(initialize());
+    		}
+    	};
+
+    	return [card, goToIdea, $nostrManager];
+    }
+
+    class IdeaCard extends SvelteComponent {
+    	constructor(options) {
+    		super();
+    		init(this, options, instance$M, create_fragment$N, safe_not_equal, { card: 0 });
+    	}
+    }
+
+    // feedSelectionStore.js
+
+    // Erstellen eines Svelte Stores mit dem initialen Wert 'verified'
+    const selectedFeed = writable('hot');
+
+    // Funktion, um den Feed-Typ zu setzen
+    function setFeed(feedType) {
+        selectedFeed.set(feedType);
+    }
+
+    var css_248z$x = ".feed-selector.svelte-11ro3cj.svelte-11ro3cj{display:flex;background-color:#f9f9f9;padding:8px 16px;border-radius:25px;box-shadow:0 4px 6px rgba(0, 0, 0, 0.1);margin-bottom:20px}.feed-selector.svelte-11ro3cj button.svelte-11ro3cj{flex:1;border:none;background:none;padding:10px 20px;margin-right:10px;border-radius:20px;font-size:16px;transition:background-color 0.3s,\n            color 0.3s;cursor:pointer;outline:none;display:flex;align-items:center;justify-content:center}.feed-selector.svelte-11ro3cj button.svelte-11ro3cj:last-child{margin-right:0}.feed-selector.svelte-11ro3cj button.svelte-11ro3cj:hover{background-color:#e2e8f0}.feed-selector.svelte-11ro3cj button.active.svelte-11ro3cj{background-color:#f7931a;color:white}.feed-selector.svelte-11ro3cj i.svelte-11ro3cj{margin-right:5px}";
+    styleInject(css_248z$x);
+
+    /* src/components/Feed/FeedSelector.svelte generated by Svelte v3.59.1 */
+
+    function create_if_block$m(ctx) {
+    	let button;
+    	let mounted;
+    	let dispose;
+
+    	return {
+    		c() {
+    			button = element("button");
+    			button.innerHTML = `<i class="fas fa-user-friends svelte-11ro3cj"></i> Followed`;
+    			attr(button, "class", "svelte-11ro3cj");
+    			toggle_class(button, "active", /*$selectedFeed*/ ctx[0] === "followed");
+    		},
+    		m(target, anchor) {
+    			insert(target, button, anchor);
+
+    			if (!mounted) {
+    				dispose = listen(button, "click", /*click_handler_1*/ ctx[4]);
+    				mounted = true;
+    			}
+    		},
+    		p(ctx, dirty) {
+    			if (dirty & /*$selectedFeed*/ 1) {
+    				toggle_class(button, "active", /*$selectedFeed*/ ctx[0] === "followed");
+    			}
+    		},
+    		d(detaching) {
+    			if (detaching) detach(button);
+    			mounted = false;
+    			dispose();
+    		}
+    	};
+    }
+
+    function create_fragment$M(ctx) {
+    	let div;
+    	let button0;
+    	let t1;
+    	let t2;
+    	let button1;
+    	let t4;
+    	let button2;
+    	let mounted;
+    	let dispose;
+    	let if_block = /*$nostrManager*/ ctx[1] && /*$nostrManager*/ ctx[1].publicKey && create_if_block$m(ctx);
+
+    	return {
+    		c() {
+    			div = element("div");
+    			button0 = element("button");
+    			button0.innerHTML = `<i class="fas fa-fire svelte-11ro3cj"></i> Hot`;
+    			t1 = space();
+    			if (if_block) if_block.c();
+    			t2 = space();
+    			button1 = element("button");
+    			button1.innerHTML = `<i class="fas fa-check-circle svelte-11ro3cj"></i> Verified`;
+    			t4 = space();
+    			button2 = element("button");
+    			button2.innerHTML = `<i class="fas fa-globe svelte-11ro3cj"></i> Global`;
+    			attr(button0, "class", "svelte-11ro3cj");
+    			toggle_class(button0, "active", /*$selectedFeed*/ ctx[0] === "hot");
+    			attr(button1, "class", "svelte-11ro3cj");
+    			toggle_class(button1, "active", /*$selectedFeed*/ ctx[0] === "verified");
+    			attr(button2, "class", "svelte-11ro3cj");
+    			toggle_class(button2, "active", /*$selectedFeed*/ ctx[0] === "unverified");
+    			attr(div, "class", "feed-selector svelte-11ro3cj");
+    		},
+    		m(target, anchor) {
+    			insert(target, div, anchor);
+    			append(div, button0);
+    			append(div, t1);
+    			if (if_block) if_block.m(div, null);
+    			append(div, t2);
+    			append(div, button1);
+    			append(div, t4);
+    			append(div, button2);
+
+    			if (!mounted) {
+    				dispose = [
+    					listen(button0, "click", /*click_handler*/ ctx[3]),
+    					listen(button1, "click", /*click_handler_2*/ ctx[5]),
+    					listen(button2, "click", /*click_handler_3*/ ctx[6])
+    				];
+
+    				mounted = true;
+    			}
+    		},
+    		p(ctx, [dirty]) {
+    			if (dirty & /*$selectedFeed*/ 1) {
+    				toggle_class(button0, "active", /*$selectedFeed*/ ctx[0] === "hot");
+    			}
+
+    			if (/*$nostrManager*/ ctx[1] && /*$nostrManager*/ ctx[1].publicKey) {
+    				if (if_block) {
+    					if_block.p(ctx, dirty);
+    				} else {
+    					if_block = create_if_block$m(ctx);
+    					if_block.c();
+    					if_block.m(div, t2);
+    				}
+    			} else if (if_block) {
+    				if_block.d(1);
+    				if_block = null;
+    			}
+
+    			if (dirty & /*$selectedFeed*/ 1) {
+    				toggle_class(button1, "active", /*$selectedFeed*/ ctx[0] === "verified");
+    			}
+
+    			if (dirty & /*$selectedFeed*/ 1) {
+    				toggle_class(button2, "active", /*$selectedFeed*/ ctx[0] === "unverified");
+    			}
+    		},
+    		i: noop,
+    		o: noop,
+    		d(detaching) {
+    			if (detaching) detach(div);
+    			if (if_block) if_block.d();
+    			mounted = false;
+    			run_all(dispose);
+    		}
+    	};
+    }
+
+    function instance$L($$self, $$props, $$invalidate) {
+    	let $selectedFeed;
+    	let $nostrManager;
+    	component_subscribe($$self, selectedFeed, $$value => $$invalidate(0, $selectedFeed = $$value));
+    	component_subscribe($$self, nostrManager, $$value => $$invalidate(1, $nostrManager = $$value));
+
+    	const selectFeed = type => {
+    		setFeed(type);
+    	};
+
+    	const click_handler = () => selectFeed("hot");
+    	const click_handler_1 = () => selectFeed("followed");
+    	const click_handler_2 = () => selectFeed("verified");
+    	const click_handler_3 = () => selectFeed("unverified");
+
+    	return [
+    		$selectedFeed,
+    		$nostrManager,
+    		selectFeed,
+    		click_handler,
+    		click_handler_1,
+    		click_handler_2,
+    		click_handler_3
+    	];
+    }
+
+    class FeedSelector extends SvelteComponent {
+    	constructor(options) {
+    		super();
+    		init(this, options, instance$L, create_fragment$M, safe_not_equal, {});
+    	}
+    }
+
+    // ZapManager.js
+
+    class ZapManager {
+
+        // Abonniert Zaps für ein bestimmtes Event
+        subscribeZaps(eventId) {
+            const manager = get_store_value(nostrManager);
+            if (manager) {
+                manager.subscribeToEvents({
+                    kinds: [9735], // Kind für Zap-Events
+                    "#e": [eventId],
+                });
+            }
+        }
+
+        // Berechnet die Gesamtanzahl der Zaps für ein Event
+        getTotalZaps(eventId) {
+            const cache = get_store_value(nostrCache);
+            const zaps = cache.getEventsByCriteria({
+                kinds: [9735],
+                tags: { e: [eventId] },
+            });
+
+            let totalReceivedSats = 0;
+            zaps.forEach(zap => {
+                const descriptionTag = zap.tags.find(tag => tag[0] === "description");
+                if (descriptionTag) {
+                    try {
+                        const descriptionData = JSON.parse(descriptionTag[1]);
+                        const amountMillisats = parseInt(
+                            descriptionData.tags.find(tag => tag[0] === "amount")?.[1],
+                            10,
+                        );
+                        totalReceivedSats += amountMillisats / 1000; // Umrechnung in Sats
+                    } catch (error) {
+                        console.error("Fehler beim Parsen der Zap-Description:", error);
+                    }
+                }
+            });
+
+            return totalReceivedSats;
+        }
+    }
+
+    const zapManager = new ZapManager();
+
+    var css_248z$w = ".feed-selector-container.svelte-10kpwlz{display:flex;justify-content:center;padding:20px}";
+    styleInject(css_248z$w);
+
+    /* src/components/Feed/Feed.svelte generated by Svelte v3.59.1 */
+
+    function get_each_context$f(ctx, list, i) {
+    	const child_ctx = ctx.slice();
+    	child_ctx[13] = list[i];
+    	return child_ctx;
+    }
+
+    // (176:8) {#each ideas as idea (idea.id)}
+    function create_each_block$f(key_1, ctx) {
+    	let div;
+    	let ideacard;
+    	let t;
+    	let current;
+    	ideacard = new IdeaCard({ props: { card: /*idea*/ ctx[13] } });
+
+    	return {
+    		key: key_1,
+    		first: null,
+    		c() {
+    			div = element("div");
+    			create_component(ideacard.$$.fragment);
+    			t = space();
+    			attr(div, "class", "col-12 col-sm-6 col-md-6 col-lg-6 mb-8");
+    			this.first = div;
+    		},
+    		m(target, anchor) {
+    			insert(target, div, anchor);
+    			mount_component(ideacard, div, null);
+    			append(div, t);
+    			current = true;
+    		},
+    		p(new_ctx, dirty) {
+    			ctx = new_ctx;
+    			const ideacard_changes = {};
+    			if (dirty & /*ideas*/ 1) ideacard_changes.card = /*idea*/ ctx[13];
+    			ideacard.$set(ideacard_changes);
+    		},
+    		i(local) {
+    			if (current) return;
+    			transition_in(ideacard.$$.fragment, local);
+    			current = true;
+    		},
+    		o(local) {
+    			transition_out(ideacard.$$.fragment, local);
+    			current = false;
+    		},
+    		d(detaching) {
+    			if (detaching) detach(div);
+    			destroy_component(ideacard);
+    		}
+    	};
+    }
+
+    function create_fragment$L(ctx) {
+    	let div0;
+    	let feedselector;
+    	let t;
+    	let div2;
+    	let div1;
+    	let each_blocks = [];
+    	let each_1_lookup = new Map();
+    	let current;
+    	feedselector = new FeedSelector({});
+    	let each_value = /*ideas*/ ctx[0];
+    	const get_key = ctx => /*idea*/ ctx[13].id;
+
+    	for (let i = 0; i < each_value.length; i += 1) {
+    		let child_ctx = get_each_context$f(ctx, each_value, i);
+    		let key = get_key(child_ctx);
+    		each_1_lookup.set(key, each_blocks[i] = create_each_block$f(key, child_ctx));
+    	}
+
+    	return {
+    		c() {
+    			div0 = element("div");
+    			create_component(feedselector.$$.fragment);
+    			t = space();
+    			div2 = element("div");
+    			div1 = element("div");
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].c();
+    			}
+
+    			attr(div0, "class", "feed-selector-container svelte-10kpwlz");
+    			attr(div1, "class", "row");
+    			attr(div2, "class", "container mx-auto px-4");
+    		},
+    		m(target, anchor) {
+    			insert(target, div0, anchor);
+    			mount_component(feedselector, div0, null);
+    			insert(target, t, anchor);
+    			insert(target, div2, anchor);
+    			append(div2, div1);
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				if (each_blocks[i]) {
+    					each_blocks[i].m(div1, null);
+    				}
+    			}
+
+    			current = true;
+    		},
+    		p(ctx, [dirty]) {
+    			if (dirty & /*ideas*/ 1) {
+    				each_value = /*ideas*/ ctx[0];
+    				group_outros();
+    				each_blocks = update_keyed_each(each_blocks, dirty, get_key, 1, ctx, each_value, each_1_lookup, div1, outro_and_destroy_block, create_each_block$f, null, get_each_context$f);
+    				check_outros();
+    			}
+    		},
+    		i(local) {
+    			if (current) return;
+    			transition_in(feedselector.$$.fragment, local);
+
+    			for (let i = 0; i < each_value.length; i += 1) {
+    				transition_in(each_blocks[i]);
+    			}
+
+    			current = true;
+    		},
+    		o(local) {
+    			transition_out(feedselector.$$.fragment, local);
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				transition_out(each_blocks[i]);
+    			}
+
+    			current = false;
+    		},
+    		d(detaching) {
+    			if (detaching) detach(div0);
+    			destroy_component(feedselector);
+    			if (detaching) detach(t);
+    			if (detaching) detach(div2);
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].d();
+    			}
+    		}
+    	};
+    }
+
+    function transformIdeaToCard$1(idea) {
+    	const tags = idea.tags.reduce((tagObj, [key, value]) => ({ ...tagObj, [key]: value }), {});
+
+    	return {
+    		id: idea.id,
+    		name: tags.iName,
+    		subtitle: tags.iSub,
+    		bannerImage: tags.ibUrl,
+    		message: idea.content,
+    		abstract: tags.abstract,
+    		pubkey: idea.pubkey
+    	};
+    }
+
+    function instance$K($$self, $$props, $$invalidate) {
+    	let $selectedFeed;
+    	let $nostrCache;
+    	let $nostrManager;
+    	let $relaysStore;
+    	component_subscribe($$self, selectedFeed, $$value => $$invalidate(2, $selectedFeed = $$value));
+    	component_subscribe($$self, nostrCache, $$value => $$invalidate(3, $nostrCache = $$value));
+    	component_subscribe($$self, nostrManager, $$value => $$invalidate(4, $nostrManager = $$value));
+    	component_subscribe($$self, relaysStore, $$value => $$invalidate(5, $relaysStore = $$value));
+    	let ideas = [];
+    	let { category } = $$props;
+
+    	const subscribeFollowList = async () => {
+    		if ($nostrManager?.publicKey) {
+    			socialMediaManager.subscribeFollowList($nostrManager.publicKey);
+    		}
+    	};
+
+    	function initialize() {
+    		if ($nostrManager) {
+    			$nostrManager.subscribeToEvents({
+    				kinds: [NOSTR_KIND_IDEA],
+    				"#s": ["bitspark"]
+    			});
+
+    			updateFeed();
+    		}
+    	}
+
+    	onMount(() => {
+    		initialize();
+    	});
+
+    	onDestroy(() => {
+    		$nostrManager.unsubscribeAll(); // Diese Methode müsste in Ihrem nostrManager definiert sein
+    	});
+
+    	async function fetchVerified() {
+    		let criteria = {
+    			kinds: [NOSTR_KIND_IDEA],
+    			tags: { s: ["bitspark"] }
+    		};
+
+    		if (category) {
+    			criteria.tags.c = [category];
+    		}
+
+    		const fetchedEvents = await $nostrCache.getEventsByCriteria(criteria);
+    		const tempVerifiedCards = [];
+
+    		await Promise.all(fetchedEvents.map(async idea => {
+    			const card = transformIdeaToCard$1(idea);
+    			let profile = await socialMediaManager.getProfile(idea.pubkey);
+
+    			if (profile) {
+    				if (profile.verified) {
+    					tempVerifiedCards.push(card);
+    				}
+    			}
+    		}));
+
+    		// Zuweisen der temporären Arrays zu den reaktiven Arrays für das UI-Rendering
+    		return tempVerifiedCards;
+    	}
+
+    	async function fetchUnverified() {
+    		let criteria = {
+    			kinds: [NOSTR_KIND_IDEA],
+    			tags: { s: ["bitspark"] }
+    		};
+
+    		if (category) {
+    			criteria.tags.c = [category];
+    		}
+
+    		const fetchedEvents = await $nostrCache.getEventsByCriteria(criteria);
+    		const tempUnverifiedCards = [];
+
+    		await Promise.all(fetchedEvents.map(async idea => {
+    			const card = transformIdeaToCard$1(idea);
+    			let profile = await socialMediaManager.getProfile(idea.pubkey);
+
+    			if (profile) {
+    				if (!profile.verified) {
+    					tempUnverifiedCards.push(card);
+    				}
+    			}
+    		}));
+
+    		return tempUnverifiedCards;
+    	}
+
+    	async function fetchHot() {
+    		const allIdeas = await $nostrCache.getEventsByCriteria({
+    			kinds: [NOSTR_KIND_IDEA], // Fetch all idea type events
+    			
+    		});
+
+    		const ideaWithMetrics = await Promise.all(allIdeas.map(async idea => {
+    			await zapManager.subscribeZaps(idea.id);
+    			await socialMediaManager.subscribeLikes(idea.id);
+    			const likes = await socialMediaManager.getLikes(idea.id);
+    			const sats = await zapManager.getTotalZaps(idea.id);
+    			return { ...idea, likes, sats };
+    		}));
+
+    		// Sort ideas by a combination of likes and sats, adjust the weighting as necessary
+    		ideaWithMetrics.sort((a, b) => b.likes + b.sats - (a.likes + a.sats));
+
+    		// Convert the sorted ideas to the card format and return the top N results
+    		return ideaWithMetrics.slice(0, 10).map(transformIdeaToCard$1); // Top 10 hot ideas
+    	}
+
+    	async function fetchFollowed() {
+    		const followedEvents = await socialMediaManager.fetchFollowedEvents();
+    		return followedEvents.map(transformIdeaToCard$1);
+    	}
+
+    	async function updateFeed() {
+    		switch ($selectedFeed) {
+    			case "verified":
+    				$$invalidate(0, ideas = await fetchVerified());
+    				break;
+    			case "unverified":
+    				$$invalidate(0, ideas = await fetchUnverified());
+    				break;
+    			case "hot":
+    				$$invalidate(0, ideas = await fetchHot());
+    				break;
+    			case "followed":
+    				$$invalidate(0, ideas = await fetchFollowed());
+    				break;
+    		}
+    	}
+
+    	$$self.$$set = $$props => {
+    		if ('category' in $$props) $$invalidate(1, category = $$props.category);
+    	};
+
+    	$$self.$$.update = () => {
+    		if ($$self.$$.dirty & /*category*/ 2) {
+    			(updateFeed(), category);
+    		}
+
+    		if ($$self.$$.dirty & /*$nostrManager*/ 16) {
+    			(initialize(), $nostrManager);
+    		}
+
+    		if ($$self.$$.dirty & /*$relaysStore*/ 32) {
+    			(updateFeed(), $relaysStore);
+    		}
+
+    		if ($$self.$$.dirty & /*$nostrManager*/ 16) {
+    			(subscribeFollowList(), $nostrManager);
+    		}
+
+    		if ($$self.$$.dirty & /*$nostrManager, $nostrCache*/ 24) {
+    			if ($nostrManager && $nostrCache) {
+    				updateFeed();
+    			}
+    		}
+
+    		if ($$self.$$.dirty & /*$selectedFeed*/ 4) {
+    			// Abonniere den selectedFeed Store, um auf Änderungen zu reagieren.
+    			(updateFeed());
+    		}
+    	};
+
+    	return [ideas, category, $selectedFeed, $nostrCache, $nostrManager, $relaysStore];
+    }
+
+    class Feed extends SvelteComponent {
+    	constructor(options) {
+    		super();
+    		init(this, options, instance$K, create_fragment$L, safe_not_equal, { category: 1 });
+    	}
+    }
+
+    var css_248z$v = ".content-section.svelte-17eaetn{display:flex;background-color:#e2e8f0 !important}.content-container.svelte-17eaetn{flex-grow:1;z-index:0}.flex-grow.svelte-17eaetn{z-index:0}.content-container.svelte-17eaetn{margin-left:0;transition:margin-left 0.3s ease-in-out;flex-grow:1;z-index:0}.content-container.sidebar-open.svelte-17eaetn{margin-left:200px}";
+    styleInject(css_248z$v);
 
     /* src/views/Home.svelte generated by Svelte v3.59.1 */
 
-    function get_each_context$d(ctx, list, i) {
-    	const child_ctx = ctx.slice();
-    	child_ctx[9] = list[i];
-    	return child_ctx;
-    }
-
-    function get_each_context_1$1(ctx, list, i) {
-    	const child_ctx = ctx.slice();
-    	child_ctx[9] = list[i];
-    	return child_ctx;
-    }
-
-    // (115:10) {#each verifiedCards as card (card.id)}
-    function create_each_block_1$1(key_1, ctx) {
-    	let div;
-    	let ideacard;
-    	let t;
-    	let current;
-    	ideacard = new IdeaCard({ props: { card: /*card*/ ctx[9] } });
-
-    	return {
-    		key: key_1,
-    		first: null,
-    		c() {
-    			div = element("div");
-    			create_component(ideacard.$$.fragment);
-    			t = space();
-    			attr(div, "class", "col-12 col-sm-6 col-md-6 col-lg-6 mb-8");
-    			this.first = div;
-    		},
-    		m(target, anchor) {
-    			insert(target, div, anchor);
-    			mount_component(ideacard, div, null);
-    			append(div, t);
-    			current = true;
-    		},
-    		p(new_ctx, dirty) {
-    			ctx = new_ctx;
-    			const ideacard_changes = {};
-    			if (dirty & /*verifiedCards*/ 1) ideacard_changes.card = /*card*/ ctx[9];
-    			ideacard.$set(ideacard_changes);
-    		},
-    		i(local) {
-    			if (current) return;
-    			transition_in(ideacard.$$.fragment, local);
-    			current = true;
-    		},
-    		o(local) {
-    			transition_out(ideacard.$$.fragment, local);
-    			current = false;
-    		},
-    		d(detaching) {
-    			if (detaching) detach(div);
-    			destroy_component(ideacard);
-    		}
-    	};
-    }
-
-    // (130:10) {#each unverifiedCards as card (card.id)}
-    function create_each_block$d(key_1, ctx) {
-    	let div;
-    	let ideacard;
-    	let t;
-    	let current;
-    	ideacard = new IdeaCard({ props: { card: /*card*/ ctx[9] } });
-
-    	return {
-    		key: key_1,
-    		first: null,
-    		c() {
-    			div = element("div");
-    			create_component(ideacard.$$.fragment);
-    			t = space();
-    			attr(div, "class", "col-12 col-sm-6 col-md-6 col-lg-6 mb-8");
-    			this.first = div;
-    		},
-    		m(target, anchor) {
-    			insert(target, div, anchor);
-    			mount_component(ideacard, div, null);
-    			append(div, t);
-    			current = true;
-    		},
-    		p(new_ctx, dirty) {
-    			ctx = new_ctx;
-    			const ideacard_changes = {};
-    			if (dirty & /*unverifiedCards*/ 2) ideacard_changes.card = /*card*/ ctx[9];
-    			ideacard.$set(ideacard_changes);
-    		},
-    		i(local) {
-    			if (current) return;
-    			transition_in(ideacard.$$.fragment, local);
-    			current = true;
-    		},
-    		o(local) {
-    			transition_out(ideacard.$$.fragment, local);
-    			current = false;
-    		},
-    		d(detaching) {
-    			if (detaching) detach(div);
-    			destroy_component(ideacard);
-    		}
-    	};
-    }
-
-    function create_fragment$E(ctx) {
+    function create_fragment$K(ctx) {
     	let main;
     	let menu;
     	let t0;
-    	let div6;
+    	let div1;
     	let banner;
     	let t1;
     	let toolbar;
     	let t2;
-    	let div5;
-    	let div1;
     	let div0;
-    	let each_blocks_1 = [];
-    	let each0_lookup = new Map();
+    	let feed;
+    	let div0_class_value;
     	let t3;
-    	let div2;
-    	let t4;
-    	let div4;
-    	let div3;
-    	let each_blocks = [];
-    	let each1_lookup = new Map();
-    	let div5_class_value;
-    	let t5;
     	let footer;
     	let current;
     	menu = new Sidebar({});
 
     	banner = new Banner({
     			props: {
-    				bannerImage: bannerImage$4,
-    				title: title$4,
-    				subtitle: subtitle$4,
+    				bannerImage: bannerImage$5,
+    				title: title$5,
+    				subtitle: subtitle$5,
     				show_right_text: true
     			}
     		});
 
     	toolbar = new Toolbar({});
-    	let each_value_1 = /*verifiedCards*/ ctx[0];
-    	const get_key = ctx => /*card*/ ctx[9].id;
-
-    	for (let i = 0; i < each_value_1.length; i += 1) {
-    		let child_ctx = get_each_context_1$1(ctx, each_value_1, i);
-    		let key = get_key(child_ctx);
-    		each0_lookup.set(key, each_blocks_1[i] = create_each_block_1$1(key, child_ctx));
-    	}
-
-    	let each_value = /*unverifiedCards*/ ctx[1];
-    	const get_key_1 = ctx => /*card*/ ctx[9].id;
-
-    	for (let i = 0; i < each_value.length; i += 1) {
-    		let child_ctx = get_each_context$d(ctx, each_value, i);
-    		let key = get_key_1(child_ctx);
-    		each1_lookup.set(key, each_blocks[i] = create_each_block$d(key, child_ctx));
-    	}
-
+    	feed = new Feed({});
     	footer = new Footer({});
 
     	return {
@@ -9829,95 +10334,37 @@ var app = (function () {
     			main = element("main");
     			create_component(menu.$$.fragment);
     			t0 = space();
-    			div6 = element("div");
+    			div1 = element("div");
     			create_component(banner.$$.fragment);
     			t1 = space();
     			create_component(toolbar.$$.fragment);
     			t2 = space();
-    			div5 = element("div");
-    			div1 = element("div");
     			div0 = element("div");
-
-    			for (let i = 0; i < each_blocks_1.length; i += 1) {
-    				each_blocks_1[i].c();
-    			}
-
+    			create_component(feed.$$.fragment);
     			t3 = space();
-    			div2 = element("div");
-    			t4 = space();
-    			div4 = element("div");
-    			div3 = element("div");
-
-    			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].c();
-    			}
-
-    			t5 = space();
     			create_component(footer.$$.fragment);
-    			attr(div0, "class", "row");
-    			attr(div1, "class", "container mx-auto px-4");
-    			attr(div2, "class", "container");
-    			set_style(div2, "margin", "2rem auto");
-    			set_style(div2, "height", "2px");
-    			set_style(div2, "background-color", "gray");
-    			attr(div3, "class", "row");
-    			attr(div4, "class", "container mx-auto px-4");
-    			attr(div5, "class", div5_class_value = "" + (null_to_empty(/*$contentContainerClass*/ ctx[2]) + " svelte-1azc90t"));
-    			attr(div6, "class", "flex-grow svelte-1azc90t");
+    			attr(div0, "class", div0_class_value = "" + (null_to_empty(/*$contentContainerClass*/ ctx[0]) + " svelte-17eaetn"));
+    			attr(div1, "class", "flex-grow svelte-17eaetn");
     			attr(main, "class", "overview-page");
     		},
     		m(target, anchor) {
     			insert(target, main, anchor);
     			mount_component(menu, main, null);
     			append(main, t0);
-    			append(main, div6);
-    			mount_component(banner, div6, null);
-    			append(div6, t1);
-    			mount_component(toolbar, div6, null);
-    			append(div6, t2);
-    			append(div6, div5);
-    			append(div5, div1);
+    			append(main, div1);
+    			mount_component(banner, div1, null);
+    			append(div1, t1);
+    			mount_component(toolbar, div1, null);
+    			append(div1, t2);
     			append(div1, div0);
-
-    			for (let i = 0; i < each_blocks_1.length; i += 1) {
-    				if (each_blocks_1[i]) {
-    					each_blocks_1[i].m(div0, null);
-    				}
-    			}
-
-    			append(div5, t3);
-    			append(div5, div2);
-    			append(div5, t4);
-    			append(div5, div4);
-    			append(div4, div3);
-
-    			for (let i = 0; i < each_blocks.length; i += 1) {
-    				if (each_blocks[i]) {
-    					each_blocks[i].m(div3, null);
-    				}
-    			}
-
-    			append(main, t5);
-    			mount_component(footer, main, null);
+    			mount_component(feed, div0, null);
+    			append(div1, t3);
+    			mount_component(footer, div1, null);
     			current = true;
     		},
     		p(ctx, [dirty]) {
-    			if (dirty & /*verifiedCards*/ 1) {
-    				each_value_1 = /*verifiedCards*/ ctx[0];
-    				group_outros();
-    				each_blocks_1 = update_keyed_each(each_blocks_1, dirty, get_key, 1, ctx, each_value_1, each0_lookup, div0, outro_and_destroy_block, create_each_block_1$1, null, get_each_context_1$1);
-    				check_outros();
-    			}
-
-    			if (dirty & /*unverifiedCards*/ 2) {
-    				each_value = /*unverifiedCards*/ ctx[1];
-    				group_outros();
-    				each_blocks = update_keyed_each(each_blocks, dirty, get_key_1, 1, ctx, each_value, each1_lookup, div3, outro_and_destroy_block, create_each_block$d, null, get_each_context$d);
-    				check_outros();
-    			}
-
-    			if (!current || dirty & /*$contentContainerClass*/ 4 && div5_class_value !== (div5_class_value = "" + (null_to_empty(/*$contentContainerClass*/ ctx[2]) + " svelte-1azc90t"))) {
-    				attr(div5, "class", div5_class_value);
+    			if (!current || dirty & /*$contentContainerClass*/ 1 && div0_class_value !== (div0_class_value = "" + (null_to_empty(/*$contentContainerClass*/ ctx[0]) + " svelte-17eaetn"))) {
+    				attr(div0, "class", div0_class_value);
     			}
     		},
     		i(local) {
@@ -9925,15 +10372,7 @@ var app = (function () {
     			transition_in(menu.$$.fragment, local);
     			transition_in(banner.$$.fragment, local);
     			transition_in(toolbar.$$.fragment, local);
-
-    			for (let i = 0; i < each_value_1.length; i += 1) {
-    				transition_in(each_blocks_1[i]);
-    			}
-
-    			for (let i = 0; i < each_value.length; i += 1) {
-    				transition_in(each_blocks[i]);
-    			}
-
+    			transition_in(feed.$$.fragment, local);
     			transition_in(footer.$$.fragment, local);
     			current = true;
     		},
@@ -9941,15 +10380,7 @@ var app = (function () {
     			transition_out(menu.$$.fragment, local);
     			transition_out(banner.$$.fragment, local);
     			transition_out(toolbar.$$.fragment, local);
-
-    			for (let i = 0; i < each_blocks_1.length; i += 1) {
-    				transition_out(each_blocks_1[i]);
-    			}
-
-    			for (let i = 0; i < each_blocks.length; i += 1) {
-    				transition_out(each_blocks[i]);
-    			}
-
+    			transition_out(feed.$$.fragment, local);
     			transition_out(footer.$$.fragment, local);
     			current = false;
     		},
@@ -9958,23 +10389,15 @@ var app = (function () {
     			destroy_component(menu);
     			destroy_component(banner);
     			destroy_component(toolbar);
-
-    			for (let i = 0; i < each_blocks_1.length; i += 1) {
-    				each_blocks_1[i].d();
-    			}
-
-    			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].d();
-    			}
-
+    			destroy_component(feed);
     			destroy_component(footer);
     		}
     	};
     }
 
-    let bannerImage$4 = "../../img/Banner1u.png";
-    let title$4 = "BitSpark";
-    let subtitle$4 = "The idea engine";
+    let bannerImage$5 = "../../img/Banner1u.png";
+    let title$5 = "BitSpark";
+    let subtitle$5 = "The idea engine";
 
     function transformIdeaToCard(idea) {
     	const tags = idea.tags.reduce((tagObj, [key, value]) => ({ ...tagObj, [key]: value }), {});
@@ -9990,18 +10413,16 @@ var app = (function () {
     	};
     }
 
-    function instance$D($$self, $$props, $$invalidate) {
+    function instance$J($$self, $$props, $$invalidate) {
     	let $nostrCache;
     	let $nostrManager;
     	let $relaysStore;
     	let $contentContainerClass;
-    	component_subscribe($$self, nostrCache, $$value => $$invalidate(4, $nostrCache = $$value));
-    	component_subscribe($$self, nostrManager, $$value => $$invalidate(5, $nostrManager = $$value));
-    	component_subscribe($$self, relaysStore, $$value => $$invalidate(6, $relaysStore = $$value));
-    	component_subscribe($$self, contentContainerClass, $$value => $$invalidate(2, $contentContainerClass = $$value));
+    	component_subscribe($$self, nostrCache, $$value => $$invalidate(2, $nostrCache = $$value));
+    	component_subscribe($$self, nostrManager, $$value => $$invalidate(3, $nostrManager = $$value));
+    	component_subscribe($$self, relaysStore, $$value => $$invalidate(4, $relaysStore = $$value));
+    	component_subscribe($$self, contentContainerClass, $$value => $$invalidate(0, $contentContainerClass = $$value));
     	let { category } = $$props;
-    	let verifiedCards = [];
-    	let unverifiedCards = [];
 
     	async function fetchAndDisplayIdeas() {
     		let criteria = {
@@ -10014,28 +10435,15 @@ var app = (function () {
     		}
 
     		const fetchedEvents = await $nostrCache.getEventsByCriteria(criteria);
-    		const tempVerifiedCards = [];
-    		const tempUnverifiedCards = [];
 
     		await Promise.all(fetchedEvents.map(async idea => {
-    			const card = transformIdeaToCard(idea);
+    			transformIdeaToCard(idea);
     			let profile = await socialMediaManager.getProfile(idea.pubkey);
 
     			if (profile) {
-    				if (profile.verified) {
-    					tempVerifiedCards.push(card);
-    				} else {
-    					tempUnverifiedCards.push(card);
-    				}
-    			} else {
-    				console.error("profile is null");
+    				if (profile.verified) ;
     			}
     		}));
-
-    		// Zuweisen der temporären Arrays zu den reaktiven Arrays für das UI-Rendering
-    		$$invalidate(0, verifiedCards = tempVerifiedCards);
-
-    		$$invalidate(1, unverifiedCards = tempUnverifiedCards);
     	}
 
     	function initialize() {
@@ -10058,50 +10466,42 @@ var app = (function () {
     	});
 
     	$$self.$$set = $$props => {
-    		if ('category' in $$props) $$invalidate(3, category = $$props.category);
+    		if ('category' in $$props) $$invalidate(1, category = $$props.category);
     	};
 
     	$$self.$$.update = () => {
-    		if ($$self.$$.dirty & /*category*/ 8) {
+    		if ($$self.$$.dirty & /*category*/ 2) {
     			(fetchAndDisplayIdeas(), category);
     		}
 
-    		if ($$self.$$.dirty & /*$nostrManager*/ 32) {
+    		if ($$self.$$.dirty & /*$nostrManager*/ 8) {
     			(initialize(), $nostrManager);
     		}
 
-    		if ($$self.$$.dirty & /*$relaysStore*/ 64) {
+    		if ($$self.$$.dirty & /*$relaysStore*/ 16) {
     			(fetchAndDisplayIdeas(), $relaysStore);
     		}
 
-    		if ($$self.$$.dirty & /*$nostrManager, $nostrCache*/ 48) {
+    		if ($$self.$$.dirty & /*$nostrManager, $nostrCache*/ 12) {
     			if ($nostrManager && $nostrCache) {
     				fetchAndDisplayIdeas();
     			}
     		}
     	};
 
-    	return [
-    		verifiedCards,
-    		unverifiedCards,
-    		$contentContainerClass,
-    		category,
-    		$nostrCache,
-    		$nostrManager,
-    		$relaysStore
-    	];
+    	return [$contentContainerClass, category, $nostrCache, $nostrManager, $relaysStore];
     }
 
     class Home extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$D, create_fragment$E, safe_not_equal, { category: 3 });
+    		init(this, options, instance$J, create_fragment$K, safe_not_equal, { category: 1 });
     	}
     }
 
     /* src/views/Tutorial.svelte generated by Svelte v3.59.1 */
 
-    function create_else_block$1(ctx) {
+    function create_else_block$4(ctx) {
     	let div;
 
     	return {
@@ -10122,7 +10522,7 @@ var app = (function () {
     }
 
     // (27:4) {#if tutorial}
-    function create_if_block$h(ctx) {
+    function create_if_block$l(ctx) {
     	let banner;
     	let t0;
     	let toolbar;
@@ -10216,7 +10616,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$D(ctx) {
+    function create_fragment$J(ctx) {
     	let main;
     	let menu;
     	let t0;
@@ -10227,7 +10627,7 @@ var app = (function () {
     	let footer;
     	let current;
     	menu = new Sidebar({});
-    	const if_block_creators = [create_if_block$h, create_else_block$1];
+    	const if_block_creators = [create_if_block$l, create_else_block$4];
     	const if_blocks = [];
 
     	function select_block_type(ctx, dirty) {
@@ -10310,7 +10710,7 @@ var app = (function () {
     	};
     }
 
-    function instance$C($$self, $$props, $$invalidate) {
+    function instance$I($$self, $$props, $$invalidate) {
     	let $contentContainerClass;
     	component_subscribe($$self, contentContainerClass, $$value => $$invalidate(1, $contentContainerClass = $$value));
     	let { id } = $$props;
@@ -10339,16 +10739,16 @@ var app = (function () {
     class Tutorial extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$C, create_fragment$D, safe_not_equal, { id: 2 });
+    		init(this, options, instance$I, create_fragment$J, safe_not_equal, { id: 2 });
     	}
     }
 
-    var css_248z$o = ".card.svelte-17539e2{background:transparent;overflow:hidden;border-radius:8px;overflow:hidden;display:flex;flex-direction:column;border:4px solid #ffffff;box-shadow:0 5px 10px #0000008c;margin-right:15px;margin-left:15px;margin-bottom:15px}.card.svelte-17539e2:hover{transform:scale(1.03);background:#ffffff;box-shadow:0 10px 20px #0000008c}.card-content.svelte-17539e2{cursor:pointer;background:#ffffff}.banner-image.svelte-17539e2{width:100%;height:250px;object-fit:cover}.content.svelte-17539e2{text-align:center;padding:1rem}";
-    styleInject(css_248z$o);
+    var css_248z$u = ".card.svelte-17539e2{background:transparent;overflow:hidden;border-radius:8px;overflow:hidden;display:flex;flex-direction:column;border:4px solid #ffffff;box-shadow:0 5px 10px #0000008c;margin-right:15px;margin-left:15px;margin-bottom:15px}.card.svelte-17539e2:hover{transform:scale(1.03);background:#ffffff;box-shadow:0 10px 20px #0000008c}.card-content.svelte-17539e2{cursor:pointer;background:#ffffff}.banner-image.svelte-17539e2{width:100%;height:250px;object-fit:cover}.content.svelte-17539e2{text-align:center;padding:1rem}";
+    styleInject(css_248z$u);
 
     /* src/components/Cards/IdeaCardSmall.svelte generated by Svelte v3.59.1 */
 
-    function create_fragment$C(ctx) {
+    function create_fragment$I(ctx) {
     	let div4;
     	let div3;
     	let div2;
@@ -10430,7 +10830,7 @@ var app = (function () {
     	};
     }
 
-    function instance$B($$self, $$props, $$invalidate) {
+    function instance$H($$self, $$props, $$invalidate) {
     	let $nostrManager;
     	component_subscribe($$self, nostrManager, $$value => $$invalidate(2, $nostrManager = $$value));
     	let { card } = $$props;
@@ -10463,20 +10863,20 @@ var app = (function () {
     class IdeaCardSmall extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$B, create_fragment$C, safe_not_equal, { card: 0 });
+    		init(this, options, instance$H, create_fragment$I, safe_not_equal, { card: 0 });
     	}
     }
 
     /* src/components/Widgets/UserIdeasWidget.svelte generated by Svelte v3.59.1 */
 
-    function get_each_context$c(ctx, list, i) {
+    function get_each_context$e(ctx, list, i) {
     	const child_ctx = ctx.slice();
     	child_ctx[7] = list[i];
     	return child_ctx;
     }
 
     // (78:8) {#if profile}
-    function create_if_block$g(ctx) {
+    function create_if_block$k(ctx) {
     	let h4;
     	let t0_value = /*profile*/ ctx[1].name + "";
     	let t0;
@@ -10505,7 +10905,7 @@ var app = (function () {
     }
 
     // (84:12) {#each ideas as idea (idea.id)}
-    function create_each_block$c(key_1, ctx) {
+    function create_each_block$e(key_1, ctx) {
     	let first;
     	let ideacardsmall;
     	let current;
@@ -10546,7 +10946,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$B(ctx) {
+    function create_fragment$H(ctx) {
     	let div2;
     	let div1;
     	let t;
@@ -10554,14 +10954,14 @@ var app = (function () {
     	let each_blocks = [];
     	let each_1_lookup = new Map();
     	let current;
-    	let if_block = /*profile*/ ctx[1] && create_if_block$g(ctx);
+    	let if_block = /*profile*/ ctx[1] && create_if_block$k(ctx);
     	let each_value = /*ideas*/ ctx[0];
     	const get_key = ctx => /*idea*/ ctx[7].id;
 
     	for (let i = 0; i < each_value.length; i += 1) {
-    		let child_ctx = get_each_context$c(ctx, each_value, i);
+    		let child_ctx = get_each_context$e(ctx, each_value, i);
     		let key = get_key(child_ctx);
-    		each_1_lookup.set(key, each_blocks[i] = create_each_block$c(key, child_ctx));
+    		each_1_lookup.set(key, each_blocks[i] = create_each_block$e(key, child_ctx));
     	}
 
     	return {
@@ -10600,7 +11000,7 @@ var app = (function () {
     				if (if_block) {
     					if_block.p(ctx, dirty);
     				} else {
-    					if_block = create_if_block$g(ctx);
+    					if_block = create_if_block$k(ctx);
     					if_block.c();
     					if_block.m(div1, t);
     				}
@@ -10612,7 +11012,7 @@ var app = (function () {
     			if (dirty & /*ideas*/ 1) {
     				each_value = /*ideas*/ ctx[0];
     				group_outros();
-    				each_blocks = update_keyed_each(each_blocks, dirty, get_key, 1, ctx, each_value, each_1_lookup, div0, outro_and_destroy_block, create_each_block$c, null, get_each_context$c);
+    				each_blocks = update_keyed_each(each_blocks, dirty, get_key, 1, ctx, each_value, each_1_lookup, div0, outro_and_destroy_block, create_each_block$e, null, get_each_context$e);
     				check_outros();
     			}
     		},
@@ -10643,7 +11043,7 @@ var app = (function () {
     	};
     }
 
-    function instance$A($$self, $$props, $$invalidate) {
+    function instance$G($$self, $$props, $$invalidate) {
     	let $nostrCache;
     	let $nostrManager;
     	component_subscribe($$self, nostrCache, $$value => $$invalidate(3, $nostrCache = $$value));
@@ -10728,7 +11128,7 @@ var app = (function () {
     class UserIdeasWidget extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$A, create_fragment$B, safe_not_equal, { profile_id: 2 });
+    		init(this, options, instance$G, create_fragment$H, safe_not_equal, { profile_id: 2 });
     	}
     }
 
@@ -11276,12 +11676,12 @@ var app = (function () {
 
     const nostrJobManager = new NostrJobManager();
 
-    var css_248z$n = ".profile-container.svelte-sz68iv.svelte-sz68iv{width:70px;height:70px;flex-shrink:0;border-radius:50%;overflow:hidden;margin:0 15px}.content.svelte-sz68iv.svelte-sz68iv{flex-grow:1;overflow:hidden;max-width:calc(\n            100% - 90px\n        )}.rating-popup-overlay.svelte-sz68iv.svelte-sz68iv{position:fixed;top:0;left:0;width:100%;height:100%;background-color:rgba(0, 0, 0, 0.6);display:flex;justify-content:center;align-items:center;z-index:10}.rating-popup.svelte-sz68iv.svelte-sz68iv{background-color:white;padding:20px;border-radius:8px;box-shadow:0 0 15px rgba(0, 0, 0, 0.3);width:300px}.star-rating.svelte-sz68iv.svelte-sz68iv{display:flex;justify-content:center;margin-bottom:15px}.star.svelte-sz68iv.svelte-sz68iv{cursor:pointer;font-size:2em;color:#ffd700}.star.selected.svelte-sz68iv.svelte-sz68iv{color:#f39c12}textarea.svelte-sz68iv.svelte-sz68iv{width:100%;border:1px solid #ccc;border-radius:5px;padding:10px;margin-bottom:10px}.button-group.svelte-sz68iv.svelte-sz68iv{display:flex;justify-content:space-between}.button-group.svelte-sz68iv button.svelte-sz68iv{padding:8px 15px;border-radius:5px;border:none;cursor:pointer;background-color:#4caf50;color:white}.button-group.svelte-sz68iv button.svelte-sz68iv:last-child{background-color:#f44336}.blur.svelte-sz68iv.svelte-sz68iv{filter:blur(4px)}.rating-btn.svelte-sz68iv.svelte-sz68iv{border:none;background:none;cursor:pointer;color:#fcd535;position:absolute;top:10px;right:10px}textarea.svelte-sz68iv.svelte-sz68iv{width:100%;border:1px solid #ccc;border-radius:5px;padding:10px;margin-bottom:10px;resize:vertical}.bubble.svelte-sz68iv.svelte-sz68iv{width:80%;min-width:0;max-width:calc(100% - 20px);position:relative;display:flex;align-items:center;gap:15px;padding:10px;border-radius:8px;margin:10px auto;margin-bottom:10px}.own-message.svelte-sz68iv.svelte-sz68iv{flex-direction:row-reverse;justify-content:flex-end;margin-right:2%;margin-left:auto}.other-message.svelte-sz68iv.svelte-sz68iv{flex-direction:row;justify-content:flex-start;margin-left:2%;margin-right:auto}.content.svelte-sz68iv.svelte-sz68iv{margin-left:15px;flex-grow:1;overflow:hidden;padding:10px;order:1}.timestamp.svelte-sz68iv.svelte-sz68iv{color:#888;font-size:0.8em;text-align:right}.timestamp.left.svelte-sz68iv.svelte-sz68iv{text-align:left}.timestamp.right.svelte-sz68iv.svelte-sz68iv{text-align:right}";
-    styleInject(css_248z$n);
+    var css_248z$t = ".profile-container.svelte-sz68iv.svelte-sz68iv{width:70px;height:70px;flex-shrink:0;border-radius:50%;overflow:hidden;margin:0 15px}.content.svelte-sz68iv.svelte-sz68iv{flex-grow:1;overflow:hidden;max-width:calc(\n            100% - 90px\n        )}.rating-popup-overlay.svelte-sz68iv.svelte-sz68iv{position:fixed;top:0;left:0;width:100%;height:100%;background-color:rgba(0, 0, 0, 0.6);display:flex;justify-content:center;align-items:center;z-index:10}.rating-popup.svelte-sz68iv.svelte-sz68iv{background-color:white;padding:20px;border-radius:8px;box-shadow:0 0 15px rgba(0, 0, 0, 0.3);width:300px}.star-rating.svelte-sz68iv.svelte-sz68iv{display:flex;justify-content:center;margin-bottom:15px}.star.svelte-sz68iv.svelte-sz68iv{cursor:pointer;font-size:2em;color:#ffd700}.star.selected.svelte-sz68iv.svelte-sz68iv{color:#f39c12}textarea.svelte-sz68iv.svelte-sz68iv{width:100%;border:1px solid #ccc;border-radius:5px;padding:10px;margin-bottom:10px}.button-group.svelte-sz68iv.svelte-sz68iv{display:flex;justify-content:space-between}.button-group.svelte-sz68iv button.svelte-sz68iv{padding:8px 15px;border-radius:5px;border:none;cursor:pointer;background-color:#4caf50;color:white}.button-group.svelte-sz68iv button.svelte-sz68iv:last-child{background-color:#f44336}.blur.svelte-sz68iv.svelte-sz68iv{filter:blur(4px)}.rating-btn.svelte-sz68iv.svelte-sz68iv{border:none;background:none;cursor:pointer;color:#fcd535;position:absolute;top:10px;right:10px}textarea.svelte-sz68iv.svelte-sz68iv{width:100%;border:1px solid #ccc;border-radius:5px;padding:10px;margin-bottom:10px;resize:vertical}.bubble.svelte-sz68iv.svelte-sz68iv{width:80%;min-width:0;max-width:calc(100% - 20px);position:relative;display:flex;align-items:center;gap:15px;padding:10px;border-radius:8px;margin:10px auto;margin-bottom:10px}.own-message.svelte-sz68iv.svelte-sz68iv{flex-direction:row-reverse;justify-content:flex-end;margin-right:2%;margin-left:auto}.other-message.svelte-sz68iv.svelte-sz68iv{flex-direction:row;justify-content:flex-start;margin-left:2%;margin-right:auto}.content.svelte-sz68iv.svelte-sz68iv{margin-left:15px;flex-grow:1;overflow:hidden;padding:10px;order:1}.timestamp.svelte-sz68iv.svelte-sz68iv{color:#888;font-size:0.8em;text-align:right}.timestamp.left.svelte-sz68iv.svelte-sz68iv{text-align:left}.timestamp.right.svelte-sz68iv.svelte-sz68iv{text-align:right}";
+    styleInject(css_248z$t);
 
     /* src/components/JobManager2/BaseBubble.svelte generated by Svelte v3.59.1 */
 
-    function get_each_context$b(ctx, list, i) {
+    function get_each_context$d(ctx, list, i) {
     	const child_ctx = ctx.slice();
     	child_ctx[25] = list[i];
     	return child_ctx;
@@ -11336,7 +11736,7 @@ var app = (function () {
     }
 
     // (97:4) {#if showRatingButton}
-    function create_if_block_1$3(ctx) {
+    function create_if_block_1$4(ctx) {
     	let button;
     	let mounted;
     	let dispose;
@@ -11365,7 +11765,7 @@ var app = (function () {
     }
 
     // (104:0) {#if showRatingPopup}
-    function create_if_block$f(ctx) {
+    function create_if_block$j(ctx) {
     	let div3;
     	let div2;
     	let h3;
@@ -11384,7 +11784,7 @@ var app = (function () {
     	let each_blocks = [];
 
     	for (let i = 0; i < each_value.length; i += 1) {
-    		each_blocks[i] = create_each_block$b(get_each_context$b(ctx, each_value, i));
+    		each_blocks[i] = create_each_block$d(get_each_context$d(ctx, each_value, i));
     	}
 
     	return {
@@ -11456,12 +11856,12 @@ var app = (function () {
     				let i;
 
     				for (i = 0; i < each_value.length; i += 1) {
-    					const child_ctx = get_each_context$b(ctx, each_value, i);
+    					const child_ctx = get_each_context$d(ctx, each_value, i);
 
     					if (each_blocks[i]) {
     						each_blocks[i].p(child_ctx, dirty);
     					} else {
-    						each_blocks[i] = create_each_block$b(child_ctx);
+    						each_blocks[i] = create_each_block$d(child_ctx);
     						each_blocks[i].c();
     						each_blocks[i].m(div0, null);
     					}
@@ -11488,7 +11888,7 @@ var app = (function () {
     }
 
     // (109:16) {#each stars as star}
-    function create_each_block$b(ctx) {
+    function create_each_block$d(ctx) {
     	let span;
     	let t;
     	let span_class_value;
@@ -11529,7 +11929,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$A(ctx) {
+    function create_fragment$G(ctx) {
     	let div2;
     	let t0;
     	let div1;
@@ -11545,8 +11945,8 @@ var app = (function () {
     	let if_block0 = /*profile*/ ctx[7] && /*profile*/ ctx[7].picture && create_if_block_2$1(ctx);
     	const default_slot_template = /*#slots*/ ctx[20].default;
     	const default_slot = create_slot(default_slot_template, ctx, /*$$scope*/ ctx[19], null);
-    	let if_block1 = /*showRatingButton*/ ctx[0] && create_if_block_1$3(ctx);
-    	let if_block2 = /*showRatingPopup*/ ctx[9] && create_if_block$f(ctx);
+    	let if_block1 = /*showRatingButton*/ ctx[0] && create_if_block_1$4(ctx);
+    	let if_block2 = /*showRatingPopup*/ ctx[9] && create_if_block$j(ctx);
 
     	return {
     		c() {
@@ -11644,7 +12044,7 @@ var app = (function () {
     				if (if_block1) {
     					if_block1.p(ctx, dirty);
     				} else {
-    					if_block1 = create_if_block_1$3(ctx);
+    					if_block1 = create_if_block_1$4(ctx);
     					if_block1.c();
     					if_block1.m(div2, null);
     				}
@@ -11679,7 +12079,7 @@ var app = (function () {
     				if (if_block2) {
     					if_block2.p(ctx, dirty);
     				} else {
-    					if_block2 = create_if_block$f(ctx);
+    					if_block2 = create_if_block$j(ctx);
     					if_block2.c();
     					if_block2.m(if_block2_anchor.parentNode, if_block2_anchor);
     				}
@@ -11715,7 +12115,7 @@ var app = (function () {
     	return new Date(timestamp * 1000).toLocaleString();
     }
 
-    function instance$z($$self, $$props, $$invalidate) {
+    function instance$F($$self, $$props, $$invalidate) {
     	let $nostrCache;
     	let $nostrManager;
     	component_subscribe($$self, nostrCache, $$value => $$invalidate(17, $nostrCache = $$value));
@@ -11839,7 +12239,7 @@ var app = (function () {
     	constructor(options) {
     		super();
 
-    		init(this, options, instance$z, create_fragment$A, safe_not_equal, {
+    		init(this, options, instance$F, create_fragment$G, safe_not_equal, {
     			event: 16,
     			backgroundColor: 1,
     			textColor: 2,
@@ -11851,12 +12251,12 @@ var app = (function () {
     	}
     }
 
-    var css_248z$m = "{--textColor:{textColor}}.review-content.svelte-198lics.svelte-198lics{display:flex;flex-direction:column;align-items:flex-start;padding:10px}.review-content.svelte-198lics p.svelte-198lics{margin-top:0;line-height:1.4;color:var(--textColor)}.rating-display.svelte-198lics.svelte-198lics{margin-bottom:5px}.star.svelte-198lics.svelte-198lics{transition:transform 0.3s ease, font-size 0.3s ease}";
-    styleInject(css_248z$m);
+    var css_248z$s = "{--textColor:{textColor}}.review-content.svelte-198lics.svelte-198lics{display:flex;flex-direction:column;align-items:flex-start;padding:10px}.review-content.svelte-198lics p.svelte-198lics{margin-top:0;line-height:1.4;color:var(--textColor)}.rating-display.svelte-198lics.svelte-198lics{margin-bottom:5px}.star.svelte-198lics.svelte-198lics{transition:transform 0.3s ease, font-size 0.3s ease}";
+    styleInject(css_248z$s);
 
     /* src/components/JobManager2/ReviewBubble.svelte generated by Svelte v3.59.1 */
 
-    function get_each_context$a(ctx, list, i) {
+    function get_each_context$c(ctx, list, i) {
     	const child_ctx = ctx.slice();
     	child_ctx[4] = list[i];
     	child_ctx[6] = i;
@@ -11864,7 +12264,7 @@ var app = (function () {
     }
 
     // (29:12) {#each stars as star, i}
-    function create_each_block$a(ctx) {
+    function create_each_block$c(ctx) {
     	let span;
     	let t;
 
@@ -11906,7 +12306,7 @@ var app = (function () {
     	let each_blocks = [];
 
     	for (let i = 0; i < each_value.length; i += 1) {
-    		each_blocks[i] = create_each_block$a(get_each_context$a(ctx, each_value, i));
+    		each_blocks[i] = create_each_block$c(get_each_context$c(ctx, each_value, i));
     	}
 
     	return {
@@ -11945,12 +12345,12 @@ var app = (function () {
     				let i;
 
     				for (i = 0; i < each_value.length; i += 1) {
-    					const child_ctx = get_each_context$a(ctx, each_value, i);
+    					const child_ctx = get_each_context$c(ctx, each_value, i);
 
     					if (each_blocks[i]) {
     						each_blocks[i].p(child_ctx, dirty);
     					} else {
-    						each_blocks[i] = create_each_block$a(child_ctx);
+    						each_blocks[i] = create_each_block$c(child_ctx);
     						each_blocks[i].c();
     						each_blocks[i].m(div0, null);
     					}
@@ -11972,7 +12372,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$z(ctx) {
+    function create_fragment$F(ctx) {
     	let basebubble;
     	let current;
 
@@ -12023,7 +12423,7 @@ var app = (function () {
     let backgroundColor = "#FFF176"; // Ein helles Gelb
     let textColor = "#333333"; // Dunkelgrau für guten Kontrast
 
-    function instance$y($$self, $$props, $$invalidate) {
+    function instance$E($$self, $$props, $$invalidate) {
     	let stars;
     	let { event } = $$props;
     	let reviewContent = "Kein Kommentar";
@@ -12058,16 +12458,16 @@ var app = (function () {
     class ReviewBubble extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$y, create_fragment$z, safe_not_equal, { event: 0 });
+    		init(this, options, instance$E, create_fragment$F, safe_not_equal, { event: 0 });
     	}
     }
 
-    var css_248z$l = ".review-stats-header.svelte-envaai{display:flex;align-items:center;justify-content:center;margin-bottom:15px}.average-star.svelte-envaai{font-size:1.4em;color:#cccccc;margin-right:5px}.average-star.active.svelte-envaai{color:#ffcc00}.average-rating-text.svelte-envaai{font-size:1em;color:#333}.reviews-header.svelte-envaai{margin-bottom:15px;font-size:1.2em;color:#333;text-align:center}.review-widget-container.svelte-envaai{background-color:#fff;border-radius:10px;box-shadow:0 2px 4px rgba(0, 0, 0, 0.1);padding:20px}.reviews-wrapper.svelte-envaai{height:300px;overflow-y:auto;display:flex;flex-direction:column;align-items:center;justify-content:flex-start}.review-bubble-wrapper.svelte-envaai{width:100%;display:flex;justify-content:center;margin:10px 0}";
-    styleInject(css_248z$l);
+    var css_248z$r = ".review-stats-header.svelte-envaai{display:flex;align-items:center;justify-content:center;margin-bottom:15px}.average-star.svelte-envaai{font-size:1.4em;color:#cccccc;margin-right:5px}.average-star.active.svelte-envaai{color:#ffcc00}.average-rating-text.svelte-envaai{font-size:1em;color:#333}.reviews-header.svelte-envaai{margin-bottom:15px;font-size:1.2em;color:#333;text-align:center}.review-widget-container.svelte-envaai{background-color:#fff;border-radius:10px;box-shadow:0 2px 4px rgba(0, 0, 0, 0.1);padding:20px}.reviews-wrapper.svelte-envaai{height:300px;overflow-y:auto;display:flex;flex-direction:column;align-items:center;justify-content:flex-start}.review-bubble-wrapper.svelte-envaai{width:100%;display:flex;justify-content:center;margin:10px 0}";
+    styleInject(css_248z$r);
 
     /* src/components/Widgets/ReviewWidget.svelte generated by Svelte v3.59.1 */
 
-    function get_each_context$9(ctx, list, i) {
+    function get_each_context$b(ctx, list, i) {
     	const child_ctx = ctx.slice();
     	child_ctx[11] = list[i];
     	return child_ctx;
@@ -12080,7 +12480,7 @@ var app = (function () {
     }
 
     // (78:8) {#if profile}
-    function create_if_block$e(ctx) {
+    function create_if_block$i(ctx) {
     	let t0_value = /*profile*/ ctx[2].name + "";
     	let t0;
     	let t1;
@@ -12132,7 +12532,7 @@ var app = (function () {
     }
 
     // (89:8) {#each reviewEvents as event}
-    function create_each_block$9(ctx) {
+    function create_each_block$b(ctx) {
     	let div;
     	let reviewbubble;
     	let t;
@@ -12173,7 +12573,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$y(ctx) {
+    function create_fragment$E(ctx) {
     	let div2;
     	let h1;
     	let t0;
@@ -12186,7 +12586,7 @@ var app = (function () {
     	let t5;
     	let div1;
     	let current;
-    	let if_block = /*profile*/ ctx[2] && create_if_block$e(ctx);
+    	let if_block = /*profile*/ ctx[2] && create_if_block$i(ctx);
     	let each_value_1 = /*averageStars*/ ctx[3];
     	let each_blocks_1 = [];
 
@@ -12198,7 +12598,7 @@ var app = (function () {
     	let each_blocks = [];
 
     	for (let i = 0; i < each_value.length; i += 1) {
-    		each_blocks[i] = create_each_block$9(get_each_context$9(ctx, each_value, i));
+    		each_blocks[i] = create_each_block$b(get_each_context$b(ctx, each_value, i));
     	}
 
     	const out = i => transition_out(each_blocks[i], 1, 1, () => {
@@ -12269,7 +12669,7 @@ var app = (function () {
     				if (if_block) {
     					if_block.p(ctx, dirty);
     				} else {
-    					if_block = create_if_block$e(ctx);
+    					if_block = create_if_block$i(ctx);
     					if_block.c();
     					if_block.m(h1, null);
     				}
@@ -12308,13 +12708,13 @@ var app = (function () {
     				let i;
 
     				for (i = 0; i < each_value.length; i += 1) {
-    					const child_ctx = get_each_context$9(ctx, each_value, i);
+    					const child_ctx = get_each_context$b(ctx, each_value, i);
 
     					if (each_blocks[i]) {
     						each_blocks[i].p(child_ctx, dirty);
     						transition_in(each_blocks[i], 1);
     					} else {
-    						each_blocks[i] = create_each_block$9(child_ctx);
+    						each_blocks[i] = create_each_block$b(child_ctx);
     						each_blocks[i].c();
     						transition_in(each_blocks[i], 1);
     						each_blocks[i].m(div1, null);
@@ -12357,7 +12757,7 @@ var app = (function () {
     	};
     }
 
-    function instance$x($$self, $$props, $$invalidate) {
+    function instance$D($$self, $$props, $$invalidate) {
     	let averageStars;
     	let $nostrManager;
     	let $nostrCache;
@@ -12450,13 +12850,13 @@ var app = (function () {
     class ReviewWidget extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$x, create_fragment$y, safe_not_equal, { userPubKey: 4 });
+    		init(this, options, instance$D, create_fragment$E, safe_not_equal, { userPubKey: 4 });
     	}
     }
 
     /* src/components/ProfileViewImage.svelte generated by Svelte v3.59.1 */
 
-    function create_if_block$d(ctx) {
+    function create_if_block$h(ctx) {
     	let profileimg;
     	let current;
 
@@ -12502,11 +12902,11 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$x(ctx) {
+    function create_fragment$D(ctx) {
     	let div1;
     	let div0;
     	let current;
-    	let if_block = /*profile*/ ctx[0] && /*profile*/ ctx[0].picture && create_if_block$d(ctx);
+    	let if_block = /*profile*/ ctx[0] && /*profile*/ ctx[0].picture && create_if_block$h(ctx);
 
     	return {
     		c() {
@@ -12531,7 +12931,7 @@ var app = (function () {
     						transition_in(if_block, 1);
     					}
     				} else {
-    					if_block = create_if_block$d(ctx);
+    					if_block = create_if_block$h(ctx);
     					if_block.c();
     					transition_in(if_block, 1);
     					if_block.m(div0, null);
@@ -12562,7 +12962,7 @@ var app = (function () {
     	};
     }
 
-    function instance$w($$self, $$props, $$invalidate) {
+    function instance$C($$self, $$props, $$invalidate) {
     	let { profile = null } = $$props;
 
     	$$self.$$set = $$props => {
@@ -12575,16 +12975,16 @@ var app = (function () {
     class ProfileViewImage extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$w, create_fragment$x, safe_not_equal, { profile: 0 });
+    		init(this, options, instance$C, create_fragment$D, safe_not_equal, { profile: 0 });
     	}
     }
 
-    var css_248z$k = ".follow-button.svelte-awqtfc{display:flex;align-items:center;justify-content:center;padding:10px 20px;border:none;border-radius:20px;cursor:pointer;background-color:#f7931a;color:white;font-size:16px;box-shadow:0 2px 4px rgba(0, 0, 0, 0.2);transition:background-color 0.3s,\n            box-shadow 0.3s}.follow-button.unfollow.svelte-awqtfc{background-color:rgb(44, 82, 130)}.follow-button.disabled.svelte-awqtfc{background-color:grey;cursor:default}.icon.svelte-awqtfc{margin-right:8px}";
-    styleInject(css_248z$k);
+    var css_248z$q = ".follow-button.svelte-awqtfc{display:flex;align-items:center;justify-content:center;padding:10px 20px;border:none;border-radius:20px;cursor:pointer;background-color:#f7931a;color:white;font-size:16px;box-shadow:0 2px 4px rgba(0, 0, 0, 0.2);transition:background-color 0.3s,\n            box-shadow 0.3s}.follow-button.unfollow.svelte-awqtfc{background-color:rgb(44, 82, 130)}.follow-button.disabled.svelte-awqtfc{background-color:grey;cursor:default}.icon.svelte-awqtfc{margin-right:8px}";
+    styleInject(css_248z$q);
 
     /* src/components/FollowButton.svelte generated by Svelte v3.59.1 */
 
-    function create_fragment$w(ctx) {
+    function create_fragment$C(ctx) {
     	let button;
     	let i;
     	let i_class_value;
@@ -12648,7 +13048,7 @@ var app = (function () {
     	};
     }
 
-    function instance$v($$self, $$props, $$invalidate) {
+    function instance$B($$self, $$props, $$invalidate) {
     	let $nostrCache;
     	let $nostrManager;
     	component_subscribe($$self, nostrCache, $$value => $$invalidate(4, $nostrCache = $$value));
@@ -12714,16 +13114,16 @@ var app = (function () {
     class FollowButton extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$v, create_fragment$w, safe_not_equal, { profilePubKey: 3 });
+    		init(this, options, instance$B, create_fragment$C, safe_not_equal, { profilePubKey: 3 });
     	}
     }
 
-    var css_248z$j = ".follow-container.svelte-vhbahq{align-self:flex-end;position:relative;top:10px;right:10px;padding:10px}";
-    styleInject(css_248z$j);
+    var css_248z$p = ".follow-container.svelte-vhbahq{align-self:flex-end;position:relative;top:10px;right:10px;padding:10px}";
+    styleInject(css_248z$p);
 
     /* src/components/Widgets/ProfileWidget.svelte generated by Svelte v3.59.1 */
 
-    function create_fragment$v(ctx) {
+    function create_fragment$B(ctx) {
     	let div3;
     	let div0;
     	let followbutton;
@@ -12807,7 +13207,7 @@ var app = (function () {
     	};
     }
 
-    function instance$u($$self, $$props, $$invalidate) {
+    function instance$A($$self, $$props, $$invalidate) {
     	let $nostrManager;
     	let $nostrCache;
     	component_subscribe($$self, nostrManager, $$value => $$invalidate(5, $nostrManager = $$value));
@@ -12835,7 +13235,6 @@ var app = (function () {
     			return;
     		}
 
-    		console.log("profile:", profile);
     		$$invalidate(1, name = profile.name);
     		$$invalidate(3, profile_pub = profile.pubkey);
     		$$invalidate(2, about = profile.dev_about);
@@ -12879,13 +13278,13 @@ var app = (function () {
     class ProfileWidget extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$u, create_fragment$v, safe_not_equal, { userPubKey: 4 });
+    		init(this, options, instance$A, create_fragment$B, safe_not_equal, { userPubKey: 4 });
     	}
     }
 
     /* src/components/Widgets/Banner/ProfileBannerWidget.svelte generated by Svelte v3.59.1 */
 
-    function create_fragment$u(ctx) {
+    function create_fragment$A(ctx) {
     	let banner_1;
     	let current;
 
@@ -12927,7 +13326,7 @@ var app = (function () {
     	};
     }
 
-    function instance$t($$self, $$props, $$invalidate) {
+    function instance$z($$self, $$props, $$invalidate) {
     	let $nostrCache;
     	let $nostrManager;
     	component_subscribe($$self, nostrCache, $$value => $$invalidate(3, $nostrCache = $$value));
@@ -12993,13 +13392,13 @@ var app = (function () {
     class ProfileBannerWidget extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$t, create_fragment$u, safe_not_equal, { profile_id: 2 });
+    		init(this, options, instance$z, create_fragment$A, safe_not_equal, { profile_id: 2 });
     	}
     }
 
     /* src/views/Profile.svelte generated by Svelte v3.59.1 */
 
-    function create_fragment$t(ctx) {
+    function create_fragment$z(ctx) {
     	let main;
     	let menu;
     	let t0;
@@ -13141,7 +13540,7 @@ var app = (function () {
     	};
     }
 
-    function instance$s($$self, $$props, $$invalidate) {
+    function instance$y($$self, $$props, $$invalidate) {
     	let $nostrCache;
     	let $nostrManager;
     	let $contentContainerClass;
@@ -13229,23 +13628,23 @@ var app = (function () {
     class Profile extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$s, create_fragment$t, safe_not_equal, { profile_id: 0 });
+    		init(this, options, instance$y, create_fragment$z, safe_not_equal, { profile_id: 0 });
     	}
     }
 
-    var css_248z$i = "ul.svelte-1gaioac{list-style-type:disc;padding-left:40px}.relay-item.svelte-1gaioac{display:flex;justify-content:space-between;align-items:center;margin-bottom:2px}.relay-text.svelte-1gaioac{flex-grow:1;font-size:1rem}.add-relay-container.svelte-1gaioac{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}.add-relay-input.svelte-1gaioac{flex-grow:1;margin-right:10px;font-size:1rem;height:28px}";
-    styleInject(css_248z$i);
+    var css_248z$o = "ul.svelte-1gaioac{list-style-type:disc;padding-left:40px}.relay-item.svelte-1gaioac{display:flex;justify-content:space-between;align-items:center;margin-bottom:2px}.relay-text.svelte-1gaioac{flex-grow:1;font-size:1rem}.add-relay-container.svelte-1gaioac{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}.add-relay-input.svelte-1gaioac{flex-grow:1;margin-right:10px;font-size:1rem;height:28px}";
+    styleInject(css_248z$o);
 
     /* src/components/Widgets/RelaySelectionWidget.svelte generated by Svelte v3.59.1 */
 
-    function get_each_context$8(ctx, list, i) {
+    function get_each_context$a(ctx, list, i) {
     	const child_ctx = ctx.slice();
     	child_ctx[16] = list[i];
     	return child_ctx;
     }
 
     // (120:2) {#each relays as relay}
-    function create_each_block$8(ctx) {
+    function create_each_block$a(ctx) {
     	let div;
     	let span;
     	let t0_value = /*relay*/ ctx[16] + "";
@@ -13298,7 +13697,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$s(ctx) {
+    function create_fragment$y(ctx) {
     	let h5;
     	let t1;
     	let div0;
@@ -13324,7 +13723,7 @@ var app = (function () {
     	let each_blocks = [];
 
     	for (let i = 0; i < each_value.length; i += 1) {
-    		each_blocks[i] = create_each_block$8(get_each_context$8(ctx, each_value, i));
+    		each_blocks[i] = create_each_block$a(get_each_context$a(ctx, each_value, i));
     	}
 
     	return {
@@ -13431,12 +13830,12 @@ var app = (function () {
     				let i;
 
     				for (i = 0; i < each_value.length; i += 1) {
-    					const child_ctx = get_each_context$8(ctx, each_value, i);
+    					const child_ctx = get_each_context$a(ctx, each_value, i);
 
     					if (each_blocks[i]) {
     						each_blocks[i].p(child_ctx, dirty);
     					} else {
-    						each_blocks[i] = create_each_block$8(child_ctx);
+    						each_blocks[i] = create_each_block$a(child_ctx);
     						each_blocks[i].c();
     						each_blocks[i].m(div1, null);
     					}
@@ -13492,7 +13891,7 @@ var app = (function () {
     	};
     }
 
-    function instance$r($$self, $$props, $$invalidate) {
+    function instance$x($$self, $$props, $$invalidate) {
     	let $nostrManager;
     	let $nostrCache;
     	component_subscribe($$self, nostrManager, $$value => $$invalidate(7, $nostrManager = $$value));
@@ -13609,13 +14008,13 @@ var app = (function () {
     class RelaySelectionWidget extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$r, create_fragment$s, safe_not_equal, {});
+    		init(this, options, instance$x, create_fragment$y, safe_not_equal, {});
     	}
     }
 
     /* src/components/Widgets/EditProfileWidget.svelte generated by Svelte v3.59.1 */
 
-    function create_fragment$r(ctx) {
+    function create_fragment$x(ctx) {
     	let div6;
     	let profileviewimage;
     	let t0;
@@ -13892,7 +14291,7 @@ var app = (function () {
     	};
     }
 
-    function instance$q($$self, $$props, $$invalidate) {
+    function instance$w($$self, $$props, $$invalidate) {
     	let $nostrManager;
     	component_subscribe($$self, nostrManager, $$value => $$invalidate(16, $nostrManager = $$value));
     	let { profile = null } = $$props;
@@ -14007,13 +14406,13 @@ var app = (function () {
     class EditProfileWidget extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$q, create_fragment$r, safe_not_equal, { profile: 0 });
+    		init(this, options, instance$w, create_fragment$x, safe_not_equal, { profile: 0 });
     	}
     }
 
     /* src/views/EditProfile.svelte generated by Svelte v3.59.1 */
 
-    function create_fragment$q(ctx) {
+    function create_fragment$w(ctx) {
     	let main;
     	let menu;
     	let t0;
@@ -14110,7 +14509,7 @@ var app = (function () {
     	};
     }
 
-    function instance$p($$self, $$props, $$invalidate) {
+    function instance$v($$self, $$props, $$invalidate) {
     	let $nostrCache;
     	let $nostrManager;
     	let $contentContainerClass;
@@ -14172,20 +14571,20 @@ var app = (function () {
     class EditProfile extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$p, create_fragment$q, safe_not_equal, {});
+    		init(this, options, instance$v, create_fragment$w, safe_not_equal, {});
     	}
     }
 
     /* src/components/CommentWidget.svelte generated by Svelte v3.59.1 */
 
-    function get_each_context$7(ctx, list, i) {
+    function get_each_context$9(ctx, list, i) {
     	const child_ctx = ctx.slice();
     	child_ctx[11] = list[i];
     	return child_ctx;
     }
 
     // (104:6) {#if comment.picture}
-    function create_if_block$c(ctx) {
+    function create_if_block$g(ctx) {
     	let div;
     	let profileimg;
     	let current;
@@ -14230,7 +14629,7 @@ var app = (function () {
     }
 
     // (102:2) {#each comments as comment (comment.id)}
-    function create_each_block$7(key_1, ctx) {
+    function create_each_block$9(key_1, ctx) {
     	let li;
     	let t0;
     	let div;
@@ -14243,7 +14642,7 @@ var app = (function () {
     	let t3;
     	let t4;
     	let current;
-    	let if_block = /*comment*/ ctx[11].picture && create_if_block$c(ctx);
+    	let if_block = /*comment*/ ctx[11].picture && create_if_block$g(ctx);
 
     	return {
     		key: key_1,
@@ -14288,7 +14687,7 @@ var app = (function () {
     						transition_in(if_block, 1);
     					}
     				} else {
-    					if_block = create_if_block$c(ctx);
+    					if_block = create_if_block$g(ctx);
     					if_block.c();
     					transition_in(if_block, 1);
     					if_block.m(li, t0);
@@ -14322,7 +14721,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$p(ctx) {
+    function create_fragment$v(ctx) {
     	let h4;
     	let t1;
     	let ul;
@@ -14343,9 +14742,9 @@ var app = (function () {
     	const get_key = ctx => /*comment*/ ctx[11].id;
 
     	for (let i = 0; i < each_value.length; i += 1) {
-    		let child_ctx = get_each_context$7(ctx, each_value, i);
+    		let child_ctx = get_each_context$9(ctx, each_value, i);
     		let key = get_key(child_ctx);
-    		each_1_lookup.set(key, each_blocks[i] = create_each_block$7(key, child_ctx));
+    		each_1_lookup.set(key, each_blocks[i] = create_each_block$9(key, child_ctx));
     	}
 
     	return {
@@ -14415,7 +14814,7 @@ var app = (function () {
     			if (dirty & /*comments*/ 1) {
     				each_value = /*comments*/ ctx[0];
     				group_outros();
-    				each_blocks = update_keyed_each(each_blocks, dirty, get_key, 1, ctx, each_value, each_1_lookup, ul, outro_and_destroy_block, create_each_block$7, null, get_each_context$7);
+    				each_blocks = update_keyed_each(each_blocks, dirty, get_key, 1, ctx, each_value, each_1_lookup, ul, outro_and_destroy_block, create_each_block$9, null, get_each_context$9);
     				check_outros();
     			}
 
@@ -14456,7 +14855,7 @@ var app = (function () {
     	};
     }
 
-    function instance$o($$self, $$props, $$invalidate) {
+    function instance$u($$self, $$props, $$invalidate) {
     	let $nostrManager;
     	let $nostrCache;
     	component_subscribe($$self, nostrManager, $$value => $$invalidate(4, $nostrManager = $$value));
@@ -14573,23 +14972,23 @@ var app = (function () {
     class CommentWidget extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$o, create_fragment$p, safe_not_equal, { id: 3 });
+    		init(this, options, instance$u, create_fragment$v, safe_not_equal, { id: 3 });
     	}
     }
 
-    var css_248z$h = ".add-job-icon.svelte-12qmj0e{background-color:transparent;color:#a0a0a0;font-size:1.5em;border:none;width:30px;height:30px;display:flex;align-items:center;justify-content:center;border-radius:50%;padding:0;transition:color 0.5s,\n      background-color 0.5s;outline:none;cursor:pointer}.add-job-icon.svelte-12qmj0e:hover{background-color:rgba(\n      249,\n      115,\n      22,\n      0.2\n    );color:rgba(\n      249,\n      115,\n      22,\n      0.7\n    );text-decoration:none}.add-job-icon.svelte-12qmj0e:focus{outline:none;box-shadow:none}.header.svelte-12qmj0e{display:flex;justify-content:space-between;align-items:center}.job-grid.svelte-12qmj0e{display:grid;grid-template-columns:repeat(auto-fill, minmax(200px, 1fr));gap:20px;padding:20px}.job-card-inner.svelte-12qmj0e{background-color:#f9f9f9;border-radius:10px;box-shadow:0 5px 15px rgba(0, 0, 0, 0.1);overflow:hidden}.job-image.svelte-12qmj0e{width:100%;height:120px;background-size:cover;background-position:center}.job-info.svelte-12qmj0e{padding:15px}.job-title.svelte-12qmj0e{font-weight:bold;font-size:1.2em;margin-bottom:5px;color:#333333}.job-sats.svelte-12qmj0e{font-size:0.9em;color:#FF9900}";
-    styleInject(css_248z$h);
+    var css_248z$n = ".add-job-icon.svelte-12qmj0e{background-color:transparent;color:#a0a0a0;font-size:1.5em;border:none;width:30px;height:30px;display:flex;align-items:center;justify-content:center;border-radius:50%;padding:0;transition:color 0.5s,\n      background-color 0.5s;outline:none;cursor:pointer}.add-job-icon.svelte-12qmj0e:hover{background-color:rgba(\n      249,\n      115,\n      22,\n      0.2\n    );color:rgba(\n      249,\n      115,\n      22,\n      0.7\n    );text-decoration:none}.add-job-icon.svelte-12qmj0e:focus{outline:none;box-shadow:none}.header.svelte-12qmj0e{display:flex;justify-content:space-between;align-items:center}.job-grid.svelte-12qmj0e{display:grid;grid-template-columns:repeat(auto-fill, minmax(200px, 1fr));gap:20px;padding:20px}.job-card-inner.svelte-12qmj0e{background-color:#f9f9f9;border-radius:10px;box-shadow:0 5px 15px rgba(0, 0, 0, 0.1);overflow:hidden}.job-image.svelte-12qmj0e{width:100%;height:120px;background-size:cover;background-position:center}.job-info.svelte-12qmj0e{padding:15px}.job-title.svelte-12qmj0e{font-weight:bold;font-size:1.2em;margin-bottom:5px;color:#333333}.job-sats.svelte-12qmj0e{font-size:0.9em;color:#FF9900}";
+    styleInject(css_248z$n);
 
     /* src/components/JobWidget.svelte generated by Svelte v3.59.1 */
 
-    function get_each_context$6(ctx, list, i) {
+    function get_each_context$8(ctx, list, i) {
     	const child_ctx = ctx.slice();
     	child_ctx[9] = list[i];
     	return child_ctx;
     }
 
     // (72:2) {#if creatorPubKey === $nostrManager?.publicKey}
-    function create_if_block$b(ctx) {
+    function create_if_block$f(ctx) {
     	let button;
     	let mounted;
     	let dispose;
@@ -14682,7 +15081,7 @@ var app = (function () {
     }
 
     // (80:2) {#each jobs as job (job.id)}
-    function create_each_block$6(key_1, ctx) {
+    function create_each_block$8(key_1, ctx) {
     	let first;
     	let link;
     	let current;
@@ -14736,7 +15135,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$o(ctx) {
+    function create_fragment$u(ctx) {
     	let div0;
     	let h4;
     	let t1;
@@ -14745,14 +15144,14 @@ var app = (function () {
     	let each_blocks = [];
     	let each_1_lookup = new Map();
     	let current;
-    	let if_block = /*creatorPubKey*/ ctx[0] === /*$nostrManager*/ ctx[1]?.publicKey && create_if_block$b(ctx);
+    	let if_block = /*creatorPubKey*/ ctx[0] === /*$nostrManager*/ ctx[1]?.publicKey && create_if_block$f(ctx);
     	let each_value = /*jobs*/ ctx[2];
     	const get_key = ctx => /*job*/ ctx[9].id;
 
     	for (let i = 0; i < each_value.length; i += 1) {
-    		let child_ctx = get_each_context$6(ctx, each_value, i);
+    		let child_ctx = get_each_context$8(ctx, each_value, i);
     		let key = get_key(child_ctx);
-    		each_1_lookup.set(key, each_blocks[i] = create_each_block$6(key, child_ctx));
+    		each_1_lookup.set(key, each_blocks[i] = create_each_block$8(key, child_ctx));
     	}
 
     	return {
@@ -14794,7 +15193,7 @@ var app = (function () {
     				if (if_block) {
     					if_block.p(ctx, dirty);
     				} else {
-    					if_block = create_if_block$b(ctx);
+    					if_block = create_if_block$f(ctx);
     					if_block.c();
     					if_block.m(div0, null);
     				}
@@ -14806,7 +15205,7 @@ var app = (function () {
     			if (dirty & /*jobs*/ 4) {
     				each_value = /*jobs*/ ctx[2];
     				group_outros();
-    				each_blocks = update_keyed_each(each_blocks, dirty, get_key, 1, ctx, each_value, each_1_lookup, div1, outro_and_destroy_block, create_each_block$6, null, get_each_context$6);
+    				each_blocks = update_keyed_each(each_blocks, dirty, get_key, 1, ctx, each_value, each_1_lookup, div1, outro_and_destroy_block, create_each_block$8, null, get_each_context$8);
     				check_outros();
     			}
     		},
@@ -14839,7 +15238,7 @@ var app = (function () {
     	};
     }
 
-    function instance$n($$self, $$props, $$invalidate) {
+    function instance$t($$self, $$props, $$invalidate) {
     	let $nostrManager;
     	let $nostrCache;
     	component_subscribe($$self, nostrManager, $$value => $$invalidate(1, $nostrManager = $$value));
@@ -14914,13 +15313,13 @@ var app = (function () {
     class JobWidget extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$n, create_fragment$o, safe_not_equal, { ideaID: 4, creatorPubKey: 0 });
+    		init(this, options, instance$t, create_fragment$u, safe_not_equal, { ideaID: 4, creatorPubKey: 0 });
     	}
     }
 
     /* src/components/Widgets/Banner/IdeaBannerWidget.svelte generated by Svelte v3.59.1 */
 
-    function create_fragment$n(ctx) {
+    function create_fragment$t(ctx) {
     	let banner;
     	let current;
 
@@ -14979,7 +15378,7 @@ var app = (function () {
     	};
     }
 
-    function instance$m($$self, $$props, $$invalidate) {
+    function instance$s($$self, $$props, $$invalidate) {
     	let $nostrManager;
     	let $nostrCache;
     	component_subscribe($$self, nostrManager, $$value => $$invalidate(4, $nostrManager = $$value));
@@ -15051,62 +15450,16 @@ var app = (function () {
     class IdeaBannerWidget extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$m, create_fragment$n, safe_not_equal, { id: 3 });
+    		init(this, options, instance$s, create_fragment$t, safe_not_equal, { id: 3 });
     	}
     }
 
-    // ZapManager.js
-
-    class ZapManager {
-
-        // Abonniert Zaps für ein bestimmtes Event
-        subscribeZaps(eventId) {
-            const manager = get_store_value(nostrManager);
-            if (manager) {
-                manager.subscribeToEvents({
-                    kinds: [9735], // Kind für Zap-Events
-                    "#e": [eventId],
-                });
-            }
-        }
-
-        // Berechnet die Gesamtanzahl der Zaps für ein Event
-        getTotalZaps(eventId) {
-            const cache = get_store_value(nostrCache);
-            const zaps = cache.getEventsByCriteria({
-                kinds: [9735],
-                tags: { e: [eventId] },
-            });
-
-            let totalReceivedSats = 0;
-            zaps.forEach(zap => {
-                const descriptionTag = zap.tags.find(tag => tag[0] === "description");
-                if (descriptionTag) {
-                    try {
-                        const descriptionData = JSON.parse(descriptionTag[1]);
-                        const amountMillisats = parseInt(
-                            descriptionData.tags.find(tag => tag[0] === "amount")?.[1],
-                            10,
-                        );
-                        totalReceivedSats += amountMillisats / 1000; // Umrechnung in Sats
-                    } catch (error) {
-                        console.error("Fehler beim Parsen der Zap-Description:", error);
-                    }
-                }
-            });
-
-            return totalReceivedSats;
-        }
-    }
-
-    const zapManager = new ZapManager();
-
-    var css_248z$g = ".total-received-section.svelte-1vbeatt{display:flex;justify-content:center;width:100%;margin-top:20px}.total-received-display.svelte-1vbeatt{display:flex;align-items:center;justify-content:center;margin-top:20px;background:#fffde7;padding:10px 20px;border-radius:5px;box-shadow:0px 4px 10px rgba(0, 0, 0, 0.1);font-family:\"Roboto\", sans-serif;width:50%}.sat-symbol.svelte-1vbeatt{height:30px;margin-right:10px}.total-received-amount.svelte-1vbeatt{font-size:1.5rem;font-weight:bold;color:#333;margin-right:5px}.total-received-text.svelte-1vbeatt{font-size:1rem;color:#777}.widget-title.svelte-1vbeatt{text-align:center;color:#333;font-weight:600;margin-bottom:20px;font-family:\"Roboto\", sans-serif}.single-card.svelte-1vbeatt{background-color:#fffbea;box-shadow:0 4px 8px rgba(0, 0, 0, 0.1);border-radius:10px;padding:20px}.input-group.svelte-1vbeatt{display:flex;flex-direction:column;gap:10px;margin-bottom:15px;width:50%;margin-left:auto;margin-right:auto}.sats-input.svelte-1vbeatt,.message-input.svelte-1vbeatt{border:2px solid #fcbf49;background-color:#fffde7;border-radius:5px;padding:10px;font-size:1rem;font-family:\"Roboto\", sans-serif}.send-sats-button.svelte-1vbeatt{background-color:#ffc107;color:white;border:none;padding:10px 15px;border-radius:5px;cursor:pointer;font-size:1rem;transition:background-color 0.3s ease}.send-sats-button.svelte-1vbeatt:hover,.send-sats-button.svelte-1vbeatt:focus{transform:scale(1.05);background-color:#ffca2c;outline:none;box-shadow:0 0 0 2px rgba(255, 193, 7, 0.5)}.progress-bar.svelte-1vbeatt{background-color:#f6f6f6;border-radius:5px;margin-top:10px;height:20px;width:100%}.progress.svelte-1vbeatt{transition:width 0.5s ease,\n      background-color 0.5s ease;background-color:#ffc107;height:100%;border-radius:5px}.sats-input.svelte-1vbeatt:focus,.message-input.svelte-1vbeatt:focus{outline:none;box-shadow:0 0 5px rgba(252, 191, 73, 0.8)}";
-    styleInject(css_248z$g);
+    var css_248z$m = ".total-received-section.svelte-1vbeatt{display:flex;justify-content:center;width:100%;margin-top:20px}.total-received-display.svelte-1vbeatt{display:flex;align-items:center;justify-content:center;margin-top:20px;background:#fffde7;padding:10px 20px;border-radius:5px;box-shadow:0px 4px 10px rgba(0, 0, 0, 0.1);font-family:\"Roboto\", sans-serif;width:50%}.sat-symbol.svelte-1vbeatt{height:30px;margin-right:10px}.total-received-amount.svelte-1vbeatt{font-size:1.5rem;font-weight:bold;color:#333;margin-right:5px}.total-received-text.svelte-1vbeatt{font-size:1rem;color:#777}.widget-title.svelte-1vbeatt{text-align:center;color:#333;font-weight:600;margin-bottom:20px;font-family:\"Roboto\", sans-serif}.single-card.svelte-1vbeatt{background-color:#fffbea;box-shadow:0 4px 8px rgba(0, 0, 0, 0.1);border-radius:10px;padding:20px}.input-group.svelte-1vbeatt{display:flex;flex-direction:column;gap:10px;margin-bottom:15px;width:50%;margin-left:auto;margin-right:auto}.sats-input.svelte-1vbeatt,.message-input.svelte-1vbeatt{border:2px solid #fcbf49;background-color:#fffde7;border-radius:5px;padding:10px;font-size:1rem;font-family:\"Roboto\", sans-serif}.send-sats-button.svelte-1vbeatt{background-color:#ffc107;color:white;border:none;padding:10px 15px;border-radius:5px;cursor:pointer;font-size:1rem;transition:background-color 0.3s ease}.send-sats-button.svelte-1vbeatt:hover,.send-sats-button.svelte-1vbeatt:focus{transform:scale(1.05);background-color:#ffca2c;outline:none;box-shadow:0 0 0 2px rgba(255, 193, 7, 0.5)}.progress-bar.svelte-1vbeatt{background-color:#f6f6f6;border-radius:5px;margin-top:10px;height:20px;width:100%}.progress.svelte-1vbeatt{transition:width 0.5s ease,\n      background-color 0.5s ease;background-color:#ffc107;height:100%;border-radius:5px}.sats-input.svelte-1vbeatt:focus,.message-input.svelte-1vbeatt:focus{outline:none;box-shadow:0 0 5px rgba(252, 191, 73, 0.8)}";
+    styleInject(css_248z$m);
 
     /* src/components/ZapWidget.svelte generated by Svelte v3.59.1 */
 
-    function create_if_block$a(ctx) {
+    function create_if_block$e(ctx) {
     	let div1;
     	let div0;
 
@@ -15133,7 +15486,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$m(ctx) {
+    function create_fragment$s(ctx) {
     	let div3;
     	let h1;
     	let t1;
@@ -15156,7 +15509,7 @@ var app = (function () {
     	let t10;
     	let mounted;
     	let dispose;
-    	let if_block = /*satGoal*/ ctx[0] && create_if_block$a(ctx);
+    	let if_block = /*satGoal*/ ctx[0] && create_if_block$e(ctx);
 
     	return {
     		c() {
@@ -15251,7 +15604,7 @@ var app = (function () {
     				if (if_block) {
     					if_block.p(ctx, dirty);
     				} else {
-    					if_block = create_if_block$a(ctx);
+    					if_block = create_if_block$e(ctx);
     					if_block.c();
     					if_block.m(div3, null);
     				}
@@ -15271,7 +15624,7 @@ var app = (function () {
     	};
     }
 
-    function instance$l($$self, $$props, $$invalidate) {
+    function instance$r($$self, $$props, $$invalidate) {
     	let $nostrManager;
     	let $nostrCache;
     	component_subscribe($$self, nostrManager, $$value => $$invalidate(7, $nostrManager = $$value));
@@ -15384,13 +15737,13 @@ var app = (function () {
     class ZapWidget extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$l, create_fragment$m, safe_not_equal, { eventId: 6, satGoal: 0 });
+    		init(this, options, instance$r, create_fragment$s, safe_not_equal, { eventId: 6, satGoal: 0 });
     	}
     }
 
     /* src/components/Widgets/IdeaWidget.svelte generated by Svelte v3.59.1 */
 
-    function create_if_block_1$2(ctx) {
+    function create_if_block_1$3(ctx) {
     	let button;
     	let mounted;
     	let dispose;
@@ -15419,7 +15772,7 @@ var app = (function () {
     }
 
     // (32:8) {#if preview}
-    function create_if_block$9(ctx) {
+    function create_if_block$d(ctx) {
     	let h5;
 
     	return {
@@ -15436,7 +15789,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$l(ctx) {
+    function create_fragment$r(ctx) {
     	let div2;
     	let t0;
     	let div1;
@@ -15455,8 +15808,8 @@ var app = (function () {
     	let t8;
     	let div0;
     	let raw_value = /*idea*/ ctx[1].message + "";
-    	let if_block0 = /*creator_profile*/ ctx[0] && /*creator_profile*/ ctx[0].pubkey === /*$nostrManager*/ ctx[3].publicKey && create_if_block_1$2(ctx);
-    	let if_block1 = /*preview*/ ctx[2] && create_if_block$9();
+    	let if_block0 = /*creator_profile*/ ctx[0] && /*creator_profile*/ ctx[0].pubkey === /*$nostrManager*/ ctx[3].publicKey && create_if_block_1$3(ctx);
+    	let if_block1 = /*preview*/ ctx[2] && create_if_block$d();
 
     	return {
     		c() {
@@ -15512,7 +15865,7 @@ var app = (function () {
     				if (if_block0) {
     					if_block0.p(ctx, dirty);
     				} else {
-    					if_block0 = create_if_block_1$2(ctx);
+    					if_block0 = create_if_block_1$3(ctx);
     					if_block0.c();
     					if_block0.m(div2, t0);
     				}
@@ -15525,7 +15878,7 @@ var app = (function () {
 
     			if (/*preview*/ ctx[2]) {
     				if (if_block1) ; else {
-    					if_block1 = create_if_block$9();
+    					if_block1 = create_if_block$d();
     					if_block1.c();
     					if_block1.m(div1, t3);
     				}
@@ -15546,7 +15899,7 @@ var app = (function () {
     	};
     }
 
-    function instance$k($$self, $$props, $$invalidate) {
+    function instance$q($$self, $$props, $$invalidate) {
     	let $nostrManager;
     	component_subscribe($$self, nostrManager, $$value => $$invalidate(3, $nostrManager = $$value));
     	let { creator_profile } = $$props;
@@ -15573,13 +15926,13 @@ var app = (function () {
     class IdeaWidget extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$k, create_fragment$l, safe_not_equal, { creator_profile: 0, idea: 1, preview: 2 });
+    		init(this, options, instance$q, create_fragment$r, safe_not_equal, { creator_profile: 0, idea: 1, preview: 2 });
     	}
     }
 
     /* src/views/Idea.svelte generated by Svelte v3.59.1 */
 
-    function create_fragment$k(ctx) {
+    function create_fragment$q(ctx) {
     	let main;
     	let menu;
     	let t0;
@@ -15763,7 +16116,7 @@ var app = (function () {
     	};
     }
 
-    function instance$j($$self, $$props, $$invalidate) {
+    function instance$p($$self, $$props, $$invalidate) {
     	let $nostrManager;
     	let $nostrCache;
     	let $contentContainerClass;
@@ -15794,8 +16147,6 @@ var app = (function () {
     	}
 
     	async function fetchCreatorProfile() {
-    		console.error("no idea", id);
-
     		if (idea) {
     			$$invalidate(1, creator_profile = await socialMediaManager.getProfile(idea.pubkey));
     		}
@@ -15833,7 +16184,7 @@ var app = (function () {
     class Idea extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$j, create_fragment$k, safe_not_equal, { id: 0 });
+    		init(this, options, instance$p, create_fragment$q, safe_not_equal, { id: 0 });
     	}
     }
 
@@ -15862,14 +16213,14 @@ var app = (function () {
         };
     }
 
-    var css_248z$f = ".svelte-n7cvum{box-sizing:border-box}.bg.svelte-n7cvum{position:fixed;z-index:1000;top:0;left:0;display:flex;flex-direction:column;justify-content:center;width:100vw;height:100vh;background:rgba(0, 0, 0, 0.66)}@supports (-webkit-touch-callout: none){}.wrap.svelte-n7cvum{position:relative;margin:2rem;max-height:100%}.window.svelte-n7cvum{position:relative;width:40rem;max-width:100%;max-height:100%;margin:2rem auto;color:black;border-radius:0.5rem;background:white}.content.svelte-n7cvum{position:relative;padding:1rem;max-height:calc(100vh - 4rem);overflow:auto}.close.svelte-n7cvum{display:block;box-sizing:border-box;position:absolute;z-index:1000;top:1rem;right:1rem;margin:0;padding:0;width:1.5rem;height:1.5rem;border:0;color:black;border-radius:1.5rem;background:white;box-shadow:0 0 0 1px black;transition:transform 0.2s cubic-bezier(0.25, 0.1, 0.25, 1),\n      background 0.2s cubic-bezier(0.25, 0.1, 0.25, 1);-webkit-appearance:none}.close.svelte-n7cvum:before,.close.svelte-n7cvum:after{content:'';display:block;box-sizing:border-box;position:absolute;top:50%;width:1rem;height:1px;background:black;transform-origin:center;transition:height 0.2s cubic-bezier(0.25, 0.1, 0.25, 1),\n      background 0.2s cubic-bezier(0.25, 0.1, 0.25, 1)}.close.svelte-n7cvum:before{-webkit-transform:translate(0, -50%) rotate(45deg);-moz-transform:translate(0, -50%) rotate(45deg);transform:translate(0, -50%) rotate(45deg);left:0.25rem}.close.svelte-n7cvum:after{-webkit-transform:translate(0, -50%) rotate(-45deg);-moz-transform:translate(0, -50%) rotate(-45deg);transform:translate(0, -50%) rotate(-45deg);left:0.25rem}.close.svelte-n7cvum:hover{background:black}.close.svelte-n7cvum:hover:before,.close.svelte-n7cvum:hover:after{height:2px;background:white}.close.svelte-n7cvum:focus{border-color:#3399ff;box-shadow:0 0 0 2px #3399ff}.close.svelte-n7cvum:active{transform:scale(0.9)}.close.svelte-n7cvum:hover,.close.svelte-n7cvum:focus,.close.svelte-n7cvum:active{outline:none}";
-    styleInject(css_248z$f);
+    var css_248z$l = ".svelte-n7cvum{box-sizing:border-box}.bg.svelte-n7cvum{position:fixed;z-index:1000;top:0;left:0;display:flex;flex-direction:column;justify-content:center;width:100vw;height:100vh;background:rgba(0, 0, 0, 0.66)}@supports (-webkit-touch-callout: none){}.wrap.svelte-n7cvum{position:relative;margin:2rem;max-height:100%}.window.svelte-n7cvum{position:relative;width:40rem;max-width:100%;max-height:100%;margin:2rem auto;color:black;border-radius:0.5rem;background:white}.content.svelte-n7cvum{position:relative;padding:1rem;max-height:calc(100vh - 4rem);overflow:auto}.close.svelte-n7cvum{display:block;box-sizing:border-box;position:absolute;z-index:1000;top:1rem;right:1rem;margin:0;padding:0;width:1.5rem;height:1.5rem;border:0;color:black;border-radius:1.5rem;background:white;box-shadow:0 0 0 1px black;transition:transform 0.2s cubic-bezier(0.25, 0.1, 0.25, 1),\n      background 0.2s cubic-bezier(0.25, 0.1, 0.25, 1);-webkit-appearance:none}.close.svelte-n7cvum:before,.close.svelte-n7cvum:after{content:'';display:block;box-sizing:border-box;position:absolute;top:50%;width:1rem;height:1px;background:black;transform-origin:center;transition:height 0.2s cubic-bezier(0.25, 0.1, 0.25, 1),\n      background 0.2s cubic-bezier(0.25, 0.1, 0.25, 1)}.close.svelte-n7cvum:before{-webkit-transform:translate(0, -50%) rotate(45deg);-moz-transform:translate(0, -50%) rotate(45deg);transform:translate(0, -50%) rotate(45deg);left:0.25rem}.close.svelte-n7cvum:after{-webkit-transform:translate(0, -50%) rotate(-45deg);-moz-transform:translate(0, -50%) rotate(-45deg);transform:translate(0, -50%) rotate(-45deg);left:0.25rem}.close.svelte-n7cvum:hover{background:black}.close.svelte-n7cvum:hover:before,.close.svelte-n7cvum:hover:after{height:2px;background:white}.close.svelte-n7cvum:focus{border-color:#3399ff;box-shadow:0 0 0 2px #3399ff}.close.svelte-n7cvum:active{transform:scale(0.9)}.close.svelte-n7cvum:hover,.close.svelte-n7cvum:focus,.close.svelte-n7cvum:active{outline:none}";
+    styleInject(css_248z$l);
 
     /* node_modules/svelte-simple-modal/src/Modal.svelte generated by Svelte v3.59.1 */
 
     const { window: window_1 } = globals;
 
-    function create_if_block$8(ctx) {
+    function create_if_block$c(ctx) {
     	let div3;
     	let div2;
     	let div1;
@@ -15888,7 +16239,7 @@ var app = (function () {
     	let current;
     	let mounted;
     	let dispose;
-    	let if_block = /*state*/ ctx[1].closeButton && create_if_block_1$1(ctx);
+    	let if_block = /*state*/ ctx[1].closeButton && create_if_block_1$2(ctx);
     	var switch_value = /*Component*/ ctx[2];
 
     	function switch_props(ctx) {
@@ -15975,7 +16326,7 @@ var app = (function () {
     						transition_in(if_block, 1);
     					}
     				} else {
-    					if_block = create_if_block_1$1(ctx);
+    					if_block = create_if_block_1$2(ctx);
     					if_block.c();
     					transition_in(if_block, 1);
     					if_block.m(div1, t);
@@ -16118,13 +16469,13 @@ var app = (function () {
     }
 
     // (502:8) {#if state.closeButton}
-    function create_if_block_1$1(ctx) {
+    function create_if_block_1$2(ctx) {
     	let show_if;
     	let current_block_type_index;
     	let if_block;
     	let if_block_anchor;
     	let current;
-    	const if_block_creators = [create_if_block_2, create_else_block];
+    	const if_block_creators = [create_if_block_2, create_else_block$3];
     	const if_blocks = [];
 
     	function select_block_type(ctx, dirty) {
@@ -16191,7 +16542,7 @@ var app = (function () {
     }
 
     // (505:10) {:else}
-    function create_else_block(ctx) {
+    function create_else_block$3(ctx) {
     	let button;
     	let button_class_value;
     	let mounted;
@@ -16301,12 +16652,12 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$j(ctx) {
+    function create_fragment$p(ctx) {
     	let t;
     	let current;
     	let mounted;
     	let dispose;
-    	let if_block = /*Component*/ ctx[2] && create_if_block$8(ctx);
+    	let if_block = /*Component*/ ctx[2] && create_if_block$c(ctx);
     	const default_slot_template = /*#slots*/ ctx[49].default;
     	const default_slot = create_slot(default_slot_template, ctx, /*$$scope*/ ctx[48], null);
 
@@ -16340,7 +16691,7 @@ var app = (function () {
     						transition_in(if_block, 1);
     					}
     				} else {
-    					if_block = create_if_block$8(ctx);
+    					if_block = create_if_block$c(ctx);
     					if_block.c();
     					transition_in(if_block, 1);
     					if_block.m(t.parentNode, t);
@@ -16400,7 +16751,7 @@ var app = (function () {
     	};
     }
 
-    function instance$i($$self, $$props, $$invalidate) {
+    function instance$o($$self, $$props, $$invalidate) {
     	let { $$slots: slots = {}, $$scope } = $$props;
     	const dispatch = createEventDispatcher();
     	const baseSetContext = setContext;
@@ -16797,8 +17148,8 @@ var app = (function () {
     		init(
     			this,
     			options,
-    			instance$i,
-    			create_fragment$j,
+    			instance$o,
+    			create_fragment$p,
     			safe_not_equal,
     			{
     				isTabbable: 22,
@@ -16834,19 +17185,19 @@ var app = (function () {
     	}
     }
 
-    var css_248z$e = ".modal-content.svelte-1cny4wt{border:none}.category-container.svelte-1cny4wt{display:flex;flex-wrap:wrap;gap:8px}.category-button.svelte-1cny4wt{padding:4px 8px;background-color:rgb(238, 238, 238);border:none;cursor:pointer;white-space:nowrap;margin:2px;border-radius:4px;text-align:center;font-size:1rem;border:1px solid rgb(238, 238, 238)}.category-button.svelte-1cny4wt:focus{outline:none}.category-button.selected.svelte-1cny4wt{background-color:rgb(249 115 22);color:white;border:1px solid rgb(249 115 22)}.category-button.svelte-1cny4wt:hover{border:1px solid black}";
-    styleInject(css_248z$e);
+    var css_248z$k = ".modal-content.svelte-1cny4wt{border:none}.category-container.svelte-1cny4wt{display:flex;flex-wrap:wrap;gap:8px}.category-button.svelte-1cny4wt{padding:4px 8px;background-color:rgb(238, 238, 238);border:none;cursor:pointer;white-space:nowrap;margin:2px;border-radius:4px;text-align:center;font-size:1rem;border:1px solid rgb(238, 238, 238)}.category-button.svelte-1cny4wt:focus{outline:none}.category-button.selected.svelte-1cny4wt{background-color:rgb(249 115 22);color:white;border:1px solid rgb(249 115 22)}.category-button.svelte-1cny4wt:hover{border:1px solid black}";
+    styleInject(css_248z$k);
 
     /* src/components/Modals/SelectionModal.svelte generated by Svelte v3.59.1 */
 
-    function get_each_context$5(ctx, list, i) {
+    function get_each_context$7(ctx, list, i) {
     	const child_ctx = ctx.slice();
     	child_ctx[9] = list[i];
     	return child_ctx;
     }
 
     // (32:8) {#each categories as category}
-    function create_each_block$5(ctx) {
+    function create_each_block$7(ctx) {
     	let button;
     	let t0_value = /*category*/ ctx[9] + "";
     	let t0;
@@ -16897,7 +17248,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$i(ctx) {
+    function create_fragment$o(ctx) {
     	let div2;
     	let h4;
     	let t1;
@@ -16913,7 +17264,7 @@ var app = (function () {
     	let each_blocks = [];
 
     	for (let i = 0; i < each_value.length; i += 1) {
-    		each_blocks[i] = create_each_block$5(get_each_context$5(ctx, each_value, i));
+    		each_blocks[i] = create_each_block$7(get_each_context$7(ctx, each_value, i));
     	}
 
     	return {
@@ -16976,12 +17327,12 @@ var app = (function () {
     				let i;
 
     				for (i = 0; i < each_value.length; i += 1) {
-    					const child_ctx = get_each_context$5(ctx, each_value, i);
+    					const child_ctx = get_each_context$7(ctx, each_value, i);
 
     					if (each_blocks[i]) {
     						each_blocks[i].p(child_ctx, dirty);
     					} else {
-    						each_blocks[i] = create_each_block$5(child_ctx);
+    						each_blocks[i] = create_each_block$7(child_ctx);
     						each_blocks[i].c();
     						each_blocks[i].m(div0, null);
     					}
@@ -17005,7 +17356,7 @@ var app = (function () {
     	};
     }
 
-    function instance$h($$self, $$props, $$invalidate) {
+    function instance$n($$self, $$props, $$invalidate) {
     	let { categories } = $$props;
     	let { initialSelectedCategories = [] } = $$props;
     	let localSelectedCategories = [...initialSelectedCategories];
@@ -17053,7 +17404,7 @@ var app = (function () {
     	constructor(options) {
     		super();
 
-    		init(this, options, instance$h, create_fragment$i, safe_not_equal, {
+    		init(this, options, instance$n, create_fragment$o, safe_not_equal, {
     			categories: 0,
     			initialSelectedCategories: 5,
     			onConfirm: 6
@@ -17061,12 +17412,12 @@ var app = (function () {
     	}
     }
 
-    var css_248z$d = ".category-container.svelte-19klr7q{display:flex;flex-wrap:wrap;gap:8px}.remove-button.svelte-19klr7q:hover::after{content:\"×\";position:absolute;left:50%;top:50%;transform:translate(-50%, -50%);color:#fff;font-size:1.5rem;pointer-events:none}";
-    styleInject(css_248z$d);
+    var css_248z$j = ".category-container.svelte-19klr7q{display:flex;flex-wrap:wrap;gap:8px}.remove-button.svelte-19klr7q:hover::after{content:\"×\";position:absolute;left:50%;top:50%;transform:translate(-50%, -50%);color:#fff;font-size:1.5rem;pointer-events:none}";
+    styleInject(css_248z$j);
 
     /* src/components/Widgets/PostIdeaWidget.svelte generated by Svelte v3.59.1 */
 
-    function get_each_context$4(ctx, list, i) {
+    function get_each_context$6(ctx, list, i) {
     	const child_ctx = ctx.slice();
     	child_ctx[18] = list[i];
     	return child_ctx;
@@ -17102,7 +17453,7 @@ var app = (function () {
     }
 
     // (182:16) {#each $previewStore.categories as category}
-    function create_each_block$4(ctx) {
+    function create_each_block$6(ctx) {
     	let button;
     	let t0_value = /*category*/ ctx[18] + "";
     	let t0;
@@ -17143,7 +17494,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$h(ctx) {
+    function create_fragment$n(ctx) {
     	let div5;
     	let div3;
     	let h2;
@@ -17206,7 +17557,7 @@ var app = (function () {
     	let each_blocks = [];
 
     	for (let i = 0; i < each_value.length; i += 1) {
-    		each_blocks[i] = create_each_block$4(get_each_context$4(ctx, each_value, i));
+    		each_blocks[i] = create_each_block$6(get_each_context$6(ctx, each_value, i));
     	}
 
     	return {
@@ -17432,12 +17783,12 @@ var app = (function () {
     				let i;
 
     				for (i = 0; i < each_value.length; i += 1) {
-    					const child_ctx = get_each_context$4(ctx, each_value, i);
+    					const child_ctx = get_each_context$6(ctx, each_value, i);
 
     					if (each_blocks[i]) {
     						each_blocks[i].p(child_ctx, dirty);
     					} else {
-    						each_blocks[i] = create_each_block$4(child_ctx);
+    						each_blocks[i] = create_each_block$6(child_ctx);
     						each_blocks[i].c();
     						each_blocks[i].m(div1, null);
     					}
@@ -17474,7 +17825,7 @@ var app = (function () {
     	e.target.style.height = e.target.scrollHeight + "px";
     }
 
-    function instance$g($$self, $$props, $$invalidate) {
+    function instance$m($$self, $$props, $$invalidate) {
     	let $previewStore;
     	let $nostrManager;
     	let $categoryModal;
@@ -17630,13 +17981,13 @@ var app = (function () {
     class PostIdeaWidget extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$g, create_fragment$h, safe_not_equal, {});
+    		init(this, options, instance$m, create_fragment$n, safe_not_equal, {});
     	}
     }
 
     /* src/views/PostIdea.svelte generated by Svelte v3.59.1 */
 
-    function create_fragment$g(ctx) {
+    function create_fragment$m(ctx) {
     	let main;
     	let menu;
     	let t0;
@@ -17654,9 +18005,9 @@ var app = (function () {
 
     	banner = new Banner({
     			props: {
-    				bannerImage: bannerImage$3,
-    				title: title$3,
-    				subtitle: subtitle$3,
+    				bannerImage: bannerImage$4,
+    				title: title$4,
+    				subtitle: subtitle$4,
     				show_right_text: true
     			}
     		});
@@ -17731,11 +18082,11 @@ var app = (function () {
     	};
     }
 
-    let bannerImage$3 = "../../img/Banner1u.png";
-    let title$3 = "BitSpark";
-    let subtitle$3 = "Spark idea";
+    let bannerImage$4 = "../../img/Banner1u.png";
+    let title$4 = "BitSpark";
+    let subtitle$4 = "Spark idea";
 
-    function instance$f($$self, $$props, $$invalidate) {
+    function instance$l($$self, $$props, $$invalidate) {
     	let $contentContainerClass;
     	component_subscribe($$self, contentContainerClass, $$value => $$invalidate(0, $contentContainerClass = $$value));
     	return [$contentContainerClass];
@@ -17744,13 +18095,13 @@ var app = (function () {
     class PostIdea extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$f, create_fragment$g, safe_not_equal, {});
+    		init(this, options, instance$l, create_fragment$m, safe_not_equal, {});
     	}
     }
 
     /* src/views/IdeaPreview.svelte generated by Svelte v3.59.1 */
 
-    function create_fragment$f(ctx) {
+    function create_fragment$l(ctx) {
     	let main;
     	let menu;
     	let t0;
@@ -17910,7 +18261,7 @@ var app = (function () {
     	};
     }
 
-    function instance$e($$self, $$props, $$invalidate) {
+    function instance$k($$self, $$props, $$invalidate) {
     	let $nostrManager;
     	let $previewStore;
     	let $contentContainerClass;
@@ -17933,16 +18284,16 @@ var app = (function () {
     class IdeaPreview extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$e, create_fragment$f, safe_not_equal, {});
+    		init(this, options, instance$k, create_fragment$l, safe_not_equal, {});
     	}
     }
 
-    var css_248z$c = ".job-requirements.svelte-1air933.svelte-1air933{white-space:pre-line}:root{--primary-bg-color:#e2e8f0;--primary-text-color:#4a5568;--primary-font-size:1.2em;--primary-line-height:1.6em}.idea-title.svelte-1air933.svelte-1air933{font-size:4rem;font-weight:700;color:var(--primary-text-color);margin-bottom:1rem}.section-title.svelte-1air933.svelte-1air933{font-size:3rem;font-weight:600;color:#2c5282;margin:1rem 0;padding:0.5rem 0;text-align:center}.idea-description.svelte-1air933.svelte-1air933{width:70%;margin:2rem auto;text-align:justify;font-size:var(--primary-font-size);line-height:var(--primary-line-height)}.abstract-text.svelte-1air933.svelte-1air933{width:50%;margin:2rem auto;text-align:justify;font-size:1.1em;line-height:1.6em}.offer-popup-overlay.svelte-1air933.svelte-1air933{position:fixed;top:0;left:0;width:100%;height:100%;background-color:rgba(0, 0, 0, 0.7);display:flex;justify-content:center;align-items:center;backdrop-filter:blur(5px)}.offer-popup.svelte-1air933.svelte-1air933{width:1000px;padding:20px;background-color:#fff;border-radius:10px;box-shadow:0px 0px 15px rgba(0, 0, 0, 0.3);font-family:\"Ihre Hauptwebsite-Schriftart\", sans-serif;display:flex;flex-direction:column;justify-content:space-between}.offer-popup.svelte-1air933 textarea.svelte-1air933{width:100%;padding:10px;margin-top:5px;border:1px solid #e2e8f0;border-radius:5px;font-size:1em;height:200px}.offer-popup.svelte-1air933 h3.svelte-1air933,.offer-popup.svelte-1air933 label.svelte-1air933{margin-bottom:1rem;color:var(--primary-text-color)}.offer-popup.svelte-1air933 input.svelte-1air933,.offer-popup.svelte-1air933 textarea.svelte-1air933{width:100%;padding:10px;margin-top:5px;border:1px solid #e2e8f0;border-radius:5px;font-size:1em}.offer-popup.svelte-1air933 button.svelte-1air933{padding:10px 15px;border-radius:5px;border:none;cursor:pointer;color:#ffffff;font-weight:bold}.offer-popup.svelte-1air933 button.svelte-1air933:first-child{background-color:#2c5282}.offer-popup.svelte-1air933 button.svelte-1air933:last-child{background-color:rgb(249 115 22)}.post-offer-btn.svelte-1air933.svelte-1air933{background-color:rgb(44, 82, 130);border:none;border-radius:5px;padding:10px 15px;color:#ffffff;font-weight:bold;cursor:pointer;display:flex;align-items:center;justify-content:center;margin-top:1em;margin:1em auto;display:block;width:fit-content}.post-offer-btn.svelte-1air933 i.svelte-1air933{font-size:1em}.post-offer-btn.svelte-1air933.svelte-1air933:hover{background-color:#1a3b5c}.offer-popup-buttons.svelte-1air933.svelte-1air933{display:flex;justify-content:flex-end;gap:10px}.offer-popup.svelte-1air933 button.svelte-1air933:last-child{margin-right:0}.offer-popup.svelte-1air933 button.svelte-1air933:first-child{margin-right:10px}";
-    styleInject(css_248z$c);
+    var css_248z$i = ".job-requirements.svelte-1air933.svelte-1air933{white-space:pre-line}:root{--primary-bg-color:#e2e8f0;--primary-text-color:#4a5568;--primary-font-size:1.2em;--primary-line-height:1.6em}.idea-title.svelte-1air933.svelte-1air933{font-size:4rem;font-weight:700;color:var(--primary-text-color);margin-bottom:1rem}.section-title.svelte-1air933.svelte-1air933{font-size:3rem;font-weight:600;color:#2c5282;margin:1rem 0;padding:0.5rem 0;text-align:center}.idea-description.svelte-1air933.svelte-1air933{width:70%;margin:2rem auto;text-align:justify;font-size:var(--primary-font-size);line-height:var(--primary-line-height)}.abstract-text.svelte-1air933.svelte-1air933{width:50%;margin:2rem auto;text-align:justify;font-size:1.1em;line-height:1.6em}.offer-popup-overlay.svelte-1air933.svelte-1air933{position:fixed;top:0;left:0;width:100%;height:100%;background-color:rgba(0, 0, 0, 0.7);display:flex;justify-content:center;align-items:center;backdrop-filter:blur(5px)}.offer-popup.svelte-1air933.svelte-1air933{width:1000px;padding:20px;background-color:#fff;border-radius:10px;box-shadow:0px 0px 15px rgba(0, 0, 0, 0.3);font-family:\"Ihre Hauptwebsite-Schriftart\", sans-serif;display:flex;flex-direction:column;justify-content:space-between}.offer-popup.svelte-1air933 textarea.svelte-1air933{width:100%;padding:10px;margin-top:5px;border:1px solid #e2e8f0;border-radius:5px;font-size:1em;height:200px}.offer-popup.svelte-1air933 h3.svelte-1air933,.offer-popup.svelte-1air933 label.svelte-1air933{margin-bottom:1rem;color:var(--primary-text-color)}.offer-popup.svelte-1air933 input.svelte-1air933,.offer-popup.svelte-1air933 textarea.svelte-1air933{width:100%;padding:10px;margin-top:5px;border:1px solid #e2e8f0;border-radius:5px;font-size:1em}.offer-popup.svelte-1air933 button.svelte-1air933{padding:10px 15px;border-radius:5px;border:none;cursor:pointer;color:#ffffff;font-weight:bold}.offer-popup.svelte-1air933 button.svelte-1air933:first-child{background-color:#2c5282}.offer-popup.svelte-1air933 button.svelte-1air933:last-child{background-color:rgb(249 115 22)}.post-offer-btn.svelte-1air933.svelte-1air933{background-color:rgb(44, 82, 130);border:none;border-radius:5px;padding:10px 15px;color:#ffffff;font-weight:bold;cursor:pointer;display:flex;align-items:center;justify-content:center;margin-top:1em;margin:1em auto;display:block;width:fit-content}.post-offer-btn.svelte-1air933 i.svelte-1air933{font-size:1em}.post-offer-btn.svelte-1air933.svelte-1air933:hover{background-color:#1a3b5c}.offer-popup-buttons.svelte-1air933.svelte-1air933{display:flex;justify-content:flex-end;gap:10px}.offer-popup.svelte-1air933 button.svelte-1air933:last-child{margin-right:0}.offer-popup.svelte-1air933 button.svelte-1air933:first-child{margin-right:10px}";
+    styleInject(css_248z$i);
 
     /* src/views/Job.svelte generated by Svelte v3.59.1 */
 
-    function create_if_block_1(ctx) {
+    function create_if_block_1$1(ctx) {
     	let button;
     	let mounted;
     	let dispose;
@@ -17971,7 +18322,7 @@ var app = (function () {
     }
 
     // (179:2) {#if showOfferPopup}
-    function create_if_block$7(ctx) {
+    function create_if_block$b(ctx) {
     	let div2;
     	let div1;
     	let h3;
@@ -18101,7 +18452,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$e(ctx) {
+    function create_fragment$k(ctx) {
     	let main;
     	let menu;
     	let t0;
@@ -18157,10 +18508,10 @@ var app = (function () {
     		});
 
     	toolbar = new Toolbar({});
-    	let if_block0 = /*creator_profile*/ ctx[7] && /*creator_profile*/ ctx[7].pubkey === /*$nostrManager*/ ctx[1]?.publicKey && create_if_block_1(ctx);
+    	let if_block0 = /*creator_profile*/ ctx[7] && /*creator_profile*/ ctx[7].pubkey === /*$nostrManager*/ ctx[1]?.publicKey && create_if_block_1$1(ctx);
     	zapwidget = new ZapWidget({ props: { eventId: /*id*/ ctx[0] } });
     	commentwidget = new CommentWidget({ props: { id: /*id*/ ctx[0] } });
-    	let if_block1 = /*showOfferPopup*/ ctx[2] && create_if_block$7(ctx);
+    	let if_block1 = /*showOfferPopup*/ ctx[2] && create_if_block$b(ctx);
     	footer = new Footer({});
 
     	return {
@@ -18283,7 +18634,7 @@ var app = (function () {
     				if (if_block0) {
     					if_block0.p(ctx, dirty);
     				} else {
-    					if_block0 = create_if_block_1(ctx);
+    					if_block0 = create_if_block_1$1(ctx);
     					if_block0.c();
     					if_block0.m(div2, t3);
     				}
@@ -18307,7 +18658,7 @@ var app = (function () {
     				if (if_block1) {
     					if_block1.p(ctx, dirty);
     				} else {
-    					if_block1 = create_if_block$7(ctx);
+    					if_block1 = create_if_block$b(ctx);
     					if_block1.c();
     					if_block1.m(main, t18);
     				}
@@ -18351,7 +18702,7 @@ var app = (function () {
     	};
     }
 
-    function instance$d($$self, $$props, $$invalidate) {
+    function instance$j($$self, $$props, $$invalidate) {
     	let $nostrManager;
     	let $nostrCache;
     	let $contentContainerClass;
@@ -18519,13 +18870,13 @@ var app = (function () {
     class Job extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$d, create_fragment$e, safe_not_equal, { id: 0 });
+    		init(this, options, instance$j, create_fragment$k, safe_not_equal, { id: 0 });
     	}
     }
 
     /* src/components/Dropdowns/MultiSelectDropdown.svelte generated by Svelte v3.59.1 */
 
-    function get_each_context$3(ctx, list, i) {
+    function get_each_context$5(ctx, list, i) {
     	const child_ctx = ctx.slice();
     	child_ctx[8] = list[i];
     	child_ctx[9] = list;
@@ -18534,7 +18885,7 @@ var app = (function () {
     }
 
     // (30:4) {#each categories as category}
-    function create_each_block$3(ctx) {
+    function create_each_block$5(ctx) {
     	let label;
     	let input;
     	let t0;
@@ -18597,7 +18948,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$d(ctx) {
+    function create_fragment$j(ctx) {
     	let div1;
     	let button;
     	let t1;
@@ -18609,7 +18960,7 @@ var app = (function () {
     	let each_blocks = [];
 
     	for (let i = 0; i < each_value.length; i += 1) {
-    		each_blocks[i] = create_each_block$3(get_each_context$3(ctx, each_value, i));
+    		each_blocks[i] = create_each_block$5(get_each_context$5(ctx, each_value, i));
     	}
 
     	return {
@@ -18651,12 +19002,12 @@ var app = (function () {
     				let i;
 
     				for (i = 0; i < each_value.length; i += 1) {
-    					const child_ctx = get_each_context$3(ctx, each_value, i);
+    					const child_ctx = get_each_context$5(ctx, each_value, i);
 
     					if (each_blocks[i]) {
     						each_blocks[i].p(child_ctx, dirty);
     					} else {
-    						each_blocks[i] = create_each_block$3(child_ctx);
+    						each_blocks[i] = create_each_block$5(child_ctx);
     						each_blocks[i].c();
     						each_blocks[i].m(div0, null);
     					}
@@ -18684,7 +19035,7 @@ var app = (function () {
     	};
     }
 
-    function instance$c($$self, $$props, $$invalidate) {
+    function instance$i($$self, $$props, $$invalidate) {
     	let { categories = [] } = $$props;
     	let { selected = [] } = $$props;
     	let dropdownOpen = false;
@@ -18737,7 +19088,7 @@ var app = (function () {
     class MultiSelectDropdown extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$c, create_fragment$d, safe_not_equal, { categories: 0, selected: 4 });
+    		init(this, options, instance$i, create_fragment$j, safe_not_equal, { categories: 0, selected: 4 });
     	}
     }
 
@@ -18754,12 +19105,12 @@ var app = (function () {
     // Erstellen Sie den Store für Job
     const previewJobStore = writable(initialJob);
 
-    var css_248z$b = ".prevButton.svelte-1utxjqs{background-color:#223d6d}.prevButton.svelte-1utxjqs:active{background-color:#11253b}";
-    styleInject(css_248z$b);
+    var css_248z$h = ".prevButton.svelte-1utxjqs{background-color:#223d6d}.prevButton.svelte-1utxjqs:active{background-color:#11253b}";
+    styleInject(css_248z$h);
 
     /* src/views/PostJob.svelte generated by Svelte v3.59.1 */
 
-    function create_fragment$c(ctx) {
+    function create_fragment$i(ctx) {
     	let main;
     	let menu;
     	let t0;
@@ -18813,9 +19164,9 @@ var app = (function () {
 
     	banner = new Banner({
     			props: {
-    				bannerImage: bannerImage$2,
-    				title: title$2,
-    				subtitle: subtitle$2,
+    				bannerImage: bannerImage$3,
+    				title: title$3,
+    				subtitle: subtitle$3,
     				show_right_text: true
     			}
     		});
@@ -19091,16 +19442,16 @@ var app = (function () {
     	};
     }
 
-    let bannerImage$2 = "../../img/Banner1u.png";
-    let title$2 = "BitSpark";
-    let subtitle$2 = "Post a Job";
+    let bannerImage$3 = "../../img/Banner1u.png";
+    let title$3 = "BitSpark";
+    let subtitle$3 = "Post a Job";
 
     function autoResizeTextarea(e) {
     	e.target.style.height = "";
     	e.target.style.height = e.target.scrollHeight + "px";
     }
 
-    function instance$b($$self, $$props, $$invalidate) {
+    function instance$h($$self, $$props, $$invalidate) {
     	let $previewJobStore;
     	let $nostrManager;
     	let $contentContainerClass;
@@ -19213,7 +19564,7 @@ var app = (function () {
     class PostJob extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$b, create_fragment$c, safe_not_equal, { ideaID: 3 });
+    		init(this, options, instance$h, create_fragment$i, safe_not_equal, { ideaID: 3 });
     	}
     }
 
@@ -19222,19 +19573,19 @@ var app = (function () {
     const selectedCategories = writable([]);
     const selectedLangs = writable([]);
 
-    var css_248z$a = ".modal-buttons-container.svelte-1hoyqek.svelte-1hoyqek{display:flex;justify-content:flex-end;padding:10px}.modal-button.svelte-1hoyqek.svelte-1hoyqek{background-color:#f7931a;color:white;border:none;border-radius:5px;padding:10px;margin-left:10px;cursor:pointer;font-size:0.9rem;display:flex;align-items:center;transition:background-color 0.2s ease}.modal-button.svelte-1hoyqek i.svelte-1hoyqek{margin-right:5px}.modal-button.svelte-1hoyqek.svelte-1hoyqek:hover{background-color:#e6830b}.view-idea-button.svelte-1hoyqek.svelte-1hoyqek{padding:10px 20px;background-color:#f7931a;color:white;text-decoration:none;border:none;border-radius:5px;font-size:1rem;font-weight:600;margin-left:auto;transition:background-color 0.2s ease}.view-idea-button.svelte-1hoyqek.svelte-1hoyqek:hover{background-color:#e6830b}.job-entry.svelte-1hoyqek.svelte-1hoyqek{display:flex;align-items:center;padding:15px;border-bottom:1px solid #eaeaea}.profile-container.svelte-1hoyqek.svelte-1hoyqek,.job-title.svelte-1hoyqek.svelte-1hoyqek,.view-idea-button.svelte-1hoyqek.svelte-1hoyqek{margin-right:15px}.profile-container.svelte-1hoyqek.svelte-1hoyqek{width:70px;height:70px;border-radius:50%;overflow:hidden;display:flex;justify-content:center;align-items:center}.job-title.svelte-1hoyqek.svelte-1hoyqek{flex-grow:1;margin-right:15px}.view-idea-button.svelte-1hoyqek.svelte-1hoyqek{align-self:center;height:fit-content}";
-    styleInject(css_248z$a);
+    var css_248z$g = ".modal-buttons-container.svelte-1hoyqek.svelte-1hoyqek{display:flex;justify-content:flex-end;padding:10px}.modal-button.svelte-1hoyqek.svelte-1hoyqek{background-color:#f7931a;color:white;border:none;border-radius:5px;padding:10px;margin-left:10px;cursor:pointer;font-size:0.9rem;display:flex;align-items:center;transition:background-color 0.2s ease}.modal-button.svelte-1hoyqek i.svelte-1hoyqek{margin-right:5px}.modal-button.svelte-1hoyqek.svelte-1hoyqek:hover{background-color:#e6830b}.view-idea-button.svelte-1hoyqek.svelte-1hoyqek{padding:10px 20px;background-color:#f7931a;color:white;text-decoration:none;border:none;border-radius:5px;font-size:1rem;font-weight:600;margin-left:auto;transition:background-color 0.2s ease}.view-idea-button.svelte-1hoyqek.svelte-1hoyqek:hover{background-color:#e6830b}.job-entry.svelte-1hoyqek.svelte-1hoyqek{display:flex;align-items:center;padding:15px;border-bottom:1px solid #eaeaea}.profile-container.svelte-1hoyqek.svelte-1hoyqek,.job-title.svelte-1hoyqek.svelte-1hoyqek,.view-idea-button.svelte-1hoyqek.svelte-1hoyqek{margin-right:15px}.profile-container.svelte-1hoyqek.svelte-1hoyqek{width:70px;height:70px;border-radius:50%;overflow:hidden;display:flex;justify-content:center;align-items:center}.job-title.svelte-1hoyqek.svelte-1hoyqek{flex-grow:1;margin-right:15px}.view-idea-button.svelte-1hoyqek.svelte-1hoyqek{align-self:center;height:fit-content}";
+    styleInject(css_248z$g);
 
     /* src/components/JobMarket/JobMarketWidget.svelte generated by Svelte v3.59.1 */
 
-    function get_each_context$2(ctx, list, i) {
+    function get_each_context$4(ctx, list, i) {
     	const child_ctx = ctx.slice();
     	child_ctx[20] = list[i];
     	return child_ctx;
     }
 
     // (152:8) <Modal show={$jobModal}>
-    function create_default_slot_2(ctx) {
+    function create_default_slot_2$1(ctx) {
     	let button;
     	let mounted;
     	let dispose;
@@ -19263,7 +19614,7 @@ var app = (function () {
     }
 
     // (157:8) <Modal show={$languageModal}>
-    function create_default_slot_1(ctx) {
+    function create_default_slot_1$1(ctx) {
     	let button;
     	let mounted;
     	let dispose;
@@ -19292,7 +19643,7 @@ var app = (function () {
     }
 
     // (166:12) {#if job.profile}
-    function create_if_block$6(ctx) {
+    function create_if_block$a(ctx) {
     	let div;
     	let profileimg;
     	let current;
@@ -19358,7 +19709,7 @@ var app = (function () {
     }
 
     // (164:4) {#each jobs as job}
-    function create_each_block$2(ctx) {
+    function create_each_block$4(ctx) {
     	let div1;
     	let t0;
     	let div0;
@@ -19370,7 +19721,7 @@ var app = (function () {
     	let current;
     	let mounted;
     	let dispose;
-    	let if_block = /*job*/ ctx[20].profile && create_if_block$6(ctx);
+    	let if_block = /*job*/ ctx[20].profile && create_if_block$a(ctx);
 
     	link = new Link({
     			props: {
@@ -19428,7 +19779,7 @@ var app = (function () {
     						transition_in(if_block, 1);
     					}
     				} else {
-    					if_block = create_if_block$6(ctx);
+    					if_block = create_if_block$a(ctx);
     					if_block.c();
     					transition_in(if_block, 1);
     					if_block.m(div1, t0);
@@ -19473,7 +19824,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$b(ctx) {
+    function create_fragment$h(ctx) {
     	let div1;
     	let div0;
     	let modal0;
@@ -19485,7 +19836,7 @@ var app = (function () {
     	modal0 = new Modal({
     			props: {
     				show: /*$jobModal*/ ctx[1],
-    				$$slots: { default: [create_default_slot_2] },
+    				$$slots: { default: [create_default_slot_2$1] },
     				$$scope: { ctx }
     			}
     		});
@@ -19493,7 +19844,7 @@ var app = (function () {
     	modal1 = new Modal({
     			props: {
     				show: /*$languageModal*/ ctx[2],
-    				$$slots: { default: [create_default_slot_1] },
+    				$$slots: { default: [create_default_slot_1$1] },
     				$$scope: { ctx }
     			}
     		});
@@ -19502,7 +19853,7 @@ var app = (function () {
     	let each_blocks = [];
 
     	for (let i = 0; i < each_value.length; i += 1) {
-    		each_blocks[i] = create_each_block$2(get_each_context$2(ctx, each_value, i));
+    		each_blocks[i] = create_each_block$4(get_each_context$4(ctx, each_value, i));
     	}
 
     	const out = i => transition_out(each_blocks[i], 1, 1, () => {
@@ -19564,13 +19915,13 @@ var app = (function () {
     				let i;
 
     				for (i = 0; i < each_value.length; i += 1) {
-    					const child_ctx = get_each_context$2(ctx, each_value, i);
+    					const child_ctx = get_each_context$4(ctx, each_value, i);
 
     					if (each_blocks[i]) {
     						each_blocks[i].p(child_ctx, dirty);
     						transition_in(each_blocks[i], 1);
     					} else {
-    						each_blocks[i] = create_each_block$2(child_ctx);
+    						each_blocks[i] = create_each_block$4(child_ctx);
     						each_blocks[i].c();
     						transition_in(each_blocks[i], 1);
     						each_blocks[i].m(div1, null);
@@ -19619,7 +19970,7 @@ var app = (function () {
 
     const func$2 = tag => tag[0] === "jTitle";
 
-    function instance$a($$self, $$props, $$invalidate) {
+    function instance$g($$self, $$props, $$invalidate) {
     	let $nostrCache;
     	let $nostrManager;
     	let $selectedLangs;
@@ -19777,16 +20128,16 @@ var app = (function () {
     class JobMarketWidget extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$a, create_fragment$b, safe_not_equal, {});
+    		init(this, options, instance$g, create_fragment$h, safe_not_equal, {});
     	}
     }
 
-    var css_248z$9 = ".overview-page.svelte-y1b9e6{display:flex;flex-direction:column;min-height:100vh;padding:0;margin:0 auto}.flex-grow.svelte-y1b9e6{flex-grow:1}";
-    styleInject(css_248z$9);
+    var css_248z$f = ".overview-page.svelte-y1b9e6{display:flex;flex-direction:column;min-height:100vh;padding:0;margin:0 auto}.flex-grow.svelte-y1b9e6{flex-grow:1}";
+    styleInject(css_248z$f);
 
     /* src/views/JobMarket.svelte generated by Svelte v3.59.1 */
 
-    function create_fragment$a(ctx) {
+    function create_fragment$g(ctx) {
     	let main;
     	let menu;
     	let t0;
@@ -19805,9 +20156,9 @@ var app = (function () {
 
     	banner = new Banner({
     			props: {
-    				bannerImage: bannerImage$1,
-    				title: title$1,
-    				subtitle: subtitle$1,
+    				bannerImage: bannerImage$2,
+    				title: title$2,
+    				subtitle: subtitle$2,
     				show_right_text: false
     			}
     		});
@@ -19882,11 +20233,11 @@ var app = (function () {
     	};
     }
 
-    let bannerImage$1 = "../../img/Banner1u.png";
-    let title$1 = "BitSpark";
-    let subtitle$1 = "Job Market";
+    let bannerImage$2 = "../../img/Banner1u.png";
+    let title$2 = "BitSpark";
+    let subtitle$2 = "Job Market";
 
-    function instance$9($$self, $$props, $$invalidate) {
+    function instance$f($$self, $$props, $$invalidate) {
     	let $contentContainerClass;
     	component_subscribe($$self, contentContainerClass, $$value => $$invalidate(0, $contentContainerClass = $$value));
 
@@ -19900,23 +20251,23 @@ var app = (function () {
     class JobMarket_1 extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$9, create_fragment$a, safe_not_equal, {});
+    		init(this, options, instance$f, create_fragment$g, safe_not_equal, {});
     	}
     }
 
-    var css_248z$8 = ".job-list.svelte-jhtsfp{max-height:100%;overflow-y:auto}.job-item.svelte-jhtsfp{padding:10px 15px;cursor:pointer;border-bottom:1px solid #eee;transition:background-color 0.3s,\n            color 0.3s;display:flex;align-items:center;gap:10px}.job-item.svelte-jhtsfp:hover{background-color:#f5f5f5;color:#333}";
-    styleInject(css_248z$8);
+    var css_248z$e = ".job-list.svelte-jhtsfp{max-height:100%;overflow-y:auto}.job-item.svelte-jhtsfp{padding:10px 15px;cursor:pointer;border-bottom:1px solid #eee;transition:background-color 0.3s,\n            color 0.3s;display:flex;align-items:center;gap:10px}.job-item.svelte-jhtsfp:hover{background-color:#f5f5f5;color:#333}";
+    styleInject(css_248z$e);
 
     /* src/components/JobManager2/JobList.svelte generated by Svelte v3.59.1 */
 
-    function get_each_context$1(ctx, list, i) {
+    function get_each_context$3(ctx, list, i) {
     	const child_ctx = ctx.slice();
     	child_ctx[8] = list[i];
     	return child_ctx;
     }
 
     // (46:4) {#each jobs as job}
-    function create_each_block$1(ctx) {
+    function create_each_block$3(ctx) {
     	let div;
     	let t0_value = (/*job*/ ctx[8].tags.find(func$1)?.[1] || "Unbekannter Job") + "";
     	let t0;
@@ -19957,13 +20308,13 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$9(ctx) {
+    function create_fragment$f(ctx) {
     	let div;
     	let each_value = /*jobs*/ ctx[0];
     	let each_blocks = [];
 
     	for (let i = 0; i < each_value.length; i += 1) {
-    		each_blocks[i] = create_each_block$1(get_each_context$1(ctx, each_value, i));
+    		each_blocks[i] = create_each_block$3(get_each_context$3(ctx, each_value, i));
     	}
 
     	return {
@@ -19991,12 +20342,12 @@ var app = (function () {
     				let i;
 
     				for (i = 0; i < each_value.length; i += 1) {
-    					const child_ctx = get_each_context$1(ctx, each_value, i);
+    					const child_ctx = get_each_context$3(ctx, each_value, i);
 
     					if (each_blocks[i]) {
     						each_blocks[i].p(child_ctx, dirty);
     					} else {
-    						each_blocks[i] = create_each_block$1(child_ctx);
+    						each_blocks[i] = create_each_block$3(child_ctx);
     						each_blocks[i].c();
     						each_blocks[i].m(div, null);
     					}
@@ -20020,7 +20371,7 @@ var app = (function () {
 
     const func$1 = tag => tag[0] === "jTitle";
 
-    function instance$8($$self, $$props, $$invalidate) {
+    function instance$e($$self, $$props, $$invalidate) {
     	let $nostrCache;
     	let $nostrManager;
     	component_subscribe($$self, nostrCache, $$value => $$invalidate(2, $nostrCache = $$value));
@@ -20075,16 +20426,16 @@ var app = (function () {
     class JobList extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$8, create_fragment$9, safe_not_equal, {});
+    		init(this, options, instance$e, create_fragment$f, safe_not_equal, {});
     	}
     }
 
-    var css_248z$7 = ".job-content.svelte-1b8lozp.svelte-1b8lozp{max-width:100%;display:flex;flex-direction:column}.job-content.svelte-1b8lozp h3.svelte-1b8lozp{margin-bottom:5px;color:#ffffff}.job-content.svelte-1b8lozp p.svelte-1b8lozp{margin-top:5px;color:#ffffff}.action-buttons.svelte-1b8lozp.svelte-1b8lozp{margin-top:10px;display:flex;gap:10px}button.svelte-1b8lozp.svelte-1b8lozp{cursor:pointer;padding:8px 16px;border:none;border-radius:20px;color:#ffffff;font-weight:bold;transition:background-color 0.3s, box-shadow 0.3s;outline:none;flex-grow:1}button.svelte-1b8lozp.svelte-1b8lozp:hover{box-shadow:0 4px 8px rgba(0, 0, 0, 0.2)}button.svelte-1b8lozp.svelte-1b8lozp:active{box-shadow:0 2px 4px rgba(0, 0, 0, 0.2)}.approve-button.svelte-1b8lozp.svelte-1b8lozp{background-color:#f7931a}.approve-button.svelte-1b8lozp.svelte-1b8lozp:hover,.approve-button.svelte-1b8lozp.svelte-1b8lozp:focus{background-color:#be7113}.decline-button.svelte-1b8lozp.svelte-1b8lozp{background-color:#6c8cd5}.decline-button.svelte-1b8lozp.svelte-1b8lozp:hover,.decline-button.svelte-1b8lozp.svelte-1b8lozp:focus{background-color:#394a72}";
-    styleInject(css_248z$7);
+    var css_248z$d = ".job-content.svelte-1b8lozp.svelte-1b8lozp{max-width:100%;display:flex;flex-direction:column}.job-content.svelte-1b8lozp h3.svelte-1b8lozp{margin-bottom:5px;color:#ffffff}.job-content.svelte-1b8lozp p.svelte-1b8lozp{margin-top:5px;color:#ffffff}.action-buttons.svelte-1b8lozp.svelte-1b8lozp{margin-top:10px;display:flex;gap:10px}button.svelte-1b8lozp.svelte-1b8lozp{cursor:pointer;padding:8px 16px;border:none;border-radius:20px;color:#ffffff;font-weight:bold;transition:background-color 0.3s, box-shadow 0.3s;outline:none;flex-grow:1}button.svelte-1b8lozp.svelte-1b8lozp:hover{box-shadow:0 4px 8px rgba(0, 0, 0, 0.2)}button.svelte-1b8lozp.svelte-1b8lozp:active{box-shadow:0 2px 4px rgba(0, 0, 0, 0.2)}.approve-button.svelte-1b8lozp.svelte-1b8lozp{background-color:#f7931a}.approve-button.svelte-1b8lozp.svelte-1b8lozp:hover,.approve-button.svelte-1b8lozp.svelte-1b8lozp:focus{background-color:#be7113}.decline-button.svelte-1b8lozp.svelte-1b8lozp{background-color:#6c8cd5}.decline-button.svelte-1b8lozp.svelte-1b8lozp:hover,.decline-button.svelte-1b8lozp.svelte-1b8lozp:focus{background-color:#394a72}";
+    styleInject(css_248z$d);
 
     /* src/components/JobManager2/JobBubble.svelte generated by Svelte v3.59.1 */
 
-    function create_if_block$5(ctx) {
+    function create_if_block$9(ctx) {
     	let div;
     	let button0;
     	let t1;
@@ -20136,7 +20487,7 @@ var app = (function () {
     	let t1;
     	let p;
     	let t2;
-    	let if_block = /*jobApprovalStatus*/ ctx[3] === "pending" && /*isIdeaCreator*/ ctx[5] && create_if_block$5(ctx);
+    	let if_block = /*jobApprovalStatus*/ ctx[3] === "pending" && /*isIdeaCreator*/ ctx[5] && create_if_block$9(ctx);
 
     	return {
     		c() {
@@ -20168,7 +20519,7 @@ var app = (function () {
     				if (if_block) {
     					if_block.p(ctx, dirty);
     				} else {
-    					if_block = create_if_block$5(ctx);
+    					if_block = create_if_block$9(ctx);
     					if_block.c();
     					if_block.m(div, null);
     				}
@@ -20184,7 +20535,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$8(ctx) {
+    function create_fragment$e(ctx) {
     	let basebubble;
     	let current;
 
@@ -20233,7 +20584,7 @@ var app = (function () {
     	};
     }
 
-    function instance$7($$self, $$props, $$invalidate) {
+    function instance$d($$self, $$props, $$invalidate) {
     	let $nostrManager;
     	let $nostrCache;
     	component_subscribe($$self, nostrManager, $$value => $$invalidate(7, $nostrManager = $$value));
@@ -20339,16 +20690,16 @@ var app = (function () {
     class JobBubble extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$7, create_fragment$8, safe_not_equal, { event: 0 });
+    		init(this, options, instance$d, create_fragment$e, safe_not_equal, { event: 0 });
     	}
     }
 
-    var css_248z$6 = ".offer-time.svelte-xdlxa4.svelte-xdlxa4{margin-top:0;line-height:1.4}.offer-content.svelte-xdlxa4.svelte-xdlxa4{display:flex;flex-direction:column;align-items:flex-start;padding:10px}.sats-amount.svelte-xdlxa4.svelte-xdlxa4{font-weight:bold;margin-bottom:5px}.offer-msg.svelte-xdlxa4.svelte-xdlxa4{margin-top:0;line-height:1.4}.offer-actions.svelte-xdlxa4 button.svelte-xdlxa4{padding:5px 10px;border:none;color:white;border-radius:4px;margin-right:10px;cursor:pointer;font-weight:bold}";
-    styleInject(css_248z$6);
+    var css_248z$c = ".offer-time.svelte-xdlxa4.svelte-xdlxa4{margin-top:0;line-height:1.4}.offer-content.svelte-xdlxa4.svelte-xdlxa4{display:flex;flex-direction:column;align-items:flex-start;padding:10px}.sats-amount.svelte-xdlxa4.svelte-xdlxa4{font-weight:bold;margin-bottom:5px}.offer-msg.svelte-xdlxa4.svelte-xdlxa4{margin-top:0;line-height:1.4}.offer-actions.svelte-xdlxa4 button.svelte-xdlxa4{padding:5px 10px;border:none;color:white;border-radius:4px;margin-right:10px;cursor:pointer;font-weight:bold}";
+    styleInject(css_248z$c);
 
     /* src/components/JobManager2/OfferBubble.svelte generated by Svelte v3.59.1 */
 
-    function create_if_block$4(ctx) {
+    function create_if_block$8(ctx) {
     	let div;
     	let button0;
     	let t0;
@@ -20419,7 +20770,7 @@ var app = (function () {
     	let p1;
     	let t4;
     	let t5;
-    	let if_block = /*isJobApproved*/ ctx[11] && /*isJobCreator*/ ctx[10] && /*offerStatus*/ ctx[1] === "pending" && create_if_block$4(ctx);
+    	let if_block = /*isJobApproved*/ ctx[11] && /*isJobCreator*/ ctx[10] && /*offerStatus*/ ctx[1] === "pending" && create_if_block$8(ctx);
 
     	return {
     		c() {
@@ -20467,7 +20818,7 @@ var app = (function () {
     				if (if_block) {
     					if_block.p(ctx, dirty);
     				} else {
-    					if_block = create_if_block$4(ctx);
+    					if_block = create_if_block$8(ctx);
     					if_block.c();
     					if_block.m(div, null);
     				}
@@ -20483,7 +20834,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$7(ctx) {
+    function create_fragment$d(ctx) {
     	let basebubble;
     	let current;
 
@@ -20543,7 +20894,7 @@ var app = (function () {
     	return `<span class="time-value"><i class="fas fa-clock"></i> ${time}</span>`;
     }
 
-    function instance$6($$self, $$props, $$invalidate) {
+    function instance$c($$self, $$props, $$invalidate) {
     	let borderColor;
     	let $nostrCache;
     	let $nostrManager;
@@ -20656,16 +21007,16 @@ var app = (function () {
     class OfferBubble extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$6, create_fragment$7, safe_not_equal, { event: 0 });
+    		init(this, options, instance$c, create_fragment$d, safe_not_equal, { event: 0 });
     	}
     }
 
-    var css_248z$5 = ".pr-content.svelte-12emmvm.svelte-12emmvm{display:flex;flex-direction:column;align-items:flex-start;padding:10px}.pr-content.svelte-12emmvm input.svelte-12emmvm{width:100%;padding:8px;margin-bottom:10px;border:1px solid #ddd;border-radius:4px}.pr-content.svelte-12emmvm button.svelte-12emmvm{padding:8px 15px;background-color:#76C79E;color:white;border:none;border-radius:4px;cursor:pointer}";
-    styleInject(css_248z$5);
+    var css_248z$b = ".pr-content.svelte-12emmvm.svelte-12emmvm{display:flex;flex-direction:column;align-items:flex-start;padding:10px}.pr-content.svelte-12emmvm input.svelte-12emmvm{width:100%;padding:8px;margin-bottom:10px;border:1px solid #ddd;border-radius:4px}.pr-content.svelte-12emmvm button.svelte-12emmvm{padding:8px 15px;background-color:#76C79E;color:white;border:none;border-radius:4px;cursor:pointer}";
+    styleInject(css_248z$b);
 
     /* src/components/JobManager2/AddPRBubble.svelte generated by Svelte v3.59.1 */
 
-    function create_if_block$3(ctx) {
+    function create_if_block$7(ctx) {
     	let basebubble;
     	let current;
 
@@ -20763,11 +21114,11 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$6(ctx) {
+    function create_fragment$c(ctx) {
     	let show_if = /*isOfferCreator*/ ctx[1] && /*event*/ ctx[0].tags.find(func)[1] === 'ao';
     	let if_block_anchor;
     	let current;
-    	let if_block = show_if && create_if_block$3(ctx);
+    	let if_block = show_if && create_if_block$7(ctx);
 
     	return {
     		c() {
@@ -20790,7 +21141,7 @@ var app = (function () {
     						transition_in(if_block, 1);
     					}
     				} else {
-    					if_block = create_if_block$3(ctx);
+    					if_block = create_if_block$7(ctx);
     					if_block.c();
     					transition_in(if_block, 1);
     					if_block.m(if_block_anchor.parentNode, if_block_anchor);
@@ -20823,7 +21174,7 @@ var app = (function () {
 
     const func = tag => tag[0] === 't';
 
-    function instance$5($$self, $$props, $$invalidate) {
+    function instance$b($$self, $$props, $$invalidate) {
     	let $nostrCache;
     	let $nostrManager;
     	component_subscribe($$self, nostrCache, $$value => $$invalidate(4, $nostrCache = $$value));
@@ -20884,16 +21235,16 @@ var app = (function () {
     class AddPRBubble extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$5, create_fragment$6, safe_not_equal, { event: 0 });
+    		init(this, options, instance$b, create_fragment$c, safe_not_equal, { event: 0 });
     	}
     }
 
-    var css_248z$4 = ".pr-content.svelte-1k15bk7.svelte-1k15bk7{display:flex;flex-direction:column;align-items:flex-start;padding:10px}.pr-content.svelte-1k15bk7 a.svelte-1k15bk7{color:#4a90e2;text-decoration:none}.pr-actions.svelte-1k15bk7.svelte-1k15bk7{display:flex;margin-top:10px}.accept-button.svelte-1k15bk7.svelte-1k15bk7,.decline-button.svelte-1k15bk7.svelte-1k15bk7{padding:5px 10px;border:none;color:white;border-radius:4px;margin-right:10px;cursor:pointer;font-weight:bold}.accept-button.svelte-1k15bk7.svelte-1k15bk7{background-color:#76c79e}.decline-button.svelte-1k15bk7.svelte-1k15bk7{background-color:#f28482}";
-    styleInject(css_248z$4);
+    var css_248z$a = ".pr-content.svelte-1k15bk7.svelte-1k15bk7{display:flex;flex-direction:column;align-items:flex-start;padding:10px}.pr-content.svelte-1k15bk7 a.svelte-1k15bk7{color:#4a90e2;text-decoration:none}.pr-actions.svelte-1k15bk7.svelte-1k15bk7{display:flex;margin-top:10px}.accept-button.svelte-1k15bk7.svelte-1k15bk7,.decline-button.svelte-1k15bk7.svelte-1k15bk7{padding:5px 10px;border:none;color:white;border-radius:4px;margin-right:10px;cursor:pointer;font-weight:bold}.accept-button.svelte-1k15bk7.svelte-1k15bk7{background-color:#76c79e}.decline-button.svelte-1k15bk7.svelte-1k15bk7{background-color:#f28482}";
+    styleInject(css_248z$a);
 
     /* src/components/JobManager2/PRBubble.svelte generated by Svelte v3.59.1 */
 
-    function create_if_block$2(ctx) {
+    function create_if_block$6(ctx) {
     	let div;
     	let button0;
     	let t1;
@@ -20943,7 +21294,7 @@ var app = (function () {
     	let a;
     	let t0;
     	let t1;
-    	let if_block = /*isJobCreator*/ ctx[2] && /*prStatus*/ ctx[3] === "pending" && create_if_block$2(ctx);
+    	let if_block = /*isJobCreator*/ ctx[2] && /*prStatus*/ ctx[3] === "pending" && create_if_block$6(ctx);
 
     	return {
     		c() {
@@ -20975,7 +21326,7 @@ var app = (function () {
     				if (if_block) {
     					if_block.p(ctx, dirty);
     				} else {
-    					if_block = create_if_block$2(ctx);
+    					if_block = create_if_block$6(ctx);
     					if_block.c();
     					if_block.m(div, null);
     				}
@@ -20991,7 +21342,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$5(ctx) {
+    function create_fragment$b(ctx) {
     	let basebubble;
     	let current;
 
@@ -21048,7 +21399,7 @@ var app = (function () {
     	};
     }
 
-    function instance$4($$self, $$props, $$invalidate) {
+    function instance$a($$self, $$props, $$invalidate) {
     	let $nostrCache;
     	let $nostrManager;
     	component_subscribe($$self, nostrCache, $$value => $$invalidate(6, $nostrCache = $$value));
@@ -21132,12 +21483,12 @@ var app = (function () {
     class PRBubble extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$4, create_fragment$5, safe_not_equal, { event: 0 });
+    		init(this, options, instance$a, create_fragment$b, safe_not_equal, { event: 0 });
     	}
     }
 
-    var css_248z$3 = ".progress-bar.svelte-19gkq4k.svelte-19gkq4k{width:100%;background-color:#000;border-radius:5px;margin-top:10px;overflow:hidden}.progress.svelte-19gkq4k.svelte-19gkq4k{height:10px;background:repeating-linear-gradient(\n            45deg,\n            #ffd700,\n            #ffd700 10px,\n            #ffeb3b 10px,\n            #ffeb3b 20px\n        );border-radius:5px;animation:svelte-19gkq4k-progressAnimation 2s infinite linear}@keyframes svelte-19gkq4k-progressAnimation{0%{background-position:0 0}100%{background-position:40px 0}}.payment-request-content.svelte-19gkq4k.svelte-19gkq4k{display:flex;flex-direction:column;align-items:flex-start;padding:10px;border-radius:8px;background-color:#fddb3a}.sats-amount.svelte-19gkq4k.svelte-19gkq4k{font-size:1.2rem;margin-bottom:10px;color:#000}.send-sats-button.svelte-19gkq4k.svelte-19gkq4k{background-color:#000;color:#fddb3a;border:none;padding:10px 15px;border-radius:8px;cursor:pointer;display:flex;align-items:center;font-weight:bold;transition:background-color 0.3s, color 0.3s}.send-sats-button.svelte-19gkq4k.svelte-19gkq4k:hover{background-color:#fddb3a;color:#000}.send-sats-button.svelte-19gkq4k i.svelte-19gkq4k{margin-right:5px}";
-    styleInject(css_248z$3);
+    var css_248z$9 = ".progress-bar.svelte-19gkq4k.svelte-19gkq4k{width:100%;background-color:#000;border-radius:5px;margin-top:10px;overflow:hidden}.progress.svelte-19gkq4k.svelte-19gkq4k{height:10px;background:repeating-linear-gradient(\n            45deg,\n            #ffd700,\n            #ffd700 10px,\n            #ffeb3b 10px,\n            #ffeb3b 20px\n        );border-radius:5px;animation:svelte-19gkq4k-progressAnimation 2s infinite linear}@keyframes svelte-19gkq4k-progressAnimation{0%{background-position:0 0}100%{background-position:40px 0}}.payment-request-content.svelte-19gkq4k.svelte-19gkq4k{display:flex;flex-direction:column;align-items:flex-start;padding:10px;border-radius:8px;background-color:#fddb3a}.sats-amount.svelte-19gkq4k.svelte-19gkq4k{font-size:1.2rem;margin-bottom:10px;color:#000}.send-sats-button.svelte-19gkq4k.svelte-19gkq4k{background-color:#000;color:#fddb3a;border:none;padding:10px 15px;border-radius:8px;cursor:pointer;display:flex;align-items:center;font-weight:bold;transition:background-color 0.3s, color 0.3s}.send-sats-button.svelte-19gkq4k.svelte-19gkq4k:hover{background-color:#fddb3a;color:#000}.send-sats-button.svelte-19gkq4k i.svelte-19gkq4k{margin-right:5px}";
+    styleInject(css_248z$9);
 
     /* src/components/JobManager2/PaymentRequestBubble.svelte generated by Svelte v3.59.1 */
 
@@ -21204,7 +21555,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$4(ctx) {
+    function create_fragment$a(ctx) {
     	let basebubble;
     	let current;
 
@@ -21251,7 +21602,7 @@ var app = (function () {
     	};
     }
 
-    function instance$3($$self, $$props, $$invalidate) {
+    function instance$9($$self, $$props, $$invalidate) {
     	let $nostrManager;
     	let $nostrCache;
     	component_subscribe($$self, nostrManager, $$value => $$invalidate(9, $nostrManager = $$value));
@@ -21344,30 +21695,30 @@ var app = (function () {
     class PaymentRequestBubble extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$3, create_fragment$4, safe_not_equal, { event: 0 });
+    		init(this, options, instance$9, create_fragment$a, safe_not_equal, { event: 0 });
     	}
     }
 
-    var css_248z$2 = ".job-chat.svelte-1nrgabz{max-height:100%;overflow-y:auto}";
-    styleInject(css_248z$2);
+    var css_248z$8 = ".job-chat.svelte-1nrgabz{max-height:100%;overflow-y:auto}";
+    styleInject(css_248z$8);
 
     /* src/components/JobManager2/JobChat.svelte generated by Svelte v3.59.1 */
 
-    function get_each_context(ctx, list, i) {
+    function get_each_context$2(ctx, list, i) {
     	const child_ctx = ctx.slice();
     	child_ctx[10] = list[i];
     	return child_ctx;
     }
 
     // (127:2) {#if selectedJob}
-    function create_if_block$1(ctx) {
+    function create_if_block$5(ctx) {
     	let each_1_anchor;
     	let current;
     	let each_value = /*bubbles*/ ctx[1];
     	let each_blocks = [];
 
     	for (let i = 0; i < each_value.length; i += 1) {
-    		each_blocks[i] = create_each_block(get_each_context(ctx, each_value, i));
+    		each_blocks[i] = create_each_block$2(get_each_context$2(ctx, each_value, i));
     	}
 
     	const out = i => transition_out(each_blocks[i], 1, 1, () => {
@@ -21398,13 +21749,13 @@ var app = (function () {
     				let i;
 
     				for (i = 0; i < each_value.length; i += 1) {
-    					const child_ctx = get_each_context(ctx, each_value, i);
+    					const child_ctx = get_each_context$2(ctx, each_value, i);
 
     					if (each_blocks[i]) {
     						each_blocks[i].p(child_ctx, dirty);
     						transition_in(each_blocks[i], 1);
     					} else {
-    						each_blocks[i] = create_each_block(child_ctx);
+    						each_blocks[i] = create_each_block$2(child_ctx);
     						each_blocks[i].c();
     						transition_in(each_blocks[i], 1);
     						each_blocks[i].m(each_1_anchor.parentNode, each_1_anchor);
@@ -21446,7 +21797,7 @@ var app = (function () {
     }
 
     // (128:4) {#each bubbles as bubble}
-    function create_each_block(ctx) {
+    function create_each_block$2(ctx) {
     	let switch_instance;
     	let switch_instance_anchor;
     	let current;
@@ -21522,10 +21873,10 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$3(ctx) {
+    function create_fragment$9(ctx) {
     	let div;
     	let current;
-    	let if_block = /*selectedJob*/ ctx[0] && create_if_block$1(ctx);
+    	let if_block = /*selectedJob*/ ctx[0] && create_if_block$5(ctx);
 
     	return {
     		c() {
@@ -21547,7 +21898,7 @@ var app = (function () {
     						transition_in(if_block, 1);
     					}
     				} else {
-    					if_block = create_if_block$1(ctx);
+    					if_block = create_if_block$5(ctx);
     					if_block.c();
     					transition_in(if_block, 1);
     					if_block.m(div, null);
@@ -21578,7 +21929,7 @@ var app = (function () {
     	};
     }
 
-    function instance$2($$self, $$props, $$invalidate) {
+    function instance$8($$self, $$props, $$invalidate) {
     	let $nostrCache;
     	let $nostrManager;
     	component_subscribe($$self, nostrCache, $$value => $$invalidate(2, $nostrCache = $$value));
@@ -21710,16 +22061,16 @@ var app = (function () {
     class JobChat extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$2, create_fragment$3, safe_not_equal, { selectedJob: 0 });
+    		init(this, options, instance$8, create_fragment$9, safe_not_equal, { selectedJob: 0 });
     	}
     }
 
-    var css_248z$1 = ".job-manager-widget.svelte-1ldg9da{flex-direction:row;overflow:hidden;height:45vh}.job-list.svelte-1ldg9da{flex:0 0 30%;max-height:45vh;overflow-y:auto;border-right:2px solid #e0e0e0}.job-chat-container.svelte-1ldg9da{flex:0 0 70%;max-height:45vh;overflow-y:auto}";
-    styleInject(css_248z$1);
+    var css_248z$7 = ".job-manager-widget.svelte-1ldg9da{flex-direction:row;overflow:hidden;height:45vh}.job-list.svelte-1ldg9da{flex:0 0 30%;max-height:45vh;overflow-y:auto;border-right:2px solid #e0e0e0}.job-chat-container.svelte-1ldg9da{flex:0 0 70%;max-height:45vh;overflow-y:auto}";
+    styleInject(css_248z$7);
 
     /* src/components/JobManager2/JobManager.svelte generated by Svelte v3.59.1 */
 
-    function create_if_block(ctx) {
+    function create_if_block$4(ctx) {
     	let jobchat;
     	let current;
 
@@ -21755,7 +22106,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$2(ctx) {
+    function create_fragment$8(ctx) {
     	let div2;
     	let div0;
     	let joblist;
@@ -21764,7 +22115,7 @@ var app = (function () {
     	let current;
     	joblist = new JobList({});
     	joblist.$on("selectJob", /*handleJobSelection*/ ctx[1]);
-    	let if_block = /*selectedJob*/ ctx[0] && create_if_block(ctx);
+    	let if_block = /*selectedJob*/ ctx[0] && create_if_block$4(ctx);
 
     	return {
     		c() {
@@ -21796,7 +22147,7 @@ var app = (function () {
     						transition_in(if_block, 1);
     					}
     				} else {
-    					if_block = create_if_block(ctx);
+    					if_block = create_if_block$4(ctx);
     					if_block.c();
     					transition_in(if_block, 1);
     					if_block.m(div1, null);
@@ -21830,7 +22181,7 @@ var app = (function () {
     	};
     }
 
-    function instance$1($$self, $$props, $$invalidate) {
+    function instance$7($$self, $$props, $$invalidate) {
     	let selectedJob = null;
 
     	function handleJobSelection(event) {
@@ -21843,16 +22194,16 @@ var app = (function () {
     class JobManager extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$1, create_fragment$2, safe_not_equal, {});
+    		init(this, options, instance$7, create_fragment$8, safe_not_equal, {});
     	}
     }
 
-    var css_248z = ".overview-page.svelte-y1b9e6{display:flex;flex-direction:column;min-height:100vh;padding:0;margin:0 auto}.flex-grow.svelte-y1b9e6{flex-grow:1}";
-    styleInject(css_248z);
+    var css_248z$6 = ".overview-page.svelte-y1b9e6{display:flex;flex-direction:column;min-height:100vh;padding:0;margin:0 auto}.flex-grow.svelte-y1b9e6{flex-grow:1}";
+    styleInject(css_248z$6);
 
     /* src/views/JobManager.svelte generated by Svelte v3.59.1 */
 
-    function create_fragment$1(ctx) {
+    function create_fragment$7(ctx) {
     	let main;
     	let menu;
     	let t0;
@@ -21871,9 +22222,9 @@ var app = (function () {
 
     	banner = new Banner({
     			props: {
-    				bannerImage,
-    				title,
-    				subtitle,
+    				bannerImage: bannerImage$1,
+    				title: title$1,
+    				subtitle: subtitle$1,
     				show_right_text: false
     			}
     		});
@@ -21948,11 +22299,11 @@ var app = (function () {
     	};
     }
 
-    let bannerImage = "../../img/Banner1u.png";
-    let title = "BitSpark";
-    let subtitle = "The idea engine";
+    let bannerImage$1 = "../../img/Banner1u.png";
+    let title$1 = "BitSpark";
+    let subtitle$1 = "The idea engine";
 
-    function instance($$self, $$props, $$invalidate) {
+    function instance$6($$self, $$props, $$invalidate) {
     	let $contentContainerClass;
     	component_subscribe($$self, contentContainerClass, $$value => $$invalidate(0, $contentContainerClass = $$value));
 
@@ -21966,12 +22317,9308 @@ var app = (function () {
     class JobManager_1 extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance, create_fragment$1, safe_not_equal, {});
+    		init(this, options, instance$6, create_fragment$7, safe_not_equal, {});
+    	}
+    }
+
+    function number$1(n) {
+        if (!Number.isSafeInteger(n) || n < 0)
+            throw new Error(`Wrong positive integer: ${n}`);
+    }
+    function bool$1(b) {
+        if (typeof b !== 'boolean')
+            throw new Error(`Expected boolean, not ${b}`);
+    }
+    function bytes$1(b, ...lengths) {
+        if (!(b instanceof Uint8Array))
+            throw new Error('Expected Uint8Array');
+        if (lengths.length > 0 && !lengths.includes(b.length))
+            throw new Error(`Expected Uint8Array of length ${lengths}, not of length=${b.length}`);
+    }
+    function hash$1(hash) {
+        if (typeof hash !== 'function' || typeof hash.create !== 'function')
+            throw new Error('Hash should be wrapped by utils.wrapConstructor');
+        number$1(hash.outputLen);
+        number$1(hash.blockLen);
+    }
+    function exists$1(instance, checkFinished = true) {
+        if (instance.destroyed)
+            throw new Error('Hash instance has been destroyed');
+        if (checkFinished && instance.finished)
+            throw new Error('Hash#digest() has already been called');
+    }
+    function output$1(out, instance) {
+        bytes$1(out);
+        const min = instance.outputLen;
+        if (out.length < min) {
+            throw new Error(`digestInto() expects output buffer of length at least ${min}`);
+        }
+    }
+    const assert$1 = {
+        number: number$1,
+        bool: bool$1,
+        bytes: bytes$1,
+        hash: hash$1,
+        exists: exists$1,
+        output: output$1,
+    };
+
+    const crypto$1 = typeof globalThis === 'object' && 'crypto' in globalThis ? globalThis.crypto : undefined;
+
+    /*! noble-hashes - MIT License (c) 2022 Paul Miller (paulmillr.com) */
+    const u8a$2 = (a) => a instanceof Uint8Array;
+    // Cast array to view
+    const createView = (arr) => new DataView(arr.buffer, arr.byteOffset, arr.byteLength);
+    // The rotate right (circular right shift) operation for uint32
+    const rotr = (word, shift) => (word << (32 - shift)) | (word >>> shift);
+    // big-endian hardware is rare. Just in case someone still decides to run hashes:
+    // early-throw an error because we don't support BE yet.
+    const isLE$1 = new Uint8Array(new Uint32Array([0x11223344]).buffer)[0] === 0x44;
+    if (!isLE$1)
+        throw new Error('Non little-endian hardware is not supported');
+    const hexes$1 = Array.from({ length: 256 }, (v, i) => i.toString(16).padStart(2, '0'));
+    /**
+     * @example bytesToHex(Uint8Array.from([0xca, 0xfe, 0x01, 0x23])) // 'cafe0123'
+     */
+    function bytesToHex$1(bytes) {
+        if (!u8a$2(bytes))
+            throw new Error('Uint8Array expected');
+        // pre-caching improves the speed 6x
+        let hex = '';
+        for (let i = 0; i < bytes.length; i++) {
+            hex += hexes$1[bytes[i]];
+        }
+        return hex;
+    }
+    /**
+     * @example hexToBytes('cafe0123') // Uint8Array.from([0xca, 0xfe, 0x01, 0x23])
+     */
+    function hexToBytes$1(hex) {
+        if (typeof hex !== 'string')
+            throw new Error('hex string expected, got ' + typeof hex);
+        const len = hex.length;
+        if (len % 2)
+            throw new Error('padded hex string expected, got unpadded hex of length ' + len);
+        const array = new Uint8Array(len / 2);
+        for (let i = 0; i < array.length; i++) {
+            const j = i * 2;
+            const hexByte = hex.slice(j, j + 2);
+            const byte = Number.parseInt(hexByte, 16);
+            if (Number.isNaN(byte) || byte < 0)
+                throw new Error('Invalid byte sequence');
+            array[i] = byte;
+        }
+        return array;
+    }
+    /**
+     * @example utf8ToBytes('abc') // new Uint8Array([97, 98, 99])
+     */
+    function utf8ToBytes$2(str) {
+        if (typeof str !== 'string')
+            throw new Error(`utf8ToBytes expected string, got ${typeof str}`);
+        return new Uint8Array(new TextEncoder().encode(str)); // https://bugzil.la/1681809
+    }
+    /**
+     * Normalizes (non-hex) string or Uint8Array to Uint8Array.
+     * Warning: when Uint8Array is passed, it would NOT get copied.
+     * Keep in mind for future mutable operations.
+     */
+    function toBytes$1(data) {
+        if (typeof data === 'string')
+            data = utf8ToBytes$2(data);
+        if (!u8a$2(data))
+            throw new Error(`expected Uint8Array, got ${typeof data}`);
+        return data;
+    }
+    /**
+     * Copies several Uint8Arrays into one.
+     */
+    function concatBytes$1(...arrays) {
+        const r = new Uint8Array(arrays.reduce((sum, a) => sum + a.length, 0));
+        let pad = 0; // walk through each item, ensure they have proper type
+        arrays.forEach((a) => {
+            if (!u8a$2(a))
+                throw new Error('Uint8Array expected');
+            r.set(a, pad);
+            pad += a.length;
+        });
+        return r;
+    }
+    // For runtime check if class implements interface
+    class Hash {
+        // Safe version that clones internal state
+        clone() {
+            return this._cloneInto();
+        }
+    }
+    // Check if object doens't have custom constructor (like Uint8Array/Array)
+    const isPlainObject$1 = (obj) => Object.prototype.toString.call(obj) === '[object Object]' && obj.constructor === Object;
+    function checkOpts$1(defaults, opts) {
+        if (opts !== undefined && (typeof opts !== 'object' || !isPlainObject$1(opts)))
+            throw new Error('Options should be object or undefined');
+        const merged = Object.assign(defaults, opts);
+        return merged;
+    }
+    function wrapConstructor(hashCons) {
+        const hashC = (msg) => hashCons().update(toBytes$1(msg)).digest();
+        const tmp = hashCons();
+        hashC.outputLen = tmp.outputLen;
+        hashC.blockLen = tmp.blockLen;
+        hashC.create = () => hashCons();
+        return hashC;
+    }
+    /**
+     * Secure PRNG. Uses `crypto.getRandomValues`, which defers to OS.
+     */
+    function randomBytes(bytesLength = 32) {
+        if (crypto$1 && typeof crypto$1.getRandomValues === 'function') {
+            return crypto$1.getRandomValues(new Uint8Array(bytesLength));
+        }
+        throw new Error('crypto.getRandomValues must be defined');
+    }
+
+    // Polyfill for Safari 14
+    function setBigUint64(view, byteOffset, value, isLE) {
+        if (typeof view.setBigUint64 === 'function')
+            return view.setBigUint64(byteOffset, value, isLE);
+        const _32n = BigInt(32);
+        const _u32_max = BigInt(0xffffffff);
+        const wh = Number((value >> _32n) & _u32_max);
+        const wl = Number(value & _u32_max);
+        const h = isLE ? 4 : 0;
+        const l = isLE ? 0 : 4;
+        view.setUint32(byteOffset + h, wh, isLE);
+        view.setUint32(byteOffset + l, wl, isLE);
+    }
+    // Base SHA2 class (RFC 6234)
+    class SHA2 extends Hash {
+        constructor(blockLen, outputLen, padOffset, isLE) {
+            super();
+            this.blockLen = blockLen;
+            this.outputLen = outputLen;
+            this.padOffset = padOffset;
+            this.isLE = isLE;
+            this.finished = false;
+            this.length = 0;
+            this.pos = 0;
+            this.destroyed = false;
+            this.buffer = new Uint8Array(blockLen);
+            this.view = createView(this.buffer);
+        }
+        update(data) {
+            assert$1.exists(this);
+            const { view, buffer, blockLen } = this;
+            data = toBytes$1(data);
+            const len = data.length;
+            for (let pos = 0; pos < len;) {
+                const take = Math.min(blockLen - this.pos, len - pos);
+                // Fast path: we have at least one block in input, cast it to view and process
+                if (take === blockLen) {
+                    const dataView = createView(data);
+                    for (; blockLen <= len - pos; pos += blockLen)
+                        this.process(dataView, pos);
+                    continue;
+                }
+                buffer.set(data.subarray(pos, pos + take), this.pos);
+                this.pos += take;
+                pos += take;
+                if (this.pos === blockLen) {
+                    this.process(view, 0);
+                    this.pos = 0;
+                }
+            }
+            this.length += data.length;
+            this.roundClean();
+            return this;
+        }
+        digestInto(out) {
+            assert$1.exists(this);
+            assert$1.output(out, this);
+            this.finished = true;
+            // Padding
+            // We can avoid allocation of buffer for padding completely if it
+            // was previously not allocated here. But it won't change performance.
+            const { buffer, view, blockLen, isLE } = this;
+            let { pos } = this;
+            // append the bit '1' to the message
+            buffer[pos++] = 0b10000000;
+            this.buffer.subarray(pos).fill(0);
+            // we have less than padOffset left in buffer, so we cannot put length in current block, need process it and pad again
+            if (this.padOffset > blockLen - pos) {
+                this.process(view, 0);
+                pos = 0;
+            }
+            // Pad until full block byte with zeros
+            for (let i = pos; i < blockLen; i++)
+                buffer[i] = 0;
+            // Note: sha512 requires length to be 128bit integer, but length in JS will overflow before that
+            // You need to write around 2 exabytes (u64_max / 8 / (1024**6)) for this to happen.
+            // So we just write lowest 64 bits of that value.
+            setBigUint64(view, blockLen - 8, BigInt(this.length * 8), isLE);
+            this.process(view, 0);
+            const oview = createView(out);
+            const len = this.outputLen;
+            // NOTE: we do division by 4 later, which should be fused in single op with modulo by JIT
+            if (len % 4)
+                throw new Error('_sha2: outputLen should be aligned to 32bit');
+            const outLen = len / 4;
+            const state = this.get();
+            if (outLen > state.length)
+                throw new Error('_sha2: outputLen bigger than state');
+            for (let i = 0; i < outLen; i++)
+                oview.setUint32(4 * i, state[i], isLE);
+        }
+        digest() {
+            const { buffer, outputLen } = this;
+            this.digestInto(buffer);
+            const res = buffer.slice(0, outputLen);
+            this.destroy();
+            return res;
+        }
+        _cloneInto(to) {
+            to || (to = new this.constructor());
+            to.set(...this.get());
+            const { blockLen, buffer, length, finished, destroyed, pos } = this;
+            to.length = length;
+            to.pos = pos;
+            to.finished = finished;
+            to.destroyed = destroyed;
+            if (length % blockLen)
+                to.buffer.set(buffer);
+            return to;
+        }
+    }
+
+    // Choice: a ? b : c
+    const Chi = (a, b, c) => (a & b) ^ (~a & c);
+    // Majority function, true if any two inpust is true
+    const Maj = (a, b, c) => (a & b) ^ (a & c) ^ (b & c);
+    // Round constants:
+    // first 32 bits of the fractional parts of the cube roots of the first 64 primes 2..311)
+    // prettier-ignore
+    const SHA256_K = new Uint32Array([
+        0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5,
+        0xd807aa98, 0x12835b01, 0x243185be, 0x550c7dc3, 0x72be5d74, 0x80deb1fe, 0x9bdc06a7, 0xc19bf174,
+        0xe49b69c1, 0xefbe4786, 0x0fc19dc6, 0x240ca1cc, 0x2de92c6f, 0x4a7484aa, 0x5cb0a9dc, 0x76f988da,
+        0x983e5152, 0xa831c66d, 0xb00327c8, 0xbf597fc7, 0xc6e00bf3, 0xd5a79147, 0x06ca6351, 0x14292967,
+        0x27b70a85, 0x2e1b2138, 0x4d2c6dfc, 0x53380d13, 0x650a7354, 0x766a0abb, 0x81c2c92e, 0x92722c85,
+        0xa2bfe8a1, 0xa81a664b, 0xc24b8b70, 0xc76c51a3, 0xd192e819, 0xd6990624, 0xf40e3585, 0x106aa070,
+        0x19a4c116, 0x1e376c08, 0x2748774c, 0x34b0bcb5, 0x391c0cb3, 0x4ed8aa4a, 0x5b9cca4f, 0x682e6ff3,
+        0x748f82ee, 0x78a5636f, 0x84c87814, 0x8cc70208, 0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2
+    ]);
+    // Initial state (first 32 bits of the fractional parts of the square roots of the first 8 primes 2..19):
+    // prettier-ignore
+    const IV = new Uint32Array([
+        0x6a09e667, 0xbb67ae85, 0x3c6ef372, 0xa54ff53a, 0x510e527f, 0x9b05688c, 0x1f83d9ab, 0x5be0cd19
+    ]);
+    // Temporary buffer, not used to store anything between runs
+    // Named this way because it matches specification.
+    const SHA256_W = new Uint32Array(64);
+    class SHA256 extends SHA2 {
+        constructor() {
+            super(64, 32, 8, false);
+            // We cannot use array here since array allows indexing by variable
+            // which means optimizer/compiler cannot use registers.
+            this.A = IV[0] | 0;
+            this.B = IV[1] | 0;
+            this.C = IV[2] | 0;
+            this.D = IV[3] | 0;
+            this.E = IV[4] | 0;
+            this.F = IV[5] | 0;
+            this.G = IV[6] | 0;
+            this.H = IV[7] | 0;
+        }
+        get() {
+            const { A, B, C, D, E, F, G, H } = this;
+            return [A, B, C, D, E, F, G, H];
+        }
+        // prettier-ignore
+        set(A, B, C, D, E, F, G, H) {
+            this.A = A | 0;
+            this.B = B | 0;
+            this.C = C | 0;
+            this.D = D | 0;
+            this.E = E | 0;
+            this.F = F | 0;
+            this.G = G | 0;
+            this.H = H | 0;
+        }
+        process(view, offset) {
+            // Extend the first 16 words into the remaining 48 words w[16..63] of the message schedule array
+            for (let i = 0; i < 16; i++, offset += 4)
+                SHA256_W[i] = view.getUint32(offset, false);
+            for (let i = 16; i < 64; i++) {
+                const W15 = SHA256_W[i - 15];
+                const W2 = SHA256_W[i - 2];
+                const s0 = rotr(W15, 7) ^ rotr(W15, 18) ^ (W15 >>> 3);
+                const s1 = rotr(W2, 17) ^ rotr(W2, 19) ^ (W2 >>> 10);
+                SHA256_W[i] = (s1 + SHA256_W[i - 7] + s0 + SHA256_W[i - 16]) | 0;
+            }
+            // Compression function main loop, 64 rounds
+            let { A, B, C, D, E, F, G, H } = this;
+            for (let i = 0; i < 64; i++) {
+                const sigma1 = rotr(E, 6) ^ rotr(E, 11) ^ rotr(E, 25);
+                const T1 = (H + sigma1 + Chi(E, F, G) + SHA256_K[i] + SHA256_W[i]) | 0;
+                const sigma0 = rotr(A, 2) ^ rotr(A, 13) ^ rotr(A, 22);
+                const T2 = (sigma0 + Maj(A, B, C)) | 0;
+                H = G;
+                G = F;
+                F = E;
+                E = (D + T1) | 0;
+                D = C;
+                C = B;
+                B = A;
+                A = (T1 + T2) | 0;
+            }
+            // Add the compressed chunk to the current hash value
+            A = (A + this.A) | 0;
+            B = (B + this.B) | 0;
+            C = (C + this.C) | 0;
+            D = (D + this.D) | 0;
+            E = (E + this.E) | 0;
+            F = (F + this.F) | 0;
+            G = (G + this.G) | 0;
+            H = (H + this.H) | 0;
+            this.set(A, B, C, D, E, F, G, H);
+        }
+        roundClean() {
+            SHA256_W.fill(0);
+        }
+        destroy() {
+            this.set(0, 0, 0, 0, 0, 0, 0, 0);
+            this.buffer.fill(0);
+        }
+    }
+    // Constants from https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.180-4.pdf
+    class SHA224 extends SHA256 {
+        constructor() {
+            super();
+            this.A = 0xc1059ed8 | 0;
+            this.B = 0x367cd507 | 0;
+            this.C = 0x3070dd17 | 0;
+            this.D = 0xf70e5939 | 0;
+            this.E = 0xffc00b31 | 0;
+            this.F = 0x68581511 | 0;
+            this.G = 0x64f98fa7 | 0;
+            this.H = 0xbefa4fa4 | 0;
+            this.outputLen = 28;
+        }
+    }
+    /**
+     * SHA2-256 hash function
+     * @param message - data that would be hashed
+     */
+    const sha256 = wrapConstructor(() => new SHA256());
+    wrapConstructor(() => new SHA224());
+
+    /*! noble-curves - MIT License (c) 2022 Paul Miller (paulmillr.com) */
+    // 100 lines of code in the file are duplicated from noble-hashes (utils).
+    // This is OK: `abstract` directory does not use noble-hashes.
+    // User may opt-in into using different hashing library. This way, noble-hashes
+    // won't be included into their bundle.
+    const _0n$4 = BigInt(0);
+    const _1n$4 = BigInt(1);
+    const _2n$2 = BigInt(2);
+    const u8a$1 = (a) => a instanceof Uint8Array;
+    const hexes = Array.from({ length: 256 }, (v, i) => i.toString(16).padStart(2, '0'));
+    /**
+     * @example bytesToHex(Uint8Array.from([0xca, 0xfe, 0x01, 0x23])) // 'cafe0123'
+     */
+    function bytesToHex(bytes) {
+        if (!u8a$1(bytes))
+            throw new Error('Uint8Array expected');
+        // pre-caching improves the speed 6x
+        let hex = '';
+        for (let i = 0; i < bytes.length; i++) {
+            hex += hexes[bytes[i]];
+        }
+        return hex;
+    }
+    function numberToHexUnpadded(num) {
+        const hex = num.toString(16);
+        return hex.length & 1 ? `0${hex}` : hex;
+    }
+    function hexToNumber(hex) {
+        if (typeof hex !== 'string')
+            throw new Error('hex string expected, got ' + typeof hex);
+        // Big Endian
+        return BigInt(hex === '' ? '0' : `0x${hex}`);
+    }
+    /**
+     * @example hexToBytes('cafe0123') // Uint8Array.from([0xca, 0xfe, 0x01, 0x23])
+     */
+    function hexToBytes(hex) {
+        if (typeof hex !== 'string')
+            throw new Error('hex string expected, got ' + typeof hex);
+        const len = hex.length;
+        if (len % 2)
+            throw new Error('padded hex string expected, got unpadded hex of length ' + len);
+        const array = new Uint8Array(len / 2);
+        for (let i = 0; i < array.length; i++) {
+            const j = i * 2;
+            const hexByte = hex.slice(j, j + 2);
+            const byte = Number.parseInt(hexByte, 16);
+            if (Number.isNaN(byte) || byte < 0)
+                throw new Error('Invalid byte sequence');
+            array[i] = byte;
+        }
+        return array;
+    }
+    // BE: Big Endian, LE: Little Endian
+    function bytesToNumberBE(bytes) {
+        return hexToNumber(bytesToHex(bytes));
+    }
+    function bytesToNumberLE(bytes) {
+        if (!u8a$1(bytes))
+            throw new Error('Uint8Array expected');
+        return hexToNumber(bytesToHex(Uint8Array.from(bytes).reverse()));
+    }
+    function numberToBytesBE(n, len) {
+        return hexToBytes(n.toString(16).padStart(len * 2, '0'));
+    }
+    function numberToBytesLE(n, len) {
+        return numberToBytesBE(n, len).reverse();
+    }
+    // Unpadded, rarely used
+    function numberToVarBytesBE(n) {
+        return hexToBytes(numberToHexUnpadded(n));
+    }
+    /**
+     * Takes hex string or Uint8Array, converts to Uint8Array.
+     * Validates output length.
+     * Will throw error for other types.
+     * @param title descriptive title for an error e.g. 'private key'
+     * @param hex hex string or Uint8Array
+     * @param expectedLength optional, will compare to result array's length
+     * @returns
+     */
+    function ensureBytes$1(title, hex, expectedLength) {
+        let res;
+        if (typeof hex === 'string') {
+            try {
+                res = hexToBytes(hex);
+            }
+            catch (e) {
+                throw new Error(`${title} must be valid hex string, got "${hex}". Cause: ${e}`);
+            }
+        }
+        else if (u8a$1(hex)) {
+            // Uint8Array.from() instead of hash.slice() because node.js Buffer
+            // is instance of Uint8Array, and its slice() creates **mutable** copy
+            res = Uint8Array.from(hex);
+        }
+        else {
+            throw new Error(`${title} must be hex string or Uint8Array`);
+        }
+        const len = res.length;
+        if (typeof expectedLength === 'number' && len !== expectedLength)
+            throw new Error(`${title} expected ${expectedLength} bytes, got ${len}`);
+        return res;
+    }
+    /**
+     * Copies several Uint8Arrays into one.
+     */
+    function concatBytes(...arrays) {
+        const r = new Uint8Array(arrays.reduce((sum, a) => sum + a.length, 0));
+        let pad = 0; // walk through each item, ensure they have proper type
+        arrays.forEach((a) => {
+            if (!u8a$1(a))
+                throw new Error('Uint8Array expected');
+            r.set(a, pad);
+            pad += a.length;
+        });
+        return r;
+    }
+    function equalBytes$1(b1, b2) {
+        // We don't care about timing attacks here
+        if (b1.length !== b2.length)
+            return false;
+        for (let i = 0; i < b1.length; i++)
+            if (b1[i] !== b2[i])
+                return false;
+        return true;
+    }
+    /**
+     * @example utf8ToBytes('abc') // new Uint8Array([97, 98, 99])
+     */
+    function utf8ToBytes$1(str) {
+        if (typeof str !== 'string')
+            throw new Error(`utf8ToBytes expected string, got ${typeof str}`);
+        return new Uint8Array(new TextEncoder().encode(str)); // https://bugzil.la/1681809
+    }
+    // Bit operations
+    /**
+     * Calculates amount of bits in a bigint.
+     * Same as `n.toString(2).length`
+     */
+    function bitLen(n) {
+        let len;
+        for (len = 0; n > _0n$4; n >>= _1n$4, len += 1)
+            ;
+        return len;
+    }
+    /**
+     * Gets single bit at position.
+     * NOTE: first bit position is 0 (same as arrays)
+     * Same as `!!+Array.from(n.toString(2)).reverse()[pos]`
+     */
+    function bitGet(n, pos) {
+        return (n >> BigInt(pos)) & _1n$4;
+    }
+    /**
+     * Sets single bit at position.
+     */
+    const bitSet = (n, pos, value) => {
+        return n | ((value ? _1n$4 : _0n$4) << BigInt(pos));
+    };
+    /**
+     * Calculate mask for N bits. Not using ** operator with bigints because of old engines.
+     * Same as BigInt(`0b${Array(i).fill('1').join('')}`)
+     */
+    const bitMask = (n) => (_2n$2 << BigInt(n - 1)) - _1n$4;
+    // DRBG
+    const u8n = (data) => new Uint8Array(data); // creates Uint8Array
+    const u8fr = (arr) => Uint8Array.from(arr); // another shortcut
+    /**
+     * Minimal HMAC-DRBG from NIST 800-90 for RFC6979 sigs.
+     * @returns function that will call DRBG until 2nd arg returns something meaningful
+     * @example
+     *   const drbg = createHmacDRBG<Key>(32, 32, hmac);
+     *   drbg(seed, bytesToKey); // bytesToKey must return Key or undefined
+     */
+    function createHmacDrbg(hashLen, qByteLen, hmacFn) {
+        if (typeof hashLen !== 'number' || hashLen < 2)
+            throw new Error('hashLen must be a number');
+        if (typeof qByteLen !== 'number' || qByteLen < 2)
+            throw new Error('qByteLen must be a number');
+        if (typeof hmacFn !== 'function')
+            throw new Error('hmacFn must be a function');
+        // Step B, Step C: set hashLen to 8*ceil(hlen/8)
+        let v = u8n(hashLen); // Minimal non-full-spec HMAC-DRBG from NIST 800-90 for RFC6979 sigs.
+        let k = u8n(hashLen); // Steps B and C of RFC6979 3.2: set hashLen, in our case always same
+        let i = 0; // Iterations counter, will throw when over 1000
+        const reset = () => {
+            v.fill(1);
+            k.fill(0);
+            i = 0;
+        };
+        const h = (...b) => hmacFn(k, v, ...b); // hmac(k)(v, ...values)
+        const reseed = (seed = u8n()) => {
+            // HMAC-DRBG reseed() function. Steps D-G
+            k = h(u8fr([0x00]), seed); // k = hmac(k || v || 0x00 || seed)
+            v = h(); // v = hmac(k || v)
+            if (seed.length === 0)
+                return;
+            k = h(u8fr([0x01]), seed); // k = hmac(k || v || 0x01 || seed)
+            v = h(); // v = hmac(k || v)
+        };
+        const gen = () => {
+            // HMAC-DRBG generate() function
+            if (i++ >= 1000)
+                throw new Error('drbg: tried 1000 values');
+            let len = 0;
+            const out = [];
+            while (len < qByteLen) {
+                v = h();
+                const sl = v.slice();
+                out.push(sl);
+                len += v.length;
+            }
+            return concatBytes(...out);
+        };
+        const genUntil = (seed, pred) => {
+            reset();
+            reseed(seed); // Steps D-G
+            let res = undefined; // Step H: grind until k is in [1..n-1]
+            while (!(res = pred(gen())))
+                reseed();
+            reset();
+            return res;
+        };
+        return genUntil;
+    }
+    // Validating curves and fields
+    const validatorFns = {
+        bigint: (val) => typeof val === 'bigint',
+        function: (val) => typeof val === 'function',
+        boolean: (val) => typeof val === 'boolean',
+        string: (val) => typeof val === 'string',
+        isSafeInteger: (val) => Number.isSafeInteger(val),
+        array: (val) => Array.isArray(val),
+        field: (val, object) => object.Fp.isValid(val),
+        hash: (val) => typeof val === 'function' && Number.isSafeInteger(val.outputLen),
+    };
+    // type Record<K extends string | number | symbol, T> = { [P in K]: T; }
+    function validateObject(object, validators, optValidators = {}) {
+        const checkField = (fieldName, type, isOptional) => {
+            const checkVal = validatorFns[type];
+            if (typeof checkVal !== 'function')
+                throw new Error(`Invalid validator "${type}", expected function`);
+            const val = object[fieldName];
+            if (isOptional && val === undefined)
+                return;
+            if (!checkVal(val, object)) {
+                throw new Error(`Invalid param ${String(fieldName)}=${val} (${typeof val}), expected ${type}`);
+            }
+        };
+        for (const [fieldName, type] of Object.entries(validators))
+            checkField(fieldName, type, false);
+        for (const [fieldName, type] of Object.entries(optValidators))
+            checkField(fieldName, type, true);
+        return object;
+    }
+    // validate type tests
+    // const o: { a: number; b: number; c: number } = { a: 1, b: 5, c: 6 };
+    // const z0 = validateObject(o, { a: 'isSafeInteger' }, { c: 'bigint' }); // Ok!
+    // // Should fail type-check
+    // const z1 = validateObject(o, { a: 'tmp' }, { c: 'zz' });
+    // const z2 = validateObject(o, { a: 'isSafeInteger' }, { c: 'zz' });
+    // const z3 = validateObject(o, { test: 'boolean', z: 'bug' });
+    // const z4 = validateObject(o, { a: 'boolean', z: 'bug' });
+
+    var ut = /*#__PURE__*/Object.freeze({
+        __proto__: null,
+        bytesToHex: bytesToHex,
+        numberToHexUnpadded: numberToHexUnpadded,
+        hexToNumber: hexToNumber,
+        hexToBytes: hexToBytes,
+        bytesToNumberBE: bytesToNumberBE,
+        bytesToNumberLE: bytesToNumberLE,
+        numberToBytesBE: numberToBytesBE,
+        numberToBytesLE: numberToBytesLE,
+        numberToVarBytesBE: numberToVarBytesBE,
+        ensureBytes: ensureBytes$1,
+        concatBytes: concatBytes,
+        equalBytes: equalBytes$1,
+        utf8ToBytes: utf8ToBytes$1,
+        bitLen: bitLen,
+        bitGet: bitGet,
+        bitSet: bitSet,
+        bitMask: bitMask,
+        createHmacDrbg: createHmacDrbg,
+        validateObject: validateObject
+    });
+
+    /*! noble-curves - MIT License (c) 2022 Paul Miller (paulmillr.com) */
+    // prettier-ignore
+    const _0n$3 = BigInt(0), _1n$3 = BigInt(1), _2n$1 = BigInt(2), _3n$1 = BigInt(3);
+    // prettier-ignore
+    const _4n = BigInt(4), _5n = BigInt(5), _8n = BigInt(8);
+    // prettier-ignore
+    BigInt(9); BigInt(16);
+    // Calculates a modulo b
+    function mod(a, b) {
+        const result = a % b;
+        return result >= _0n$3 ? result : b + result;
+    }
+    /**
+     * Efficiently raise num to power and do modular division.
+     * Unsafe in some contexts: uses ladder, so can expose bigint bits.
+     * @example
+     * pow(2n, 6n, 11n) // 64n % 11n == 9n
+     */
+    // TODO: use field version && remove
+    function pow(num, power, modulo) {
+        if (modulo <= _0n$3 || power < _0n$3)
+            throw new Error('Expected power/modulo > 0');
+        if (modulo === _1n$3)
+            return _0n$3;
+        let res = _1n$3;
+        while (power > _0n$3) {
+            if (power & _1n$3)
+                res = (res * num) % modulo;
+            num = (num * num) % modulo;
+            power >>= _1n$3;
+        }
+        return res;
+    }
+    // Does x ^ (2 ^ power) mod p. pow2(30, 4) == 30 ^ (2 ^ 4)
+    function pow2(x, power, modulo) {
+        let res = x;
+        while (power-- > _0n$3) {
+            res *= res;
+            res %= modulo;
+        }
+        return res;
+    }
+    // Inverses number over modulo
+    function invert(number, modulo) {
+        if (number === _0n$3 || modulo <= _0n$3) {
+            throw new Error(`invert: expected positive integers, got n=${number} mod=${modulo}`);
+        }
+        // Euclidean GCD https://brilliant.org/wiki/extended-euclidean-algorithm/
+        // Fermat's little theorem "CT-like" version inv(n) = n^(m-2) mod m is 30x slower.
+        let a = mod(number, modulo);
+        let b = modulo;
+        // prettier-ignore
+        let x = _0n$3, y = _1n$3, u = _1n$3, v = _0n$3;
+        while (a !== _0n$3) {
+            // JIT applies optimization if those two lines follow each other
+            const q = b / a;
+            const r = b % a;
+            const m = x - u * q;
+            const n = y - v * q;
+            // prettier-ignore
+            b = a, a = r, x = u, y = v, u = m, v = n;
+        }
+        const gcd = b;
+        if (gcd !== _1n$3)
+            throw new Error('invert: does not exist');
+        return mod(x, modulo);
+    }
+    // Tonelli-Shanks algorithm
+    // Paper 1: https://eprint.iacr.org/2012/685.pdf (page 12)
+    // Paper 2: Square Roots from 1; 24, 51, 10 to Dan Shanks
+    function tonelliShanks(P) {
+        // Legendre constant: used to calculate Legendre symbol (a | p),
+        // which denotes the value of a^((p-1)/2) (mod p).
+        // (a | p) ≡ 1    if a is a square (mod p)
+        // (a | p) ≡ -1   if a is not a square (mod p)
+        // (a | p) ≡ 0    if a ≡ 0 (mod p)
+        const legendreC = (P - _1n$3) / _2n$1;
+        let Q, S, Z;
+        // Step 1: By factoring out powers of 2 from p - 1,
+        // find q and s such that p - 1 = q*(2^s) with q odd
+        for (Q = P - _1n$3, S = 0; Q % _2n$1 === _0n$3; Q /= _2n$1, S++)
+            ;
+        // Step 2: Select a non-square z such that (z | p) ≡ -1 and set c ≡ zq
+        for (Z = _2n$1; Z < P && pow(Z, legendreC, P) !== P - _1n$3; Z++)
+            ;
+        // Fast-path
+        if (S === 1) {
+            const p1div4 = (P + _1n$3) / _4n;
+            return function tonelliFast(Fp, n) {
+                const root = Fp.pow(n, p1div4);
+                if (!Fp.eql(Fp.sqr(root), n))
+                    throw new Error('Cannot find square root');
+                return root;
+            };
+        }
+        // Slow-path
+        const Q1div2 = (Q + _1n$3) / _2n$1;
+        return function tonelliSlow(Fp, n) {
+            // Step 0: Check that n is indeed a square: (n | p) should not be ≡ -1
+            if (Fp.pow(n, legendreC) === Fp.neg(Fp.ONE))
+                throw new Error('Cannot find square root');
+            let r = S;
+            // TODO: will fail at Fp2/etc
+            let g = Fp.pow(Fp.mul(Fp.ONE, Z), Q); // will update both x and b
+            let x = Fp.pow(n, Q1div2); // first guess at the square root
+            let b = Fp.pow(n, Q); // first guess at the fudge factor
+            while (!Fp.eql(b, Fp.ONE)) {
+                if (Fp.eql(b, Fp.ZERO))
+                    return Fp.ZERO; // https://en.wikipedia.org/wiki/Tonelli%E2%80%93Shanks_algorithm (4. If t = 0, return r = 0)
+                // Find m such b^(2^m)==1
+                let m = 1;
+                for (let t2 = Fp.sqr(b); m < r; m++) {
+                    if (Fp.eql(t2, Fp.ONE))
+                        break;
+                    t2 = Fp.sqr(t2); // t2 *= t2
+                }
+                // NOTE: r-m-1 can be bigger than 32, need to convert to bigint before shift, otherwise there will be overflow
+                const ge = Fp.pow(g, _1n$3 << BigInt(r - m - 1)); // ge = 2^(r-m-1)
+                g = Fp.sqr(ge); // g = ge * ge
+                x = Fp.mul(x, ge); // x *= ge
+                b = Fp.mul(b, g); // b *= g
+                r = m;
+            }
+            return x;
+        };
+    }
+    function FpSqrt(P) {
+        // NOTE: different algorithms can give different roots, it is up to user to decide which one they want.
+        // For example there is FpSqrtOdd/FpSqrtEven to choice root based on oddness (used for hash-to-curve).
+        // P ≡ 3 (mod 4)
+        // √n = n^((P+1)/4)
+        if (P % _4n === _3n$1) {
+            // Not all roots possible!
+            // const ORDER =
+            //   0x1a0111ea397fe69a4b1ba7b6434bacd764774b84f38512bf6730d2a0f6b0f6241eabfffeb153ffffb9feffffffffaaabn;
+            // const NUM = 72057594037927816n;
+            const p1div4 = (P + _1n$3) / _4n;
+            return function sqrt3mod4(Fp, n) {
+                const root = Fp.pow(n, p1div4);
+                // Throw if root**2 != n
+                if (!Fp.eql(Fp.sqr(root), n))
+                    throw new Error('Cannot find square root');
+                return root;
+            };
+        }
+        // Atkin algorithm for q ≡ 5 (mod 8), https://eprint.iacr.org/2012/685.pdf (page 10)
+        if (P % _8n === _5n) {
+            const c1 = (P - _5n) / _8n;
+            return function sqrt5mod8(Fp, n) {
+                const n2 = Fp.mul(n, _2n$1);
+                const v = Fp.pow(n2, c1);
+                const nv = Fp.mul(n, v);
+                const i = Fp.mul(Fp.mul(nv, _2n$1), v);
+                const root = Fp.mul(nv, Fp.sub(i, Fp.ONE));
+                if (!Fp.eql(Fp.sqr(root), n))
+                    throw new Error('Cannot find square root');
+                return root;
+            };
+        }
+        // Other cases: Tonelli-Shanks algorithm
+        return tonelliShanks(P);
+    }
+    // prettier-ignore
+    const FIELD_FIELDS = [
+        'create', 'isValid', 'is0', 'neg', 'inv', 'sqrt', 'sqr',
+        'eql', 'add', 'sub', 'mul', 'pow', 'div',
+        'addN', 'subN', 'mulN', 'sqrN'
+    ];
+    function validateField(field) {
+        const initial = {
+            ORDER: 'bigint',
+            MASK: 'bigint',
+            BYTES: 'isSafeInteger',
+            BITS: 'isSafeInteger',
+        };
+        const opts = FIELD_FIELDS.reduce((map, val) => {
+            map[val] = 'function';
+            return map;
+        }, initial);
+        return validateObject(field, opts);
+    }
+    // Generic field functions
+    function FpPow(f, num, power) {
+        // Should have same speed as pow for bigints
+        // TODO: benchmark!
+        if (power < _0n$3)
+            throw new Error('Expected power > 0');
+        if (power === _0n$3)
+            return f.ONE;
+        if (power === _1n$3)
+            return num;
+        let p = f.ONE;
+        let d = num;
+        while (power > _0n$3) {
+            if (power & _1n$3)
+                p = f.mul(p, d);
+            d = f.sqr(d);
+            power >>= _1n$3;
+        }
+        return p;
+    }
+    // 0 is non-invertible: non-batched version will throw on 0
+    function FpInvertBatch(f, nums) {
+        const tmp = new Array(nums.length);
+        // Walk from first to last, multiply them by each other MOD p
+        const lastMultiplied = nums.reduce((acc, num, i) => {
+            if (f.is0(num))
+                return acc;
+            tmp[i] = acc;
+            return f.mul(acc, num);
+        }, f.ONE);
+        // Invert last element
+        const inverted = f.inv(lastMultiplied);
+        // Walk from last to first, multiply them by inverted each other MOD p
+        nums.reduceRight((acc, num, i) => {
+            if (f.is0(num))
+                return acc;
+            tmp[i] = f.mul(acc, tmp[i]);
+            return f.mul(acc, num);
+        }, inverted);
+        return tmp;
+    }
+    // CURVE.n lengths
+    function nLength(n, nBitLength) {
+        // Bit size, byte size of CURVE.n
+        const _nBitLength = nBitLength !== undefined ? nBitLength : n.toString(2).length;
+        const nByteLength = Math.ceil(_nBitLength / 8);
+        return { nBitLength: _nBitLength, nByteLength };
+    }
+    /**
+     * Initializes a galois field over prime. Non-primes are not supported for now.
+     * Do not init in loop: slow. Very fragile: always run a benchmark on change.
+     * Major performance gains:
+     * a) non-normalized operations like mulN instead of mul
+     * b) `Object.freeze`
+     * c) Same object shape: never add or remove keys
+     * @param ORDER prime positive bigint
+     * @param bitLen how many bits the field consumes
+     * @param isLE (def: false) if encoding / decoding should be in little-endian
+     * @param redef optional faster redefinitions of sqrt and other methods
+     */
+    function Field(ORDER, bitLen, isLE = false, redef = {}) {
+        if (ORDER <= _0n$3)
+            throw new Error(`Expected Fp ORDER > 0, got ${ORDER}`);
+        const { nBitLength: BITS, nByteLength: BYTES } = nLength(ORDER, bitLen);
+        if (BYTES > 2048)
+            throw new Error('Field lengths over 2048 bytes are not supported');
+        const sqrtP = FpSqrt(ORDER);
+        const f = Object.freeze({
+            ORDER,
+            BITS,
+            BYTES,
+            MASK: bitMask(BITS),
+            ZERO: _0n$3,
+            ONE: _1n$3,
+            create: (num) => mod(num, ORDER),
+            isValid: (num) => {
+                if (typeof num !== 'bigint')
+                    throw new Error(`Invalid field element: expected bigint, got ${typeof num}`);
+                return _0n$3 <= num && num < ORDER; // 0 is valid element, but it's not invertible
+            },
+            is0: (num) => num === _0n$3,
+            isOdd: (num) => (num & _1n$3) === _1n$3,
+            neg: (num) => mod(-num, ORDER),
+            eql: (lhs, rhs) => lhs === rhs,
+            sqr: (num) => mod(num * num, ORDER),
+            add: (lhs, rhs) => mod(lhs + rhs, ORDER),
+            sub: (lhs, rhs) => mod(lhs - rhs, ORDER),
+            mul: (lhs, rhs) => mod(lhs * rhs, ORDER),
+            pow: (num, power) => FpPow(f, num, power),
+            div: (lhs, rhs) => mod(lhs * invert(rhs, ORDER), ORDER),
+            // Same as above, but doesn't normalize
+            sqrN: (num) => num * num,
+            addN: (lhs, rhs) => lhs + rhs,
+            subN: (lhs, rhs) => lhs - rhs,
+            mulN: (lhs, rhs) => lhs * rhs,
+            inv: (num) => invert(num, ORDER),
+            sqrt: redef.sqrt || ((n) => sqrtP(f, n)),
+            invertBatch: (lst) => FpInvertBatch(f, lst),
+            // TODO: do we really need constant cmov?
+            // We don't have const-time bigints anyway, so probably will be not very useful
+            cmov: (a, b, c) => (c ? b : a),
+            toBytes: (num) => (isLE ? numberToBytesLE(num, BYTES) : numberToBytesBE(num, BYTES)),
+            fromBytes: (bytes) => {
+                if (bytes.length !== BYTES)
+                    throw new Error(`Fp.fromBytes: expected ${BYTES}, got ${bytes.length}`);
+                return isLE ? bytesToNumberLE(bytes) : bytesToNumberBE(bytes);
+            },
+        });
+        return Object.freeze(f);
+    }
+    /**
+     * FIPS 186 B.4.1-compliant "constant-time" private key generation utility.
+     * Can take (n+8) or more bytes of uniform input e.g. from CSPRNG or KDF
+     * and convert them into private scalar, with the modulo bias being negligible.
+     * Needs at least 40 bytes of input for 32-byte private key.
+     * https://research.kudelskisecurity.com/2020/07/28/the-definitive-guide-to-modulo-bias-and-how-to-avoid-it/
+     * @param hash hash output from SHA3 or a similar function
+     * @param groupOrder size of subgroup - (e.g. curveFn.CURVE.n)
+     * @param isLE interpret hash bytes as LE num
+     * @returns valid private scalar
+     */
+    function hashToPrivateScalar(hash, groupOrder, isLE = false) {
+        hash = ensureBytes$1('privateHash', hash);
+        const hashLen = hash.length;
+        const minLen = nLength(groupOrder).nByteLength + 8;
+        if (minLen < 24 || hashLen < minLen || hashLen > 1024)
+            throw new Error(`hashToPrivateScalar: expected ${minLen}-1024 bytes of input, got ${hashLen}`);
+        const num = isLE ? bytesToNumberLE(hash) : bytesToNumberBE(hash);
+        return mod(num, groupOrder - _1n$3) + _1n$3;
+    }
+
+    /*! noble-curves - MIT License (c) 2022 Paul Miller (paulmillr.com) */
+    const _0n$2 = BigInt(0);
+    const _1n$2 = BigInt(1);
+    // Elliptic curve multiplication of Point by scalar. Fragile.
+    // Scalars should always be less than curve order: this should be checked inside of a curve itself.
+    // Creates precomputation tables for fast multiplication:
+    // - private scalar is split by fixed size windows of W bits
+    // - every window point is collected from window's table & added to accumulator
+    // - since windows are different, same point inside tables won't be accessed more than once per calc
+    // - each multiplication is 'Math.ceil(CURVE_ORDER / 𝑊) + 1' point additions (fixed for any scalar)
+    // - +1 window is neccessary for wNAF
+    // - wNAF reduces table size: 2x less memory + 2x faster generation, but 10% slower multiplication
+    // TODO: Research returning 2d JS array of windows, instead of a single window. This would allow
+    // windows to be in different memory locations
+    function wNAF(c, bits) {
+        const constTimeNegate = (condition, item) => {
+            const neg = item.negate();
+            return condition ? neg : item;
+        };
+        const opts = (W) => {
+            const windows = Math.ceil(bits / W) + 1; // +1, because
+            const windowSize = 2 ** (W - 1); // -1 because we skip zero
+            return { windows, windowSize };
+        };
+        return {
+            constTimeNegate,
+            // non-const time multiplication ladder
+            unsafeLadder(elm, n) {
+                let p = c.ZERO;
+                let d = elm;
+                while (n > _0n$2) {
+                    if (n & _1n$2)
+                        p = p.add(d);
+                    d = d.double();
+                    n >>= _1n$2;
+                }
+                return p;
+            },
+            /**
+             * Creates a wNAF precomputation window. Used for caching.
+             * Default window size is set by `utils.precompute()` and is equal to 8.
+             * Number of precomputed points depends on the curve size:
+             * 2^(𝑊−1) * (Math.ceil(𝑛 / 𝑊) + 1), where:
+             * - 𝑊 is the window size
+             * - 𝑛 is the bitlength of the curve order.
+             * For a 256-bit curve and window size 8, the number of precomputed points is 128 * 33 = 4224.
+             * @returns precomputed point tables flattened to a single array
+             */
+            precomputeWindow(elm, W) {
+                const { windows, windowSize } = opts(W);
+                const points = [];
+                let p = elm;
+                let base = p;
+                for (let window = 0; window < windows; window++) {
+                    base = p;
+                    points.push(base);
+                    // =1, because we skip zero
+                    for (let i = 1; i < windowSize; i++) {
+                        base = base.add(p);
+                        points.push(base);
+                    }
+                    p = base.double();
+                }
+                return points;
+            },
+            /**
+             * Implements ec multiplication using precomputed tables and w-ary non-adjacent form.
+             * @param W window size
+             * @param precomputes precomputed tables
+             * @param n scalar (we don't check here, but should be less than curve order)
+             * @returns real and fake (for const-time) points
+             */
+            wNAF(W, precomputes, n) {
+                // TODO: maybe check that scalar is less than group order? wNAF behavious is undefined otherwise
+                // But need to carefully remove other checks before wNAF. ORDER == bits here
+                const { windows, windowSize } = opts(W);
+                let p = c.ZERO;
+                let f = c.BASE;
+                const mask = BigInt(2 ** W - 1); // Create mask with W ones: 0b1111 for W=4 etc.
+                const maxNumber = 2 ** W;
+                const shiftBy = BigInt(W);
+                for (let window = 0; window < windows; window++) {
+                    const offset = window * windowSize;
+                    // Extract W bits.
+                    let wbits = Number(n & mask);
+                    // Shift number by W bits.
+                    n >>= shiftBy;
+                    // If the bits are bigger than max size, we'll split those.
+                    // +224 => 256 - 32
+                    if (wbits > windowSize) {
+                        wbits -= maxNumber;
+                        n += _1n$2;
+                    }
+                    // This code was first written with assumption that 'f' and 'p' will never be infinity point:
+                    // since each addition is multiplied by 2 ** W, it cannot cancel each other. However,
+                    // there is negate now: it is possible that negated element from low value
+                    // would be the same as high element, which will create carry into next window.
+                    // It's not obvious how this can fail, but still worth investigating later.
+                    // Check if we're onto Zero point.
+                    // Add random point inside current window to f.
+                    const offset1 = offset;
+                    const offset2 = offset + Math.abs(wbits) - 1; // -1 because we skip zero
+                    const cond1 = window % 2 !== 0;
+                    const cond2 = wbits < 0;
+                    if (wbits === 0) {
+                        // The most important part for const-time getPublicKey
+                        f = f.add(constTimeNegate(cond1, precomputes[offset1]));
+                    }
+                    else {
+                        p = p.add(constTimeNegate(cond2, precomputes[offset2]));
+                    }
+                }
+                // JIT-compiler should not eliminate f here, since it will later be used in normalizeZ()
+                // Even if the variable is still unused, there are some checks which will
+                // throw an exception, so compiler needs to prove they won't happen, which is hard.
+                // At this point there is a way to F be infinity-point even if p is not,
+                // which makes it less const-time: around 1 bigint multiply.
+                return { p, f };
+            },
+            wNAFCached(P, precomputesMap, n, transform) {
+                // @ts-ignore
+                const W = P._WINDOW_SIZE || 1;
+                // Calculate precomputes on a first run, reuse them after
+                let comp = precomputesMap.get(P);
+                if (!comp) {
+                    comp = this.precomputeWindow(P, W);
+                    if (W !== 1) {
+                        precomputesMap.set(P, transform(comp));
+                    }
+                }
+                return this.wNAF(W, comp, n);
+            },
+        };
+    }
+    function validateBasic(curve) {
+        validateField(curve.Fp);
+        validateObject(curve, {
+            n: 'bigint',
+            h: 'bigint',
+            Gx: 'field',
+            Gy: 'field',
+        }, {
+            nBitLength: 'isSafeInteger',
+            nByteLength: 'isSafeInteger',
+        });
+        // Set defaults
+        return Object.freeze({
+            ...nLength(curve.n, curve.nBitLength),
+            ...curve,
+            ...{ p: curve.Fp.ORDER },
+        });
+    }
+
+    /*! noble-curves - MIT License (c) 2022 Paul Miller (paulmillr.com) */
+    function validatePointOpts(curve) {
+        const opts = validateBasic(curve);
+        validateObject(opts, {
+            a: 'field',
+            b: 'field',
+        }, {
+            allowedPrivateKeyLengths: 'array',
+            wrapPrivateKey: 'boolean',
+            isTorsionFree: 'function',
+            clearCofactor: 'function',
+            allowInfinityPoint: 'boolean',
+            fromBytes: 'function',
+            toBytes: 'function',
+        });
+        const { endo, Fp, a } = opts;
+        if (endo) {
+            if (!Fp.eql(a, Fp.ZERO)) {
+                throw new Error('Endomorphism can only be defined for Koblitz curves that have a=0');
+            }
+            if (typeof endo !== 'object' ||
+                typeof endo.beta !== 'bigint' ||
+                typeof endo.splitScalar !== 'function') {
+                throw new Error('Expected endomorphism with beta: bigint and splitScalar: function');
+            }
+        }
+        return Object.freeze({ ...opts });
+    }
+    // ASN.1 DER encoding utilities
+    const { bytesToNumberBE: b2n, hexToBytes: h2b } = ut;
+    const DER = {
+        // asn.1 DER encoding utils
+        Err: class DERErr extends Error {
+            constructor(m = '') {
+                super(m);
+            }
+        },
+        _parseInt(data) {
+            const { Err: E } = DER;
+            if (data.length < 2 || data[0] !== 0x02)
+                throw new E('Invalid signature integer tag');
+            const len = data[1];
+            const res = data.subarray(2, len + 2);
+            if (!len || res.length !== len)
+                throw new E('Invalid signature integer: wrong length');
+            // https://crypto.stackexchange.com/a/57734 Leftmost bit of first byte is 'negative' flag,
+            // since we always use positive integers here. It must always be empty:
+            // - add zero byte if exists
+            // - if next byte doesn't have a flag, leading zero is not allowed (minimal encoding)
+            if (res[0] & 0b10000000)
+                throw new E('Invalid signature integer: negative');
+            if (res[0] === 0x00 && !(res[1] & 0b10000000))
+                throw new E('Invalid signature integer: unnecessary leading zero');
+            return { d: b2n(res), l: data.subarray(len + 2) }; // d is data, l is left
+        },
+        toSig(hex) {
+            // parse DER signature
+            const { Err: E } = DER;
+            const data = typeof hex === 'string' ? h2b(hex) : hex;
+            if (!(data instanceof Uint8Array))
+                throw new Error('ui8a expected');
+            let l = data.length;
+            if (l < 2 || data[0] != 0x30)
+                throw new E('Invalid signature tag');
+            if (data[1] !== l - 2)
+                throw new E('Invalid signature: incorrect length');
+            const { d: r, l: sBytes } = DER._parseInt(data.subarray(2));
+            const { d: s, l: rBytesLeft } = DER._parseInt(sBytes);
+            if (rBytesLeft.length)
+                throw new E('Invalid signature: left bytes after parsing');
+            return { r, s };
+        },
+        hexFromSig(sig) {
+            // Add leading zero if first byte has negative bit enabled. More details in '_parseInt'
+            const slice = (s) => (Number.parseInt(s[0], 16) & 0b1000 ? '00' + s : s);
+            const h = (num) => {
+                const hex = num.toString(16);
+                return hex.length & 1 ? `0${hex}` : hex;
+            };
+            const s = slice(h(sig.s));
+            const r = slice(h(sig.r));
+            const shl = s.length / 2;
+            const rhl = r.length / 2;
+            const sl = h(shl);
+            const rl = h(rhl);
+            return `30${h(rhl + shl + 4)}02${rl}${r}02${sl}${s}`;
+        },
+    };
+    // Be friendly to bad ECMAScript parsers by not using bigint literals
+    // prettier-ignore
+    const _0n$1 = BigInt(0), _1n$1 = BigInt(1); BigInt(2); const _3n = BigInt(3); BigInt(4);
+    function weierstrassPoints(opts) {
+        const CURVE = validatePointOpts(opts);
+        const { Fp } = CURVE; // All curves has same field / group length as for now, but they can differ
+        const toBytes = CURVE.toBytes ||
+            ((c, point, isCompressed) => {
+                const a = point.toAffine();
+                return concatBytes(Uint8Array.from([0x04]), Fp.toBytes(a.x), Fp.toBytes(a.y));
+            });
+        const fromBytes = CURVE.fromBytes ||
+            ((bytes) => {
+                // const head = bytes[0];
+                const tail = bytes.subarray(1);
+                // if (head !== 0x04) throw new Error('Only non-compressed encoding is supported');
+                const x = Fp.fromBytes(tail.subarray(0, Fp.BYTES));
+                const y = Fp.fromBytes(tail.subarray(Fp.BYTES, 2 * Fp.BYTES));
+                return { x, y };
+            });
+        /**
+         * y² = x³ + ax + b: Short weierstrass curve formula
+         * @returns y²
+         */
+        function weierstrassEquation(x) {
+            const { a, b } = CURVE;
+            const x2 = Fp.sqr(x); // x * x
+            const x3 = Fp.mul(x2, x); // x2 * x
+            return Fp.add(Fp.add(x3, Fp.mul(x, a)), b); // x3 + a * x + b
+        }
+        // Validate whether the passed curve params are valid.
+        // We check if curve equation works for generator point.
+        // `assertValidity()` won't work: `isTorsionFree()` is not available at this point in bls12-381.
+        // ProjectivePoint class has not been initialized yet.
+        if (!Fp.eql(Fp.sqr(CURVE.Gy), weierstrassEquation(CURVE.Gx)))
+            throw new Error('bad generator point: equation left != right');
+        // Valid group elements reside in range 1..n-1
+        function isWithinCurveOrder(num) {
+            return typeof num === 'bigint' && _0n$1 < num && num < CURVE.n;
+        }
+        function assertGE(num) {
+            if (!isWithinCurveOrder(num))
+                throw new Error('Expected valid bigint: 0 < bigint < curve.n');
+        }
+        // Validates if priv key is valid and converts it to bigint.
+        // Supports options allowedPrivateKeyLengths and wrapPrivateKey.
+        function normPrivateKeyToScalar(key) {
+            const { allowedPrivateKeyLengths: lengths, nByteLength, wrapPrivateKey, n } = CURVE;
+            if (lengths && typeof key !== 'bigint') {
+                if (key instanceof Uint8Array)
+                    key = bytesToHex(key);
+                // Normalize to hex string, pad. E.g. P521 would norm 130-132 char hex to 132-char bytes
+                if (typeof key !== 'string' || !lengths.includes(key.length))
+                    throw new Error('Invalid key');
+                key = key.padStart(nByteLength * 2, '0');
+            }
+            let num;
+            try {
+                num =
+                    typeof key === 'bigint'
+                        ? key
+                        : bytesToNumberBE(ensureBytes$1('private key', key, nByteLength));
+            }
+            catch (error) {
+                throw new Error(`private key must be ${nByteLength} bytes, hex or bigint, not ${typeof key}`);
+            }
+            if (wrapPrivateKey)
+                num = mod(num, n); // disabled by default, enabled for BLS
+            assertGE(num); // num in range [1..N-1]
+            return num;
+        }
+        const pointPrecomputes = new Map();
+        function assertPrjPoint(other) {
+            if (!(other instanceof Point))
+                throw new Error('ProjectivePoint expected');
+        }
+        /**
+         * Projective Point works in 3d / projective (homogeneous) coordinates: (x, y, z) ∋ (x=x/z, y=y/z)
+         * Default Point works in 2d / affine coordinates: (x, y)
+         * We're doing calculations in projective, because its operations don't require costly inversion.
+         */
+        class Point {
+            constructor(px, py, pz) {
+                this.px = px;
+                this.py = py;
+                this.pz = pz;
+                if (px == null || !Fp.isValid(px))
+                    throw new Error('x required');
+                if (py == null || !Fp.isValid(py))
+                    throw new Error('y required');
+                if (pz == null || !Fp.isValid(pz))
+                    throw new Error('z required');
+            }
+            // Does not validate if the point is on-curve.
+            // Use fromHex instead, or call assertValidity() later.
+            static fromAffine(p) {
+                const { x, y } = p || {};
+                if (!p || !Fp.isValid(x) || !Fp.isValid(y))
+                    throw new Error('invalid affine point');
+                if (p instanceof Point)
+                    throw new Error('projective point not allowed');
+                const is0 = (i) => Fp.eql(i, Fp.ZERO);
+                // fromAffine(x:0, y:0) would produce (x:0, y:0, z:1), but we need (x:0, y:1, z:0)
+                if (is0(x) && is0(y))
+                    return Point.ZERO;
+                return new Point(x, y, Fp.ONE);
+            }
+            get x() {
+                return this.toAffine().x;
+            }
+            get y() {
+                return this.toAffine().y;
+            }
+            /**
+             * Takes a bunch of Projective Points but executes only one
+             * inversion on all of them. Inversion is very slow operation,
+             * so this improves performance massively.
+             * Optimization: converts a list of projective points to a list of identical points with Z=1.
+             */
+            static normalizeZ(points) {
+                const toInv = Fp.invertBatch(points.map((p) => p.pz));
+                return points.map((p, i) => p.toAffine(toInv[i])).map(Point.fromAffine);
+            }
+            /**
+             * Converts hash string or Uint8Array to Point.
+             * @param hex short/long ECDSA hex
+             */
+            static fromHex(hex) {
+                const P = Point.fromAffine(fromBytes(ensureBytes$1('pointHex', hex)));
+                P.assertValidity();
+                return P;
+            }
+            // Multiplies generator point by privateKey.
+            static fromPrivateKey(privateKey) {
+                return Point.BASE.multiply(normPrivateKeyToScalar(privateKey));
+            }
+            // "Private method", don't use it directly
+            _setWindowSize(windowSize) {
+                this._WINDOW_SIZE = windowSize;
+                pointPrecomputes.delete(this);
+            }
+            // A point on curve is valid if it conforms to equation.
+            assertValidity() {
+                // Zero is valid point too!
+                if (this.is0()) {
+                    if (CURVE.allowInfinityPoint)
+                        return;
+                    throw new Error('bad point: ZERO');
+                }
+                // Some 3rd-party test vectors require different wording between here & `fromCompressedHex`
+                const { x, y } = this.toAffine();
+                // Check if x, y are valid field elements
+                if (!Fp.isValid(x) || !Fp.isValid(y))
+                    throw new Error('bad point: x or y not FE');
+                const left = Fp.sqr(y); // y²
+                const right = weierstrassEquation(x); // x³ + ax + b
+                if (!Fp.eql(left, right))
+                    throw new Error('bad point: equation left != right');
+                if (!this.isTorsionFree())
+                    throw new Error('bad point: not in prime-order subgroup');
+            }
+            hasEvenY() {
+                const { y } = this.toAffine();
+                if (Fp.isOdd)
+                    return !Fp.isOdd(y);
+                throw new Error("Field doesn't support isOdd");
+            }
+            /**
+             * Compare one point to another.
+             */
+            equals(other) {
+                assertPrjPoint(other);
+                const { px: X1, py: Y1, pz: Z1 } = this;
+                const { px: X2, py: Y2, pz: Z2 } = other;
+                const U1 = Fp.eql(Fp.mul(X1, Z2), Fp.mul(X2, Z1));
+                const U2 = Fp.eql(Fp.mul(Y1, Z2), Fp.mul(Y2, Z1));
+                return U1 && U2;
+            }
+            /**
+             * Flips point to one corresponding to (x, -y) in Affine coordinates.
+             */
+            negate() {
+                return new Point(this.px, Fp.neg(this.py), this.pz);
+            }
+            // Renes-Costello-Batina exception-free doubling formula.
+            // There is 30% faster Jacobian formula, but it is not complete.
+            // https://eprint.iacr.org/2015/1060, algorithm 3
+            // Cost: 8M + 3S + 3*a + 2*b3 + 15add.
+            double() {
+                const { a, b } = CURVE;
+                const b3 = Fp.mul(b, _3n);
+                const { px: X1, py: Y1, pz: Z1 } = this;
+                let X3 = Fp.ZERO, Y3 = Fp.ZERO, Z3 = Fp.ZERO; // prettier-ignore
+                let t0 = Fp.mul(X1, X1); // step 1
+                let t1 = Fp.mul(Y1, Y1);
+                let t2 = Fp.mul(Z1, Z1);
+                let t3 = Fp.mul(X1, Y1);
+                t3 = Fp.add(t3, t3); // step 5
+                Z3 = Fp.mul(X1, Z1);
+                Z3 = Fp.add(Z3, Z3);
+                X3 = Fp.mul(a, Z3);
+                Y3 = Fp.mul(b3, t2);
+                Y3 = Fp.add(X3, Y3); // step 10
+                X3 = Fp.sub(t1, Y3);
+                Y3 = Fp.add(t1, Y3);
+                Y3 = Fp.mul(X3, Y3);
+                X3 = Fp.mul(t3, X3);
+                Z3 = Fp.mul(b3, Z3); // step 15
+                t2 = Fp.mul(a, t2);
+                t3 = Fp.sub(t0, t2);
+                t3 = Fp.mul(a, t3);
+                t3 = Fp.add(t3, Z3);
+                Z3 = Fp.add(t0, t0); // step 20
+                t0 = Fp.add(Z3, t0);
+                t0 = Fp.add(t0, t2);
+                t0 = Fp.mul(t0, t3);
+                Y3 = Fp.add(Y3, t0);
+                t2 = Fp.mul(Y1, Z1); // step 25
+                t2 = Fp.add(t2, t2);
+                t0 = Fp.mul(t2, t3);
+                X3 = Fp.sub(X3, t0);
+                Z3 = Fp.mul(t2, t1);
+                Z3 = Fp.add(Z3, Z3); // step 30
+                Z3 = Fp.add(Z3, Z3);
+                return new Point(X3, Y3, Z3);
+            }
+            // Renes-Costello-Batina exception-free addition formula.
+            // There is 30% faster Jacobian formula, but it is not complete.
+            // https://eprint.iacr.org/2015/1060, algorithm 1
+            // Cost: 12M + 0S + 3*a + 3*b3 + 23add.
+            add(other) {
+                assertPrjPoint(other);
+                const { px: X1, py: Y1, pz: Z1 } = this;
+                const { px: X2, py: Y2, pz: Z2 } = other;
+                let X3 = Fp.ZERO, Y3 = Fp.ZERO, Z3 = Fp.ZERO; // prettier-ignore
+                const a = CURVE.a;
+                const b3 = Fp.mul(CURVE.b, _3n);
+                let t0 = Fp.mul(X1, X2); // step 1
+                let t1 = Fp.mul(Y1, Y2);
+                let t2 = Fp.mul(Z1, Z2);
+                let t3 = Fp.add(X1, Y1);
+                let t4 = Fp.add(X2, Y2); // step 5
+                t3 = Fp.mul(t3, t4);
+                t4 = Fp.add(t0, t1);
+                t3 = Fp.sub(t3, t4);
+                t4 = Fp.add(X1, Z1);
+                let t5 = Fp.add(X2, Z2); // step 10
+                t4 = Fp.mul(t4, t5);
+                t5 = Fp.add(t0, t2);
+                t4 = Fp.sub(t4, t5);
+                t5 = Fp.add(Y1, Z1);
+                X3 = Fp.add(Y2, Z2); // step 15
+                t5 = Fp.mul(t5, X3);
+                X3 = Fp.add(t1, t2);
+                t5 = Fp.sub(t5, X3);
+                Z3 = Fp.mul(a, t4);
+                X3 = Fp.mul(b3, t2); // step 20
+                Z3 = Fp.add(X3, Z3);
+                X3 = Fp.sub(t1, Z3);
+                Z3 = Fp.add(t1, Z3);
+                Y3 = Fp.mul(X3, Z3);
+                t1 = Fp.add(t0, t0); // step 25
+                t1 = Fp.add(t1, t0);
+                t2 = Fp.mul(a, t2);
+                t4 = Fp.mul(b3, t4);
+                t1 = Fp.add(t1, t2);
+                t2 = Fp.sub(t0, t2); // step 30
+                t2 = Fp.mul(a, t2);
+                t4 = Fp.add(t4, t2);
+                t0 = Fp.mul(t1, t4);
+                Y3 = Fp.add(Y3, t0);
+                t0 = Fp.mul(t5, t4); // step 35
+                X3 = Fp.mul(t3, X3);
+                X3 = Fp.sub(X3, t0);
+                t0 = Fp.mul(t3, t1);
+                Z3 = Fp.mul(t5, Z3);
+                Z3 = Fp.add(Z3, t0); // step 40
+                return new Point(X3, Y3, Z3);
+            }
+            subtract(other) {
+                return this.add(other.negate());
+            }
+            is0() {
+                return this.equals(Point.ZERO);
+            }
+            wNAF(n) {
+                return wnaf.wNAFCached(this, pointPrecomputes, n, (comp) => {
+                    const toInv = Fp.invertBatch(comp.map((p) => p.pz));
+                    return comp.map((p, i) => p.toAffine(toInv[i])).map(Point.fromAffine);
+                });
+            }
+            /**
+             * Non-constant-time multiplication. Uses double-and-add algorithm.
+             * It's faster, but should only be used when you don't care about
+             * an exposed private key e.g. sig verification, which works over *public* keys.
+             */
+            multiplyUnsafe(n) {
+                const I = Point.ZERO;
+                if (n === _0n$1)
+                    return I;
+                assertGE(n); // Will throw on 0
+                if (n === _1n$1)
+                    return this;
+                const { endo } = CURVE;
+                if (!endo)
+                    return wnaf.unsafeLadder(this, n);
+                // Apply endomorphism
+                let { k1neg, k1, k2neg, k2 } = endo.splitScalar(n);
+                let k1p = I;
+                let k2p = I;
+                let d = this;
+                while (k1 > _0n$1 || k2 > _0n$1) {
+                    if (k1 & _1n$1)
+                        k1p = k1p.add(d);
+                    if (k2 & _1n$1)
+                        k2p = k2p.add(d);
+                    d = d.double();
+                    k1 >>= _1n$1;
+                    k2 >>= _1n$1;
+                }
+                if (k1neg)
+                    k1p = k1p.negate();
+                if (k2neg)
+                    k2p = k2p.negate();
+                k2p = new Point(Fp.mul(k2p.px, endo.beta), k2p.py, k2p.pz);
+                return k1p.add(k2p);
+            }
+            /**
+             * Constant time multiplication.
+             * Uses wNAF method. Windowed method may be 10% faster,
+             * but takes 2x longer to generate and consumes 2x memory.
+             * Uses precomputes when available.
+             * Uses endomorphism for Koblitz curves.
+             * @param scalar by which the point would be multiplied
+             * @returns New point
+             */
+            multiply(scalar) {
+                assertGE(scalar);
+                let n = scalar;
+                let point, fake; // Fake point is used to const-time mult
+                const { endo } = CURVE;
+                if (endo) {
+                    const { k1neg, k1, k2neg, k2 } = endo.splitScalar(n);
+                    let { p: k1p, f: f1p } = this.wNAF(k1);
+                    let { p: k2p, f: f2p } = this.wNAF(k2);
+                    k1p = wnaf.constTimeNegate(k1neg, k1p);
+                    k2p = wnaf.constTimeNegate(k2neg, k2p);
+                    k2p = new Point(Fp.mul(k2p.px, endo.beta), k2p.py, k2p.pz);
+                    point = k1p.add(k2p);
+                    fake = f1p.add(f2p);
+                }
+                else {
+                    const { p, f } = this.wNAF(n);
+                    point = p;
+                    fake = f;
+                }
+                // Normalize `z` for both points, but return only real one
+                return Point.normalizeZ([point, fake])[0];
+            }
+            /**
+             * Efficiently calculate `aP + bQ`. Unsafe, can expose private key, if used incorrectly.
+             * Not using Strauss-Shamir trick: precomputation tables are faster.
+             * The trick could be useful if both P and Q are not G (not in our case).
+             * @returns non-zero affine point
+             */
+            multiplyAndAddUnsafe(Q, a, b) {
+                const G = Point.BASE; // No Strauss-Shamir trick: we have 10% faster G precomputes
+                const mul = (P, a // Select faster multiply() method
+                ) => (a === _0n$1 || a === _1n$1 || !P.equals(G) ? P.multiplyUnsafe(a) : P.multiply(a));
+                const sum = mul(this, a).add(mul(Q, b));
+                return sum.is0() ? undefined : sum;
+            }
+            // Converts Projective point to affine (x, y) coordinates.
+            // Can accept precomputed Z^-1 - for example, from invertBatch.
+            // (x, y, z) ∋ (x=x/z, y=y/z)
+            toAffine(iz) {
+                const { px: x, py: y, pz: z } = this;
+                const is0 = this.is0();
+                // If invZ was 0, we return zero point. However we still want to execute
+                // all operations, so we replace invZ with a random number, 1.
+                if (iz == null)
+                    iz = is0 ? Fp.ONE : Fp.inv(z);
+                const ax = Fp.mul(x, iz);
+                const ay = Fp.mul(y, iz);
+                const zz = Fp.mul(z, iz);
+                if (is0)
+                    return { x: Fp.ZERO, y: Fp.ZERO };
+                if (!Fp.eql(zz, Fp.ONE))
+                    throw new Error('invZ was invalid');
+                return { x: ax, y: ay };
+            }
+            isTorsionFree() {
+                const { h: cofactor, isTorsionFree } = CURVE;
+                if (cofactor === _1n$1)
+                    return true; // No subgroups, always torsion-free
+                if (isTorsionFree)
+                    return isTorsionFree(Point, this);
+                throw new Error('isTorsionFree() has not been declared for the elliptic curve');
+            }
+            clearCofactor() {
+                const { h: cofactor, clearCofactor } = CURVE;
+                if (cofactor === _1n$1)
+                    return this; // Fast-path
+                if (clearCofactor)
+                    return clearCofactor(Point, this);
+                return this.multiplyUnsafe(CURVE.h);
+            }
+            toRawBytes(isCompressed = true) {
+                this.assertValidity();
+                return toBytes(Point, this, isCompressed);
+            }
+            toHex(isCompressed = true) {
+                return bytesToHex(this.toRawBytes(isCompressed));
+            }
+        }
+        Point.BASE = new Point(CURVE.Gx, CURVE.Gy, Fp.ONE);
+        Point.ZERO = new Point(Fp.ZERO, Fp.ONE, Fp.ZERO);
+        const _bits = CURVE.nBitLength;
+        const wnaf = wNAF(Point, CURVE.endo ? Math.ceil(_bits / 2) : _bits);
+        // Validate if generator point is on curve
+        return {
+            CURVE,
+            ProjectivePoint: Point,
+            normPrivateKeyToScalar,
+            weierstrassEquation,
+            isWithinCurveOrder,
+        };
+    }
+    function validateOpts(curve) {
+        const opts = validateBasic(curve);
+        validateObject(opts, {
+            hash: 'hash',
+            hmac: 'function',
+            randomBytes: 'function',
+        }, {
+            bits2int: 'function',
+            bits2int_modN: 'function',
+            lowS: 'boolean',
+        });
+        return Object.freeze({ lowS: true, ...opts });
+    }
+    function weierstrass(curveDef) {
+        const CURVE = validateOpts(curveDef);
+        const { Fp, n: CURVE_ORDER } = CURVE;
+        const compressedLen = Fp.BYTES + 1; // e.g. 33 for 32
+        const uncompressedLen = 2 * Fp.BYTES + 1; // e.g. 65 for 32
+        function isValidFieldElement(num) {
+            return _0n$1 < num && num < Fp.ORDER; // 0 is banned since it's not invertible FE
+        }
+        function modN(a) {
+            return mod(a, CURVE_ORDER);
+        }
+        function invN(a) {
+            return invert(a, CURVE_ORDER);
+        }
+        const { ProjectivePoint: Point, normPrivateKeyToScalar, weierstrassEquation, isWithinCurveOrder, } = weierstrassPoints({
+            ...CURVE,
+            toBytes(c, point, isCompressed) {
+                const a = point.toAffine();
+                const x = Fp.toBytes(a.x);
+                const cat = concatBytes;
+                if (isCompressed) {
+                    return cat(Uint8Array.from([point.hasEvenY() ? 0x02 : 0x03]), x);
+                }
+                else {
+                    return cat(Uint8Array.from([0x04]), x, Fp.toBytes(a.y));
+                }
+            },
+            fromBytes(bytes) {
+                const len = bytes.length;
+                const head = bytes[0];
+                const tail = bytes.subarray(1);
+                // this.assertValidity() is done inside of fromHex
+                if (len === compressedLen && (head === 0x02 || head === 0x03)) {
+                    const x = bytesToNumberBE(tail);
+                    if (!isValidFieldElement(x))
+                        throw new Error('Point is not on curve');
+                    const y2 = weierstrassEquation(x); // y² = x³ + ax + b
+                    let y = Fp.sqrt(y2); // y = y² ^ (p+1)/4
+                    const isYOdd = (y & _1n$1) === _1n$1;
+                    // ECDSA
+                    const isHeadOdd = (head & 1) === 1;
+                    if (isHeadOdd !== isYOdd)
+                        y = Fp.neg(y);
+                    return { x, y };
+                }
+                else if (len === uncompressedLen && head === 0x04) {
+                    const x = Fp.fromBytes(tail.subarray(0, Fp.BYTES));
+                    const y = Fp.fromBytes(tail.subarray(Fp.BYTES, 2 * Fp.BYTES));
+                    return { x, y };
+                }
+                else {
+                    throw new Error(`Point of length ${len} was invalid. Expected ${compressedLen} compressed bytes or ${uncompressedLen} uncompressed bytes`);
+                }
+            },
+        });
+        const numToNByteStr = (num) => bytesToHex(numberToBytesBE(num, CURVE.nByteLength));
+        function isBiggerThanHalfOrder(number) {
+            const HALF = CURVE_ORDER >> _1n$1;
+            return number > HALF;
+        }
+        function normalizeS(s) {
+            return isBiggerThanHalfOrder(s) ? modN(-s) : s;
+        }
+        // slice bytes num
+        const slcNum = (b, from, to) => bytesToNumberBE(b.slice(from, to));
+        /**
+         * ECDSA signature with its (r, s) properties. Supports DER & compact representations.
+         */
+        class Signature {
+            constructor(r, s, recovery) {
+                this.r = r;
+                this.s = s;
+                this.recovery = recovery;
+                this.assertValidity();
+            }
+            // pair (bytes of r, bytes of s)
+            static fromCompact(hex) {
+                const l = CURVE.nByteLength;
+                hex = ensureBytes$1('compactSignature', hex, l * 2);
+                return new Signature(slcNum(hex, 0, l), slcNum(hex, l, 2 * l));
+            }
+            // DER encoded ECDSA signature
+            // https://bitcoin.stackexchange.com/questions/57644/what-are-the-parts-of-a-bitcoin-transaction-input-script
+            static fromDER(hex) {
+                const { r, s } = DER.toSig(ensureBytes$1('DER', hex));
+                return new Signature(r, s);
+            }
+            assertValidity() {
+                // can use assertGE here
+                if (!isWithinCurveOrder(this.r))
+                    throw new Error('r must be 0 < r < CURVE.n');
+                if (!isWithinCurveOrder(this.s))
+                    throw new Error('s must be 0 < s < CURVE.n');
+            }
+            addRecoveryBit(recovery) {
+                return new Signature(this.r, this.s, recovery);
+            }
+            recoverPublicKey(msgHash) {
+                const { r, s, recovery: rec } = this;
+                const h = bits2int_modN(ensureBytes$1('msgHash', msgHash)); // Truncate hash
+                if (rec == null || ![0, 1, 2, 3].includes(rec))
+                    throw new Error('recovery id invalid');
+                const radj = rec === 2 || rec === 3 ? r + CURVE.n : r;
+                if (radj >= Fp.ORDER)
+                    throw new Error('recovery id 2 or 3 invalid');
+                const prefix = (rec & 1) === 0 ? '02' : '03';
+                const R = Point.fromHex(prefix + numToNByteStr(radj));
+                const ir = invN(radj); // r^-1
+                const u1 = modN(-h * ir); // -hr^-1
+                const u2 = modN(s * ir); // sr^-1
+                const Q = Point.BASE.multiplyAndAddUnsafe(R, u1, u2); // (sr^-1)R-(hr^-1)G = -(hr^-1)G + (sr^-1)
+                if (!Q)
+                    throw new Error('point at infinify'); // unsafe is fine: no priv data leaked
+                Q.assertValidity();
+                return Q;
+            }
+            // Signatures should be low-s, to prevent malleability.
+            hasHighS() {
+                return isBiggerThanHalfOrder(this.s);
+            }
+            normalizeS() {
+                return this.hasHighS() ? new Signature(this.r, modN(-this.s), this.recovery) : this;
+            }
+            // DER-encoded
+            toDERRawBytes() {
+                return hexToBytes(this.toDERHex());
+            }
+            toDERHex() {
+                return DER.hexFromSig({ r: this.r, s: this.s });
+            }
+            // padded bytes of r, then padded bytes of s
+            toCompactRawBytes() {
+                return hexToBytes(this.toCompactHex());
+            }
+            toCompactHex() {
+                return numToNByteStr(this.r) + numToNByteStr(this.s);
+            }
+        }
+        const utils = {
+            isValidPrivateKey(privateKey) {
+                try {
+                    normPrivateKeyToScalar(privateKey);
+                    return true;
+                }
+                catch (error) {
+                    return false;
+                }
+            },
+            normPrivateKeyToScalar: normPrivateKeyToScalar,
+            /**
+             * Produces cryptographically secure private key from random of size (nBitLength+64)
+             * as per FIPS 186 B.4.1 with modulo bias being neglible.
+             */
+            randomPrivateKey: () => {
+                const rand = CURVE.randomBytes(Fp.BYTES + 8);
+                const num = hashToPrivateScalar(rand, CURVE_ORDER);
+                return numberToBytesBE(num, CURVE.nByteLength);
+            },
+            /**
+             * Creates precompute table for an arbitrary EC point. Makes point "cached".
+             * Allows to massively speed-up `point.multiply(scalar)`.
+             * @returns cached point
+             * @example
+             * const fast = utils.precompute(8, ProjectivePoint.fromHex(someonesPubKey));
+             * fast.multiply(privKey); // much faster ECDH now
+             */
+            precompute(windowSize = 8, point = Point.BASE) {
+                point._setWindowSize(windowSize);
+                point.multiply(BigInt(3)); // 3 is arbitrary, just need any number here
+                return point;
+            },
+        };
+        /**
+         * Computes public key for a private key. Checks for validity of the private key.
+         * @param privateKey private key
+         * @param isCompressed whether to return compact (default), or full key
+         * @returns Public key, full when isCompressed=false; short when isCompressed=true
+         */
+        function getPublicKey(privateKey, isCompressed = true) {
+            return Point.fromPrivateKey(privateKey).toRawBytes(isCompressed);
+        }
+        /**
+         * Quick and dirty check for item being public key. Does not validate hex, or being on-curve.
+         */
+        function isProbPub(item) {
+            const arr = item instanceof Uint8Array;
+            const str = typeof item === 'string';
+            const len = (arr || str) && item.length;
+            if (arr)
+                return len === compressedLen || len === uncompressedLen;
+            if (str)
+                return len === 2 * compressedLen || len === 2 * uncompressedLen;
+            if (item instanceof Point)
+                return true;
+            return false;
+        }
+        /**
+         * ECDH (Elliptic Curve Diffie Hellman).
+         * Computes shared public key from private key and public key.
+         * Checks: 1) private key validity 2) shared key is on-curve.
+         * Does NOT hash the result.
+         * @param privateA private key
+         * @param publicB different public key
+         * @param isCompressed whether to return compact (default), or full key
+         * @returns shared public key
+         */
+        function getSharedSecret(privateA, publicB, isCompressed = true) {
+            if (isProbPub(privateA))
+                throw new Error('first arg must be private key');
+            if (!isProbPub(publicB))
+                throw new Error('second arg must be public key');
+            const b = Point.fromHex(publicB); // check for being on-curve
+            return b.multiply(normPrivateKeyToScalar(privateA)).toRawBytes(isCompressed);
+        }
+        // RFC6979: ensure ECDSA msg is X bytes and < N. RFC suggests optional truncating via bits2octets.
+        // FIPS 186-4 4.6 suggests the leftmost min(nBitLen, outLen) bits, which matches bits2int.
+        // bits2int can produce res>N, we can do mod(res, N) since the bitLen is the same.
+        // int2octets can't be used; pads small msgs with 0: unacceptatble for trunc as per RFC vectors
+        const bits2int = CURVE.bits2int ||
+            function (bytes) {
+                // For curves with nBitLength % 8 !== 0: bits2octets(bits2octets(m)) !== bits2octets(m)
+                // for some cases, since bytes.length * 8 is not actual bitLength.
+                const num = bytesToNumberBE(bytes); // check for == u8 done here
+                const delta = bytes.length * 8 - CURVE.nBitLength; // truncate to nBitLength leftmost bits
+                return delta > 0 ? num >> BigInt(delta) : num;
+            };
+        const bits2int_modN = CURVE.bits2int_modN ||
+            function (bytes) {
+                return modN(bits2int(bytes)); // can't use bytesToNumberBE here
+            };
+        // NOTE: pads output with zero as per spec
+        const ORDER_MASK = bitMask(CURVE.nBitLength);
+        /**
+         * Converts to bytes. Checks if num in `[0..ORDER_MASK-1]` e.g.: `[0..2^256-1]`.
+         */
+        function int2octets(num) {
+            if (typeof num !== 'bigint')
+                throw new Error('bigint expected');
+            if (!(_0n$1 <= num && num < ORDER_MASK))
+                throw new Error(`bigint expected < 2^${CURVE.nBitLength}`);
+            // works with order, can have different size than numToField!
+            return numberToBytesBE(num, CURVE.nByteLength);
+        }
+        // Steps A, D of RFC6979 3.2
+        // Creates RFC6979 seed; converts msg/privKey to numbers.
+        // Used only in sign, not in verify.
+        // NOTE: we cannot assume here that msgHash has same amount of bytes as curve order, this will be wrong at least for P521.
+        // Also it can be bigger for P224 + SHA256
+        function prepSig(msgHash, privateKey, opts = defaultSigOpts) {
+            if (['recovered', 'canonical'].some((k) => k in opts))
+                throw new Error('sign() legacy options not supported');
+            const { hash, randomBytes } = CURVE;
+            let { lowS, prehash, extraEntropy: ent } = opts; // generates low-s sigs by default
+            if (lowS == null)
+                lowS = true; // RFC6979 3.2: we skip step A, because we already provide hash
+            msgHash = ensureBytes$1('msgHash', msgHash);
+            if (prehash)
+                msgHash = ensureBytes$1('prehashed msgHash', hash(msgHash));
+            // We can't later call bits2octets, since nested bits2int is broken for curves
+            // with nBitLength % 8 !== 0. Because of that, we unwrap it here as int2octets call.
+            // const bits2octets = (bits) => int2octets(bits2int_modN(bits))
+            const h1int = bits2int_modN(msgHash);
+            const d = normPrivateKeyToScalar(privateKey); // validate private key, convert to bigint
+            const seedArgs = [int2octets(d), int2octets(h1int)];
+            // extraEntropy. RFC6979 3.6: additional k' (optional).
+            if (ent != null) {
+                // K = HMAC_K(V || 0x00 || int2octets(x) || bits2octets(h1) || k')
+                const e = ent === true ? randomBytes(Fp.BYTES) : ent; // generate random bytes OR pass as-is
+                seedArgs.push(ensureBytes$1('extraEntropy', e, Fp.BYTES)); // check for being of size BYTES
+            }
+            const seed = concatBytes(...seedArgs); // Step D of RFC6979 3.2
+            const m = h1int; // NOTE: no need to call bits2int second time here, it is inside truncateHash!
+            // Converts signature params into point w r/s, checks result for validity.
+            function k2sig(kBytes) {
+                // RFC 6979 Section 3.2, step 3: k = bits2int(T)
+                const k = bits2int(kBytes); // Cannot use fields methods, since it is group element
+                if (!isWithinCurveOrder(k))
+                    return; // Important: all mod() calls here must be done over N
+                const ik = invN(k); // k^-1 mod n
+                const q = Point.BASE.multiply(k).toAffine(); // q = Gk
+                const r = modN(q.x); // r = q.x mod n
+                if (r === _0n$1)
+                    return;
+                // Can use scalar blinding b^-1(bm + bdr) where b ∈ [1,q−1] according to
+                // https://tches.iacr.org/index.php/TCHES/article/view/7337/6509. We've decided against it:
+                // a) dependency on CSPRNG b) 15% slowdown c) doesn't really help since bigints are not CT
+                const s = modN(ik * modN(m + r * d)); // Not using blinding here
+                if (s === _0n$1)
+                    return;
+                let recovery = (q.x === r ? 0 : 2) | Number(q.y & _1n$1); // recovery bit (2 or 3, when q.x > n)
+                let normS = s;
+                if (lowS && isBiggerThanHalfOrder(s)) {
+                    normS = normalizeS(s); // if lowS was passed, ensure s is always
+                    recovery ^= 1; // // in the bottom half of N
+                }
+                return new Signature(r, normS, recovery); // use normS, not s
+            }
+            return { seed, k2sig };
+        }
+        const defaultSigOpts = { lowS: CURVE.lowS, prehash: false };
+        const defaultVerOpts = { lowS: CURVE.lowS, prehash: false };
+        /**
+         * Signs message hash with a private key.
+         * ```
+         * sign(m, d, k) where
+         *   (x, y) = G × k
+         *   r = x mod n
+         *   s = (m + dr)/k mod n
+         * ```
+         * @param msgHash NOT message. msg needs to be hashed to `msgHash`, or use `prehash`.
+         * @param privKey private key
+         * @param opts lowS for non-malleable sigs. extraEntropy for mixing randomness into k. prehash will hash first arg.
+         * @returns signature with recovery param
+         */
+        function sign(msgHash, privKey, opts = defaultSigOpts) {
+            const { seed, k2sig } = prepSig(msgHash, privKey, opts); // Steps A, D of RFC6979 3.2.
+            const C = CURVE;
+            const drbg = createHmacDrbg(C.hash.outputLen, C.nByteLength, C.hmac);
+            return drbg(seed, k2sig); // Steps B, C, D, E, F, G
+        }
+        // Enable precomputes. Slows down first publicKey computation by 20ms.
+        Point.BASE._setWindowSize(8);
+        // utils.precompute(8, ProjectivePoint.BASE)
+        /**
+         * Verifies a signature against message hash and public key.
+         * Rejects lowS signatures by default: to override,
+         * specify option `{lowS: false}`. Implements section 4.1.4 from https://www.secg.org/sec1-v2.pdf:
+         *
+         * ```
+         * verify(r, s, h, P) where
+         *   U1 = hs^-1 mod n
+         *   U2 = rs^-1 mod n
+         *   R = U1⋅G - U2⋅P
+         *   mod(R.x, n) == r
+         * ```
+         */
+        function verify(signature, msgHash, publicKey, opts = defaultVerOpts) {
+            const sg = signature;
+            msgHash = ensureBytes$1('msgHash', msgHash);
+            publicKey = ensureBytes$1('publicKey', publicKey);
+            if ('strict' in opts)
+                throw new Error('options.strict was renamed to lowS');
+            const { lowS, prehash } = opts;
+            let _sig = undefined;
+            let P;
+            try {
+                if (typeof sg === 'string' || sg instanceof Uint8Array) {
+                    // Signature can be represented in 2 ways: compact (2*nByteLength) & DER (variable-length).
+                    // Since DER can also be 2*nByteLength bytes, we check for it first.
+                    try {
+                        _sig = Signature.fromDER(sg);
+                    }
+                    catch (derError) {
+                        if (!(derError instanceof DER.Err))
+                            throw derError;
+                        _sig = Signature.fromCompact(sg);
+                    }
+                }
+                else if (typeof sg === 'object' && typeof sg.r === 'bigint' && typeof sg.s === 'bigint') {
+                    const { r, s } = sg;
+                    _sig = new Signature(r, s);
+                }
+                else {
+                    throw new Error('PARSE');
+                }
+                P = Point.fromHex(publicKey);
+            }
+            catch (error) {
+                if (error.message === 'PARSE')
+                    throw new Error(`signature must be Signature instance, Uint8Array or hex string`);
+                return false;
+            }
+            if (lowS && _sig.hasHighS())
+                return false;
+            if (prehash)
+                msgHash = CURVE.hash(msgHash);
+            const { r, s } = _sig;
+            const h = bits2int_modN(msgHash); // Cannot use fields methods, since it is group element
+            const is = invN(s); // s^-1
+            const u1 = modN(h * is); // u1 = hs^-1 mod n
+            const u2 = modN(r * is); // u2 = rs^-1 mod n
+            const R = Point.BASE.multiplyAndAddUnsafe(P, u1, u2)?.toAffine(); // R = u1⋅G + u2⋅P
+            if (!R)
+                return false;
+            const v = modN(R.x);
+            return v === r;
+        }
+        return {
+            CURVE,
+            getPublicKey,
+            getSharedSecret,
+            sign,
+            verify,
+            ProjectivePoint: Point,
+            Signature,
+            utils,
+        };
+    }
+
+    // HMAC (RFC 2104)
+    class HMAC extends Hash {
+        constructor(hash, _key) {
+            super();
+            this.finished = false;
+            this.destroyed = false;
+            assert$1.hash(hash);
+            const key = toBytes$1(_key);
+            this.iHash = hash.create();
+            if (typeof this.iHash.update !== 'function')
+                throw new Error('Expected instance of class which extends utils.Hash');
+            this.blockLen = this.iHash.blockLen;
+            this.outputLen = this.iHash.outputLen;
+            const blockLen = this.blockLen;
+            const pad = new Uint8Array(blockLen);
+            // blockLen can be bigger than outputLen
+            pad.set(key.length > blockLen ? hash.create().update(key).digest() : key);
+            for (let i = 0; i < pad.length; i++)
+                pad[i] ^= 0x36;
+            this.iHash.update(pad);
+            // By doing update (processing of first block) of outer hash here we can re-use it between multiple calls via clone
+            this.oHash = hash.create();
+            // Undo internal XOR && apply outer XOR
+            for (let i = 0; i < pad.length; i++)
+                pad[i] ^= 0x36 ^ 0x5c;
+            this.oHash.update(pad);
+            pad.fill(0);
+        }
+        update(buf) {
+            assert$1.exists(this);
+            this.iHash.update(buf);
+            return this;
+        }
+        digestInto(out) {
+            assert$1.exists(this);
+            assert$1.bytes(out, this.outputLen);
+            this.finished = true;
+            this.iHash.digestInto(out);
+            this.oHash.update(out);
+            this.oHash.digestInto(out);
+            this.destroy();
+        }
+        digest() {
+            const out = new Uint8Array(this.oHash.outputLen);
+            this.digestInto(out);
+            return out;
+        }
+        _cloneInto(to) {
+            // Create new instance without calling constructor since key already in state and we don't know it.
+            to || (to = Object.create(Object.getPrototypeOf(this), {}));
+            const { oHash, iHash, finished, destroyed, blockLen, outputLen } = this;
+            to = to;
+            to.finished = finished;
+            to.destroyed = destroyed;
+            to.blockLen = blockLen;
+            to.outputLen = outputLen;
+            to.oHash = oHash._cloneInto(to.oHash);
+            to.iHash = iHash._cloneInto(to.iHash);
+            return to;
+        }
+        destroy() {
+            this.destroyed = true;
+            this.oHash.destroy();
+            this.iHash.destroy();
+        }
+    }
+    /**
+     * HMAC: RFC2104 message authentication code.
+     * @param hash - function that would be used e.g. sha256
+     * @param key - message key
+     * @param message - message data
+     */
+    const hmac = (hash, key, message) => new HMAC(hash, key).update(message).digest();
+    hmac.create = (hash, key) => new HMAC(hash, key);
+
+    /*! noble-curves - MIT License (c) 2022 Paul Miller (paulmillr.com) */
+    // connects noble-curves to noble-hashes
+    function getHash(hash) {
+        return {
+            hash,
+            hmac: (key, ...msgs) => hmac(hash, key, concatBytes$1(...msgs)),
+            randomBytes,
+        };
+    }
+    function createCurve(curveDef, defHash) {
+        const create = (hash) => weierstrass({ ...curveDef, ...getHash(hash) });
+        return Object.freeze({ ...create(defHash), create });
+    }
+
+    /*! noble-curves - MIT License (c) 2022 Paul Miller (paulmillr.com) */
+    const secp256k1P = BigInt('0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffefffffc2f');
+    const secp256k1N = BigInt('0xfffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364141');
+    const _1n = BigInt(1);
+    const _2n = BigInt(2);
+    const divNearest = (a, b) => (a + b / _2n) / b;
+    /**
+     * √n = n^((p+1)/4) for fields p = 3 mod 4. We unwrap the loop and multiply bit-by-bit.
+     * (P+1n/4n).toString(2) would produce bits [223x 1, 0, 22x 1, 4x 0, 11, 00]
+     */
+    function sqrtMod(y) {
+        const P = secp256k1P;
+        // prettier-ignore
+        const _3n = BigInt(3), _6n = BigInt(6), _11n = BigInt(11), _22n = BigInt(22);
+        // prettier-ignore
+        const _23n = BigInt(23), _44n = BigInt(44), _88n = BigInt(88);
+        const b2 = (y * y * y) % P; // x^3, 11
+        const b3 = (b2 * b2 * y) % P; // x^7
+        const b6 = (pow2(b3, _3n, P) * b3) % P;
+        const b9 = (pow2(b6, _3n, P) * b3) % P;
+        const b11 = (pow2(b9, _2n, P) * b2) % P;
+        const b22 = (pow2(b11, _11n, P) * b11) % P;
+        const b44 = (pow2(b22, _22n, P) * b22) % P;
+        const b88 = (pow2(b44, _44n, P) * b44) % P;
+        const b176 = (pow2(b88, _88n, P) * b88) % P;
+        const b220 = (pow2(b176, _44n, P) * b44) % P;
+        const b223 = (pow2(b220, _3n, P) * b3) % P;
+        const t1 = (pow2(b223, _23n, P) * b22) % P;
+        const t2 = (pow2(t1, _6n, P) * b2) % P;
+        const root = pow2(t2, _2n, P);
+        if (!Fp.eql(Fp.sqr(root), y))
+            throw new Error('Cannot find square root');
+        return root;
+    }
+    const Fp = Field(secp256k1P, undefined, undefined, { sqrt: sqrtMod });
+    const secp256k1 = createCurve({
+        a: BigInt(0),
+        b: BigInt(7),
+        Fp,
+        n: secp256k1N,
+        // Base point (x, y) aka generator point
+        Gx: BigInt('55066263022277343669578718895168534326250603453777594175500187360389116729240'),
+        Gy: BigInt('32670510020758816978083085130507043184471273380659243275938904335757337482424'),
+        h: BigInt(1),
+        lowS: true,
+        /**
+         * secp256k1 belongs to Koblitz curves: it has efficiently computable endomorphism.
+         * Endomorphism uses 2x less RAM, speeds up precomputation by 2x and ECDH / key recovery by 20%.
+         * For precomputed wNAF it trades off 1/2 init time & 1/3 ram for 20% perf hit.
+         * Explanation: https://gist.github.com/paulmillr/eb670806793e84df628a7c434a873066
+         */
+        endo: {
+            beta: BigInt('0x7ae96a2b657c07106e64479eac3434e99cf0497512f58995c1396c28719501ee'),
+            splitScalar: (k) => {
+                const n = secp256k1N;
+                const a1 = BigInt('0x3086d221a7d46bcde86c90e49284eb15');
+                const b1 = -_1n * BigInt('0xe4437ed6010e88286f547fa90abfe4c3');
+                const a2 = BigInt('0x114ca50f7a8e2f3f657c1108d9d44cfd8');
+                const b2 = a1;
+                const POW_2_128 = BigInt('0x100000000000000000000000000000000'); // (2n**128n).toString(16)
+                const c1 = divNearest(b2 * k, n);
+                const c2 = divNearest(-b1 * k, n);
+                let k1 = mod(k - c1 * a1 - c2 * a2, n);
+                let k2 = mod(-c1 * b1 - c2 * b2, n);
+                const k1neg = k1 > POW_2_128;
+                const k2neg = k2 > POW_2_128;
+                if (k1neg)
+                    k1 = n - k1;
+                if (k2neg)
+                    k2 = n - k2;
+                if (k1 > POW_2_128 || k2 > POW_2_128) {
+                    throw new Error('splitScalar: Endomorphism failed, k=' + k);
+                }
+                return { k1neg, k1, k2neg, k2 };
+            },
+        },
+    }, sha256);
+    // Schnorr signatures are superior to ECDSA from above. Below is Schnorr-specific BIP0340 code.
+    // https://github.com/bitcoin/bips/blob/master/bip-0340.mediawiki
+    const _0n = BigInt(0);
+    const fe = (x) => typeof x === 'bigint' && _0n < x && x < secp256k1P;
+    const ge = (x) => typeof x === 'bigint' && _0n < x && x < secp256k1N;
+    /** An object mapping tags to their tagged hash prefix of [SHA256(tag) | SHA256(tag)] */
+    const TAGGED_HASH_PREFIXES = {};
+    function taggedHash(tag, ...messages) {
+        let tagP = TAGGED_HASH_PREFIXES[tag];
+        if (tagP === undefined) {
+            const tagH = sha256(Uint8Array.from(tag, (c) => c.charCodeAt(0)));
+            tagP = concatBytes(tagH, tagH);
+            TAGGED_HASH_PREFIXES[tag] = tagP;
+        }
+        return sha256(concatBytes(tagP, ...messages));
+    }
+    // ECDSA compact points are 33-byte. Schnorr is 32: we strip first byte 0x02 or 0x03
+    const pointToBytes = (point) => point.toRawBytes(true).slice(1);
+    const numTo32b = (n) => numberToBytesBE(n, 32);
+    const modP = (x) => mod(x, secp256k1P);
+    const modN = (x) => mod(x, secp256k1N);
+    const Point$1 = secp256k1.ProjectivePoint;
+    const GmulAdd = (Q, a, b) => Point$1.BASE.multiplyAndAddUnsafe(Q, a, b);
+    // Calculate point, scalar and bytes
+    function schnorrGetExtPubKey(priv) {
+        let d_ = secp256k1.utils.normPrivateKeyToScalar(priv); // same method executed in fromPrivateKey
+        let p = Point$1.fromPrivateKey(d_); // P = d'⋅G; 0 < d' < n check is done inside
+        const scalar = p.hasEvenY() ? d_ : modN(-d_);
+        return { scalar: scalar, bytes: pointToBytes(p) };
+    }
+    /**
+     * lift_x from BIP340. Convert 32-byte x coordinate to elliptic curve point.
+     * @returns valid point checked for being on-curve
+     */
+    function lift_x(x) {
+        if (!fe(x))
+            throw new Error('bad x: need 0 < x < p'); // Fail if x ≥ p.
+        const xx = modP(x * x);
+        const c = modP(xx * x + BigInt(7)); // Let c = x³ + 7 mod p.
+        let y = sqrtMod(c); // Let y = c^(p+1)/4 mod p.
+        if (y % _2n !== _0n)
+            y = modP(-y); // Return the unique point P such that x(P) = x and
+        const p = new Point$1(x, y, _1n); // y(P) = y if y mod 2 = 0 or y(P) = p-y otherwise.
+        p.assertValidity();
+        return p;
+    }
+    /**
+     * Create tagged hash, convert it to bigint, reduce modulo-n.
+     */
+    function challenge(...args) {
+        return modN(bytesToNumberBE(taggedHash('BIP0340/challenge', ...args)));
+    }
+    /**
+     * Schnorr public key is just `x` coordinate of Point as per BIP340.
+     */
+    function schnorrGetPublicKey(privateKey) {
+        return schnorrGetExtPubKey(privateKey).bytes; // d'=int(sk). Fail if d'=0 or d'≥n. Ret bytes(d'⋅G)
+    }
+    /**
+     * Creates Schnorr signature as per BIP340. Verifies itself before returning anything.
+     * auxRand is optional and is not the sole source of k generation: bad CSPRNG won't be dangerous.
+     */
+    function schnorrSign(message, privateKey, auxRand = randomBytes(32)) {
+        const m = ensureBytes$1('message', message);
+        const { bytes: px, scalar: d } = schnorrGetExtPubKey(privateKey); // checks for isWithinCurveOrder
+        const a = ensureBytes$1('auxRand', auxRand, 32); // Auxiliary random data a: a 32-byte array
+        const t = numTo32b(d ^ bytesToNumberBE(taggedHash('BIP0340/aux', a))); // Let t be the byte-wise xor of bytes(d) and hash/aux(a)
+        const rand = taggedHash('BIP0340/nonce', t, px, m); // Let rand = hash/nonce(t || bytes(P) || m)
+        const k_ = modN(bytesToNumberBE(rand)); // Let k' = int(rand) mod n
+        if (k_ === _0n)
+            throw new Error('sign failed: k is zero'); // Fail if k' = 0.
+        const { bytes: rx, scalar: k } = schnorrGetExtPubKey(k_); // Let R = k'⋅G.
+        const e = challenge(rx, px, m); // Let e = int(hash/challenge(bytes(R) || bytes(P) || m)) mod n.
+        const sig = new Uint8Array(64); // Let sig = bytes(R) || bytes((k + ed) mod n).
+        sig.set(rx, 0);
+        sig.set(numTo32b(modN(k + e * d)), 32);
+        // If Verify(bytes(P), m, sig) (see below) returns failure, abort
+        if (!schnorrVerify(sig, m, px))
+            throw new Error('sign: Invalid signature produced');
+        return sig;
+    }
+    /**
+     * Verifies Schnorr signature.
+     * Will swallow errors & return false except for initial type validation of arguments.
+     */
+    function schnorrVerify(signature, message, publicKey) {
+        const sig = ensureBytes$1('signature', signature, 64);
+        const m = ensureBytes$1('message', message);
+        const pub = ensureBytes$1('publicKey', publicKey, 32);
+        try {
+            const P = lift_x(bytesToNumberBE(pub)); // P = lift_x(int(pk)); fail if that fails
+            const r = bytesToNumberBE(sig.subarray(0, 32)); // Let r = int(sig[0:32]); fail if r ≥ p.
+            if (!fe(r))
+                return false;
+            const s = bytesToNumberBE(sig.subarray(32, 64)); // Let s = int(sig[32:64]); fail if s ≥ n.
+            if (!ge(s))
+                return false;
+            const e = challenge(numTo32b(r), pointToBytes(P), m); // int(challenge(bytes(r)||bytes(P)||m))%n
+            const R = GmulAdd(P, s, modN(-e)); // R = s⋅G - e⋅P
+            if (!R || !R.hasEvenY() || R.toAffine().x !== r)
+                return false; // -eP == (n-e)P
+            return true; // Fail if is_infinite(R) / not has_even_y(R) / x(R) ≠ r.
+        }
+        catch (error) {
+            return false;
+        }
+    }
+    const schnorr = /* @__PURE__ */ (() => ({
+        getPublicKey: schnorrGetPublicKey,
+        sign: schnorrSign,
+        verify: schnorrVerify,
+        utils: {
+            randomPrivateKey: secp256k1.utils.randomPrivateKey,
+            lift_x,
+            pointToBytes,
+            numberToBytesBE,
+            bytesToNumberBE,
+            taggedHash,
+            mod,
+        },
+    }))();
+
+    /*! scure-base - MIT License (c) 2022 Paul Miller (paulmillr.com) */
+    function assertNumber(n) {
+        if (!Number.isSafeInteger(n))
+            throw new Error(`Wrong integer: ${n}`);
+    }
+    function chain(...args) {
+        const wrap = (a, b) => (c) => a(b(c));
+        const encode = Array.from(args)
+            .reverse()
+            .reduce((acc, i) => (acc ? wrap(acc, i.encode) : i.encode), undefined);
+        const decode = args.reduce((acc, i) => (acc ? wrap(acc, i.decode) : i.decode), undefined);
+        return { encode, decode };
+    }
+    function alphabet(alphabet) {
+        return {
+            encode: (digits) => {
+                if (!Array.isArray(digits) || (digits.length && typeof digits[0] !== 'number'))
+                    throw new Error('alphabet.encode input should be an array of numbers');
+                return digits.map((i) => {
+                    assertNumber(i);
+                    if (i < 0 || i >= alphabet.length)
+                        throw new Error(`Digit index outside alphabet: ${i} (alphabet: ${alphabet.length})`);
+                    return alphabet[i];
+                });
+            },
+            decode: (input) => {
+                if (!Array.isArray(input) || (input.length && typeof input[0] !== 'string'))
+                    throw new Error('alphabet.decode input should be array of strings');
+                return input.map((letter) => {
+                    if (typeof letter !== 'string')
+                        throw new Error(`alphabet.decode: not string element=${letter}`);
+                    const index = alphabet.indexOf(letter);
+                    if (index === -1)
+                        throw new Error(`Unknown letter: "${letter}". Allowed: ${alphabet}`);
+                    return index;
+                });
+            },
+        };
+    }
+    function join(separator = '') {
+        if (typeof separator !== 'string')
+            throw new Error('join separator should be string');
+        return {
+            encode: (from) => {
+                if (!Array.isArray(from) || (from.length && typeof from[0] !== 'string'))
+                    throw new Error('join.encode input should be array of strings');
+                for (let i of from)
+                    if (typeof i !== 'string')
+                        throw new Error(`join.encode: non-string input=${i}`);
+                return from.join(separator);
+            },
+            decode: (to) => {
+                if (typeof to !== 'string')
+                    throw new Error('join.decode input should be string');
+                return to.split(separator);
+            },
+        };
+    }
+    function padding(bits, chr = '=') {
+        assertNumber(bits);
+        if (typeof chr !== 'string')
+            throw new Error('padding chr should be string');
+        return {
+            encode(data) {
+                if (!Array.isArray(data) || (data.length && typeof data[0] !== 'string'))
+                    throw new Error('padding.encode input should be array of strings');
+                for (let i of data)
+                    if (typeof i !== 'string')
+                        throw new Error(`padding.encode: non-string input=${i}`);
+                while ((data.length * bits) % 8)
+                    data.push(chr);
+                return data;
+            },
+            decode(input) {
+                if (!Array.isArray(input) || (input.length && typeof input[0] !== 'string'))
+                    throw new Error('padding.encode input should be array of strings');
+                for (let i of input)
+                    if (typeof i !== 'string')
+                        throw new Error(`padding.decode: non-string input=${i}`);
+                let end = input.length;
+                if ((end * bits) % 8)
+                    throw new Error('Invalid padding: string should have whole number of bytes');
+                for (; end > 0 && input[end - 1] === chr; end--) {
+                    if (!(((end - 1) * bits) % 8))
+                        throw new Error('Invalid padding: string has too much padding');
+                }
+                return input.slice(0, end);
+            },
+        };
+    }
+    function normalize$1(fn) {
+        if (typeof fn !== 'function')
+            throw new Error('normalize fn should be function');
+        return { encode: (from) => from, decode: (to) => fn(to) };
+    }
+    function convertRadix(data, from, to) {
+        if (from < 2)
+            throw new Error(`convertRadix: wrong from=${from}, base cannot be less than 2`);
+        if (to < 2)
+            throw new Error(`convertRadix: wrong to=${to}, base cannot be less than 2`);
+        if (!Array.isArray(data))
+            throw new Error('convertRadix: data should be array');
+        if (!data.length)
+            return [];
+        let pos = 0;
+        const res = [];
+        const digits = Array.from(data);
+        digits.forEach((d) => {
+            assertNumber(d);
+            if (d < 0 || d >= from)
+                throw new Error(`Wrong integer: ${d}`);
+        });
+        while (true) {
+            let carry = 0;
+            let done = true;
+            for (let i = pos; i < digits.length; i++) {
+                const digit = digits[i];
+                const digitBase = from * carry + digit;
+                if (!Number.isSafeInteger(digitBase) ||
+                    (from * carry) / from !== carry ||
+                    digitBase - digit !== from * carry) {
+                    throw new Error('convertRadix: carry overflow');
+                }
+                carry = digitBase % to;
+                digits[i] = Math.floor(digitBase / to);
+                if (!Number.isSafeInteger(digits[i]) || digits[i] * to + carry !== digitBase)
+                    throw new Error('convertRadix: carry overflow');
+                if (!done)
+                    continue;
+                else if (!digits[i])
+                    pos = i;
+                else
+                    done = false;
+            }
+            res.push(carry);
+            if (done)
+                break;
+        }
+        for (let i = 0; i < data.length - 1 && data[i] === 0; i++)
+            res.push(0);
+        return res.reverse();
+    }
+    const gcd = (a, b) => (!b ? a : gcd(b, a % b));
+    const radix2carry = (from, to) => from + (to - gcd(from, to));
+    function convertRadix2(data, from, to, padding) {
+        if (!Array.isArray(data))
+            throw new Error('convertRadix2: data should be array');
+        if (from <= 0 || from > 32)
+            throw new Error(`convertRadix2: wrong from=${from}`);
+        if (to <= 0 || to > 32)
+            throw new Error(`convertRadix2: wrong to=${to}`);
+        if (radix2carry(from, to) > 32) {
+            throw new Error(`convertRadix2: carry overflow from=${from} to=${to} carryBits=${radix2carry(from, to)}`);
+        }
+        let carry = 0;
+        let pos = 0;
+        const mask = 2 ** to - 1;
+        const res = [];
+        for (const n of data) {
+            assertNumber(n);
+            if (n >= 2 ** from)
+                throw new Error(`convertRadix2: invalid data word=${n} from=${from}`);
+            carry = (carry << from) | n;
+            if (pos + from > 32)
+                throw new Error(`convertRadix2: carry overflow pos=${pos} from=${from}`);
+            pos += from;
+            for (; pos >= to; pos -= to)
+                res.push(((carry >> (pos - to)) & mask) >>> 0);
+            carry &= 2 ** pos - 1;
+        }
+        carry = (carry << (to - pos)) & mask;
+        if (!padding && pos >= from)
+            throw new Error('Excess padding');
+        if (!padding && carry)
+            throw new Error(`Non-zero padding: ${carry}`);
+        if (padding && pos > 0)
+            res.push(carry >>> 0);
+        return res;
+    }
+    function radix(num) {
+        assertNumber(num);
+        return {
+            encode: (bytes) => {
+                if (!(bytes instanceof Uint8Array))
+                    throw new Error('radix.encode input should be Uint8Array');
+                return convertRadix(Array.from(bytes), 2 ** 8, num);
+            },
+            decode: (digits) => {
+                if (!Array.isArray(digits) || (digits.length && typeof digits[0] !== 'number'))
+                    throw new Error('radix.decode input should be array of strings');
+                return Uint8Array.from(convertRadix(digits, num, 2 ** 8));
+            },
+        };
+    }
+    function radix2(bits, revPadding = false) {
+        assertNumber(bits);
+        if (bits <= 0 || bits > 32)
+            throw new Error('radix2: bits should be in (0..32]');
+        if (radix2carry(8, bits) > 32 || radix2carry(bits, 8) > 32)
+            throw new Error('radix2: carry overflow');
+        return {
+            encode: (bytes) => {
+                if (!(bytes instanceof Uint8Array))
+                    throw new Error('radix2.encode input should be Uint8Array');
+                return convertRadix2(Array.from(bytes), 8, bits, !revPadding);
+            },
+            decode: (digits) => {
+                if (!Array.isArray(digits) || (digits.length && typeof digits[0] !== 'number'))
+                    throw new Error('radix2.decode input should be array of strings');
+                return Uint8Array.from(convertRadix2(digits, bits, 8, revPadding));
+            },
+        };
+    }
+    function unsafeWrapper(fn) {
+        if (typeof fn !== 'function')
+            throw new Error('unsafeWrapper fn should be function');
+        return function (...args) {
+            try {
+                return fn.apply(null, args);
+            }
+            catch (e) { }
+        };
+    }
+    function checksum(len, fn) {
+        assertNumber(len);
+        if (typeof fn !== 'function')
+            throw new Error('checksum fn should be function');
+        return {
+            encode(data) {
+                if (!(data instanceof Uint8Array))
+                    throw new Error('checksum.encode: input should be Uint8Array');
+                const checksum = fn(data).slice(0, len);
+                const res = new Uint8Array(data.length + len);
+                res.set(data);
+                res.set(checksum, data.length);
+                return res;
+            },
+            decode(data) {
+                if (!(data instanceof Uint8Array))
+                    throw new Error('checksum.decode: input should be Uint8Array');
+                const payload = data.slice(0, -len);
+                const newChecksum = fn(payload).slice(0, len);
+                const oldChecksum = data.slice(-len);
+                for (let i = 0; i < len; i++)
+                    if (newChecksum[i] !== oldChecksum[i])
+                        throw new Error('Invalid checksum');
+                return payload;
+            },
+        };
+    }
+    const utils$1 = { alphabet, chain, checksum, radix, radix2, join, padding };
+    const base16 = chain(radix2(4), alphabet('0123456789ABCDEF'), join(''));
+    const base32 = chain(radix2(5), alphabet('ABCDEFGHIJKLMNOPQRSTUVWXYZ234567'), padding(5), join(''));
+    chain(radix2(5), alphabet('0123456789ABCDEFGHIJKLMNOPQRSTUV'), padding(5), join(''));
+    chain(radix2(5), alphabet('0123456789ABCDEFGHJKMNPQRSTVWXYZ'), join(''), normalize$1((s) => s.toUpperCase().replace(/O/g, '0').replace(/[IL]/g, '1')));
+    const base64 = chain(radix2(6), alphabet('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'), padding(6), join(''));
+    const base64url = chain(radix2(6), alphabet('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_'), padding(6), join(''));
+    const genBase58 = (abc) => chain(radix(58), alphabet(abc), join(''));
+    const base58 = genBase58('123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz');
+    genBase58('123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ');
+    genBase58('rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz');
+    const XMR_BLOCK_LEN = [0, 2, 3, 5, 6, 7, 9, 10, 11];
+    const base58xmr = {
+        encode(data) {
+            let res = '';
+            for (let i = 0; i < data.length; i += 8) {
+                const block = data.subarray(i, i + 8);
+                res += base58.encode(block).padStart(XMR_BLOCK_LEN[block.length], '1');
+            }
+            return res;
+        },
+        decode(str) {
+            let res = [];
+            for (let i = 0; i < str.length; i += 11) {
+                const slice = str.slice(i, i + 11);
+                const blockLen = XMR_BLOCK_LEN.indexOf(slice.length);
+                const block = base58.decode(slice);
+                for (let j = 0; j < block.length - blockLen; j++) {
+                    if (block[j] !== 0)
+                        throw new Error('base58xmr: wrong padding');
+                }
+                res = res.concat(Array.from(block.slice(block.length - blockLen)));
+            }
+            return Uint8Array.from(res);
+        },
+    };
+    const base58check$1 = (sha256) => chain(checksum(4, (data) => sha256(sha256(data))), base58);
+    const BECH_ALPHABET = chain(alphabet('qpzry9x8gf2tvdw0s3jn54khce6mua7l'), join(''));
+    const POLYMOD_GENERATORS = [0x3b6a57b2, 0x26508e6d, 0x1ea119fa, 0x3d4233dd, 0x2a1462b3];
+    function bech32Polymod(pre) {
+        const b = pre >> 25;
+        let chk = (pre & 0x1ffffff) << 5;
+        for (let i = 0; i < POLYMOD_GENERATORS.length; i++) {
+            if (((b >> i) & 1) === 1)
+                chk ^= POLYMOD_GENERATORS[i];
+        }
+        return chk;
+    }
+    function bechChecksum(prefix, words, encodingConst = 1) {
+        const len = prefix.length;
+        let chk = 1;
+        for (let i = 0; i < len; i++) {
+            const c = prefix.charCodeAt(i);
+            if (c < 33 || c > 126)
+                throw new Error(`Invalid prefix (${prefix})`);
+            chk = bech32Polymod(chk) ^ (c >> 5);
+        }
+        chk = bech32Polymod(chk);
+        for (let i = 0; i < len; i++)
+            chk = bech32Polymod(chk) ^ (prefix.charCodeAt(i) & 0x1f);
+        for (let v of words)
+            chk = bech32Polymod(chk) ^ v;
+        for (let i = 0; i < 6; i++)
+            chk = bech32Polymod(chk);
+        chk ^= encodingConst;
+        return BECH_ALPHABET.encode(convertRadix2([chk % 2 ** 30], 30, 5, false));
+    }
+    function genBech32(encoding) {
+        const ENCODING_CONST = encoding === 'bech32' ? 1 : 0x2bc830a3;
+        const _words = radix2(5);
+        const fromWords = _words.decode;
+        const toWords = _words.encode;
+        const fromWordsUnsafe = unsafeWrapper(fromWords);
+        function encode(prefix, words, limit = 90) {
+            if (typeof prefix !== 'string')
+                throw new Error(`bech32.encode prefix should be string, not ${typeof prefix}`);
+            if (!Array.isArray(words) || (words.length && typeof words[0] !== 'number'))
+                throw new Error(`bech32.encode words should be array of numbers, not ${typeof words}`);
+            const actualLength = prefix.length + 7 + words.length;
+            if (limit !== false && actualLength > limit)
+                throw new TypeError(`Length ${actualLength} exceeds limit ${limit}`);
+            prefix = prefix.toLowerCase();
+            return `${prefix}1${BECH_ALPHABET.encode(words)}${bechChecksum(prefix, words, ENCODING_CONST)}`;
+        }
+        function decode(str, limit = 90) {
+            if (typeof str !== 'string')
+                throw new Error(`bech32.decode input should be string, not ${typeof str}`);
+            if (str.length < 8 || (limit !== false && str.length > limit))
+                throw new TypeError(`Wrong string length: ${str.length} (${str}). Expected (8..${limit})`);
+            const lowered = str.toLowerCase();
+            if (str !== lowered && str !== str.toUpperCase())
+                throw new Error(`String must be lowercase or uppercase`);
+            str = lowered;
+            const sepIndex = str.lastIndexOf('1');
+            if (sepIndex === 0 || sepIndex === -1)
+                throw new Error(`Letter "1" must be present between prefix and data only`);
+            const prefix = str.slice(0, sepIndex);
+            const _words = str.slice(sepIndex + 1);
+            if (_words.length < 6)
+                throw new Error('Data must be at least 6 characters long');
+            const words = BECH_ALPHABET.decode(_words).slice(0, -6);
+            const sum = bechChecksum(prefix, words, ENCODING_CONST);
+            if (!_words.endsWith(sum))
+                throw new Error(`Invalid checksum in ${str}: expected "${sum}"`);
+            return { prefix, words };
+        }
+        const decodeUnsafe = unsafeWrapper(decode);
+        function decodeToBytes(str) {
+            const { prefix, words } = decode(str, false);
+            return { prefix, words, bytes: fromWords(words) };
+        }
+        return { encode, decode, decodeToBytes, decodeUnsafe, fromWords, fromWordsUnsafe, toWords };
+    }
+    const bech32 = genBech32('bech32');
+    genBech32('bech32m');
+    const utf8 = {
+        encode: (data) => new TextDecoder().decode(data),
+        decode: (str) => new TextEncoder().encode(str),
+    };
+    const hex = chain(radix2(4), alphabet('0123456789abcdef'), join(''), normalize$1((s) => {
+        if (typeof s !== 'string' || s.length % 2)
+            throw new TypeError(`hex.decode: expected string, got ${typeof s} with length ${s.length}`);
+        return s.toLowerCase();
+    }));
+    const CODERS = {
+        utf8, hex, base16, base32, base64, base64url, base58, base58xmr
+    };
+`Invalid encoding type. Available types: ${Object.keys(CODERS).join(', ')}`;
+
+    const wordlist = `abandon
+ability
+able
+about
+above
+absent
+absorb
+abstract
+absurd
+abuse
+access
+accident
+account
+accuse
+achieve
+acid
+acoustic
+acquire
+across
+act
+action
+actor
+actress
+actual
+adapt
+add
+addict
+address
+adjust
+admit
+adult
+advance
+advice
+aerobic
+affair
+afford
+afraid
+again
+age
+agent
+agree
+ahead
+aim
+air
+airport
+aisle
+alarm
+album
+alcohol
+alert
+alien
+all
+alley
+allow
+almost
+alone
+alpha
+already
+also
+alter
+always
+amateur
+amazing
+among
+amount
+amused
+analyst
+anchor
+ancient
+anger
+angle
+angry
+animal
+ankle
+announce
+annual
+another
+answer
+antenna
+antique
+anxiety
+any
+apart
+apology
+appear
+apple
+approve
+april
+arch
+arctic
+area
+arena
+argue
+arm
+armed
+armor
+army
+around
+arrange
+arrest
+arrive
+arrow
+art
+artefact
+artist
+artwork
+ask
+aspect
+assault
+asset
+assist
+assume
+asthma
+athlete
+atom
+attack
+attend
+attitude
+attract
+auction
+audit
+august
+aunt
+author
+auto
+autumn
+average
+avocado
+avoid
+awake
+aware
+away
+awesome
+awful
+awkward
+axis
+baby
+bachelor
+bacon
+badge
+bag
+balance
+balcony
+ball
+bamboo
+banana
+banner
+bar
+barely
+bargain
+barrel
+base
+basic
+basket
+battle
+beach
+bean
+beauty
+because
+become
+beef
+before
+begin
+behave
+behind
+believe
+below
+belt
+bench
+benefit
+best
+betray
+better
+between
+beyond
+bicycle
+bid
+bike
+bind
+biology
+bird
+birth
+bitter
+black
+blade
+blame
+blanket
+blast
+bleak
+bless
+blind
+blood
+blossom
+blouse
+blue
+blur
+blush
+board
+boat
+body
+boil
+bomb
+bone
+bonus
+book
+boost
+border
+boring
+borrow
+boss
+bottom
+bounce
+box
+boy
+bracket
+brain
+brand
+brass
+brave
+bread
+breeze
+brick
+bridge
+brief
+bright
+bring
+brisk
+broccoli
+broken
+bronze
+broom
+brother
+brown
+brush
+bubble
+buddy
+budget
+buffalo
+build
+bulb
+bulk
+bullet
+bundle
+bunker
+burden
+burger
+burst
+bus
+business
+busy
+butter
+buyer
+buzz
+cabbage
+cabin
+cable
+cactus
+cage
+cake
+call
+calm
+camera
+camp
+can
+canal
+cancel
+candy
+cannon
+canoe
+canvas
+canyon
+capable
+capital
+captain
+car
+carbon
+card
+cargo
+carpet
+carry
+cart
+case
+cash
+casino
+castle
+casual
+cat
+catalog
+catch
+category
+cattle
+caught
+cause
+caution
+cave
+ceiling
+celery
+cement
+census
+century
+cereal
+certain
+chair
+chalk
+champion
+change
+chaos
+chapter
+charge
+chase
+chat
+cheap
+check
+cheese
+chef
+cherry
+chest
+chicken
+chief
+child
+chimney
+choice
+choose
+chronic
+chuckle
+chunk
+churn
+cigar
+cinnamon
+circle
+citizen
+city
+civil
+claim
+clap
+clarify
+claw
+clay
+clean
+clerk
+clever
+click
+client
+cliff
+climb
+clinic
+clip
+clock
+clog
+close
+cloth
+cloud
+clown
+club
+clump
+cluster
+clutch
+coach
+coast
+coconut
+code
+coffee
+coil
+coin
+collect
+color
+column
+combine
+come
+comfort
+comic
+common
+company
+concert
+conduct
+confirm
+congress
+connect
+consider
+control
+convince
+cook
+cool
+copper
+copy
+coral
+core
+corn
+correct
+cost
+cotton
+couch
+country
+couple
+course
+cousin
+cover
+coyote
+crack
+cradle
+craft
+cram
+crane
+crash
+crater
+crawl
+crazy
+cream
+credit
+creek
+crew
+cricket
+crime
+crisp
+critic
+crop
+cross
+crouch
+crowd
+crucial
+cruel
+cruise
+crumble
+crunch
+crush
+cry
+crystal
+cube
+culture
+cup
+cupboard
+curious
+current
+curtain
+curve
+cushion
+custom
+cute
+cycle
+dad
+damage
+damp
+dance
+danger
+daring
+dash
+daughter
+dawn
+day
+deal
+debate
+debris
+decade
+december
+decide
+decline
+decorate
+decrease
+deer
+defense
+define
+defy
+degree
+delay
+deliver
+demand
+demise
+denial
+dentist
+deny
+depart
+depend
+deposit
+depth
+deputy
+derive
+describe
+desert
+design
+desk
+despair
+destroy
+detail
+detect
+develop
+device
+devote
+diagram
+dial
+diamond
+diary
+dice
+diesel
+diet
+differ
+digital
+dignity
+dilemma
+dinner
+dinosaur
+direct
+dirt
+disagree
+discover
+disease
+dish
+dismiss
+disorder
+display
+distance
+divert
+divide
+divorce
+dizzy
+doctor
+document
+dog
+doll
+dolphin
+domain
+donate
+donkey
+donor
+door
+dose
+double
+dove
+draft
+dragon
+drama
+drastic
+draw
+dream
+dress
+drift
+drill
+drink
+drip
+drive
+drop
+drum
+dry
+duck
+dumb
+dune
+during
+dust
+dutch
+duty
+dwarf
+dynamic
+eager
+eagle
+early
+earn
+earth
+easily
+east
+easy
+echo
+ecology
+economy
+edge
+edit
+educate
+effort
+egg
+eight
+either
+elbow
+elder
+electric
+elegant
+element
+elephant
+elevator
+elite
+else
+embark
+embody
+embrace
+emerge
+emotion
+employ
+empower
+empty
+enable
+enact
+end
+endless
+endorse
+enemy
+energy
+enforce
+engage
+engine
+enhance
+enjoy
+enlist
+enough
+enrich
+enroll
+ensure
+enter
+entire
+entry
+envelope
+episode
+equal
+equip
+era
+erase
+erode
+erosion
+error
+erupt
+escape
+essay
+essence
+estate
+eternal
+ethics
+evidence
+evil
+evoke
+evolve
+exact
+example
+excess
+exchange
+excite
+exclude
+excuse
+execute
+exercise
+exhaust
+exhibit
+exile
+exist
+exit
+exotic
+expand
+expect
+expire
+explain
+expose
+express
+extend
+extra
+eye
+eyebrow
+fabric
+face
+faculty
+fade
+faint
+faith
+fall
+false
+fame
+family
+famous
+fan
+fancy
+fantasy
+farm
+fashion
+fat
+fatal
+father
+fatigue
+fault
+favorite
+feature
+february
+federal
+fee
+feed
+feel
+female
+fence
+festival
+fetch
+fever
+few
+fiber
+fiction
+field
+figure
+file
+film
+filter
+final
+find
+fine
+finger
+finish
+fire
+firm
+first
+fiscal
+fish
+fit
+fitness
+fix
+flag
+flame
+flash
+flat
+flavor
+flee
+flight
+flip
+float
+flock
+floor
+flower
+fluid
+flush
+fly
+foam
+focus
+fog
+foil
+fold
+follow
+food
+foot
+force
+forest
+forget
+fork
+fortune
+forum
+forward
+fossil
+foster
+found
+fox
+fragile
+frame
+frequent
+fresh
+friend
+fringe
+frog
+front
+frost
+frown
+frozen
+fruit
+fuel
+fun
+funny
+furnace
+fury
+future
+gadget
+gain
+galaxy
+gallery
+game
+gap
+garage
+garbage
+garden
+garlic
+garment
+gas
+gasp
+gate
+gather
+gauge
+gaze
+general
+genius
+genre
+gentle
+genuine
+gesture
+ghost
+giant
+gift
+giggle
+ginger
+giraffe
+girl
+give
+glad
+glance
+glare
+glass
+glide
+glimpse
+globe
+gloom
+glory
+glove
+glow
+glue
+goat
+goddess
+gold
+good
+goose
+gorilla
+gospel
+gossip
+govern
+gown
+grab
+grace
+grain
+grant
+grape
+grass
+gravity
+great
+green
+grid
+grief
+grit
+grocery
+group
+grow
+grunt
+guard
+guess
+guide
+guilt
+guitar
+gun
+gym
+habit
+hair
+half
+hammer
+hamster
+hand
+happy
+harbor
+hard
+harsh
+harvest
+hat
+have
+hawk
+hazard
+head
+health
+heart
+heavy
+hedgehog
+height
+hello
+helmet
+help
+hen
+hero
+hidden
+high
+hill
+hint
+hip
+hire
+history
+hobby
+hockey
+hold
+hole
+holiday
+hollow
+home
+honey
+hood
+hope
+horn
+horror
+horse
+hospital
+host
+hotel
+hour
+hover
+hub
+huge
+human
+humble
+humor
+hundred
+hungry
+hunt
+hurdle
+hurry
+hurt
+husband
+hybrid
+ice
+icon
+idea
+identify
+idle
+ignore
+ill
+illegal
+illness
+image
+imitate
+immense
+immune
+impact
+impose
+improve
+impulse
+inch
+include
+income
+increase
+index
+indicate
+indoor
+industry
+infant
+inflict
+inform
+inhale
+inherit
+initial
+inject
+injury
+inmate
+inner
+innocent
+input
+inquiry
+insane
+insect
+inside
+inspire
+install
+intact
+interest
+into
+invest
+invite
+involve
+iron
+island
+isolate
+issue
+item
+ivory
+jacket
+jaguar
+jar
+jazz
+jealous
+jeans
+jelly
+jewel
+job
+join
+joke
+journey
+joy
+judge
+juice
+jump
+jungle
+junior
+junk
+just
+kangaroo
+keen
+keep
+ketchup
+key
+kick
+kid
+kidney
+kind
+kingdom
+kiss
+kit
+kitchen
+kite
+kitten
+kiwi
+knee
+knife
+knock
+know
+lab
+label
+labor
+ladder
+lady
+lake
+lamp
+language
+laptop
+large
+later
+latin
+laugh
+laundry
+lava
+law
+lawn
+lawsuit
+layer
+lazy
+leader
+leaf
+learn
+leave
+lecture
+left
+leg
+legal
+legend
+leisure
+lemon
+lend
+length
+lens
+leopard
+lesson
+letter
+level
+liar
+liberty
+library
+license
+life
+lift
+light
+like
+limb
+limit
+link
+lion
+liquid
+list
+little
+live
+lizard
+load
+loan
+lobster
+local
+lock
+logic
+lonely
+long
+loop
+lottery
+loud
+lounge
+love
+loyal
+lucky
+luggage
+lumber
+lunar
+lunch
+luxury
+lyrics
+machine
+mad
+magic
+magnet
+maid
+mail
+main
+major
+make
+mammal
+man
+manage
+mandate
+mango
+mansion
+manual
+maple
+marble
+march
+margin
+marine
+market
+marriage
+mask
+mass
+master
+match
+material
+math
+matrix
+matter
+maximum
+maze
+meadow
+mean
+measure
+meat
+mechanic
+medal
+media
+melody
+melt
+member
+memory
+mention
+menu
+mercy
+merge
+merit
+merry
+mesh
+message
+metal
+method
+middle
+midnight
+milk
+million
+mimic
+mind
+minimum
+minor
+minute
+miracle
+mirror
+misery
+miss
+mistake
+mix
+mixed
+mixture
+mobile
+model
+modify
+mom
+moment
+monitor
+monkey
+monster
+month
+moon
+moral
+more
+morning
+mosquito
+mother
+motion
+motor
+mountain
+mouse
+move
+movie
+much
+muffin
+mule
+multiply
+muscle
+museum
+mushroom
+music
+must
+mutual
+myself
+mystery
+myth
+naive
+name
+napkin
+narrow
+nasty
+nation
+nature
+near
+neck
+need
+negative
+neglect
+neither
+nephew
+nerve
+nest
+net
+network
+neutral
+never
+news
+next
+nice
+night
+noble
+noise
+nominee
+noodle
+normal
+north
+nose
+notable
+note
+nothing
+notice
+novel
+now
+nuclear
+number
+nurse
+nut
+oak
+obey
+object
+oblige
+obscure
+observe
+obtain
+obvious
+occur
+ocean
+october
+odor
+off
+offer
+office
+often
+oil
+okay
+old
+olive
+olympic
+omit
+once
+one
+onion
+online
+only
+open
+opera
+opinion
+oppose
+option
+orange
+orbit
+orchard
+order
+ordinary
+organ
+orient
+original
+orphan
+ostrich
+other
+outdoor
+outer
+output
+outside
+oval
+oven
+over
+own
+owner
+oxygen
+oyster
+ozone
+pact
+paddle
+page
+pair
+palace
+palm
+panda
+panel
+panic
+panther
+paper
+parade
+parent
+park
+parrot
+party
+pass
+patch
+path
+patient
+patrol
+pattern
+pause
+pave
+payment
+peace
+peanut
+pear
+peasant
+pelican
+pen
+penalty
+pencil
+people
+pepper
+perfect
+permit
+person
+pet
+phone
+photo
+phrase
+physical
+piano
+picnic
+picture
+piece
+pig
+pigeon
+pill
+pilot
+pink
+pioneer
+pipe
+pistol
+pitch
+pizza
+place
+planet
+plastic
+plate
+play
+please
+pledge
+pluck
+plug
+plunge
+poem
+poet
+point
+polar
+pole
+police
+pond
+pony
+pool
+popular
+portion
+position
+possible
+post
+potato
+pottery
+poverty
+powder
+power
+practice
+praise
+predict
+prefer
+prepare
+present
+pretty
+prevent
+price
+pride
+primary
+print
+priority
+prison
+private
+prize
+problem
+process
+produce
+profit
+program
+project
+promote
+proof
+property
+prosper
+protect
+proud
+provide
+public
+pudding
+pull
+pulp
+pulse
+pumpkin
+punch
+pupil
+puppy
+purchase
+purity
+purpose
+purse
+push
+put
+puzzle
+pyramid
+quality
+quantum
+quarter
+question
+quick
+quit
+quiz
+quote
+rabbit
+raccoon
+race
+rack
+radar
+radio
+rail
+rain
+raise
+rally
+ramp
+ranch
+random
+range
+rapid
+rare
+rate
+rather
+raven
+raw
+razor
+ready
+real
+reason
+rebel
+rebuild
+recall
+receive
+recipe
+record
+recycle
+reduce
+reflect
+reform
+refuse
+region
+regret
+regular
+reject
+relax
+release
+relief
+rely
+remain
+remember
+remind
+remove
+render
+renew
+rent
+reopen
+repair
+repeat
+replace
+report
+require
+rescue
+resemble
+resist
+resource
+response
+result
+retire
+retreat
+return
+reunion
+reveal
+review
+reward
+rhythm
+rib
+ribbon
+rice
+rich
+ride
+ridge
+rifle
+right
+rigid
+ring
+riot
+ripple
+risk
+ritual
+rival
+river
+road
+roast
+robot
+robust
+rocket
+romance
+roof
+rookie
+room
+rose
+rotate
+rough
+round
+route
+royal
+rubber
+rude
+rug
+rule
+run
+runway
+rural
+sad
+saddle
+sadness
+safe
+sail
+salad
+salmon
+salon
+salt
+salute
+same
+sample
+sand
+satisfy
+satoshi
+sauce
+sausage
+save
+say
+scale
+scan
+scare
+scatter
+scene
+scheme
+school
+science
+scissors
+scorpion
+scout
+scrap
+screen
+script
+scrub
+sea
+search
+season
+seat
+second
+secret
+section
+security
+seed
+seek
+segment
+select
+sell
+seminar
+senior
+sense
+sentence
+series
+service
+session
+settle
+setup
+seven
+shadow
+shaft
+shallow
+share
+shed
+shell
+sheriff
+shield
+shift
+shine
+ship
+shiver
+shock
+shoe
+shoot
+shop
+short
+shoulder
+shove
+shrimp
+shrug
+shuffle
+shy
+sibling
+sick
+side
+siege
+sight
+sign
+silent
+silk
+silly
+silver
+similar
+simple
+since
+sing
+siren
+sister
+situate
+six
+size
+skate
+sketch
+ski
+skill
+skin
+skirt
+skull
+slab
+slam
+sleep
+slender
+slice
+slide
+slight
+slim
+slogan
+slot
+slow
+slush
+small
+smart
+smile
+smoke
+smooth
+snack
+snake
+snap
+sniff
+snow
+soap
+soccer
+social
+sock
+soda
+soft
+solar
+soldier
+solid
+solution
+solve
+someone
+song
+soon
+sorry
+sort
+soul
+sound
+soup
+source
+south
+space
+spare
+spatial
+spawn
+speak
+special
+speed
+spell
+spend
+sphere
+spice
+spider
+spike
+spin
+spirit
+split
+spoil
+sponsor
+spoon
+sport
+spot
+spray
+spread
+spring
+spy
+square
+squeeze
+squirrel
+stable
+stadium
+staff
+stage
+stairs
+stamp
+stand
+start
+state
+stay
+steak
+steel
+stem
+step
+stereo
+stick
+still
+sting
+stock
+stomach
+stone
+stool
+story
+stove
+strategy
+street
+strike
+strong
+struggle
+student
+stuff
+stumble
+style
+subject
+submit
+subway
+success
+such
+sudden
+suffer
+sugar
+suggest
+suit
+summer
+sun
+sunny
+sunset
+super
+supply
+supreme
+sure
+surface
+surge
+surprise
+surround
+survey
+suspect
+sustain
+swallow
+swamp
+swap
+swarm
+swear
+sweet
+swift
+swim
+swing
+switch
+sword
+symbol
+symptom
+syrup
+system
+table
+tackle
+tag
+tail
+talent
+talk
+tank
+tape
+target
+task
+taste
+tattoo
+taxi
+teach
+team
+tell
+ten
+tenant
+tennis
+tent
+term
+test
+text
+thank
+that
+theme
+then
+theory
+there
+they
+thing
+this
+thought
+three
+thrive
+throw
+thumb
+thunder
+ticket
+tide
+tiger
+tilt
+timber
+time
+tiny
+tip
+tired
+tissue
+title
+toast
+tobacco
+today
+toddler
+toe
+together
+toilet
+token
+tomato
+tomorrow
+tone
+tongue
+tonight
+tool
+tooth
+top
+topic
+topple
+torch
+tornado
+tortoise
+toss
+total
+tourist
+toward
+tower
+town
+toy
+track
+trade
+traffic
+tragic
+train
+transfer
+trap
+trash
+travel
+tray
+treat
+tree
+trend
+trial
+tribe
+trick
+trigger
+trim
+trip
+trophy
+trouble
+truck
+true
+truly
+trumpet
+trust
+truth
+try
+tube
+tuition
+tumble
+tuna
+tunnel
+turkey
+turn
+turtle
+twelve
+twenty
+twice
+twin
+twist
+two
+type
+typical
+ugly
+umbrella
+unable
+unaware
+uncle
+uncover
+under
+undo
+unfair
+unfold
+unhappy
+uniform
+unique
+unit
+universe
+unknown
+unlock
+until
+unusual
+unveil
+update
+upgrade
+uphold
+upon
+upper
+upset
+urban
+urge
+usage
+use
+used
+useful
+useless
+usual
+utility
+vacant
+vacuum
+vague
+valid
+valley
+valve
+van
+vanish
+vapor
+various
+vast
+vault
+vehicle
+velvet
+vendor
+venture
+venue
+verb
+verify
+version
+very
+vessel
+veteran
+viable
+vibrant
+vicious
+victory
+video
+view
+village
+vintage
+violin
+virtual
+virus
+visa
+visit
+visual
+vital
+vivid
+vocal
+voice
+void
+volcano
+volume
+vote
+voyage
+wage
+wagon
+wait
+walk
+wall
+walnut
+want
+warfare
+warm
+warrior
+wash
+wasp
+waste
+water
+wave
+way
+wealth
+weapon
+wear
+weasel
+weather
+web
+wedding
+weekend
+weird
+welcome
+west
+wet
+whale
+what
+wheat
+wheel
+when
+where
+whip
+whisper
+wide
+width
+wife
+wild
+will
+win
+window
+wine
+wing
+wink
+winner
+winter
+wire
+wisdom
+wise
+wish
+witness
+wolf
+woman
+wonder
+wood
+wool
+word
+work
+world
+worry
+worth
+wrap
+wreck
+wrestle
+wrist
+write
+wrong
+yard
+year
+yellow
+you
+young
+youth
+zebra
+zero
+zone
+zoo`.split('\n');
+
+    // Common prologue and epilogue for sync/async functions
+    function pbkdf2Init(hash, _password, _salt, _opts) {
+        assert$1.hash(hash);
+        const opts = checkOpts$1({ dkLen: 32, asyncTick: 10 }, _opts);
+        const { c, dkLen, asyncTick } = opts;
+        assert$1.number(c);
+        assert$1.number(dkLen);
+        assert$1.number(asyncTick);
+        if (c < 1)
+            throw new Error('PBKDF2: iterations (c) should be >= 1');
+        const password = toBytes$1(_password);
+        const salt = toBytes$1(_salt);
+        // DK = PBKDF2(PRF, Password, Salt, c, dkLen);
+        const DK = new Uint8Array(dkLen);
+        // U1 = PRF(Password, Salt + INT_32_BE(i))
+        const PRF = hmac.create(hash, password);
+        const PRFSalt = PRF._cloneInto().update(salt);
+        return { c, dkLen, asyncTick, DK, PRF, PRFSalt };
+    }
+    function pbkdf2Output(PRF, PRFSalt, DK, prfW, u) {
+        PRF.destroy();
+        PRFSalt.destroy();
+        if (prfW)
+            prfW.destroy();
+        u.fill(0);
+        return DK;
+    }
+    /**
+     * PBKDF2-HMAC: RFC 2898 key derivation function
+     * @param hash - hash function that would be used e.g. sha256
+     * @param password - password from which a derived key is generated
+     * @param salt - cryptographic salt
+     * @param opts - {c, dkLen} where c is work factor and dkLen is output message size
+     */
+    function pbkdf2(hash, password, salt, opts) {
+        const { c, dkLen, DK, PRF, PRFSalt } = pbkdf2Init(hash, password, salt, opts);
+        let prfW; // Working copy
+        const arr = new Uint8Array(4);
+        const view = createView(arr);
+        const u = new Uint8Array(PRF.outputLen);
+        // DK = T1 + T2 + ⋯ + Tdklen/hlen
+        for (let ti = 1, pos = 0; pos < dkLen; ti++, pos += PRF.outputLen) {
+            // Ti = F(Password, Salt, c, i)
+            const Ti = DK.subarray(pos, pos + PRF.outputLen);
+            view.setInt32(0, ti, false);
+            // F(Password, Salt, c, i) = U1 ^ U2 ^ ⋯ ^ Uc
+            // U1 = PRF(Password, Salt + INT_32_BE(i))
+            (prfW = PRFSalt._cloneInto(prfW)).update(arr).digestInto(u);
+            Ti.set(u.subarray(0, Ti.length));
+            for (let ui = 1; ui < c; ui++) {
+                // Uc = PRF(Password, Uc−1)
+                PRF._cloneInto(prfW).update(u).digestInto(u);
+                for (let i = 0; i < Ti.length; i++)
+                    Ti[i] ^= u[i];
+            }
+        }
+        return pbkdf2Output(PRF, PRFSalt, DK, prfW, u);
+    }
+
+    const U32_MASK64 = BigInt(2 ** 32 - 1);
+    const _32n = BigInt(32);
+    // We are not using BigUint64Array, because they are extremely slow as per 2022
+    function fromBig(n, le = false) {
+        if (le)
+            return { h: Number(n & U32_MASK64), l: Number((n >> _32n) & U32_MASK64) };
+        return { h: Number((n >> _32n) & U32_MASK64) | 0, l: Number(n & U32_MASK64) | 0 };
+    }
+    function split(lst, le = false) {
+        let Ah = new Uint32Array(lst.length);
+        let Al = new Uint32Array(lst.length);
+        for (let i = 0; i < lst.length; i++) {
+            const { h, l } = fromBig(lst[i], le);
+            [Ah[i], Al[i]] = [h, l];
+        }
+        return [Ah, Al];
+    }
+    const toBig = (h, l) => (BigInt(h >>> 0) << _32n) | BigInt(l >>> 0);
+    // for Shift in [0, 32)
+    const shrSH = (h, l, s) => h >>> s;
+    const shrSL = (h, l, s) => (h << (32 - s)) | (l >>> s);
+    // Right rotate for Shift in [1, 32)
+    const rotrSH = (h, l, s) => (h >>> s) | (l << (32 - s));
+    const rotrSL = (h, l, s) => (h << (32 - s)) | (l >>> s);
+    // Right rotate for Shift in (32, 64), NOTE: 32 is special case.
+    const rotrBH = (h, l, s) => (h << (64 - s)) | (l >>> (s - 32));
+    const rotrBL = (h, l, s) => (h >>> (s - 32)) | (l << (64 - s));
+    // Right rotate for shift===32 (just swaps l&h)
+    const rotr32H = (h, l) => l;
+    const rotr32L = (h, l) => h;
+    // Left rotate for Shift in [1, 32)
+    const rotlSH = (h, l, s) => (h << s) | (l >>> (32 - s));
+    const rotlSL = (h, l, s) => (l << s) | (h >>> (32 - s));
+    // Left rotate for Shift in (32, 64), NOTE: 32 is special case.
+    const rotlBH = (h, l, s) => (l << (s - 32)) | (h >>> (64 - s));
+    const rotlBL = (h, l, s) => (h << (s - 32)) | (l >>> (64 - s));
+    // JS uses 32-bit signed integers for bitwise operations which means we cannot
+    // simple take carry out of low bit sum by shift, we need to use division.
+    // Removing "export" has 5% perf penalty -_-
+    function add(Ah, Al, Bh, Bl) {
+        const l = (Al >>> 0) + (Bl >>> 0);
+        return { h: (Ah + Bh + ((l / 2 ** 32) | 0)) | 0, l: l | 0 };
+    }
+    // Addition with more than 2 elements
+    const add3L = (Al, Bl, Cl) => (Al >>> 0) + (Bl >>> 0) + (Cl >>> 0);
+    const add3H = (low, Ah, Bh, Ch) => (Ah + Bh + Ch + ((low / 2 ** 32) | 0)) | 0;
+    const add4L = (Al, Bl, Cl, Dl) => (Al >>> 0) + (Bl >>> 0) + (Cl >>> 0) + (Dl >>> 0);
+    const add4H = (low, Ah, Bh, Ch, Dh) => (Ah + Bh + Ch + Dh + ((low / 2 ** 32) | 0)) | 0;
+    const add5L = (Al, Bl, Cl, Dl, El) => (Al >>> 0) + (Bl >>> 0) + (Cl >>> 0) + (Dl >>> 0) + (El >>> 0);
+    const add5H = (low, Ah, Bh, Ch, Dh, Eh) => (Ah + Bh + Ch + Dh + Eh + ((low / 2 ** 32) | 0)) | 0;
+    // prettier-ignore
+    const u64 = {
+        fromBig, split, toBig,
+        shrSH, shrSL,
+        rotrSH, rotrSL, rotrBH, rotrBL,
+        rotr32H, rotr32L,
+        rotlSH, rotlSL, rotlBH, rotlBL,
+        add, add3L, add3H, add4L, add4H, add5H, add5L,
+    };
+
+    // Round contants (first 32 bits of the fractional parts of the cube roots of the first 80 primes 2..409):
+    // prettier-ignore
+    const [SHA512_Kh, SHA512_Kl] = u64.split([
+        '0x428a2f98d728ae22', '0x7137449123ef65cd', '0xb5c0fbcfec4d3b2f', '0xe9b5dba58189dbbc',
+        '0x3956c25bf348b538', '0x59f111f1b605d019', '0x923f82a4af194f9b', '0xab1c5ed5da6d8118',
+        '0xd807aa98a3030242', '0x12835b0145706fbe', '0x243185be4ee4b28c', '0x550c7dc3d5ffb4e2',
+        '0x72be5d74f27b896f', '0x80deb1fe3b1696b1', '0x9bdc06a725c71235', '0xc19bf174cf692694',
+        '0xe49b69c19ef14ad2', '0xefbe4786384f25e3', '0x0fc19dc68b8cd5b5', '0x240ca1cc77ac9c65',
+        '0x2de92c6f592b0275', '0x4a7484aa6ea6e483', '0x5cb0a9dcbd41fbd4', '0x76f988da831153b5',
+        '0x983e5152ee66dfab', '0xa831c66d2db43210', '0xb00327c898fb213f', '0xbf597fc7beef0ee4',
+        '0xc6e00bf33da88fc2', '0xd5a79147930aa725', '0x06ca6351e003826f', '0x142929670a0e6e70',
+        '0x27b70a8546d22ffc', '0x2e1b21385c26c926', '0x4d2c6dfc5ac42aed', '0x53380d139d95b3df',
+        '0x650a73548baf63de', '0x766a0abb3c77b2a8', '0x81c2c92e47edaee6', '0x92722c851482353b',
+        '0xa2bfe8a14cf10364', '0xa81a664bbc423001', '0xc24b8b70d0f89791', '0xc76c51a30654be30',
+        '0xd192e819d6ef5218', '0xd69906245565a910', '0xf40e35855771202a', '0x106aa07032bbd1b8',
+        '0x19a4c116b8d2d0c8', '0x1e376c085141ab53', '0x2748774cdf8eeb99', '0x34b0bcb5e19b48a8',
+        '0x391c0cb3c5c95a63', '0x4ed8aa4ae3418acb', '0x5b9cca4f7763e373', '0x682e6ff3d6b2b8a3',
+        '0x748f82ee5defb2fc', '0x78a5636f43172f60', '0x84c87814a1f0ab72', '0x8cc702081a6439ec',
+        '0x90befffa23631e28', '0xa4506cebde82bde9', '0xbef9a3f7b2c67915', '0xc67178f2e372532b',
+        '0xca273eceea26619c', '0xd186b8c721c0c207', '0xeada7dd6cde0eb1e', '0xf57d4f7fee6ed178',
+        '0x06f067aa72176fba', '0x0a637dc5a2c898a6', '0x113f9804bef90dae', '0x1b710b35131c471b',
+        '0x28db77f523047d84', '0x32caab7b40c72493', '0x3c9ebe0a15c9bebc', '0x431d67c49c100d4c',
+        '0x4cc5d4becb3e42b6', '0x597f299cfc657e2a', '0x5fcb6fab3ad6faec', '0x6c44198c4a475817'
+    ].map(n => BigInt(n)));
+    // Temporary buffer, not used to store anything between runs
+    const SHA512_W_H = new Uint32Array(80);
+    const SHA512_W_L = new Uint32Array(80);
+    class SHA512 extends SHA2 {
+        constructor() {
+            super(128, 64, 16, false);
+            // We cannot use array here since array allows indexing by variable which means optimizer/compiler cannot use registers.
+            // Also looks cleaner and easier to verify with spec.
+            // Initial state (first 32 bits of the fractional parts of the square roots of the first 8 primes 2..19):
+            // h -- high 32 bits, l -- low 32 bits
+            this.Ah = 0x6a09e667 | 0;
+            this.Al = 0xf3bcc908 | 0;
+            this.Bh = 0xbb67ae85 | 0;
+            this.Bl = 0x84caa73b | 0;
+            this.Ch = 0x3c6ef372 | 0;
+            this.Cl = 0xfe94f82b | 0;
+            this.Dh = 0xa54ff53a | 0;
+            this.Dl = 0x5f1d36f1 | 0;
+            this.Eh = 0x510e527f | 0;
+            this.El = 0xade682d1 | 0;
+            this.Fh = 0x9b05688c | 0;
+            this.Fl = 0x2b3e6c1f | 0;
+            this.Gh = 0x1f83d9ab | 0;
+            this.Gl = 0xfb41bd6b | 0;
+            this.Hh = 0x5be0cd19 | 0;
+            this.Hl = 0x137e2179 | 0;
+        }
+        // prettier-ignore
+        get() {
+            const { Ah, Al, Bh, Bl, Ch, Cl, Dh, Dl, Eh, El, Fh, Fl, Gh, Gl, Hh, Hl } = this;
+            return [Ah, Al, Bh, Bl, Ch, Cl, Dh, Dl, Eh, El, Fh, Fl, Gh, Gl, Hh, Hl];
+        }
+        // prettier-ignore
+        set(Ah, Al, Bh, Bl, Ch, Cl, Dh, Dl, Eh, El, Fh, Fl, Gh, Gl, Hh, Hl) {
+            this.Ah = Ah | 0;
+            this.Al = Al | 0;
+            this.Bh = Bh | 0;
+            this.Bl = Bl | 0;
+            this.Ch = Ch | 0;
+            this.Cl = Cl | 0;
+            this.Dh = Dh | 0;
+            this.Dl = Dl | 0;
+            this.Eh = Eh | 0;
+            this.El = El | 0;
+            this.Fh = Fh | 0;
+            this.Fl = Fl | 0;
+            this.Gh = Gh | 0;
+            this.Gl = Gl | 0;
+            this.Hh = Hh | 0;
+            this.Hl = Hl | 0;
+        }
+        process(view, offset) {
+            // Extend the first 16 words into the remaining 64 words w[16..79] of the message schedule array
+            for (let i = 0; i < 16; i++, offset += 4) {
+                SHA512_W_H[i] = view.getUint32(offset);
+                SHA512_W_L[i] = view.getUint32((offset += 4));
+            }
+            for (let i = 16; i < 80; i++) {
+                // s0 := (w[i-15] rightrotate 1) xor (w[i-15] rightrotate 8) xor (w[i-15] rightshift 7)
+                const W15h = SHA512_W_H[i - 15] | 0;
+                const W15l = SHA512_W_L[i - 15] | 0;
+                const s0h = u64.rotrSH(W15h, W15l, 1) ^ u64.rotrSH(W15h, W15l, 8) ^ u64.shrSH(W15h, W15l, 7);
+                const s0l = u64.rotrSL(W15h, W15l, 1) ^ u64.rotrSL(W15h, W15l, 8) ^ u64.shrSL(W15h, W15l, 7);
+                // s1 := (w[i-2] rightrotate 19) xor (w[i-2] rightrotate 61) xor (w[i-2] rightshift 6)
+                const W2h = SHA512_W_H[i - 2] | 0;
+                const W2l = SHA512_W_L[i - 2] | 0;
+                const s1h = u64.rotrSH(W2h, W2l, 19) ^ u64.rotrBH(W2h, W2l, 61) ^ u64.shrSH(W2h, W2l, 6);
+                const s1l = u64.rotrSL(W2h, W2l, 19) ^ u64.rotrBL(W2h, W2l, 61) ^ u64.shrSL(W2h, W2l, 6);
+                // SHA256_W[i] = s0 + s1 + SHA256_W[i - 7] + SHA256_W[i - 16];
+                const SUMl = u64.add4L(s0l, s1l, SHA512_W_L[i - 7], SHA512_W_L[i - 16]);
+                const SUMh = u64.add4H(SUMl, s0h, s1h, SHA512_W_H[i - 7], SHA512_W_H[i - 16]);
+                SHA512_W_H[i] = SUMh | 0;
+                SHA512_W_L[i] = SUMl | 0;
+            }
+            let { Ah, Al, Bh, Bl, Ch, Cl, Dh, Dl, Eh, El, Fh, Fl, Gh, Gl, Hh, Hl } = this;
+            // Compression function main loop, 80 rounds
+            for (let i = 0; i < 80; i++) {
+                // S1 := (e rightrotate 14) xor (e rightrotate 18) xor (e rightrotate 41)
+                const sigma1h = u64.rotrSH(Eh, El, 14) ^ u64.rotrSH(Eh, El, 18) ^ u64.rotrBH(Eh, El, 41);
+                const sigma1l = u64.rotrSL(Eh, El, 14) ^ u64.rotrSL(Eh, El, 18) ^ u64.rotrBL(Eh, El, 41);
+                //const T1 = (H + sigma1 + Chi(E, F, G) + SHA256_K[i] + SHA256_W[i]) | 0;
+                const CHIh = (Eh & Fh) ^ (~Eh & Gh);
+                const CHIl = (El & Fl) ^ (~El & Gl);
+                // T1 = H + sigma1 + Chi(E, F, G) + SHA512_K[i] + SHA512_W[i]
+                // prettier-ignore
+                const T1ll = u64.add5L(Hl, sigma1l, CHIl, SHA512_Kl[i], SHA512_W_L[i]);
+                const T1h = u64.add5H(T1ll, Hh, sigma1h, CHIh, SHA512_Kh[i], SHA512_W_H[i]);
+                const T1l = T1ll | 0;
+                // S0 := (a rightrotate 28) xor (a rightrotate 34) xor (a rightrotate 39)
+                const sigma0h = u64.rotrSH(Ah, Al, 28) ^ u64.rotrBH(Ah, Al, 34) ^ u64.rotrBH(Ah, Al, 39);
+                const sigma0l = u64.rotrSL(Ah, Al, 28) ^ u64.rotrBL(Ah, Al, 34) ^ u64.rotrBL(Ah, Al, 39);
+                const MAJh = (Ah & Bh) ^ (Ah & Ch) ^ (Bh & Ch);
+                const MAJl = (Al & Bl) ^ (Al & Cl) ^ (Bl & Cl);
+                Hh = Gh | 0;
+                Hl = Gl | 0;
+                Gh = Fh | 0;
+                Gl = Fl | 0;
+                Fh = Eh | 0;
+                Fl = El | 0;
+                ({ h: Eh, l: El } = u64.add(Dh | 0, Dl | 0, T1h | 0, T1l | 0));
+                Dh = Ch | 0;
+                Dl = Cl | 0;
+                Ch = Bh | 0;
+                Cl = Bl | 0;
+                Bh = Ah | 0;
+                Bl = Al | 0;
+                const All = u64.add3L(T1l, sigma0l, MAJl);
+                Ah = u64.add3H(All, T1h, sigma0h, MAJh);
+                Al = All | 0;
+            }
+            // Add the compressed chunk to the current hash value
+            ({ h: Ah, l: Al } = u64.add(this.Ah | 0, this.Al | 0, Ah | 0, Al | 0));
+            ({ h: Bh, l: Bl } = u64.add(this.Bh | 0, this.Bl | 0, Bh | 0, Bl | 0));
+            ({ h: Ch, l: Cl } = u64.add(this.Ch | 0, this.Cl | 0, Ch | 0, Cl | 0));
+            ({ h: Dh, l: Dl } = u64.add(this.Dh | 0, this.Dl | 0, Dh | 0, Dl | 0));
+            ({ h: Eh, l: El } = u64.add(this.Eh | 0, this.El | 0, Eh | 0, El | 0));
+            ({ h: Fh, l: Fl } = u64.add(this.Fh | 0, this.Fl | 0, Fh | 0, Fl | 0));
+            ({ h: Gh, l: Gl } = u64.add(this.Gh | 0, this.Gl | 0, Gh | 0, Gl | 0));
+            ({ h: Hh, l: Hl } = u64.add(this.Hh | 0, this.Hl | 0, Hh | 0, Hl | 0));
+            this.set(Ah, Al, Bh, Bl, Ch, Cl, Dh, Dl, Eh, El, Fh, Fl, Gh, Gl, Hh, Hl);
+        }
+        roundClean() {
+            SHA512_W_H.fill(0);
+            SHA512_W_L.fill(0);
+        }
+        destroy() {
+            this.buffer.fill(0);
+            this.set(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+        }
+    }
+    class SHA512_224 extends SHA512 {
+        constructor() {
+            super();
+            // h -- high 32 bits, l -- low 32 bits
+            this.Ah = 0x8c3d37c8 | 0;
+            this.Al = 0x19544da2 | 0;
+            this.Bh = 0x73e19966 | 0;
+            this.Bl = 0x89dcd4d6 | 0;
+            this.Ch = 0x1dfab7ae | 0;
+            this.Cl = 0x32ff9c82 | 0;
+            this.Dh = 0x679dd514 | 0;
+            this.Dl = 0x582f9fcf | 0;
+            this.Eh = 0x0f6d2b69 | 0;
+            this.El = 0x7bd44da8 | 0;
+            this.Fh = 0x77e36f73 | 0;
+            this.Fl = 0x04c48942 | 0;
+            this.Gh = 0x3f9d85a8 | 0;
+            this.Gl = 0x6a1d36c8 | 0;
+            this.Hh = 0x1112e6ad | 0;
+            this.Hl = 0x91d692a1 | 0;
+            this.outputLen = 28;
+        }
+    }
+    class SHA512_256 extends SHA512 {
+        constructor() {
+            super();
+            // h -- high 32 bits, l -- low 32 bits
+            this.Ah = 0x22312194 | 0;
+            this.Al = 0xfc2bf72c | 0;
+            this.Bh = 0x9f555fa3 | 0;
+            this.Bl = 0xc84c64c2 | 0;
+            this.Ch = 0x2393b86b | 0;
+            this.Cl = 0x6f53b151 | 0;
+            this.Dh = 0x96387719 | 0;
+            this.Dl = 0x5940eabd | 0;
+            this.Eh = 0x96283ee2 | 0;
+            this.El = 0xa88effe3 | 0;
+            this.Fh = 0xbe5e1e25 | 0;
+            this.Fl = 0x53863992 | 0;
+            this.Gh = 0x2b0199fc | 0;
+            this.Gl = 0x2c85b8aa | 0;
+            this.Hh = 0x0eb72ddc | 0;
+            this.Hl = 0x81c52ca2 | 0;
+            this.outputLen = 32;
+        }
+    }
+    class SHA384 extends SHA512 {
+        constructor() {
+            super();
+            // h -- high 32 bits, l -- low 32 bits
+            this.Ah = 0xcbbb9d5d | 0;
+            this.Al = 0xc1059ed8 | 0;
+            this.Bh = 0x629a292a | 0;
+            this.Bl = 0x367cd507 | 0;
+            this.Ch = 0x9159015a | 0;
+            this.Cl = 0x3070dd17 | 0;
+            this.Dh = 0x152fecd8 | 0;
+            this.Dl = 0xf70e5939 | 0;
+            this.Eh = 0x67332667 | 0;
+            this.El = 0xffc00b31 | 0;
+            this.Fh = 0x8eb44a87 | 0;
+            this.Fl = 0x68581511 | 0;
+            this.Gh = 0xdb0c2e0d | 0;
+            this.Gl = 0x64f98fa7 | 0;
+            this.Hh = 0x47b5481d | 0;
+            this.Hl = 0xbefa4fa4 | 0;
+            this.outputLen = 48;
+        }
+    }
+    const sha512 = wrapConstructor(() => new SHA512());
+    wrapConstructor(() => new SHA512_224());
+    wrapConstructor(() => new SHA512_256());
+    wrapConstructor(() => new SHA384());
+
+    const isJapanese = (wordlist) => wordlist[0] === '\u3042\u3044\u3053\u304f\u3057\u3093';
+    function nfkd(str) {
+        if (typeof str !== 'string')
+            throw new TypeError(`Invalid mnemonic type: ${typeof str}`);
+        return str.normalize('NFKD');
+    }
+    function normalize(str) {
+        const norm = nfkd(str);
+        const words = norm.split(' ');
+        if (![12, 15, 18, 21, 24].includes(words.length))
+            throw new Error('Invalid mnemonic');
+        return { nfkd: norm, words };
+    }
+    function assertEntropy(entropy) {
+        assert$1.bytes(entropy, 16, 20, 24, 28, 32);
+    }
+    function generateMnemonic(wordlist, strength = 128) {
+        assert$1.number(strength);
+        if (strength % 32 !== 0 || strength > 256)
+            throw new TypeError('Invalid entropy');
+        return entropyToMnemonic(randomBytes(strength / 8), wordlist);
+    }
+    const calcChecksum = (entropy) => {
+        const bitsLeft = 8 - entropy.length / 4;
+        return new Uint8Array([(sha256(entropy)[0] >> bitsLeft) << bitsLeft]);
+    };
+    function getCoder(wordlist) {
+        if (!Array.isArray(wordlist) || wordlist.length !== 2048 || typeof wordlist[0] !== 'string')
+            throw new Error('Worlist: expected array of 2048 strings');
+        wordlist.forEach((i) => {
+            if (typeof i !== 'string')
+                throw new Error(`Wordlist: non-string element: ${i}`);
+        });
+        return utils$1.chain(utils$1.checksum(1, calcChecksum), utils$1.radix2(11, true), utils$1.alphabet(wordlist));
+    }
+    function mnemonicToEntropy(mnemonic, wordlist) {
+        const { words } = normalize(mnemonic);
+        const entropy = getCoder(wordlist).decode(words);
+        assertEntropy(entropy);
+        return entropy;
+    }
+    function entropyToMnemonic(entropy, wordlist) {
+        assertEntropy(entropy);
+        const words = getCoder(wordlist).encode(entropy);
+        return words.join(isJapanese(wordlist) ? '\u3000' : ' ');
+    }
+    function validateMnemonic(mnemonic, wordlist) {
+        try {
+            mnemonicToEntropy(mnemonic, wordlist);
+        }
+        catch (e) {
+            return false;
+        }
+        return true;
+    }
+    const salt = (passphrase) => nfkd(`mnemonic${passphrase}`);
+    function mnemonicToSeedSync(mnemonic, passphrase = '') {
+        return pbkdf2(sha512, normalize(mnemonic).nfkd, salt(passphrase), { c: 2048, dkLen: 64 });
+    }
+
+    // https://homes.esat.kuleuven.be/~bosselae/ripemd160.html
+    // https://homes.esat.kuleuven.be/~bosselae/ripemd160/pdf/AB-9601/AB-9601.pdf
+    const Rho = new Uint8Array([7, 4, 13, 1, 10, 6, 15, 3, 12, 0, 9, 5, 2, 14, 11, 8]);
+    const Id = Uint8Array.from({ length: 16 }, (_, i) => i);
+    const Pi = Id.map((i) => (9 * i + 5) % 16);
+    let idxL = [Id];
+    let idxR = [Pi];
+    for (let i = 0; i < 4; i++)
+        for (let j of [idxL, idxR])
+            j.push(j[i].map((k) => Rho[k]));
+    const shifts = [
+        [11, 14, 15, 12, 5, 8, 7, 9, 11, 13, 14, 15, 6, 7, 9, 8],
+        [12, 13, 11, 15, 6, 9, 9, 7, 12, 15, 11, 13, 7, 8, 7, 7],
+        [13, 15, 14, 11, 7, 7, 6, 8, 13, 14, 13, 12, 5, 5, 6, 9],
+        [14, 11, 12, 14, 8, 6, 5, 5, 15, 12, 15, 14, 9, 9, 8, 6],
+        [15, 12, 13, 13, 9, 5, 8, 6, 14, 11, 12, 11, 8, 6, 5, 5],
+    ].map((i) => new Uint8Array(i));
+    const shiftsL = idxL.map((idx, i) => idx.map((j) => shifts[i][j]));
+    const shiftsR = idxR.map((idx, i) => idx.map((j) => shifts[i][j]));
+    const Kl = new Uint32Array([0x00000000, 0x5a827999, 0x6ed9eba1, 0x8f1bbcdc, 0xa953fd4e]);
+    const Kr = new Uint32Array([0x50a28be6, 0x5c4dd124, 0x6d703ef3, 0x7a6d76e9, 0x00000000]);
+    // The rotate left (circular left shift) operation for uint32
+    const rotl$1 = (word, shift) => (word << shift) | (word >>> (32 - shift));
+    // It's called f() in spec.
+    function f(group, x, y, z) {
+        if (group === 0)
+            return x ^ y ^ z;
+        else if (group === 1)
+            return (x & y) | (~x & z);
+        else if (group === 2)
+            return (x | ~y) ^ z;
+        else if (group === 3)
+            return (x & z) | (y & ~z);
+        else
+            return x ^ (y | ~z);
+    }
+    // Temporary buffer, not used to store anything between runs
+    const BUF = new Uint32Array(16);
+    class RIPEMD160 extends SHA2 {
+        constructor() {
+            super(64, 20, 8, true);
+            this.h0 = 0x67452301 | 0;
+            this.h1 = 0xefcdab89 | 0;
+            this.h2 = 0x98badcfe | 0;
+            this.h3 = 0x10325476 | 0;
+            this.h4 = 0xc3d2e1f0 | 0;
+        }
+        get() {
+            const { h0, h1, h2, h3, h4 } = this;
+            return [h0, h1, h2, h3, h4];
+        }
+        set(h0, h1, h2, h3, h4) {
+            this.h0 = h0 | 0;
+            this.h1 = h1 | 0;
+            this.h2 = h2 | 0;
+            this.h3 = h3 | 0;
+            this.h4 = h4 | 0;
+        }
+        process(view, offset) {
+            for (let i = 0; i < 16; i++, offset += 4)
+                BUF[i] = view.getUint32(offset, true);
+            // prettier-ignore
+            let al = this.h0 | 0, ar = al, bl = this.h1 | 0, br = bl, cl = this.h2 | 0, cr = cl, dl = this.h3 | 0, dr = dl, el = this.h4 | 0, er = el;
+            // Instead of iterating 0 to 80, we split it into 5 groups
+            // And use the groups in constants, functions, etc. Much simpler
+            for (let group = 0; group < 5; group++) {
+                const rGroup = 4 - group;
+                const hbl = Kl[group], hbr = Kr[group]; // prettier-ignore
+                const rl = idxL[group], rr = idxR[group]; // prettier-ignore
+                const sl = shiftsL[group], sr = shiftsR[group]; // prettier-ignore
+                for (let i = 0; i < 16; i++) {
+                    const tl = (rotl$1(al + f(group, bl, cl, dl) + BUF[rl[i]] + hbl, sl[i]) + el) | 0;
+                    al = el, el = dl, dl = rotl$1(cl, 10) | 0, cl = bl, bl = tl; // prettier-ignore
+                }
+                // 2 loops are 10% faster
+                for (let i = 0; i < 16; i++) {
+                    const tr = (rotl$1(ar + f(rGroup, br, cr, dr) + BUF[rr[i]] + hbr, sr[i]) + er) | 0;
+                    ar = er, er = dr, dr = rotl$1(cr, 10) | 0, cr = br, br = tr; // prettier-ignore
+                }
+            }
+            // Add the compressed chunk to the current hash value
+            this.set((this.h1 + cl + dr) | 0, (this.h2 + dl + er) | 0, (this.h3 + el + ar) | 0, (this.h4 + al + br) | 0, (this.h0 + bl + cr) | 0);
+        }
+        roundClean() {
+            BUF.fill(0);
+        }
+        destroy() {
+            this.destroyed = true;
+            this.buffer.fill(0);
+            this.set(0, 0, 0, 0, 0);
+        }
+    }
+    /**
+     * RIPEMD-160 - a hash function from 1990s.
+     * @param message - msg that would be hashed
+     */
+    const ripemd160 = wrapConstructor(() => new RIPEMD160());
+
+    const Point = secp256k1.ProjectivePoint;
+    const base58check = base58check$1(sha256);
+    function bytesToNumber(bytes) {
+        return BigInt(`0x${bytesToHex$1(bytes)}`);
+    }
+    function numberToBytes(num) {
+        return hexToBytes$1(num.toString(16).padStart(64, '0'));
+    }
+    const MASTER_SECRET = utf8ToBytes$2('Bitcoin seed');
+    const BITCOIN_VERSIONS = { private: 0x0488ade4, public: 0x0488b21e };
+    const HARDENED_OFFSET = 0x80000000;
+    const hash160 = (data) => ripemd160(sha256(data));
+    const fromU32 = (data) => createView(data).getUint32(0, false);
+    const toU32 = (n) => {
+        if (!Number.isSafeInteger(n) || n < 0 || n > 2 ** 32 - 1) {
+            throw new Error(`Invalid number=${n}. Should be from 0 to 2 ** 32 - 1`);
+        }
+        const buf = new Uint8Array(4);
+        createView(buf).setUint32(0, n, false);
+        return buf;
+    };
+    class HDKey {
+        get fingerprint() {
+            if (!this.pubHash) {
+                throw new Error('No publicKey set!');
+            }
+            return fromU32(this.pubHash);
+        }
+        get identifier() {
+            return this.pubHash;
+        }
+        get pubKeyHash() {
+            return this.pubHash;
+        }
+        get privateKey() {
+            return this.privKeyBytes || null;
+        }
+        get publicKey() {
+            return this.pubKey || null;
+        }
+        get privateExtendedKey() {
+            const priv = this.privateKey;
+            if (!priv) {
+                throw new Error('No private key');
+            }
+            return base58check.encode(this.serialize(this.versions.private, concatBytes$1(new Uint8Array([0]), priv)));
+        }
+        get publicExtendedKey() {
+            if (!this.pubKey) {
+                throw new Error('No public key');
+            }
+            return base58check.encode(this.serialize(this.versions.public, this.pubKey));
+        }
+        static fromMasterSeed(seed, versions = BITCOIN_VERSIONS) {
+            bytes$1(seed);
+            if (8 * seed.length < 128 || 8 * seed.length > 512) {
+                throw new Error(`HDKey: wrong seed length=${seed.length}. Should be between 128 and 512 bits; 256 bits is advised)`);
+            }
+            const I = hmac(sha512, MASTER_SECRET, seed);
+            return new HDKey({
+                versions,
+                chainCode: I.slice(32),
+                privateKey: I.slice(0, 32),
+            });
+        }
+        static fromExtendedKey(base58key, versions = BITCOIN_VERSIONS) {
+            const keyBuffer = base58check.decode(base58key);
+            const keyView = createView(keyBuffer);
+            const version = keyView.getUint32(0, false);
+            const opt = {
+                versions,
+                depth: keyBuffer[4],
+                parentFingerprint: keyView.getUint32(5, false),
+                index: keyView.getUint32(9, false),
+                chainCode: keyBuffer.slice(13, 45),
+            };
+            const key = keyBuffer.slice(45);
+            const isPriv = key[0] === 0;
+            if (version !== versions[isPriv ? 'private' : 'public']) {
+                throw new Error('Version mismatch');
+            }
+            if (isPriv) {
+                return new HDKey({ ...opt, privateKey: key.slice(1) });
+            }
+            else {
+                return new HDKey({ ...opt, publicKey: key });
+            }
+        }
+        static fromJSON(json) {
+            return HDKey.fromExtendedKey(json.xpriv);
+        }
+        constructor(opt) {
+            this.depth = 0;
+            this.index = 0;
+            this.chainCode = null;
+            this.parentFingerprint = 0;
+            if (!opt || typeof opt !== 'object') {
+                throw new Error('HDKey.constructor must not be called directly');
+            }
+            this.versions = opt.versions || BITCOIN_VERSIONS;
+            this.depth = opt.depth || 0;
+            this.chainCode = opt.chainCode;
+            this.index = opt.index || 0;
+            this.parentFingerprint = opt.parentFingerprint || 0;
+            if (!this.depth) {
+                if (this.parentFingerprint || this.index) {
+                    throw new Error('HDKey: zero depth with non-zero index/parent fingerprint');
+                }
+            }
+            if (opt.publicKey && opt.privateKey) {
+                throw new Error('HDKey: publicKey and privateKey at same time.');
+            }
+            if (opt.privateKey) {
+                if (!secp256k1.utils.isValidPrivateKey(opt.privateKey)) {
+                    throw new Error('Invalid private key');
+                }
+                this.privKey =
+                    typeof opt.privateKey === 'bigint' ? opt.privateKey : bytesToNumber(opt.privateKey);
+                this.privKeyBytes = numberToBytes(this.privKey);
+                this.pubKey = secp256k1.getPublicKey(opt.privateKey, true);
+            }
+            else if (opt.publicKey) {
+                this.pubKey = Point.fromHex(opt.publicKey).toRawBytes(true);
+            }
+            else {
+                throw new Error('HDKey: no public or private key provided');
+            }
+            this.pubHash = hash160(this.pubKey);
+        }
+        derive(path) {
+            if (!/^[mM]'?/.test(path)) {
+                throw new Error('Path must start with "m" or "M"');
+            }
+            if (/^[mM]'?$/.test(path)) {
+                return this;
+            }
+            const parts = path.replace(/^[mM]'?\//, '').split('/');
+            let child = this;
+            for (const c of parts) {
+                const m = /^(\d+)('?)$/.exec(c);
+                if (!m || m.length !== 3) {
+                    throw new Error(`Invalid child index: ${c}`);
+                }
+                let idx = +m[1];
+                if (!Number.isSafeInteger(idx) || idx >= HARDENED_OFFSET) {
+                    throw new Error('Invalid index');
+                }
+                if (m[2] === "'") {
+                    idx += HARDENED_OFFSET;
+                }
+                child = child.deriveChild(idx);
+            }
+            return child;
+        }
+        deriveChild(index) {
+            if (!this.pubKey || !this.chainCode) {
+                throw new Error('No publicKey or chainCode set');
+            }
+            let data = toU32(index);
+            if (index >= HARDENED_OFFSET) {
+                const priv = this.privateKey;
+                if (!priv) {
+                    throw new Error('Could not derive hardened child key');
+                }
+                data = concatBytes$1(new Uint8Array([0]), priv, data);
+            }
+            else {
+                data = concatBytes$1(this.pubKey, data);
+            }
+            const I = hmac(sha512, this.chainCode, data);
+            const childTweak = bytesToNumber(I.slice(0, 32));
+            const chainCode = I.slice(32);
+            if (!secp256k1.utils.isValidPrivateKey(childTweak)) {
+                throw new Error('Tweak bigger than curve order');
+            }
+            const opt = {
+                versions: this.versions,
+                chainCode,
+                depth: this.depth + 1,
+                parentFingerprint: this.fingerprint,
+                index,
+            };
+            try {
+                if (this.privateKey) {
+                    const added = mod(this.privKey + childTweak, secp256k1.CURVE.n);
+                    if (!secp256k1.utils.isValidPrivateKey(added)) {
+                        throw new Error('The tweak was out of range or the resulted private key is invalid');
+                    }
+                    opt.privateKey = added;
+                }
+                else {
+                    const added = Point.fromHex(this.pubKey).add(Point.fromPrivateKey(childTweak));
+                    if (added.equals(Point.ZERO)) {
+                        throw new Error('The tweak was equal to negative P, which made the result key invalid');
+                    }
+                    opt.publicKey = added.toRawBytes(true);
+                }
+                return new HDKey(opt);
+            }
+            catch (err) {
+                return this.deriveChild(index + 1);
+            }
+        }
+        sign(hash) {
+            if (!this.privateKey) {
+                throw new Error('No privateKey set!');
+            }
+            bytes$1(hash, 32);
+            return secp256k1.sign(hash, this.privKey).toCompactRawBytes();
+        }
+        verify(hash, signature) {
+            bytes$1(hash, 32);
+            bytes$1(signature, 64);
+            if (!this.publicKey) {
+                throw new Error('No publicKey set!');
+            }
+            let sig;
+            try {
+                sig = secp256k1.Signature.fromCompact(signature);
+            }
+            catch (error) {
+                return false;
+            }
+            return secp256k1.verify(sig, hash, this.publicKey);
+        }
+        wipePrivateData() {
+            this.privKey = undefined;
+            if (this.privKeyBytes) {
+                this.privKeyBytes.fill(0);
+                this.privKeyBytes = undefined;
+            }
+            return this;
+        }
+        toJSON() {
+            return {
+                xpriv: this.privateExtendedKey,
+                xpub: this.publicExtendedKey,
+            };
+        }
+        serialize(version, key) {
+            if (!this.chainCode) {
+                throw new Error('No chainCode set');
+            }
+            bytes$1(key, 33);
+            return concatBytes$1(toU32(version), new Uint8Array([this.depth]), toU32(this.parentFingerprint), toU32(this.index), this.chainCode, key);
+        }
+    }
+
+    /*! noble-ciphers - MIT License (c) 2023 Paul Miller (paulmillr.com) */
+    const u8a = (a) => a instanceof Uint8Array;
+    const u32 = (arr) => new Uint32Array(arr.buffer, arr.byteOffset, Math.floor(arr.byteLength / 4));
+    // big-endian hardware is rare. Just in case someone still decides to run ciphers:
+    // early-throw an error because we don't support BE yet.
+    const isLE = new Uint8Array(new Uint32Array([0x11223344]).buffer)[0] === 0x44;
+    if (!isLE)
+        throw new Error('Non little-endian hardware is not supported');
+    /**
+     * @example utf8ToBytes('abc') // new Uint8Array([97, 98, 99])
+     */
+    function utf8ToBytes(str) {
+        if (typeof str !== 'string')
+            throw new Error(`utf8ToBytes expected string, got ${typeof str}`);
+        return new Uint8Array(new TextEncoder().encode(str)); // https://bugzil.la/1681809
+    }
+    /**
+     * Normalizes (non-hex) string or Uint8Array to Uint8Array.
+     * Warning: when Uint8Array is passed, it would NOT get copied.
+     * Keep in mind for future mutable operations.
+     */
+    function toBytes(data) {
+        if (typeof data === 'string')
+            data = utf8ToBytes(data);
+        if (!u8a(data))
+            throw new Error(`expected Uint8Array, got ${typeof data}`);
+        return data;
+    }
+    // Check if object doens't have custom constructor (like Uint8Array/Array)
+    const isPlainObject = (obj) => Object.prototype.toString.call(obj) === '[object Object]' && obj.constructor === Object;
+    function checkOpts(defaults, opts) {
+        if (opts !== undefined && (typeof opts !== 'object' || !isPlainObject(opts)))
+            throw new Error('options must be object or undefined');
+        const merged = Object.assign(defaults, opts);
+        return merged;
+    }
+    function ensureBytes(b, len) {
+        if (!(b instanceof Uint8Array))
+            throw new Error('Uint8Array expected');
+        if (typeof len === 'number')
+            if (b.length !== len)
+                throw new Error(`Uint8Array length ${len} expected`);
+    }
+    // Constant-time equality
+    function equalBytes(a, b) {
+        // Should not happen
+        if (a.length !== b.length)
+            throw new Error('equalBytes: Different size of Uint8Arrays');
+        let isSame = true;
+        for (let i = 0; i < a.length; i++)
+            isSame && (isSame = a[i] === b[i]); // Lets hope JIT won't optimize away.
+        return isSame;
+    }
+
+    function number(n) {
+        if (!Number.isSafeInteger(n) || n < 0)
+            throw new Error(`Wrong positive integer: ${n}`);
+    }
+    function bool(b) {
+        if (typeof b !== 'boolean')
+            throw new Error(`Expected boolean, not ${b}`);
+    }
+    function bytes(b, ...lengths) {
+        if (!(b instanceof Uint8Array))
+            throw new Error('Expected Uint8Array');
+        if (lengths.length > 0 && !lengths.includes(b.length))
+            throw new Error(`Expected Uint8Array of length ${lengths}, not of length=${b.length}`);
+    }
+    function hash(hash) {
+        if (typeof hash !== 'function' || typeof hash.create !== 'function')
+            throw new Error('hash must be wrapped by utils.wrapConstructor');
+        number(hash.outputLen);
+        number(hash.blockLen);
+    }
+    function exists(instance, checkFinished = true) {
+        if (instance.destroyed)
+            throw new Error('Hash instance has been destroyed');
+        if (checkFinished && instance.finished)
+            throw new Error('Hash#digest() has already been called');
+    }
+    function output(out, instance) {
+        bytes(out);
+        const min = instance.outputLen;
+        if (out.length < min) {
+            throw new Error(`digestInto() expects output buffer of length at least ${min}`);
+        }
+    }
+    const assert = { number, bool, bytes, hash, exists, output };
+
+    // Poly1305 is a fast and parallel secret-key message-authentication code.
+    // https://cr.yp.to/mac.html, https://cr.yp.to/mac/poly1305-20050329.pdf
+    // https://datatracker.ietf.org/doc/html/rfc8439
+    // Based on Public Domain poly1305-donna https://github.com/floodyberry/poly1305-donna
+    const u8to16 = (a, i) => (a[i++] & 0xff) | ((a[i++] & 0xff) << 8);
+    class Poly1305 {
+        constructor(key) {
+            this.blockLen = 16;
+            this.outputLen = 16;
+            this.buffer = new Uint8Array(16);
+            this.r = new Uint16Array(10);
+            this.h = new Uint16Array(10);
+            this.pad = new Uint16Array(8);
+            this.pos = 0;
+            this.finished = false;
+            key = toBytes(key);
+            ensureBytes(key, 32);
+            const t0 = u8to16(key, 0);
+            const t1 = u8to16(key, 2);
+            const t2 = u8to16(key, 4);
+            const t3 = u8to16(key, 6);
+            const t4 = u8to16(key, 8);
+            const t5 = u8to16(key, 10);
+            const t6 = u8to16(key, 12);
+            const t7 = u8to16(key, 14);
+            // https://github.com/floodyberry/poly1305-donna/blob/e6ad6e091d30d7f4ec2d4f978be1fcfcbce72781/poly1305-donna-16.h#L47
+            this.r[0] = t0 & 0x1fff;
+            this.r[1] = ((t0 >>> 13) | (t1 << 3)) & 0x1fff;
+            this.r[2] = ((t1 >>> 10) | (t2 << 6)) & 0x1f03;
+            this.r[3] = ((t2 >>> 7) | (t3 << 9)) & 0x1fff;
+            this.r[4] = ((t3 >>> 4) | (t4 << 12)) & 0x00ff;
+            this.r[5] = (t4 >>> 1) & 0x1ffe;
+            this.r[6] = ((t4 >>> 14) | (t5 << 2)) & 0x1fff;
+            this.r[7] = ((t5 >>> 11) | (t6 << 5)) & 0x1f81;
+            this.r[8] = ((t6 >>> 8) | (t7 << 8)) & 0x1fff;
+            this.r[9] = (t7 >>> 5) & 0x007f;
+            for (let i = 0; i < 8; i++)
+                this.pad[i] = u8to16(key, 16 + 2 * i);
+        }
+        process(data, offset, isLast = false) {
+            const hibit = isLast ? 0 : 1 << 11;
+            const { h, r } = this;
+            const r0 = r[0];
+            const r1 = r[1];
+            const r2 = r[2];
+            const r3 = r[3];
+            const r4 = r[4];
+            const r5 = r[5];
+            const r6 = r[6];
+            const r7 = r[7];
+            const r8 = r[8];
+            const r9 = r[9];
+            const t0 = u8to16(data, offset + 0);
+            const t1 = u8to16(data, offset + 2);
+            const t2 = u8to16(data, offset + 4);
+            const t3 = u8to16(data, offset + 6);
+            const t4 = u8to16(data, offset + 8);
+            const t5 = u8to16(data, offset + 10);
+            const t6 = u8to16(data, offset + 12);
+            const t7 = u8to16(data, offset + 14);
+            let h0 = h[0] + (t0 & 0x1fff);
+            let h1 = h[1] + (((t0 >>> 13) | (t1 << 3)) & 0x1fff);
+            let h2 = h[2] + (((t1 >>> 10) | (t2 << 6)) & 0x1fff);
+            let h3 = h[3] + (((t2 >>> 7) | (t3 << 9)) & 0x1fff);
+            let h4 = h[4] + (((t3 >>> 4) | (t4 << 12)) & 0x1fff);
+            let h5 = h[5] + ((t4 >>> 1) & 0x1fff);
+            let h6 = h[6] + (((t4 >>> 14) | (t5 << 2)) & 0x1fff);
+            let h7 = h[7] + (((t5 >>> 11) | (t6 << 5)) & 0x1fff);
+            let h8 = h[8] + (((t6 >>> 8) | (t7 << 8)) & 0x1fff);
+            let h9 = h[9] + ((t7 >>> 5) | hibit);
+            let c = 0;
+            let d0 = c + h0 * r0 + h1 * (5 * r9) + h2 * (5 * r8) + h3 * (5 * r7) + h4 * (5 * r6);
+            c = d0 >>> 13;
+            d0 &= 0x1fff;
+            d0 += h5 * (5 * r5) + h6 * (5 * r4) + h7 * (5 * r3) + h8 * (5 * r2) + h9 * (5 * r1);
+            c += d0 >>> 13;
+            d0 &= 0x1fff;
+            let d1 = c + h0 * r1 + h1 * r0 + h2 * (5 * r9) + h3 * (5 * r8) + h4 * (5 * r7);
+            c = d1 >>> 13;
+            d1 &= 0x1fff;
+            d1 += h5 * (5 * r6) + h6 * (5 * r5) + h7 * (5 * r4) + h8 * (5 * r3) + h9 * (5 * r2);
+            c += d1 >>> 13;
+            d1 &= 0x1fff;
+            let d2 = c + h0 * r2 + h1 * r1 + h2 * r0 + h3 * (5 * r9) + h4 * (5 * r8);
+            c = d2 >>> 13;
+            d2 &= 0x1fff;
+            d2 += h5 * (5 * r7) + h6 * (5 * r6) + h7 * (5 * r5) + h8 * (5 * r4) + h9 * (5 * r3);
+            c += d2 >>> 13;
+            d2 &= 0x1fff;
+            let d3 = c + h0 * r3 + h1 * r2 + h2 * r1 + h3 * r0 + h4 * (5 * r9);
+            c = d3 >>> 13;
+            d3 &= 0x1fff;
+            d3 += h5 * (5 * r8) + h6 * (5 * r7) + h7 * (5 * r6) + h8 * (5 * r5) + h9 * (5 * r4);
+            c += d3 >>> 13;
+            d3 &= 0x1fff;
+            let d4 = c + h0 * r4 + h1 * r3 + h2 * r2 + h3 * r1 + h4 * r0;
+            c = d4 >>> 13;
+            d4 &= 0x1fff;
+            d4 += h5 * (5 * r9) + h6 * (5 * r8) + h7 * (5 * r7) + h8 * (5 * r6) + h9 * (5 * r5);
+            c += d4 >>> 13;
+            d4 &= 0x1fff;
+            let d5 = c + h0 * r5 + h1 * r4 + h2 * r3 + h3 * r2 + h4 * r1;
+            c = d5 >>> 13;
+            d5 &= 0x1fff;
+            d5 += h5 * r0 + h6 * (5 * r9) + h7 * (5 * r8) + h8 * (5 * r7) + h9 * (5 * r6);
+            c += d5 >>> 13;
+            d5 &= 0x1fff;
+            let d6 = c + h0 * r6 + h1 * r5 + h2 * r4 + h3 * r3 + h4 * r2;
+            c = d6 >>> 13;
+            d6 &= 0x1fff;
+            d6 += h5 * r1 + h6 * r0 + h7 * (5 * r9) + h8 * (5 * r8) + h9 * (5 * r7);
+            c += d6 >>> 13;
+            d6 &= 0x1fff;
+            let d7 = c + h0 * r7 + h1 * r6 + h2 * r5 + h3 * r4 + h4 * r3;
+            c = d7 >>> 13;
+            d7 &= 0x1fff;
+            d7 += h5 * r2 + h6 * r1 + h7 * r0 + h8 * (5 * r9) + h9 * (5 * r8);
+            c += d7 >>> 13;
+            d7 &= 0x1fff;
+            let d8 = c + h0 * r8 + h1 * r7 + h2 * r6 + h3 * r5 + h4 * r4;
+            c = d8 >>> 13;
+            d8 &= 0x1fff;
+            d8 += h5 * r3 + h6 * r2 + h7 * r1 + h8 * r0 + h9 * (5 * r9);
+            c += d8 >>> 13;
+            d8 &= 0x1fff;
+            let d9 = c + h0 * r9 + h1 * r8 + h2 * r7 + h3 * r6 + h4 * r5;
+            c = d9 >>> 13;
+            d9 &= 0x1fff;
+            d9 += h5 * r4 + h6 * r3 + h7 * r2 + h8 * r1 + h9 * r0;
+            c += d9 >>> 13;
+            d9 &= 0x1fff;
+            c = ((c << 2) + c) | 0;
+            c = (c + d0) | 0;
+            d0 = c & 0x1fff;
+            c = c >>> 13;
+            d1 += c;
+            h[0] = d0;
+            h[1] = d1;
+            h[2] = d2;
+            h[3] = d3;
+            h[4] = d4;
+            h[5] = d5;
+            h[6] = d6;
+            h[7] = d7;
+            h[8] = d8;
+            h[9] = d9;
+        }
+        finalize() {
+            const { h, pad } = this;
+            const g = new Uint16Array(10);
+            let c = h[1] >>> 13;
+            h[1] &= 0x1fff;
+            for (let i = 2; i < 10; i++) {
+                h[i] += c;
+                c = h[i] >>> 13;
+                h[i] &= 0x1fff;
+            }
+            h[0] += c * 5;
+            c = h[0] >>> 13;
+            h[0] &= 0x1fff;
+            h[1] += c;
+            c = h[1] >>> 13;
+            h[1] &= 0x1fff;
+            h[2] += c;
+            g[0] = h[0] + 5;
+            c = g[0] >>> 13;
+            g[0] &= 0x1fff;
+            for (let i = 1; i < 10; i++) {
+                g[i] = h[i] + c;
+                c = g[i] >>> 13;
+                g[i] &= 0x1fff;
+            }
+            g[9] -= 1 << 13;
+            let mask = (c ^ 1) - 1;
+            for (let i = 0; i < 10; i++)
+                g[i] &= mask;
+            mask = ~mask;
+            for (let i = 0; i < 10; i++)
+                h[i] = (h[i] & mask) | g[i];
+            h[0] = (h[0] | (h[1] << 13)) & 0xffff;
+            h[1] = ((h[1] >>> 3) | (h[2] << 10)) & 0xffff;
+            h[2] = ((h[2] >>> 6) | (h[3] << 7)) & 0xffff;
+            h[3] = ((h[3] >>> 9) | (h[4] << 4)) & 0xffff;
+            h[4] = ((h[4] >>> 12) | (h[5] << 1) | (h[6] << 14)) & 0xffff;
+            h[5] = ((h[6] >>> 2) | (h[7] << 11)) & 0xffff;
+            h[6] = ((h[7] >>> 5) | (h[8] << 8)) & 0xffff;
+            h[7] = ((h[8] >>> 8) | (h[9] << 5)) & 0xffff;
+            let f = h[0] + pad[0];
+            h[0] = f & 0xffff;
+            for (let i = 1; i < 8; i++) {
+                f = (((h[i] + pad[i]) | 0) + (f >>> 16)) | 0;
+                h[i] = f & 0xffff;
+            }
+        }
+        update(data) {
+            assert.exists(this);
+            const { buffer, blockLen } = this;
+            data = toBytes(data);
+            const len = data.length;
+            for (let pos = 0; pos < len;) {
+                const take = Math.min(blockLen - this.pos, len - pos);
+                // Fast path: we have at least one block in input
+                if (take === blockLen) {
+                    for (; blockLen <= len - pos; pos += blockLen)
+                        this.process(data, pos);
+                    continue;
+                }
+                buffer.set(data.subarray(pos, pos + take), this.pos);
+                this.pos += take;
+                pos += take;
+                if (this.pos === blockLen) {
+                    this.process(buffer, 0, false);
+                    this.pos = 0;
+                }
+            }
+            return this;
+        }
+        destroy() {
+            this.h.fill(0);
+            this.r.fill(0);
+            this.buffer.fill(0);
+            this.pad.fill(0);
+        }
+        digestInto(out) {
+            assert.exists(this);
+            assert.output(out, this);
+            this.finished = true;
+            const { buffer, h } = this;
+            let { pos } = this;
+            if (pos) {
+                buffer[pos++] = 1;
+                // buffer.subarray(pos).fill(0);
+                for (; pos < 16; pos++)
+                    buffer[pos] = 0;
+                this.process(buffer, 0, true);
+            }
+            this.finalize();
+            let opos = 0;
+            for (let i = 0; i < 8; i++) {
+                out[opos++] = h[i] >>> 0;
+                out[opos++] = h[i] >>> 8;
+            }
+            return out;
+        }
+        digest() {
+            const { buffer, outputLen } = this;
+            this.digestInto(buffer);
+            const res = buffer.slice(0, outputLen);
+            this.destroy();
+            return res;
+        }
+    }
+    function wrapConstructorWithKey(hashCons) {
+        const hashC = (msg, key) => hashCons(key).update(toBytes(msg)).digest();
+        const tmp = hashCons(new Uint8Array(32));
+        hashC.outputLen = tmp.outputLen;
+        hashC.blockLen = tmp.blockLen;
+        hashC.create = (key) => hashCons(key);
+        return hashC;
+    }
+    wrapConstructorWithKey((key) => new Poly1305(key));
+
+    // Basic utils for salsa-like ciphers
+    /*
+    RFC8439 requires multi-step cipher stream, where
+    authKey starts with counter: 0, actual msg with counter: 1.
+
+    For this, we need a way to re-use nonce / counter:
+
+        const counter = new Uint8Array(4);
+        chacha(..., counter, ...); // counter is now 1
+        chacha(..., counter, ...); // counter is now 2
+
+    This is complicated:
+
+    - Original papers don't allow mutating counters
+    - Counter overflow is undefined: https://mailarchive.ietf.org/arch/msg/cfrg/gsOnTJzcbgG6OqD8Sc0GO5aR_tU/
+    - 3rd-party library stablelib implementation uses an approach where you can provide
+      nonce and counter instead of just nonce - and it will re-use it
+    - We could have did something similar, but ChaCha has different counter position
+      (counter | nonce), which is not composable with XChaCha, because full counter
+      is (nonce16 | counter | nonce16). Stablelib doesn't support in-place counter for XChaCha.
+    - We could separate nonce & counter and provide separate API for counter re-use, but
+      there are different counter sizes depending on an algorithm.
+    - Salsa & ChaCha also differ in structures of key / sigma:
+
+        salsa:     c0 | k(4) | c1 | nonce(2) | ctr(2) | c2 | k(4) | c4
+        chacha:    c(4) | k(8) | ctr(1) | nonce(3)
+        chachaDJB: c(4) | k(8) | ctr(2) | nonce(2)
+    - Creating function such as `setSalsaState(key, nonce, sigma, data)` won't work,
+      because we can't re-use counter array
+    - 32-bit nonce is `2 ** 32 * 64` = 256GB with 32-bit counter
+    - JS does not allow UintArrays bigger than 4GB, so supporting 64-bit counters doesn't matter
+
+    Structure is as following:
+
+    key=16 -> sigma16, k=key|key
+    key=32 -> sigma32, k=key
+
+    nonces:
+    salsa20:      8   (8-byte counter)
+    chacha20djb:  8   (8-byte counter)
+    chacha20tls:  12  (4-byte counter)
+    xsalsa:       24  (16 -> hsalsa, 8 -> old nonce)
+    xchacha:      24  (16 -> hchacha, 8 -> old nonce)
+
+    https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-xchacha#appendix-A.2
+    Use the subkey and remaining 8 byte nonce with ChaCha20 as normal
+    (prefixed by 4 NUL bytes, since [RFC8439] specifies a 12-byte nonce).
+    */
+    const sigma16 = utf8ToBytes('expand 16-byte k');
+    const sigma32 = utf8ToBytes('expand 32-byte k');
+    const sigma16_32 = u32(sigma16);
+    const sigma32_32 = u32(sigma32);
+    // Is byte array aligned to 4 byte offset (u32)?
+    const isAligned32 = (b) => !(b.byteOffset % 4);
+    const salsaBasic = (opts) => {
+        const { core, rounds, counterRight, counterLen, allow128bitKeys, extendNonceFn, blockLen } = checkOpts({ rounds: 20, counterRight: false, counterLen: 8, allow128bitKeys: true, blockLen: 64 }, opts);
+        assert.number(counterLen);
+        assert.number(rounds);
+        assert.number(blockLen);
+        assert.bool(counterRight);
+        assert.bool(allow128bitKeys);
+        const blockLen32 = blockLen / 4;
+        if (blockLen % 4 !== 0)
+            throw new Error('Salsa/ChaCha: blockLen must be aligned to 4 bytes');
+        return (key, nonce, data, output, counter = 0) => {
+            assert.bytes(key);
+            assert.bytes(nonce);
+            assert.bytes(data);
+            if (!output)
+                output = new Uint8Array(data.length);
+            assert.bytes(output);
+            assert.number(counter);
+            // > new Uint32Array([2**32])
+            // Uint32Array(1) [ 0 ]
+            // > new Uint32Array([2**32-1])
+            // Uint32Array(1) [ 4294967295 ]
+            if (counter < 0 || counter >= 2 ** 32 - 1)
+                throw new Error('Salsa/ChaCha: counter overflow');
+            if (output.length < data.length) {
+                throw new Error(`Salsa/ChaCha: output (${output.length}) is shorter than data (${data.length})`);
+            }
+            const toClean = [];
+            let k, sigma;
+            // Handle 128 byte keys
+            if (key.length === 32) {
+                k = key;
+                sigma = sigma32_32;
+            }
+            else if (key.length === 16 && allow128bitKeys) {
+                k = new Uint8Array(32);
+                k.set(key);
+                k.set(key, 16);
+                sigma = sigma16_32;
+                toClean.push(k);
+            }
+            else
+                throw new Error(`Salsa/ChaCha: invalid 32-byte key, got length=${key.length}`);
+            // Handle extended nonce (HChaCha/HSalsa)
+            if (extendNonceFn) {
+                if (nonce.length <= 16)
+                    throw new Error(`Salsa/ChaCha: extended nonce must be bigger than 16 bytes`);
+                k = extendNonceFn(sigma, k, nonce.subarray(0, 16), new Uint8Array(32));
+                toClean.push(k);
+                nonce = nonce.subarray(16);
+            }
+            // Handle nonce counter
+            const nonceLen = 16 - counterLen;
+            if (nonce.length !== nonceLen)
+                throw new Error(`Salsa/ChaCha: nonce must be ${nonceLen} or 16 bytes`);
+            // Pad counter when nonce is 64 bit
+            if (nonceLen !== 12) {
+                const nc = new Uint8Array(12);
+                nc.set(nonce, counterRight ? 0 : 12 - nonce.length);
+                toClean.push((nonce = nc));
+            }
+            // Counter positions
+            const block = new Uint8Array(blockLen);
+            // Cast to Uint32Array for speed
+            const b32 = u32(block);
+            const k32 = u32(k);
+            const n32 = u32(nonce);
+            // Make sure that buffers aligned to 4 bytes
+            const d32 = isAligned32(data) && u32(data);
+            const o32 = isAligned32(output) && u32(output);
+            toClean.push(b32);
+            const len = data.length;
+            for (let pos = 0, ctr = counter; pos < len; ctr++) {
+                core(sigma, k32, n32, b32, ctr, rounds);
+                if (ctr >= 2 ** 32 - 1)
+                    throw new Error('Salsa/ChaCha: counter overflow');
+                const take = Math.min(blockLen, len - pos);
+                // full block && aligned to 4 bytes
+                if (take === blockLen && o32 && d32) {
+                    const pos32 = pos / 4;
+                    if (pos % 4 !== 0)
+                        throw new Error('Salsa/ChaCha: invalid block position');
+                    for (let j = 0; j < blockLen32; j++)
+                        o32[pos32 + j] = d32[pos32 + j] ^ b32[j];
+                    pos += blockLen;
+                    continue;
+                }
+                for (let j = 0; j < take; j++)
+                    output[pos + j] = data[pos + j] ^ block[j];
+                pos += take;
+            }
+            for (let i = 0; i < toClean.length; i++)
+                toClean[i].fill(0);
+            return output;
+        };
+    };
+
+    // ChaCha20 stream cipher was released in 2008. ChaCha aims to increase
+    // the diffusion per round, but had slightly less cryptanalysis.
+    // https://cr.yp.to/chacha.html, http://cr.yp.to/chacha/chacha-20080128.pdf
+    // Left rotate for uint32
+    const rotl = (a, b) => (a << b) | (a >>> (32 - b));
+    /**
+     * ChaCha core function.
+     */
+    // prettier-ignore
+    function chachaCore(c, k, n, out, cnt, rounds = 20) {
+        let y00 = c[0], y01 = c[1], y02 = c[2], y03 = c[3]; // "expa"   "nd 3"  "2-by"  "te k"
+        let y04 = k[0], y05 = k[1], y06 = k[2], y07 = k[3]; // Key      Key     Key     Key
+        let y08 = k[4], y09 = k[5], y10 = k[6], y11 = k[7]; // Key      Key     Key     Key
+        let y12 = cnt, y13 = n[0], y14 = n[1], y15 = n[2]; // Counter  Counter	Nonce   Nonce
+        // Save state to temporary variables
+        let x00 = y00, x01 = y01, x02 = y02, x03 = y03, x04 = y04, x05 = y05, x06 = y06, x07 = y07, x08 = y08, x09 = y09, x10 = y10, x11 = y11, x12 = y12, x13 = y13, x14 = y14, x15 = y15;
+        // Main loop
+        for (let i = 0; i < rounds; i += 2) {
+            x00 = (x00 + x04) | 0;
+            x12 = rotl(x12 ^ x00, 16);
+            x08 = (x08 + x12) | 0;
+            x04 = rotl(x04 ^ x08, 12);
+            x00 = (x00 + x04) | 0;
+            x12 = rotl(x12 ^ x00, 8);
+            x08 = (x08 + x12) | 0;
+            x04 = rotl(x04 ^ x08, 7);
+            x01 = (x01 + x05) | 0;
+            x13 = rotl(x13 ^ x01, 16);
+            x09 = (x09 + x13) | 0;
+            x05 = rotl(x05 ^ x09, 12);
+            x01 = (x01 + x05) | 0;
+            x13 = rotl(x13 ^ x01, 8);
+            x09 = (x09 + x13) | 0;
+            x05 = rotl(x05 ^ x09, 7);
+            x02 = (x02 + x06) | 0;
+            x14 = rotl(x14 ^ x02, 16);
+            x10 = (x10 + x14) | 0;
+            x06 = rotl(x06 ^ x10, 12);
+            x02 = (x02 + x06) | 0;
+            x14 = rotl(x14 ^ x02, 8);
+            x10 = (x10 + x14) | 0;
+            x06 = rotl(x06 ^ x10, 7);
+            x03 = (x03 + x07) | 0;
+            x15 = rotl(x15 ^ x03, 16);
+            x11 = (x11 + x15) | 0;
+            x07 = rotl(x07 ^ x11, 12);
+            x03 = (x03 + x07) | 0;
+            x15 = rotl(x15 ^ x03, 8);
+            x11 = (x11 + x15) | 0;
+            x07 = rotl(x07 ^ x11, 7);
+            x00 = (x00 + x05) | 0;
+            x15 = rotl(x15 ^ x00, 16);
+            x10 = (x10 + x15) | 0;
+            x05 = rotl(x05 ^ x10, 12);
+            x00 = (x00 + x05) | 0;
+            x15 = rotl(x15 ^ x00, 8);
+            x10 = (x10 + x15) | 0;
+            x05 = rotl(x05 ^ x10, 7);
+            x01 = (x01 + x06) | 0;
+            x12 = rotl(x12 ^ x01, 16);
+            x11 = (x11 + x12) | 0;
+            x06 = rotl(x06 ^ x11, 12);
+            x01 = (x01 + x06) | 0;
+            x12 = rotl(x12 ^ x01, 8);
+            x11 = (x11 + x12) | 0;
+            x06 = rotl(x06 ^ x11, 7);
+            x02 = (x02 + x07) | 0;
+            x13 = rotl(x13 ^ x02, 16);
+            x08 = (x08 + x13) | 0;
+            x07 = rotl(x07 ^ x08, 12);
+            x02 = (x02 + x07) | 0;
+            x13 = rotl(x13 ^ x02, 8);
+            x08 = (x08 + x13) | 0;
+            x07 = rotl(x07 ^ x08, 7);
+            x03 = (x03 + x04) | 0;
+            x14 = rotl(x14 ^ x03, 16);
+            x09 = (x09 + x14) | 0;
+            x04 = rotl(x04 ^ x09, 12);
+            x03 = (x03 + x04) | 0;
+            x14 = rotl(x14 ^ x03, 8);
+            x09 = (x09 + x14) | 0;
+            x04 = rotl(x04 ^ x09, 7);
+        }
+        // Write output
+        let oi = 0;
+        out[oi++] = (y00 + x00) | 0;
+        out[oi++] = (y01 + x01) | 0;
+        out[oi++] = (y02 + x02) | 0;
+        out[oi++] = (y03 + x03) | 0;
+        out[oi++] = (y04 + x04) | 0;
+        out[oi++] = (y05 + x05) | 0;
+        out[oi++] = (y06 + x06) | 0;
+        out[oi++] = (y07 + x07) | 0;
+        out[oi++] = (y08 + x08) | 0;
+        out[oi++] = (y09 + x09) | 0;
+        out[oi++] = (y10 + x10) | 0;
+        out[oi++] = (y11 + x11) | 0;
+        out[oi++] = (y12 + x12) | 0;
+        out[oi++] = (y13 + x13) | 0;
+        out[oi++] = (y14 + x14) | 0;
+        out[oi++] = (y15 + x15) | 0;
+    }
+    /**
+     * ChaCha stream cipher. Conforms to RFC 8439 (IETF, TLS). 12-byte nonce, 4-byte counter.
+     * With 12-byte nonce, it's not safe to use fill it with random (CSPRNG), due to collision chance.
+     */
+    const chacha20 = /* @__PURE__ */ salsaBasic({
+        core: chachaCore,
+        counterRight: false,
+        counterLen: 4,
+        allow128bitKeys: false,
+    });
+
+    // HKDF (RFC 5869)
+    // https://soatok.blog/2021/11/17/understanding-hkdf/
+    /**
+     * HKDF-Extract(IKM, salt) -> PRK
+     * Arguments position differs from spec (IKM is first one, since it is not optional)
+     * @param hash
+     * @param ikm
+     * @param salt
+     * @returns
+     */
+    function extract(hash, ikm, salt) {
+        assert$1.hash(hash);
+        // NOTE: some libraries treat zero-length array as 'not provided';
+        // we don't, since we have undefined as 'not provided'
+        // https://github.com/RustCrypto/KDFs/issues/15
+        if (salt === undefined)
+            salt = new Uint8Array(hash.outputLen); // if not provided, it is set to a string of HashLen zeros
+        return hmac(hash, toBytes$1(salt), toBytes$1(ikm));
+    }
+    // HKDF-Expand(PRK, info, L) -> OKM
+    const HKDF_COUNTER = new Uint8Array([0]);
+    const EMPTY_BUFFER = new Uint8Array();
+    /**
+     * HKDF-expand from the spec.
+     * @param prk - a pseudorandom key of at least HashLen octets (usually, the output from the extract step)
+     * @param info - optional context and application specific information (can be a zero-length string)
+     * @param length - length of output keying material in octets
+     */
+    function expand(hash, prk, info, length = 32) {
+        assert$1.hash(hash);
+        assert$1.number(length);
+        if (length > 255 * hash.outputLen)
+            throw new Error('Length should be <= 255*HashLen');
+        const blocks = Math.ceil(length / hash.outputLen);
+        if (info === undefined)
+            info = EMPTY_BUFFER;
+        // first L(ength) octets of T
+        const okm = new Uint8Array(blocks * hash.outputLen);
+        // Re-use HMAC instance between blocks
+        const HMAC = hmac.create(hash, prk);
+        const HMACTmp = HMAC._cloneInto();
+        const T = new Uint8Array(HMAC.outputLen);
+        for (let counter = 0; counter < blocks; counter++) {
+            HKDF_COUNTER[0] = counter + 1;
+            // T(0) = empty string (zero length)
+            // T(N) = HMAC-Hash(PRK, T(N-1) | info | N)
+            HMACTmp.update(counter === 0 ? EMPTY_BUFFER : T)
+                .update(info)
+                .update(HKDF_COUNTER)
+                .digestInto(T);
+            okm.set(T, hash.outputLen * counter);
+            HMAC._cloneInto(HMACTmp);
+        }
+        HMAC.destroy();
+        HMACTmp.destroy();
+        T.fill(0);
+        HKDF_COUNTER.fill(0);
+        return okm.slice(0, length);
+    }
+    /**
+     * HKDF (RFC 5869): extract + expand in one step.
+     * @param hash - hash function that would be used (e.g. sha256)
+     * @param ikm - input keying material, the initial key
+     * @param salt - optional salt value (a non-secret random value)
+     * @param info - optional context and application specific information
+     * @param length - length of output keying material in octets
+     */
+    const hkdf = (hash, ikm, salt, info, length) => expand(hash, extract(hash, ikm, salt), info, length);
+
+    var __defProp = Object.defineProperty;
+    var __export = (target, all) => {
+      for (var name in all)
+        __defProp(target, name, { get: all[name], enumerable: true });
+    };
+    function getPublicKey(privateKey) {
+      return bytesToHex$1(schnorr.getPublicKey(privateKey));
+    }
+
+    // utils.ts
+    var utils_exports = {};
+    __export(utils_exports, {
+      MessageNode: () => MessageNode,
+      MessageQueue: () => MessageQueue,
+      insertEventIntoAscendingList: () => insertEventIntoAscendingList,
+      insertEventIntoDescendingList: () => insertEventIntoDescendingList,
+      normalizeURL: () => normalizeURL,
+      utf8Decoder: () => utf8Decoder,
+      utf8Encoder: () => utf8Encoder
+    });
+    var utf8Decoder = new TextDecoder("utf-8");
+    var utf8Encoder = new TextEncoder();
+    function normalizeURL(url) {
+      let p = new URL(url);
+      p.pathname = p.pathname.replace(/\/+/g, "/");
+      if (p.pathname.endsWith("/"))
+        p.pathname = p.pathname.slice(0, -1);
+      if (p.port === "80" && p.protocol === "ws:" || p.port === "443" && p.protocol === "wss:")
+        p.port = "";
+      p.searchParams.sort();
+      p.hash = "";
+      return p.toString();
+    }
+    function insertEventIntoDescendingList(sortedArray, event) {
+      let start = 0;
+      let end = sortedArray.length - 1;
+      let midPoint;
+      let position = start;
+      if (end < 0) {
+        position = 0;
+      } else if (event.created_at < sortedArray[end].created_at) {
+        position = end + 1;
+      } else if (event.created_at >= sortedArray[start].created_at) {
+        position = start;
+      } else
+        while (true) {
+          if (end <= start + 1) {
+            position = end;
+            break;
+          }
+          midPoint = Math.floor(start + (end - start) / 2);
+          if (sortedArray[midPoint].created_at > event.created_at) {
+            start = midPoint;
+          } else if (sortedArray[midPoint].created_at < event.created_at) {
+            end = midPoint;
+          } else {
+            position = midPoint;
+            break;
+          }
+        }
+      if (sortedArray[position]?.id !== event.id) {
+        return [...sortedArray.slice(0, position), event, ...sortedArray.slice(position)];
+      }
+      return sortedArray;
+    }
+    function insertEventIntoAscendingList(sortedArray, event) {
+      let start = 0;
+      let end = sortedArray.length - 1;
+      let midPoint;
+      let position = start;
+      if (end < 0) {
+        position = 0;
+      } else if (event.created_at > sortedArray[end].created_at) {
+        position = end + 1;
+      } else if (event.created_at <= sortedArray[start].created_at) {
+        position = start;
+      } else
+        while (true) {
+          if (end <= start + 1) {
+            position = end;
+            break;
+          }
+          midPoint = Math.floor(start + (end - start) / 2);
+          if (sortedArray[midPoint].created_at < event.created_at) {
+            start = midPoint;
+          } else if (sortedArray[midPoint].created_at > event.created_at) {
+            end = midPoint;
+          } else {
+            position = midPoint;
+            break;
+          }
+        }
+      if (sortedArray[position]?.id !== event.id) {
+        return [...sortedArray.slice(0, position), event, ...sortedArray.slice(position)];
+      }
+      return sortedArray;
+    }
+    var MessageNode = class {
+      _value;
+      _next;
+      get value() {
+        return this._value;
+      }
+      set value(message) {
+        this._value = message;
+      }
+      get next() {
+        return this._next;
+      }
+      set next(node) {
+        this._next = node;
+      }
+      constructor(message) {
+        this._value = message;
+        this._next = null;
+      }
+    };
+    var MessageQueue = class {
+      _first;
+      _last;
+      get first() {
+        return this._first;
+      }
+      set first(messageNode) {
+        this._first = messageNode;
+      }
+      get last() {
+        return this._last;
+      }
+      set last(messageNode) {
+        this._last = messageNode;
+      }
+      _size;
+      get size() {
+        return this._size;
+      }
+      set size(v) {
+        this._size = v;
+      }
+      constructor() {
+        this._first = null;
+        this._last = null;
+        this._size = 0;
+      }
+      enqueue(message) {
+        const newNode = new MessageNode(message);
+        if (this._size === 0 || !this._last) {
+          this._first = newNode;
+          this._last = newNode;
+        } else {
+          this._last.next = newNode;
+          this._last = newNode;
+        }
+        this._size++;
+        return true;
+      }
+      dequeue() {
+        if (this._size === 0 || !this._first)
+          return null;
+        let prev = this._first;
+        this._first = prev.next;
+        prev.next = null;
+        this._size--;
+        return prev.value;
+      }
+    };
+
+    // event.ts
+    var verifiedSymbol = Symbol("verified");
+    function getBlankEvent(kind = 255 /* Blank */) {
+      return {
+        kind,
+        content: "",
+        tags: [],
+        created_at: 0
+      };
+    }
+    function finishEvent(t, privateKey) {
+      const event = t;
+      event.pubkey = getPublicKey(privateKey);
+      event.id = getEventHash(event);
+      event.sig = getSignature(event, privateKey);
+      event[verifiedSymbol] = true;
+      return event;
+    }
+    function serializeEvent(evt) {
+      if (!validateEvent(evt))
+        throw new Error("can't serialize event with wrong or missing properties");
+      return JSON.stringify([0, evt.pubkey, evt.created_at, evt.kind, evt.tags, evt.content]);
+    }
+    function getEventHash(event) {
+      let eventHash = sha256(utf8Encoder.encode(serializeEvent(event)));
+      return bytesToHex$1(eventHash);
+    }
+    var isRecord = (obj) => obj instanceof Object;
+    function validateEvent(event) {
+      if (!isRecord(event))
+        return false;
+      if (typeof event.kind !== "number")
+        return false;
+      if (typeof event.content !== "string")
+        return false;
+      if (typeof event.created_at !== "number")
+        return false;
+      if (typeof event.pubkey !== "string")
+        return false;
+      if (!event.pubkey.match(/^[a-f0-9]{64}$/))
+        return false;
+      if (!Array.isArray(event.tags))
+        return false;
+      for (let i = 0; i < event.tags.length; i++) {
+        let tag = event.tags[i];
+        if (!Array.isArray(tag))
+          return false;
+        for (let j = 0; j < tag.length; j++) {
+          if (typeof tag[j] === "object")
+            return false;
+        }
+      }
+      return true;
+    }
+    function verifySignature(event) {
+      if (typeof event[verifiedSymbol] === "boolean")
+        return event[verifiedSymbol];
+      const hash = getEventHash(event);
+      if (hash !== event.id) {
+        return event[verifiedSymbol] = false;
+      }
+      try {
+        return event[verifiedSymbol] = schnorr.verify(event.sig, hash, event.pubkey);
+      } catch (err) {
+        return event[verifiedSymbol] = false;
+      }
+    }
+    function getSignature(event, key) {
+      return bytesToHex$1(schnorr.sign(getEventHash(event), key));
+    }
+
+    // fakejson.ts
+    var fakejson_exports = {};
+    __export(fakejson_exports, {
+      getHex64: () => getHex64,
+      getInt: () => getInt,
+      getSubscriptionId: () => getSubscriptionId,
+      matchEventId: () => matchEventId,
+      matchEventKind: () => matchEventKind,
+      matchEventPubkey: () => matchEventPubkey
+    });
+    function getHex64(json, field) {
+      let len = field.length + 3;
+      let idx = json.indexOf(`"${field}":`) + len;
+      let s = json.slice(idx).indexOf(`"`) + idx + 1;
+      return json.slice(s, s + 64);
+    }
+    function getInt(json, field) {
+      let len = field.length;
+      let idx = json.indexOf(`"${field}":`) + len + 3;
+      let sliced = json.slice(idx);
+      let end = Math.min(sliced.indexOf(","), sliced.indexOf("}"));
+      return parseInt(sliced.slice(0, end), 10);
+    }
+    function getSubscriptionId(json) {
+      let idx = json.slice(0, 22).indexOf(`"EVENT"`);
+      if (idx === -1)
+        return null;
+      let pstart = json.slice(idx + 7 + 1).indexOf(`"`);
+      if (pstart === -1)
+        return null;
+      let start = idx + 7 + 1 + pstart;
+      let pend = json.slice(start + 1, 80).indexOf(`"`);
+      if (pend === -1)
+        return null;
+      let end = start + 1 + pend;
+      return json.slice(start + 1, end);
+    }
+    function matchEventId(json, id) {
+      return id === getHex64(json, "id");
+    }
+    function matchEventPubkey(json, pubkey) {
+      return pubkey === getHex64(json, "pubkey");
+    }
+    function matchEventKind(json, kind) {
+      return kind === getInt(json, "kind");
+    }
+
+    // nip19.ts
+    var nip19_exports = {};
+    __export(nip19_exports, {
+      BECH32_REGEX: () => BECH32_REGEX,
+      decode: () => decode,
+      naddrEncode: () => naddrEncode,
+      neventEncode: () => neventEncode,
+      noteEncode: () => noteEncode,
+      nprofileEncode: () => nprofileEncode,
+      npubEncode: () => npubEncode,
+      nrelayEncode: () => nrelayEncode,
+      nsecEncode: () => nsecEncode
+    });
+    var Bech32MaxSize = 5e3;
+    var BECH32_REGEX = /[\x21-\x7E]{1,83}1[023456789acdefghjklmnpqrstuvwxyz]{6,}/;
+    function integerToUint8Array(number) {
+      const uint8Array = new Uint8Array(4);
+      uint8Array[0] = number >> 24 & 255;
+      uint8Array[1] = number >> 16 & 255;
+      uint8Array[2] = number >> 8 & 255;
+      uint8Array[3] = number & 255;
+      return uint8Array;
+    }
+    function decode(nip19) {
+      let { prefix, words } = bech32.decode(nip19, Bech32MaxSize);
+      let data = new Uint8Array(bech32.fromWords(words));
+      switch (prefix) {
+        case "nprofile": {
+          let tlv = parseTLV(data);
+          if (!tlv[0]?.[0])
+            throw new Error("missing TLV 0 for nprofile");
+          if (tlv[0][0].length !== 32)
+            throw new Error("TLV 0 should be 32 bytes");
+          return {
+            type: "nprofile",
+            data: {
+              pubkey: bytesToHex$1(tlv[0][0]),
+              relays: tlv[1] ? tlv[1].map((d) => utf8Decoder.decode(d)) : []
+            }
+          };
+        }
+        case "nevent": {
+          let tlv = parseTLV(data);
+          if (!tlv[0]?.[0])
+            throw new Error("missing TLV 0 for nevent");
+          if (tlv[0][0].length !== 32)
+            throw new Error("TLV 0 should be 32 bytes");
+          if (tlv[2] && tlv[2][0].length !== 32)
+            throw new Error("TLV 2 should be 32 bytes");
+          if (tlv[3] && tlv[3][0].length !== 4)
+            throw new Error("TLV 3 should be 4 bytes");
+          return {
+            type: "nevent",
+            data: {
+              id: bytesToHex$1(tlv[0][0]),
+              relays: tlv[1] ? tlv[1].map((d) => utf8Decoder.decode(d)) : [],
+              author: tlv[2]?.[0] ? bytesToHex$1(tlv[2][0]) : void 0,
+              kind: tlv[3]?.[0] ? parseInt(bytesToHex$1(tlv[3][0]), 16) : void 0
+            }
+          };
+        }
+        case "naddr": {
+          let tlv = parseTLV(data);
+          if (!tlv[0]?.[0])
+            throw new Error("missing TLV 0 for naddr");
+          if (!tlv[2]?.[0])
+            throw new Error("missing TLV 2 for naddr");
+          if (tlv[2][0].length !== 32)
+            throw new Error("TLV 2 should be 32 bytes");
+          if (!tlv[3]?.[0])
+            throw new Error("missing TLV 3 for naddr");
+          if (tlv[3][0].length !== 4)
+            throw new Error("TLV 3 should be 4 bytes");
+          return {
+            type: "naddr",
+            data: {
+              identifier: utf8Decoder.decode(tlv[0][0]),
+              pubkey: bytesToHex$1(tlv[2][0]),
+              kind: parseInt(bytesToHex$1(tlv[3][0]), 16),
+              relays: tlv[1] ? tlv[1].map((d) => utf8Decoder.decode(d)) : []
+            }
+          };
+        }
+        case "nrelay": {
+          let tlv = parseTLV(data);
+          if (!tlv[0]?.[0])
+            throw new Error("missing TLV 0 for nrelay");
+          return {
+            type: "nrelay",
+            data: utf8Decoder.decode(tlv[0][0])
+          };
+        }
+        case "nsec":
+        case "npub":
+        case "note":
+          return { type: prefix, data: bytesToHex$1(data) };
+        default:
+          throw new Error(`unknown prefix ${prefix}`);
+      }
+    }
+    function parseTLV(data) {
+      let result = {};
+      let rest = data;
+      while (rest.length > 0) {
+        let t = rest[0];
+        let l = rest[1];
+        if (!l)
+          throw new Error(`malformed TLV ${t}`);
+        let v = rest.slice(2, 2 + l);
+        rest = rest.slice(2 + l);
+        if (v.length < l)
+          throw new Error(`not enough data to read on TLV ${t}`);
+        result[t] = result[t] || [];
+        result[t].push(v);
+      }
+      return result;
+    }
+    function nsecEncode(hex) {
+      return encodeBytes("nsec", hex);
+    }
+    function npubEncode(hex) {
+      return encodeBytes("npub", hex);
+    }
+    function noteEncode(hex) {
+      return encodeBytes("note", hex);
+    }
+    function encodeBech32(prefix, data) {
+      let words = bech32.toWords(data);
+      return bech32.encode(prefix, words, Bech32MaxSize);
+    }
+    function encodeBytes(prefix, hex) {
+      let data = hexToBytes$1(hex);
+      return encodeBech32(prefix, data);
+    }
+    function nprofileEncode(profile) {
+      let data = encodeTLV({
+        0: [hexToBytes$1(profile.pubkey)],
+        1: (profile.relays || []).map((url) => utf8Encoder.encode(url))
+      });
+      return encodeBech32("nprofile", data);
+    }
+    function neventEncode(event) {
+      let kindArray;
+      if (event.kind != void 0) {
+        kindArray = integerToUint8Array(event.kind);
+      }
+      let data = encodeTLV({
+        0: [hexToBytes$1(event.id)],
+        1: (event.relays || []).map((url) => utf8Encoder.encode(url)),
+        2: event.author ? [hexToBytes$1(event.author)] : [],
+        3: kindArray ? [new Uint8Array(kindArray)] : []
+      });
+      return encodeBech32("nevent", data);
+    }
+    function naddrEncode(addr) {
+      let kind = new ArrayBuffer(4);
+      new DataView(kind).setUint32(0, addr.kind, false);
+      let data = encodeTLV({
+        0: [utf8Encoder.encode(addr.identifier)],
+        1: (addr.relays || []).map((url) => utf8Encoder.encode(url)),
+        2: [hexToBytes$1(addr.pubkey)],
+        3: [new Uint8Array(kind)]
+      });
+      return encodeBech32("naddr", data);
+    }
+    function nrelayEncode(url) {
+      let data = encodeTLV({
+        0: [utf8Encoder.encode(url)]
+      });
+      return encodeBech32("nrelay", data);
+    }
+    function encodeTLV(tlv) {
+      let entries = [];
+      Object.entries(tlv).forEach(([t, vs]) => {
+        vs.forEach((v) => {
+          let entry = new Uint8Array(v.length + 2);
+          entry.set([parseInt(t)], 0);
+          entry.set([v.length], 1);
+          entry.set(v, 2);
+          entries.push(entry);
+        });
+      });
+      return concatBytes$1(...entries);
+    }
+
+    // nip04.ts
+    var nip04_exports = {};
+    __export(nip04_exports, {
+      decrypt: () => decrypt,
+      encrypt: () => encrypt
+    });
+    if (typeof crypto !== "undefined" && !crypto.subtle && crypto.webcrypto) {
+      crypto.subtle = crypto.webcrypto.subtle;
+    }
+    async function encrypt(privkey, pubkey, text) {
+      const key = secp256k1.getSharedSecret(privkey, "02" + pubkey);
+      const normalizedKey = getNormalizedX(key);
+      let iv = Uint8Array.from(randomBytes(16));
+      let plaintext = utf8Encoder.encode(text);
+      let cryptoKey = await crypto.subtle.importKey("raw", normalizedKey, { name: "AES-CBC" }, false, ["encrypt"]);
+      let ciphertext = await crypto.subtle.encrypt({ name: "AES-CBC", iv }, cryptoKey, plaintext);
+      let ctb64 = base64.encode(new Uint8Array(ciphertext));
+      let ivb64 = base64.encode(new Uint8Array(iv.buffer));
+      return `${ctb64}?iv=${ivb64}`;
+    }
+    async function decrypt(privkey, pubkey, data) {
+      let [ctb64, ivb64] = data.split("?iv=");
+      let key = secp256k1.getSharedSecret(privkey, "02" + pubkey);
+      let normalizedKey = getNormalizedX(key);
+      let cryptoKey = await crypto.subtle.importKey("raw", normalizedKey, { name: "AES-CBC" }, false, ["decrypt"]);
+      let ciphertext = base64.decode(ctb64);
+      let iv = base64.decode(ivb64);
+      let plaintext = await crypto.subtle.decrypt({ name: "AES-CBC", iv }, cryptoKey, ciphertext);
+      let text = utf8Decoder.decode(plaintext);
+      return text;
+    }
+    function getNormalizedX(key) {
+      return key.slice(1, 33);
+    }
+
+    // nip05.ts
+    var nip05_exports = {};
+    __export(nip05_exports, {
+      NIP05_REGEX: () => NIP05_REGEX,
+      queryProfile: () => queryProfile,
+      searchDomain: () => searchDomain,
+      useFetchImplementation: () => useFetchImplementation
+    });
+    var NIP05_REGEX = /^(?:([\w.+-]+)@)?([\w.-]+)$/;
+    var _fetch;
+    try {
+      _fetch = fetch;
+    } catch {
+    }
+    function useFetchImplementation(fetchImplementation) {
+      _fetch = fetchImplementation;
+    }
+    async function searchDomain(domain, query = "") {
+      try {
+        let res = await (await _fetch(`https://${domain}/.well-known/nostr.json?name=${query}`)).json();
+        return res.names;
+      } catch (_) {
+        return {};
+      }
+    }
+    async function queryProfile(fullname) {
+      const match = fullname.match(NIP05_REGEX);
+      if (!match)
+        return null;
+      const [_, name = "_", domain] = match;
+      try {
+        const res = await _fetch(`https://${domain}/.well-known/nostr.json?name=${name}`);
+        const { names, relays } = parseNIP05Result(await res.json());
+        const pubkey = names[name];
+        return pubkey ? { pubkey, relays: relays?.[pubkey] } : null;
+      } catch (_e) {
+        return null;
+      }
+    }
+    function parseNIP05Result(json) {
+      const result = {
+        names: {}
+      };
+      for (const [name, pubkey] of Object.entries(json.names)) {
+        if (typeof name === "string" && typeof pubkey === "string") {
+          result.names[name] = pubkey;
+        }
+      }
+      if (json.relays) {
+        result.relays = {};
+        for (const [pubkey, relays] of Object.entries(json.relays)) {
+          if (typeof pubkey === "string" && Array.isArray(relays)) {
+            result.relays[pubkey] = relays.filter((relay) => typeof relay === "string");
+          }
+        }
+      }
+      return result;
+    }
+
+    // nip06.ts
+    var nip06_exports = {};
+    __export(nip06_exports, {
+      generateSeedWords: () => generateSeedWords,
+      privateKeyFromSeedWords: () => privateKeyFromSeedWords,
+      validateWords: () => validateWords
+    });
+    function privateKeyFromSeedWords(mnemonic, passphrase) {
+      let root = HDKey.fromMasterSeed(mnemonicToSeedSync(mnemonic, passphrase));
+      let privateKey = root.derive(`m/44'/1237'/0'/0/0`).privateKey;
+      if (!privateKey)
+        throw new Error("could not derive private key");
+      return bytesToHex$1(privateKey);
+    }
+    function generateSeedWords() {
+      return generateMnemonic(wordlist);
+    }
+    function validateWords(words) {
+      return validateMnemonic(words, wordlist);
+    }
+
+    // nip10.ts
+    var nip10_exports = {};
+    __export(nip10_exports, {
+      parse: () => parse
+    });
+    function parse(event) {
+      const result = {
+        reply: void 0,
+        root: void 0,
+        mentions: [],
+        profiles: []
+      };
+      const eTags = [];
+      for (const tag of event.tags) {
+        if (tag[0] === "e" && tag[1]) {
+          eTags.push(tag);
+        }
+        if (tag[0] === "p" && tag[1]) {
+          result.profiles.push({
+            pubkey: tag[1],
+            relays: tag[2] ? [tag[2]] : []
+          });
+        }
+      }
+      for (let eTagIndex = 0; eTagIndex < eTags.length; eTagIndex++) {
+        const eTag = eTags[eTagIndex];
+        const [_, eTagEventId, eTagRelayUrl, eTagMarker] = eTag;
+        const eventPointer = {
+          id: eTagEventId,
+          relays: eTagRelayUrl ? [eTagRelayUrl] : []
+        };
+        const isFirstETag = eTagIndex === 0;
+        const isLastETag = eTagIndex === eTags.length - 1;
+        if (eTagMarker === "root") {
+          result.root = eventPointer;
+          continue;
+        }
+        if (eTagMarker === "reply") {
+          result.reply = eventPointer;
+          continue;
+        }
+        if (eTagMarker === "mention") {
+          result.mentions.push(eventPointer);
+          continue;
+        }
+        if (isFirstETag) {
+          result.root = eventPointer;
+          continue;
+        }
+        if (isLastETag) {
+          result.reply = eventPointer;
+          continue;
+        }
+        result.mentions.push(eventPointer);
+      }
+      return result;
+    }
+
+    // nip13.ts
+    var nip13_exports = {};
+    __export(nip13_exports, {
+      getPow: () => getPow,
+      minePow: () => minePow
+    });
+    function getPow(hex) {
+      let count = 0;
+      for (let i = 0; i < hex.length; i++) {
+        const nibble = parseInt(hex[i], 16);
+        if (nibble === 0) {
+          count += 4;
+        } else {
+          count += Math.clz32(nibble) - 28;
+          break;
+        }
+      }
+      return count;
+    }
+    function minePow(unsigned, difficulty) {
+      let count = 0;
+      const event = unsigned;
+      const tag = ["nonce", count.toString(), difficulty.toString()];
+      event.tags.push(tag);
+      while (true) {
+        const now = Math.floor(new Date().getTime() / 1e3);
+        if (now !== event.created_at) {
+          count = 0;
+          event.created_at = now;
+        }
+        tag[1] = (++count).toString();
+        event.id = getEventHash(event);
+        if (getPow(event.id) >= difficulty) {
+          break;
+        }
+      }
+      return event;
+    }
+
+    // nip18.ts
+    var nip18_exports = {};
+    __export(nip18_exports, {
+      finishRepostEvent: () => finishRepostEvent,
+      getRepostedEvent: () => getRepostedEvent,
+      getRepostedEventPointer: () => getRepostedEventPointer
+    });
+    function finishRepostEvent(t, reposted, relayUrl, privateKey) {
+      return finishEvent(
+        {
+          kind: 6 /* Repost */,
+          tags: [...t.tags ?? [], ["e", reposted.id, relayUrl], ["p", reposted.pubkey]],
+          content: t.content === "" ? "" : JSON.stringify(reposted),
+          created_at: t.created_at
+        },
+        privateKey
+      );
+    }
+    function getRepostedEventPointer(event) {
+      if (event.kind !== 6 /* Repost */) {
+        return void 0;
+      }
+      let lastETag;
+      let lastPTag;
+      for (let i = event.tags.length - 1; i >= 0 && (lastETag === void 0 || lastPTag === void 0); i--) {
+        const tag = event.tags[i];
+        if (tag.length >= 2) {
+          if (tag[0] === "e" && lastETag === void 0) {
+            lastETag = tag;
+          } else if (tag[0] === "p" && lastPTag === void 0) {
+            lastPTag = tag;
+          }
+        }
+      }
+      if (lastETag === void 0) {
+        return void 0;
+      }
+      return {
+        id: lastETag[1],
+        relays: [lastETag[2], lastPTag?.[2]].filter((x) => typeof x === "string"),
+        author: lastPTag?.[1]
+      };
+    }
+    function getRepostedEvent(event, { skipVerification } = {}) {
+      const pointer = getRepostedEventPointer(event);
+      if (pointer === void 0 || event.content === "") {
+        return void 0;
+      }
+      let repostedEvent;
+      try {
+        repostedEvent = JSON.parse(event.content);
+      } catch (error) {
+        return void 0;
+      }
+      if (repostedEvent.id !== pointer.id) {
+        return void 0;
+      }
+      if (!skipVerification && !verifySignature(repostedEvent)) {
+        return void 0;
+      }
+      return repostedEvent;
+    }
+
+    // nip21.ts
+    var nip21_exports = {};
+    __export(nip21_exports, {
+      NOSTR_URI_REGEX: () => NOSTR_URI_REGEX,
+      parse: () => parse2,
+      test: () => test
+    });
+    var NOSTR_URI_REGEX = new RegExp(`nostr:(${BECH32_REGEX.source})`);
+    function test(value) {
+      return typeof value === "string" && new RegExp(`^${NOSTR_URI_REGEX.source}$`).test(value);
+    }
+    function parse2(uri) {
+      const match = uri.match(new RegExp(`^${NOSTR_URI_REGEX.source}$`));
+      if (!match)
+        throw new Error(`Invalid Nostr URI: ${uri}`);
+      return {
+        uri: match[0],
+        value: match[1],
+        decoded: decode(match[1])
+      };
+    }
+
+    // nip25.ts
+    var nip25_exports = {};
+    __export(nip25_exports, {
+      finishReactionEvent: () => finishReactionEvent,
+      getReactedEventPointer: () => getReactedEventPointer
+    });
+    function finishReactionEvent(t, reacted, privateKey) {
+      const inheritedTags = reacted.tags.filter((tag) => tag.length >= 2 && (tag[0] === "e" || tag[0] === "p"));
+      return finishEvent(
+        {
+          ...t,
+          kind: 7 /* Reaction */,
+          tags: [...t.tags ?? [], ...inheritedTags, ["e", reacted.id], ["p", reacted.pubkey]],
+          content: t.content ?? "+"
+        },
+        privateKey
+      );
+    }
+    function getReactedEventPointer(event) {
+      if (event.kind !== 7 /* Reaction */) {
+        return void 0;
+      }
+      let lastETag;
+      let lastPTag;
+      for (let i = event.tags.length - 1; i >= 0 && (lastETag === void 0 || lastPTag === void 0); i--) {
+        const tag = event.tags[i];
+        if (tag.length >= 2) {
+          if (tag[0] === "e" && lastETag === void 0) {
+            lastETag = tag;
+          } else if (tag[0] === "p" && lastPTag === void 0) {
+            lastPTag = tag;
+          }
+        }
+      }
+      if (lastETag === void 0 || lastPTag === void 0) {
+        return void 0;
+      }
+      return {
+        id: lastETag[1],
+        relays: [lastETag[2], lastPTag[2]].filter((x) => x !== void 0),
+        author: lastPTag[1]
+      };
+    }
+
+    // nip26.ts
+    var nip26_exports = {};
+    __export(nip26_exports, {
+      createDelegation: () => createDelegation,
+      getDelegator: () => getDelegator
+    });
+    function createDelegation(privateKey, parameters) {
+      let conditions = [];
+      if ((parameters.kind || -1) >= 0)
+        conditions.push(`kind=${parameters.kind}`);
+      if (parameters.until)
+        conditions.push(`created_at<${parameters.until}`);
+      if (parameters.since)
+        conditions.push(`created_at>${parameters.since}`);
+      let cond = conditions.join("&");
+      if (cond === "")
+        throw new Error("refusing to create a delegation without any conditions");
+      let sighash = sha256(utf8Encoder.encode(`nostr:delegation:${parameters.pubkey}:${cond}`));
+      let sig = bytesToHex$1(schnorr.sign(sighash, privateKey));
+      return {
+        from: getPublicKey(privateKey),
+        to: parameters.pubkey,
+        cond,
+        sig
+      };
+    }
+    function getDelegator(event) {
+      let tag = event.tags.find((tag2) => tag2[0] === "delegation" && tag2.length >= 4);
+      if (!tag)
+        return null;
+      let pubkey = tag[1];
+      let cond = tag[2];
+      let sig = tag[3];
+      let conditions = cond.split("&");
+      for (let i = 0; i < conditions.length; i++) {
+        let [key, operator, value] = conditions[i].split(/\b/);
+        if (key === "kind" && operator === "=" && event.kind === parseInt(value))
+          continue;
+        else if (key === "created_at" && operator === "<" && event.created_at < parseInt(value))
+          continue;
+        else if (key === "created_at" && operator === ">" && event.created_at > parseInt(value))
+          continue;
+        else
+          return null;
+      }
+      let sighash = sha256(utf8Encoder.encode(`nostr:delegation:${event.pubkey}:${cond}`));
+      if (!schnorr.verify(sig, sighash, pubkey))
+        return null;
+      return pubkey;
+    }
+
+    // nip27.ts
+    var nip27_exports = {};
+    __export(nip27_exports, {
+      matchAll: () => matchAll,
+      regex: () => regex,
+      replaceAll: () => replaceAll
+    });
+    var regex = () => new RegExp(`\\b${NOSTR_URI_REGEX.source}\\b`, "g");
+    function* matchAll(content) {
+      const matches = content.matchAll(regex());
+      for (const match of matches) {
+        try {
+          const [uri, value] = match;
+          yield {
+            uri,
+            value,
+            decoded: decode(value),
+            start: match.index,
+            end: match.index + uri.length
+          };
+        } catch (_e) {
+        }
+      }
+    }
+    function replaceAll(content, replacer) {
+      return content.replaceAll(regex(), (uri, value) => {
+        return replacer({
+          uri,
+          value,
+          decoded: decode(value)
+        });
+      });
+    }
+
+    // nip28.ts
+    var nip28_exports = {};
+    __export(nip28_exports, {
+      channelCreateEvent: () => channelCreateEvent,
+      channelHideMessageEvent: () => channelHideMessageEvent,
+      channelMessageEvent: () => channelMessageEvent,
+      channelMetadataEvent: () => channelMetadataEvent,
+      channelMuteUserEvent: () => channelMuteUserEvent
+    });
+    var channelCreateEvent = (t, privateKey) => {
+      let content;
+      if (typeof t.content === "object") {
+        content = JSON.stringify(t.content);
+      } else if (typeof t.content === "string") {
+        content = t.content;
+      } else {
+        return void 0;
+      }
+      return finishEvent(
+        {
+          kind: 40 /* ChannelCreation */,
+          tags: [...t.tags ?? []],
+          content,
+          created_at: t.created_at
+        },
+        privateKey
+      );
+    };
+    var channelMetadataEvent = (t, privateKey) => {
+      let content;
+      if (typeof t.content === "object") {
+        content = JSON.stringify(t.content);
+      } else if (typeof t.content === "string") {
+        content = t.content;
+      } else {
+        return void 0;
+      }
+      return finishEvent(
+        {
+          kind: 41 /* ChannelMetadata */,
+          tags: [["e", t.channel_create_event_id], ...t.tags ?? []],
+          content,
+          created_at: t.created_at
+        },
+        privateKey
+      );
+    };
+    var channelMessageEvent = (t, privateKey) => {
+      const tags = [["e", t.channel_create_event_id, t.relay_url, "root"]];
+      if (t.reply_to_channel_message_event_id) {
+        tags.push(["e", t.reply_to_channel_message_event_id, t.relay_url, "reply"]);
+      }
+      return finishEvent(
+        {
+          kind: 42 /* ChannelMessage */,
+          tags: [...tags, ...t.tags ?? []],
+          content: t.content,
+          created_at: t.created_at
+        },
+        privateKey
+      );
+    };
+    var channelHideMessageEvent = (t, privateKey) => {
+      let content;
+      if (typeof t.content === "object") {
+        content = JSON.stringify(t.content);
+      } else if (typeof t.content === "string") {
+        content = t.content;
+      } else {
+        return void 0;
+      }
+      return finishEvent(
+        {
+          kind: 43 /* ChannelHideMessage */,
+          tags: [["e", t.channel_message_event_id], ...t.tags ?? []],
+          content,
+          created_at: t.created_at
+        },
+        privateKey
+      );
+    };
+    var channelMuteUserEvent = (t, privateKey) => {
+      let content;
+      if (typeof t.content === "object") {
+        content = JSON.stringify(t.content);
+      } else if (typeof t.content === "string") {
+        content = t.content;
+      } else {
+        return void 0;
+      }
+      return finishEvent(
+        {
+          kind: 44 /* ChannelMuteUser */,
+          tags: [["p", t.pubkey_to_mute], ...t.tags ?? []],
+          content,
+          created_at: t.created_at
+        },
+        privateKey
+      );
+    };
+
+    // nip39.ts
+    var nip39_exports = {};
+    __export(nip39_exports, {
+      useFetchImplementation: () => useFetchImplementation2,
+      validateGithub: () => validateGithub
+    });
+    var _fetch2;
+    try {
+      _fetch2 = fetch;
+    } catch {
+    }
+    function useFetchImplementation2(fetchImplementation) {
+      _fetch2 = fetchImplementation;
+    }
+    async function validateGithub(pubkey, username, proof) {
+      try {
+        let res = await (await _fetch2(`https://gist.github.com/${username}/${proof}/raw`)).text();
+        return res === `Verifying that I control the following Nostr public key: ${pubkey}`;
+      } catch (_) {
+        return false;
+      }
+    }
+
+    // nip42.ts
+    var nip42_exports = {};
+    __export(nip42_exports, {
+      authenticate: () => authenticate
+    });
+    var authenticate = async ({
+      challenge,
+      relay,
+      sign
+    }) => {
+      const e = {
+        kind: 22242 /* ClientAuth */,
+        created_at: Math.floor(Date.now() / 1e3),
+        tags: [
+          ["relay", relay.url],
+          ["challenge", challenge]
+        ],
+        content: ""
+      };
+      return relay.auth(await sign(e));
+    };
+
+    // nip44.ts
+    var nip44_exports = {};
+    __export(nip44_exports, {
+      decrypt: () => decrypt2,
+      encrypt: () => encrypt2,
+      utils: () => utils
+    });
+    var utils = {
+      v2: {
+        maxPlaintextSize: 65536 - 128,
+        minCiphertextSize: 100,
+        maxCiphertextSize: 102400,
+        getConversationKey(privkeyA, pubkeyB) {
+          const key = secp256k1.getSharedSecret(privkeyA, "02" + pubkeyB);
+          return key.subarray(1, 33);
+        },
+        getMessageKeys(conversationKey, salt) {
+          const keys = hkdf(sha256, conversationKey, salt, "nip44-v2", 76);
+          return {
+            encryption: keys.subarray(0, 32),
+            nonce: keys.subarray(32, 44),
+            auth: keys.subarray(44, 76)
+          };
+        },
+        calcPadding(len) {
+          if (!Number.isSafeInteger(len) || len < 0)
+            throw new Error("expected positive integer");
+          if (len <= 32)
+            return 32;
+          const nextpower = 1 << Math.floor(Math.log2(len - 1)) + 1;
+          const chunk = nextpower <= 256 ? 32 : nextpower / 8;
+          return chunk * (Math.floor((len - 1) / chunk) + 1);
+        },
+        pad(unpadded) {
+          const unpaddedB = utf8Encoder.encode(unpadded);
+          const len = unpaddedB.length;
+          if (len < 1 || len >= utils.v2.maxPlaintextSize)
+            throw new Error("invalid plaintext length: must be between 1b and 64KB");
+          const paddedLen = utils.v2.calcPadding(len);
+          const zeros = new Uint8Array(paddedLen - len);
+          const lenBuf = new Uint8Array(2);
+          new DataView(lenBuf.buffer).setUint16(0, len);
+          return concatBytes$1(lenBuf, unpaddedB, zeros);
+        },
+        unpad(padded) {
+          const unpaddedLen = new DataView(padded.buffer).getUint16(0);
+          const unpadded = padded.subarray(2, 2 + unpaddedLen);
+          if (unpaddedLen === 0 || unpadded.length !== unpaddedLen || padded.length !== 2 + utils.v2.calcPadding(unpaddedLen))
+            throw new Error("invalid padding");
+          return utf8Decoder.decode(unpadded);
+        }
+      }
+    };
+    function encrypt2(key, plaintext, options = {}) {
+      const version = options.version ?? 2;
+      if (version !== 2)
+        throw new Error("unknown encryption version " + version);
+      const salt = options.salt ?? randomBytes(32);
+      ensureBytes(salt, 32);
+      const keys = utils.v2.getMessageKeys(key, salt);
+      const padded = utils.v2.pad(plaintext);
+      const ciphertext = chacha20(keys.encryption, keys.nonce, padded);
+      const mac = hmac(sha256, keys.auth, ciphertext);
+      return base64.encode(concatBytes$1(new Uint8Array([version]), salt, ciphertext, mac));
+    }
+    function decrypt2(key, ciphertext) {
+      const u = utils.v2;
+      ensureBytes(key, 32);
+      const clen = ciphertext.length;
+      if (clen < u.minCiphertextSize || clen >= u.maxCiphertextSize)
+        throw new Error("invalid ciphertext length: " + clen);
+      if (ciphertext[0] === "#")
+        throw new Error("unknown encryption version");
+      let data;
+      try {
+        data = base64.decode(ciphertext);
+      } catch (error) {
+        throw new Error("invalid base64: " + error.message);
+      }
+      const vers = data.subarray(0, 1)[0];
+      if (vers !== 2)
+        throw new Error("unknown encryption version " + vers);
+      const salt = data.subarray(1, 33);
+      const ciphertext_ = data.subarray(33, -32);
+      const mac = data.subarray(-32);
+      const keys = u.getMessageKeys(key, salt);
+      const calculatedMac = hmac(sha256, keys.auth, ciphertext_);
+      if (!equalBytes(calculatedMac, mac))
+        throw new Error("invalid MAC");
+      const padded = chacha20(keys.encryption, keys.nonce, ciphertext_);
+      return u.unpad(padded);
+    }
+
+    // nip47.ts
+    var nip47_exports = {};
+    __export(nip47_exports, {
+      makeNwcRequestEvent: () => makeNwcRequestEvent,
+      parseConnectionString: () => parseConnectionString
+    });
+    function parseConnectionString(connectionString) {
+      const { pathname, searchParams } = new URL(connectionString);
+      const pubkey = pathname;
+      const relay = searchParams.get("relay");
+      const secret = searchParams.get("secret");
+      if (!pubkey || !relay || !secret) {
+        throw new Error("invalid connection string");
+      }
+      return { pubkey, relay, secret };
+    }
+    async function makeNwcRequestEvent({
+      pubkey,
+      secret,
+      invoice
+    }) {
+      const content = {
+        method: "pay_invoice",
+        params: {
+          invoice
+        }
+      };
+      const encryptedContent = await encrypt(secret, pubkey, JSON.stringify(content));
+      const eventTemplate = {
+        kind: 23194 /* NwcRequest */,
+        created_at: Math.round(Date.now() / 1e3),
+        content: encryptedContent,
+        tags: [["p", pubkey]]
+      };
+      return finishEvent(eventTemplate, secret);
+    }
+
+    // nip57.ts
+    var nip57_exports = {};
+    __export(nip57_exports, {
+      getZapEndpoint: () => getZapEndpoint,
+      makeZapReceipt: () => makeZapReceipt,
+      makeZapRequest: () => makeZapRequest,
+      useFetchImplementation: () => useFetchImplementation3,
+      validateZapRequest: () => validateZapRequest
+    });
+    var _fetch3;
+    try {
+      _fetch3 = fetch;
+    } catch {
+    }
+    function useFetchImplementation3(fetchImplementation) {
+      _fetch3 = fetchImplementation;
+    }
+    async function getZapEndpoint(metadata) {
+      try {
+        let lnurl = "";
+        let { lud06, lud16 } = JSON.parse(metadata.content);
+        if (lud06) {
+          let { words } = bech32.decode(lud06, 1e3);
+          let data = bech32.fromWords(words);
+          lnurl = utf8Decoder.decode(data);
+        } else if (lud16) {
+          let [name, domain] = lud16.split("@");
+          lnurl = `https://${domain}/.well-known/lnurlp/${name}`;
+        } else {
+          return null;
+        }
+        let res = await _fetch3(lnurl);
+        let body = await res.json();
+        if (body.allowsNostr && body.nostrPubkey) {
+          return body.callback;
+        }
+      } catch (err) {
+      }
+      return null;
+    }
+    function makeZapRequest({
+      profile,
+      event,
+      amount,
+      relays,
+      comment = ""
+    }) {
+      if (!amount)
+        throw new Error("amount not given");
+      if (!profile)
+        throw new Error("profile not given");
+      let zr = {
+        kind: 9734,
+        created_at: Math.round(Date.now() / 1e3),
+        content: comment,
+        tags: [
+          ["p", profile],
+          ["amount", amount.toString()],
+          ["relays", ...relays]
+        ]
+      };
+      if (event) {
+        zr.tags.push(["e", event]);
+      }
+      return zr;
+    }
+    function validateZapRequest(zapRequestString) {
+      let zapRequest;
+      try {
+        zapRequest = JSON.parse(zapRequestString);
+      } catch (err) {
+        return "Invalid zap request JSON.";
+      }
+      if (!validateEvent(zapRequest))
+        return "Zap request is not a valid Nostr event.";
+      if (!verifySignature(zapRequest))
+        return "Invalid signature on zap request.";
+      let p = zapRequest.tags.find(([t, v]) => t === "p" && v);
+      if (!p)
+        return "Zap request doesn't have a 'p' tag.";
+      if (!p[1].match(/^[a-f0-9]{64}$/))
+        return "Zap request 'p' tag is not valid hex.";
+      let e = zapRequest.tags.find(([t, v]) => t === "e" && v);
+      if (e && !e[1].match(/^[a-f0-9]{64}$/))
+        return "Zap request 'e' tag is not valid hex.";
+      let relays = zapRequest.tags.find(([t, v]) => t === "relays" && v);
+      if (!relays)
+        return "Zap request doesn't have a 'relays' tag.";
+      return null;
+    }
+    function makeZapReceipt({
+      zapRequest,
+      preimage,
+      bolt11,
+      paidAt
+    }) {
+      let zr = JSON.parse(zapRequest);
+      let tagsFromZapRequest = zr.tags.filter(([t]) => t === "e" || t === "p" || t === "a");
+      let zap = {
+        kind: 9735,
+        created_at: Math.round(paidAt.getTime() / 1e3),
+        content: "",
+        tags: [...tagsFromZapRequest, ["bolt11", bolt11], ["description", zapRequest]]
+      };
+      if (preimage) {
+        zap.tags.push(["preimage", preimage]);
+      }
+      return zap;
+    }
+
+    // nip98.ts
+    var nip98_exports = {};
+    __export(nip98_exports, {
+      getToken: () => getToken,
+      unpackEventFromToken: () => unpackEventFromToken,
+      validateEvent: () => validateEvent2,
+      validateToken: () => validateToken
+    });
+    var _authorizationScheme = "Nostr ";
+    async function getToken(loginUrl, httpMethod, sign, includeAuthorizationScheme = false) {
+      if (!loginUrl || !httpMethod)
+        throw new Error("Missing loginUrl or httpMethod");
+      const event = getBlankEvent(27235 /* HttpAuth */);
+      event.tags = [
+        ["u", loginUrl],
+        ["method", httpMethod]
+      ];
+      event.created_at = Math.round(new Date().getTime() / 1e3);
+      const signedEvent = await sign(event);
+      const authorizationScheme = includeAuthorizationScheme ? _authorizationScheme : "";
+      return authorizationScheme + base64.encode(utf8Encoder.encode(JSON.stringify(signedEvent)));
+    }
+    async function validateToken(token, url, method) {
+      const event = await unpackEventFromToken(token).catch((error) => {
+        throw error;
+      });
+      const valid = await validateEvent2(event, url, method).catch((error) => {
+        throw error;
+      });
+      return valid;
+    }
+    async function unpackEventFromToken(token) {
+      if (!token) {
+        throw new Error("Missing token");
+      }
+      token = token.replace(_authorizationScheme, "");
+      const eventB64 = utf8Decoder.decode(base64.decode(token));
+      if (!eventB64 || eventB64.length === 0 || !eventB64.startsWith("{")) {
+        throw new Error("Invalid token");
+      }
+      const event = JSON.parse(eventB64);
+      return event;
+    }
+    async function validateEvent2(event, url, method) {
+      if (!event) {
+        throw new Error("Invalid nostr event");
+      }
+      if (!verifySignature(event)) {
+        throw new Error("Invalid nostr event, signature invalid");
+      }
+      if (event.kind !== 27235 /* HttpAuth */) {
+        throw new Error("Invalid nostr event, kind invalid");
+      }
+      if (!event.created_at) {
+        throw new Error("Invalid nostr event, created_at invalid");
+      }
+      if (Math.round(new Date().getTime() / 1e3) - event.created_at > 60) {
+        throw new Error("Invalid nostr event, expired");
+      }
+      const urlTag = event.tags.find((t) => t[0] === "u");
+      if (urlTag?.length !== 1 && urlTag?.[1] !== url) {
+        throw new Error("Invalid nostr event, url tag invalid");
+      }
+      const methodTag = event.tags.find((t) => t[0] === "method");
+      if (methodTag?.length !== 1 && methodTag?.[1].toLowerCase() !== method.toLowerCase()) {
+        throw new Error("Invalid nostr event, method tag invalid");
+      }
+      return true;
+    }
+
+    // DMManager.js
+
+    class DMManager {
+      constructor() {
+        this.init();
+      }
+
+      init() {
+        // Initialisiere die Store-Abonnements
+        this.cacheSubscription = this.subscribeToStore(nostrCache, (value) => {
+          this.cache = value;
+        });
+
+        this.managerSubscription = this.subscribeToStore(nostrManager, (value) => {
+          this.manager = value;
+        });
+      }
+
+      subscribeToStore(store, updateFunction) {
+        const unsubscribe = store.subscribe(updateFunction);
+        return unsubscribe; // Rückgabe der Unsubscribe-Funktion für spätere Aufräumaktionen
+      }
+
+      async sendMessage(receiverPubKey, messageContent, subject) {
+        if (!this.manager || !this.manager.publicKey) {
+          console.error("Manager or public key not initialized.");
+          return;
+        }
+
+        const unsignedKind14 = {
+          id: "",
+          pubkey: this.manager.publicKey,
+          created_at: Math.floor(Date.now() / 1000),
+          kind: 14,
+          tags: [
+            ["p", receiverPubKey],
+            ...(subject ? [["subject", subject]] : []),
+          ],
+          content: messageContent,
+        };
+
+        const sealContent = await window.nostr.nip44.encrypt(receiverPubKey, JSON.stringify(unsignedKind14));
+
+        const seal = {
+          id: "",
+          pubkey: this.manager.publicKey,
+          created_at: Math.floor(Date.now() / 1000),
+          kind: 13,
+          tags: [],
+          content: sealContent,
+        };
+
+        const giftWrapContent = await window.nostr.nip44.encrypt(receiverPubKey, JSON.stringify(seal));
+
+        const giftWrap = {
+          id: "",
+          pubkey: await this.generateRandomPublicKey(),
+          created_at: Math.floor(Date.now() / 1000),
+          kind: 1059,
+          tags: [["p", receiverPubKey]],
+          content: giftWrapContent,
+        };
+
+        try {
+          await this.manager.sendEvent(giftWrap.kind, giftWrap.content, giftWrap.tags);
+          console.log("Message sent successfully.");
+        } catch (error) {
+          console.error("Error sending message:", error);
+        }
+      }
+
+
+      // Fügt diese Methode zu DMManager hinzu
+      async getMessagesForRoom(participants) {
+        const decryptedMessages = await this.getMessages();
+        const roomMessages = decryptedMessages.filter(message => {
+          const messageParticipants = message.tags.filter(tag => tag[0] === 'p').map(tag => tag[1]).sort().join(',');
+          return messageParticipants === participants;
+        });
+
+        return roomMessages.sort((a, b) => a.created_at - b.created_at);
+      }
+
+
+      async generateRandomPublicKey() {
+        const privateKey = this.generateRandomPrivateKey();
+        return nip19_exports.nsecEncode(privateKey);
+      }
+
+      generateRandomPrivateKey() {
+        const array = new Uint8Array(32);
+        window.crypto.getRandomValues(array);
+        return Array.from(array, byte => byte.toString(16).padStart(2, '0')).join('');
+      }
+
+      async fetchMessages() {
+        const messages = await this.cache.getEventsByCriteria({
+          kinds: [1059],
+          tags: { p: [this.manager.publicKey] },
+        });
+        return messages;
+      }
+
+      async decryptMessage(message) {
+        try {
+          const seal = JSON.parse(await window.nostr.nip44.decrypt(this.manager.publicKey, message.content));
+          const unsignedKind14 = JSON.parse(await window.nostr.nip44.decrypt(this.manager.publicKey, seal.content));
+          return unsignedKind14;
+        } catch (error) {
+          console.error("Error decrypting message:", error);
+          return null;
+        }
+      }
+
+      async getMessages() {
+        if (!this.manager) {
+          console.error("NostrManager is not initialized.");
+          return [];
+        }
+      
+        const messages = await this.fetchMessages();
+        const decryptedMessages = [];
+      
+        for (const message of messages) {
+          if (message.decryptedContent) {
+            decryptedMessages.push(message.decryptedContent);
+          } else {
+            const decryptedMessage = await this.decryptMessage(message);
+            if (decryptedMessage) {
+              decryptedMessages.push(decryptedMessage);
+            }
+          }
+        }
+      
+        return decryptedMessages;
+      }
+
+      async getChatRooms() {
+        const decryptedMessages = await this.getMessages();
+        const chatRooms = {};
+
+        decryptedMessages.forEach(message => {
+          const participants = message.tags
+            .filter(tag => tag[0] === 'p')
+            .map(tag => tag[1])
+            .sort()
+            .join(',');
+
+          if (!chatRooms[participants]) {
+            chatRooms[participants] = {
+              participants,
+              messages: [],
+              subject: null,
+              lastSubjectTimestamp: 0
+            };
+          }
+
+          chatRooms[participants].messages.push(message);
+
+          const subjectTag = message.tags.find(tag => tag[0] === 'subject');
+          if (subjectTag && message.created_at > chatRooms[participants].lastSubjectTimestamp) {
+            chatRooms[participants].subject = subjectTag[1];
+            chatRooms[participants].lastSubjectTimestamp = message.created_at;
+          }
+        });
+
+        return Object.values(chatRooms);
+      }
+
+
+      subscribeToMessages() {
+        if (!this.manager) {
+          console.error("NostrManager is not initialized.");
+          return;
+        }
+
+        this.manager.subscribeToEvents({
+          kinds: [1059],
+          "#p": [this.manager.publicKey],
+        });
+      }
+
+      unsubscribeFromMessages() {
+        if (!this.manager) {
+          console.error("NostrManager is not initialized.");
+          return;
+        }
+
+        this.manager.unsubscribeEvent({
+          kinds: [1059],
+          "#p": [this.manager.publicKey],
+        });
+      }
+
+      cleanup() {
+        this.cacheSubscription();
+        this.managerSubscription();
+      }
+    }
+
+    const dmManager = new DMManager();
+
+    var css_248z$5 = ".chat-list.svelte-h43t54{width:30%;border-right:1px solid #ccc;padding:1rem}.chat-room.svelte-h43t54{cursor:pointer;padding:0.5rem;border-bottom:1px solid #ddd}.chat-room.svelte-h43t54:hover{background-color:#f5f5f5}.room-header.svelte-h43t54{display:flex;align-items:center;margin-bottom:5px}.room-name.svelte-h43t54{margin:0;flex-grow:1}.subject.svelte-h43t54{color:#888;font-size:0.9rem;margin:0;margin-top:5px}";
+    styleInject(css_248z$5);
+
+    /* src/components/DirectMessage/ChatList.svelte generated by Svelte v3.59.1 */
+
+    function get_each_context$1(ctx, list, i) {
+    	const child_ctx = ctx.slice();
+    	child_ctx[12] = list[i];
+    	return child_ctx;
+    }
+
+    // (97:16) {:else}
+    function create_else_block$2(ctx) {
+    	let h3;
+    	let t0;
+    	let t1_value = /*room*/ ctx[12].participants + "";
+    	let t1;
+
+    	return {
+    		c() {
+    			h3 = element("h3");
+    			t0 = text("Chat with ");
+    			t1 = text(t1_value);
+    			attr(h3, "class", "room-name svelte-h43t54");
+    		},
+    		m(target, anchor) {
+    			insert(target, h3, anchor);
+    			append(h3, t0);
+    			append(h3, t1);
+    		},
+    		p(ctx, dirty) {
+    			if (dirty & /*$chatRooms*/ 1 && t1_value !== (t1_value = /*room*/ ctx[12].participants + "")) set_data(t1, t1_value);
+    		},
+    		i: noop,
+    		o: noop,
+    		d(detaching) {
+    			if (detaching) detach(h3);
+    		}
+    	};
+    }
+
+    // (85:16) {#if $profiles.has(room.participants)}
+    function create_if_block_1(ctx) {
+    	let profileimg;
+    	let t0;
+    	let h3;
+    	let t1_value = /*$profiles*/ ctx[1].get(/*room*/ ctx[12].participants).name + "";
+    	let t1;
+    	let current;
+
+    	profileimg = new ProfileImg({
+    			props: {
+    				profile: /*$profiles*/ ctx[1].get(/*room*/ ctx[12].participants),
+    				style: {
+    					width: "50px",
+    					height: "50px",
+    					"margin-right": "15px"
+    				}
+    			}
+    		});
+
+    	return {
+    		c() {
+    			create_component(profileimg.$$.fragment);
+    			t0 = space();
+    			h3 = element("h3");
+    			t1 = text(t1_value);
+    			attr(h3, "class", "room-name svelte-h43t54");
+    		},
+    		m(target, anchor) {
+    			mount_component(profileimg, target, anchor);
+    			insert(target, t0, anchor);
+    			insert(target, h3, anchor);
+    			append(h3, t1);
+    			current = true;
+    		},
+    		p(ctx, dirty) {
+    			const profileimg_changes = {};
+    			if (dirty & /*$profiles, $chatRooms*/ 3) profileimg_changes.profile = /*$profiles*/ ctx[1].get(/*room*/ ctx[12].participants);
+    			profileimg.$set(profileimg_changes);
+    			if ((!current || dirty & /*$profiles, $chatRooms*/ 3) && t1_value !== (t1_value = /*$profiles*/ ctx[1].get(/*room*/ ctx[12].participants).name + "")) set_data(t1, t1_value);
+    		},
+    		i(local) {
+    			if (current) return;
+    			transition_in(profileimg.$$.fragment, local);
+    			current = true;
+    		},
+    		o(local) {
+    			transition_out(profileimg.$$.fragment, local);
+    			current = false;
+    		},
+    		d(detaching) {
+    			destroy_component(profileimg, detaching);
+    			if (detaching) detach(t0);
+    			if (detaching) detach(h3);
+    		}
+    	};
+    }
+
+    // (101:12) {#if room.subject}
+    function create_if_block$3(ctx) {
+    	let p;
+    	let t_value = /*room*/ ctx[12].subject + "";
+    	let t;
+
+    	return {
+    		c() {
+    			p = element("p");
+    			t = text(t_value);
+    			attr(p, "class", "subject svelte-h43t54");
+    		},
+    		m(target, anchor) {
+    			insert(target, p, anchor);
+    			append(p, t);
+    		},
+    		p(ctx, dirty) {
+    			if (dirty & /*$chatRooms*/ 1 && t_value !== (t_value = /*room*/ ctx[12].subject + "")) set_data(t, t_value);
+    		},
+    		d(detaching) {
+    			if (detaching) detach(p);
+    		}
+    	};
+    }
+
+    // (82:4) {#each $chatRooms as room}
+    function create_each_block$1(ctx) {
+    	let div1;
+    	let div0;
+    	let show_if;
+    	let current_block_type_index;
+    	let if_block0;
+    	let t0;
+    	let t1;
+    	let current;
+    	let mounted;
+    	let dispose;
+    	const if_block_creators = [create_if_block_1, create_else_block$2];
+    	const if_blocks = [];
+
+    	function select_block_type(ctx, dirty) {
+    		if (dirty & /*$profiles, $chatRooms*/ 3) show_if = null;
+    		if (show_if == null) show_if = !!/*$profiles*/ ctx[1].has(/*room*/ ctx[12].participants);
+    		if (show_if) return 0;
+    		return 1;
+    	}
+
+    	current_block_type_index = select_block_type(ctx, -1);
+    	if_block0 = if_blocks[current_block_type_index] = if_block_creators[current_block_type_index](ctx);
+    	let if_block1 = /*room*/ ctx[12].subject && create_if_block$3(ctx);
+
+    	function click_handler() {
+    		return /*click_handler*/ ctx[8](/*room*/ ctx[12]);
+    	}
+
+    	return {
+    		c() {
+    			div1 = element("div");
+    			div0 = element("div");
+    			if_block0.c();
+    			t0 = space();
+    			if (if_block1) if_block1.c();
+    			t1 = space();
+    			attr(div0, "class", "room-header svelte-h43t54");
+    			attr(div1, "class", "chat-room svelte-h43t54");
+    		},
+    		m(target, anchor) {
+    			insert(target, div1, anchor);
+    			append(div1, div0);
+    			if_blocks[current_block_type_index].m(div0, null);
+    			append(div1, t0);
+    			if (if_block1) if_block1.m(div1, null);
+    			append(div1, t1);
+    			current = true;
+
+    			if (!mounted) {
+    				dispose = listen(div1, "click", click_handler);
+    				mounted = true;
+    			}
+    		},
+    		p(new_ctx, dirty) {
+    			ctx = new_ctx;
+    			let previous_block_index = current_block_type_index;
+    			current_block_type_index = select_block_type(ctx, dirty);
+
+    			if (current_block_type_index === previous_block_index) {
+    				if_blocks[current_block_type_index].p(ctx, dirty);
+    			} else {
+    				group_outros();
+
+    				transition_out(if_blocks[previous_block_index], 1, 1, () => {
+    					if_blocks[previous_block_index] = null;
+    				});
+
+    				check_outros();
+    				if_block0 = if_blocks[current_block_type_index];
+
+    				if (!if_block0) {
+    					if_block0 = if_blocks[current_block_type_index] = if_block_creators[current_block_type_index](ctx);
+    					if_block0.c();
+    				} else {
+    					if_block0.p(ctx, dirty);
+    				}
+
+    				transition_in(if_block0, 1);
+    				if_block0.m(div0, null);
+    			}
+
+    			if (/*room*/ ctx[12].subject) {
+    				if (if_block1) {
+    					if_block1.p(ctx, dirty);
+    				} else {
+    					if_block1 = create_if_block$3(ctx);
+    					if_block1.c();
+    					if_block1.m(div1, t1);
+    				}
+    			} else if (if_block1) {
+    				if_block1.d(1);
+    				if_block1 = null;
+    			}
+    		},
+    		i(local) {
+    			if (current) return;
+    			transition_in(if_block0);
+    			current = true;
+    		},
+    		o(local) {
+    			transition_out(if_block0);
+    			current = false;
+    		},
+    		d(detaching) {
+    			if (detaching) detach(div1);
+    			if_blocks[current_block_type_index].d();
+    			if (if_block1) if_block1.d();
+    			mounted = false;
+    			dispose();
+    		}
+    	};
+    }
+
+    function create_fragment$6(ctx) {
+    	let div;
+    	let h2;
+    	let t1;
+    	let current;
+    	let each_value = /*$chatRooms*/ ctx[0];
+    	let each_blocks = [];
+
+    	for (let i = 0; i < each_value.length; i += 1) {
+    		each_blocks[i] = create_each_block$1(get_each_context$1(ctx, each_value, i));
+    	}
+
+    	const out = i => transition_out(each_blocks[i], 1, 1, () => {
+    		each_blocks[i] = null;
+    	});
+
+    	return {
+    		c() {
+    			div = element("div");
+    			h2 = element("h2");
+    			h2.textContent = "Chat Rooms";
+    			t1 = space();
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].c();
+    			}
+
+    			attr(div, "class", "chat-list svelte-h43t54");
+    		},
+    		m(target, anchor) {
+    			insert(target, div, anchor);
+    			append(div, h2);
+    			append(div, t1);
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				if (each_blocks[i]) {
+    					each_blocks[i].m(div, null);
+    				}
+    			}
+
+    			current = true;
+    		},
+    		p(ctx, [dirty]) {
+    			if (dirty & /*handleRoomClick, $chatRooms, $profiles*/ 19) {
+    				each_value = /*$chatRooms*/ ctx[0];
+    				let i;
+
+    				for (i = 0; i < each_value.length; i += 1) {
+    					const child_ctx = get_each_context$1(ctx, each_value, i);
+
+    					if (each_blocks[i]) {
+    						each_blocks[i].p(child_ctx, dirty);
+    						transition_in(each_blocks[i], 1);
+    					} else {
+    						each_blocks[i] = create_each_block$1(child_ctx);
+    						each_blocks[i].c();
+    						transition_in(each_blocks[i], 1);
+    						each_blocks[i].m(div, null);
+    					}
+    				}
+
+    				group_outros();
+
+    				for (i = each_value.length; i < each_blocks.length; i += 1) {
+    					out(i);
+    				}
+
+    				check_outros();
+    			}
+    		},
+    		i(local) {
+    			if (current) return;
+
+    			for (let i = 0; i < each_value.length; i += 1) {
+    				transition_in(each_blocks[i]);
+    			}
+
+    			current = true;
+    		},
+    		o(local) {
+    			each_blocks = each_blocks.filter(Boolean);
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				transition_out(each_blocks[i]);
+    			}
+
+    			current = false;
+    		},
+    		d(detaching) {
+    			if (detaching) detach(div);
+    			destroy_each(each_blocks, detaching);
+    		}
+    	};
+    }
+
+    function createDummyRoom(pubkey) {
+    	return {
+    		participants: pubkey,
+    		messages: [],
+    		subject: "New Chat",
+    		lastSubjectTimestamp: Date.now() / 1000
+    	};
+    }
+
+    function instance$5($$self, $$props, $$invalidate) {
+    	let $nostrCache;
+    	let $nostrManager;
+    	let $chatRooms;
+    	let $profiles;
+    	component_subscribe($$self, nostrCache, $$value => $$invalidate(6, $nostrCache = $$value));
+    	component_subscribe($$self, nostrManager, $$value => $$invalidate(7, $nostrManager = $$value));
+    	let chatRooms = writable([]);
+    	component_subscribe($$self, chatRooms, value => $$invalidate(0, $chatRooms = value));
+    	let profiles = writable(new Map());
+    	component_subscribe($$self, profiles, value => $$invalidate(1, $profiles = value));
+    	const dispatch = createEventDispatcher();
+    	let { pubkey = null } = $$props;
+
+    	onMount(async () => {
+    		await dmManager.init();
+    		dmManager.subscribeToMessages();
+    		await updateChatRooms();
+    		console.log("pubkey in ChatList:", pubkey);
+    	});
+
+    	async function updateChatRooms() {
+    		const rooms = await dmManager.getChatRooms();
+    		chatRooms.set(rooms);
+
+    		if (pubkey) {
+    			let existingRoom = rooms.find(room => room.participants.split(',').includes(pubkey));
+
+    			if (existingRoom) {
+    				handleRoomClick(existingRoom);
+    			} else {
+    				let dummyRoom = createDummyRoom(pubkey);
+    				rooms.push(dummyRoom);
+    				chatRooms.set(rooms);
+    				handleRoomClick(dummyRoom);
+    			}
+    		}
+
+    		await fetchProfiles(rooms.map(room => room.participants));
+    	}
+
+    	async function fetchProfiles(pubkeys) {
+    		const profilePromises = pubkeys.map(async pubkey => {
+    			let profile = await socialMediaManager.getProfile(pubkey);
+    			return { pubkey, profile };
+    		});
+
+    		const results = await Promise.all(profilePromises);
+
+    		profiles.update(map => {
+    			results.forEach(({ pubkey, profile }) => {
+    				if (profile) {
+    					map.set(pubkey, profile);
+    				}
+    			});
+
+    			return map;
+    		});
+    	}
+
+    	function handleRoomClick(room) {
+    		dispatch("selectRoom", room);
+    	}
+
+    	const click_handler = room => handleRoomClick(room);
+
+    	$$self.$$set = $$props => {
+    		if ('pubkey' in $$props) $$invalidate(5, pubkey = $$props.pubkey);
+    	};
+
+    	$$self.$$.update = () => {
+    		if ($$self.$$.dirty & /*$nostrManager, $nostrCache*/ 192) {
+    			// Updates chat rooms whenever the cache or manager changes
+    			if ($nostrManager && $nostrCache) {
+    				updateChatRooms();
+    			}
+    		}
+    	};
+
+    	return [
+    		$chatRooms,
+    		$profiles,
+    		chatRooms,
+    		profiles,
+    		handleRoomClick,
+    		pubkey,
+    		$nostrCache,
+    		$nostrManager,
+    		click_handler
+    	];
+    }
+
+    class ChatList extends SvelteComponent {
+    	constructor(options) {
+    		super();
+    		init(this, options, instance$5, create_fragment$6, safe_not_equal, { pubkey: 5 });
+    	}
+    }
+
+    var css_248z$4 = ".message.svelte-1n1piku{padding:0.75rem;border-bottom:1px solid #eee;display:flex;align-items:flex-start}.content.svelte-1n1piku{white-space:pre-wrap}.message-content.svelte-1n1piku{flex-grow:1}.name.svelte-1n1piku{font-weight:bold;margin:0;margin-bottom:0.5rem}.timestamp.svelte-1n1piku{font-size:0.75rem;color:#888;margin-left:10px;align-self:flex-end}";
+    styleInject(css_248z$4);
+
+    /* src/components/DirectMessage/Message.svelte generated by Svelte v3.59.1 */
+
+    function create_else_block$1(ctx) {
+    	let div;
+    	let p;
+    	let t_value = /*message*/ ctx[0].content + "";
+    	let t;
+
+    	return {
+    		c() {
+    			div = element("div");
+    			p = element("p");
+    			t = text(t_value);
+    			attr(div, "class", "message-content svelte-1n1piku");
+    		},
+    		m(target, anchor) {
+    			insert(target, div, anchor);
+    			append(div, p);
+    			append(p, t);
+    		},
+    		p(ctx, dirty) {
+    			if (dirty & /*message*/ 1 && t_value !== (t_value = /*message*/ ctx[0].content + "")) set_data(t, t_value);
+    		},
+    		i: noop,
+    		o: noop,
+    		d(detaching) {
+    			if (detaching) detach(div);
+    		}
+    	};
+    }
+
+    // (10:4) {#if profile}
+    function create_if_block$2(ctx) {
+    	let profileimg;
+    	let t0;
+    	let div;
+    	let p0;
+    	let t1_value = /*profile*/ ctx[2].name + "";
+    	let t1;
+    	let t2;
+    	let p1;
+    	let t3_value = /*message*/ ctx[0].content + "";
+    	let t3;
+    	let current;
+
+    	profileimg = new ProfileImg({
+    			props: {
+    				profile: /*profile*/ ctx[2],
+    				style: {
+    					width: '50px',
+    					height: '50px',
+    					'margin-right': '15px'
+    				}
+    			}
+    		});
+
+    	return {
+    		c() {
+    			create_component(profileimg.$$.fragment);
+    			t0 = space();
+    			div = element("div");
+    			p0 = element("p");
+    			t1 = text(t1_value);
+    			t2 = space();
+    			p1 = element("p");
+    			t3 = text(t3_value);
+    			attr(p0, "class", "name svelte-1n1piku");
+    			attr(p1, "class", "content svelte-1n1piku");
+    			attr(div, "class", "message-content svelte-1n1piku");
+    		},
+    		m(target, anchor) {
+    			mount_component(profileimg, target, anchor);
+    			insert(target, t0, anchor);
+    			insert(target, div, anchor);
+    			append(div, p0);
+    			append(p0, t1);
+    			append(div, t2);
+    			append(div, p1);
+    			append(p1, t3);
+    			current = true;
+    		},
+    		p(ctx, dirty) {
+    			const profileimg_changes = {};
+    			if (dirty & /*profile*/ 4) profileimg_changes.profile = /*profile*/ ctx[2];
+    			profileimg.$set(profileimg_changes);
+    			if ((!current || dirty & /*profile*/ 4) && t1_value !== (t1_value = /*profile*/ ctx[2].name + "")) set_data(t1, t1_value);
+    			if ((!current || dirty & /*message*/ 1) && t3_value !== (t3_value = /*message*/ ctx[0].content + "")) set_data(t3, t3_value);
+    		},
+    		i(local) {
+    			if (current) return;
+    			transition_in(profileimg.$$.fragment, local);
+    			current = true;
+    		},
+    		o(local) {
+    			transition_out(profileimg.$$.fragment, local);
+    			current = false;
+    		},
+    		d(detaching) {
+    			destroy_component(profileimg, detaching);
+    			if (detaching) detach(t0);
+    			if (detaching) detach(div);
+    		}
+    	};
+    }
+
+    function create_fragment$5(ctx) {
+    	let div;
+    	let current_block_type_index;
+    	let if_block;
+    	let t0;
+    	let p;
+    	let t1_value = new Date(/*message*/ ctx[0].created_at * 1000).toLocaleString() + "";
+    	let t1;
+    	let current;
+    	const if_block_creators = [create_if_block$2, create_else_block$1];
+    	const if_blocks = [];
+
+    	function select_block_type(ctx, dirty) {
+    		if (/*profile*/ ctx[2]) return 0;
+    		return 1;
+    	}
+
+    	current_block_type_index = select_block_type(ctx);
+    	if_block = if_blocks[current_block_type_index] = if_block_creators[current_block_type_index](ctx);
+
+    	return {
+    		c() {
+    			div = element("div");
+    			if_block.c();
+    			t0 = space();
+    			p = element("p");
+    			t1 = text(t1_value);
+    			attr(p, "class", "timestamp svelte-1n1piku");
+    			attr(div, "class", "message svelte-1n1piku");
+    		},
+    		m(target, anchor) {
+    			insert(target, div, anchor);
+    			if_blocks[current_block_type_index].m(div, null);
+    			append(div, t0);
+    			append(div, p);
+    			append(p, t1);
+    			current = true;
+    		},
+    		p(ctx, [dirty]) {
+    			let previous_block_index = current_block_type_index;
+    			current_block_type_index = select_block_type(ctx);
+
+    			if (current_block_type_index === previous_block_index) {
+    				if_blocks[current_block_type_index].p(ctx, dirty);
+    			} else {
+    				group_outros();
+
+    				transition_out(if_blocks[previous_block_index], 1, 1, () => {
+    					if_blocks[previous_block_index] = null;
+    				});
+
+    				check_outros();
+    				if_block = if_blocks[current_block_type_index];
+
+    				if (!if_block) {
+    					if_block = if_blocks[current_block_type_index] = if_block_creators[current_block_type_index](ctx);
+    					if_block.c();
+    				} else {
+    					if_block.p(ctx, dirty);
+    				}
+
+    				transition_in(if_block, 1);
+    				if_block.m(div, t0);
+    			}
+
+    			if ((!current || dirty & /*message*/ 1) && t1_value !== (t1_value = new Date(/*message*/ ctx[0].created_at * 1000).toLocaleString() + "")) set_data(t1, t1_value);
+    		},
+    		i(local) {
+    			if (current) return;
+    			transition_in(if_block);
+    			current = true;
+    		},
+    		o(local) {
+    			transition_out(if_block);
+    			current = false;
+    		},
+    		d(detaching) {
+    			if (detaching) detach(div);
+    			if_blocks[current_block_type_index].d();
+    		}
+    	};
+    }
+
+    function instance$4($$self, $$props, $$invalidate) {
+    	let profile;
+
+    	let $profiles,
+    		$$unsubscribe_profiles = noop,
+    		$$subscribe_profiles = () => ($$unsubscribe_profiles(), $$unsubscribe_profiles = subscribe(profiles, $$value => $$invalidate(3, $profiles = $$value)), profiles);
+
+    	$$self.$$.on_destroy.push(() => $$unsubscribe_profiles());
+    	let { message } = $$props;
+    	let { profiles } = $$props;
+    	$$subscribe_profiles();
+
+    	$$self.$$set = $$props => {
+    		if ('message' in $$props) $$invalidate(0, message = $$props.message);
+    		if ('profiles' in $$props) $$subscribe_profiles($$invalidate(1, profiles = $$props.profiles));
+    	};
+
+    	$$self.$$.update = () => {
+    		if ($$self.$$.dirty & /*$profiles, message*/ 9) {
+    			$$invalidate(2, profile = $profiles.has(message.pubkey)
+    			? $profiles.get(message.pubkey)
+    			: null);
+    		}
+    	};
+
+    	return [message, profiles, profile, $profiles];
+    }
+
+    class Message extends SvelteComponent {
+    	constructor(options) {
+    		super();
+    		init(this, options, instance$4, create_fragment$5, safe_not_equal, { message: 0, profiles: 1 });
+    	}
+    }
+
+    var css_248z$3 = ".message-input.svelte-16tkvs6{display:flex;align-items:center;padding:0.75rem;border-top:1px solid #eee;background-color:#f9f9f9}textarea.svelte-16tkvs6{flex-grow:1;padding:0.75rem;font-size:1rem;border:1px solid #ccc;border-radius:5px;margin-right:0.5rem;resize:none;height:50px}button.svelte-16tkvs6{padding:0.75rem 1rem;font-size:1rem;color:#fff;background-color:#007bff;border:none;border-radius:5px;cursor:pointer;transition:background-color 0.2s}button.svelte-16tkvs6:hover{background-color:#0056b3}";
+    styleInject(css_248z$3);
+
+    /* src/components/DirectMessage/MessageInput.svelte generated by Svelte v3.59.1 */
+
+    function create_fragment$4(ctx) {
+    	let div;
+    	let textarea;
+    	let t0;
+    	let button;
+    	let mounted;
+    	let dispose;
+
+    	return {
+    		c() {
+    			div = element("div");
+    			textarea = element("textarea");
+    			t0 = space();
+    			button = element("button");
+    			button.textContent = "Send";
+    			attr(textarea, "placeholder", "Type your message...");
+    			attr(textarea, "class", "svelte-16tkvs6");
+    			attr(button, "class", "svelte-16tkvs6");
+    			attr(div, "class", "message-input svelte-16tkvs6");
+    		},
+    		m(target, anchor) {
+    			insert(target, div, anchor);
+    			append(div, textarea);
+    			set_input_value(textarea, /*messageContent*/ ctx[1]);
+    			append(div, t0);
+    			append(div, button);
+
+    			if (!mounted) {
+    				dispose = [
+    					listen(textarea, "input", /*textarea_input_handler*/ ctx[4]),
+    					listen(textarea, "keydown", /*handleKeyDown*/ ctx[3]),
+    					listen(button, "click", /*sendMessage*/ ctx[2])
+    				];
+
+    				mounted = true;
+    			}
+    		},
+    		p(ctx, [dirty]) {
+    			if (dirty & /*messageContent*/ 2) {
+    				set_input_value(textarea, /*messageContent*/ ctx[1]);
+    			}
+    		},
+    		i: noop,
+    		o: noop,
+    		d(detaching) {
+    			if (detaching) detach(div);
+    			mounted = false;
+    			run_all(dispose);
+    		}
+    	};
+    }
+
+    function instance$3($$self, $$props, $$invalidate) {
+    	let $selectedRoom,
+    		$$unsubscribe_selectedRoom = noop,
+    		$$subscribe_selectedRoom = () => ($$unsubscribe_selectedRoom(), $$unsubscribe_selectedRoom = subscribe(selectedRoom, $$value => $$invalidate(5, $selectedRoom = $$value)), selectedRoom);
+
+    	$$self.$$.on_destroy.push(() => $$unsubscribe_selectedRoom());
+    	let { selectedRoom } = $$props;
+    	$$subscribe_selectedRoom();
+    	let messageContent = '';
+    	const dispatch = createEventDispatcher();
+
+    	async function sendMessage() {
+    		if (messageContent.trim() === '') return;
+
+    		if ($selectedRoom && $selectedRoom.participants) {
+    			const receiverPubKey = $selectedRoom.participants.split(',')[0];
+    			const subject = $selectedRoom.subject;
+
+    			try {
+    				console.log("receiverPubKey:", receiverPubKey);
+    				console.log("messageContent:", messageContent);
+    				console.log("subject:", subject);
+    				await dmManager.sendMessage(receiverPubKey, messageContent, subject);
+    				$$invalidate(1, messageContent = '');
+    				dispatch('messageSent');
+    			} catch(error) {
+    				console.error("Error sending message:", error);
+    			}
+    		} else {
+    			console.error("Selected room or participants are not defined.");
+    		}
+    	}
+
+    	function handleKeyDown(event) {
+    		if (event.key === 'Enter') {
+    			if (event.shiftKey) {
+    				// Shift+Enter pressed - insert a new line
+    				event.preventDefault();
+
+    				$$invalidate(1, messageContent += '\n');
+    			} else {
+    				// Enter pressed - send the message
+    				event.preventDefault();
+
+    				sendMessage();
+    			}
+    		}
+    	}
+
+    	function textarea_input_handler() {
+    		messageContent = this.value;
+    		$$invalidate(1, messageContent);
+    	}
+
+    	$$self.$$set = $$props => {
+    		if ('selectedRoom' in $$props) $$subscribe_selectedRoom($$invalidate(0, selectedRoom = $$props.selectedRoom));
+    	};
+
+    	return [
+    		selectedRoom,
+    		messageContent,
+    		sendMessage,
+    		handleKeyDown,
+    		textarea_input_handler
+    	];
+    }
+
+    class MessageInput extends SvelteComponent {
+    	constructor(options) {
+    		super();
+    		init(this, options, instance$3, create_fragment$4, safe_not_equal, { selectedRoom: 0 });
+    	}
+    }
+
+    var css_248z$2 = ".chat-room.svelte-10g9611{width:70%;padding:1rem;display:flex;flex-direction:column}.chat-header.svelte-10g9611{display:flex;align-items:center;padding-bottom:1rem;border-bottom:1px solid #eee;margin-bottom:1rem}.subject.svelte-10g9611{color:#888;font-size:1rem;margin:0;margin-top:5px}.messages.svelte-10g9611{flex-grow:1;overflow-y:auto}";
+    styleInject(css_248z$2);
+
+    /* src/components/DirectMessage/ChatRoom.svelte generated by Svelte v3.59.1 */
+
+    function get_each_context(ctx, list, i) {
+    	const child_ctx = ctx.slice();
+    	child_ctx[11] = list[i];
+    	return child_ctx;
+    }
+
+    // (71:8) {#if $selectedRoom.subject}
+    function create_if_block$1(ctx) {
+    	let p;
+    	let t_value = /*$selectedRoom*/ ctx[2].subject + "";
+    	let t;
+
+    	return {
+    		c() {
+    			p = element("p");
+    			t = text(t_value);
+    			attr(p, "class", "subject svelte-10g9611");
+    		},
+    		m(target, anchor) {
+    			insert(target, p, anchor);
+    			append(p, t);
+    		},
+    		p(ctx, dirty) {
+    			if (dirty & /*$selectedRoom*/ 4 && t_value !== (t_value = /*$selectedRoom*/ ctx[2].subject + "")) set_data(t, t_value);
+    		},
+    		d(detaching) {
+    			if (detaching) detach(p);
+    		}
+    	};
+    }
+
+    // (76:8) {#each $messages as message}
+    function create_each_block(ctx) {
+    	let message;
+    	let current;
+
+    	message = new Message({
+    			props: {
+    				message: /*message*/ ctx[11],
+    				profiles: /*profiles*/ ctx[5]
+    			}
+    		});
+
+    	return {
+    		c() {
+    			create_component(message.$$.fragment);
+    		},
+    		m(target, anchor) {
+    			mount_component(message, target, anchor);
+    			current = true;
+    		},
+    		p(ctx, dirty) {
+    			const message_changes = {};
+    			if (dirty & /*$messages*/ 8) message_changes.message = /*message*/ ctx[11];
+    			message.$set(message_changes);
+    		},
+    		i(local) {
+    			if (current) return;
+    			transition_in(message.$$.fragment, local);
+    			current = true;
+    		},
+    		o(local) {
+    			transition_out(message.$$.fragment, local);
+    			current = false;
+    		},
+    		d(detaching) {
+    			destroy_component(message, detaching);
+    		}
+    	};
+    }
+
+    function create_fragment$3(ctx) {
+    	let div2;
+    	let div0;
+    	let t0;
+    	let div1;
+    	let t1;
+    	let messageinput;
+    	let current;
+    	let if_block = /*$selectedRoom*/ ctx[2].subject && create_if_block$1(ctx);
+    	let each_value = /*$messages*/ ctx[3];
+    	let each_blocks = [];
+
+    	for (let i = 0; i < each_value.length; i += 1) {
+    		each_blocks[i] = create_each_block(get_each_context(ctx, each_value, i));
+    	}
+
+    	const out = i => transition_out(each_blocks[i], 1, 1, () => {
+    		each_blocks[i] = null;
+    	});
+
+    	messageinput = new MessageInput({
+    			props: { selectedRoom: /*selectedRoom*/ ctx[0] }
+    		});
+
+    	return {
+    		c() {
+    			div2 = element("div");
+    			div0 = element("div");
+    			if (if_block) if_block.c();
+    			t0 = space();
+    			div1 = element("div");
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].c();
+    			}
+
+    			t1 = space();
+    			create_component(messageinput.$$.fragment);
+    			attr(div0, "class", "chat-header svelte-10g9611");
+    			attr(div1, "class", "messages svelte-10g9611");
+    			attr(div2, "class", "chat-room svelte-10g9611");
+    		},
+    		m(target, anchor) {
+    			insert(target, div2, anchor);
+    			append(div2, div0);
+    			if (if_block) if_block.m(div0, null);
+    			append(div2, t0);
+    			append(div2, div1);
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				if (each_blocks[i]) {
+    					each_blocks[i].m(div1, null);
+    				}
+    			}
+
+    			/*div1_binding*/ ctx[7](div1);
+    			append(div2, t1);
+    			mount_component(messageinput, div2, null);
+    			current = true;
+    		},
+    		p(ctx, [dirty]) {
+    			if (/*$selectedRoom*/ ctx[2].subject) {
+    				if (if_block) {
+    					if_block.p(ctx, dirty);
+    				} else {
+    					if_block = create_if_block$1(ctx);
+    					if_block.c();
+    					if_block.m(div0, null);
+    				}
+    			} else if (if_block) {
+    				if_block.d(1);
+    				if_block = null;
+    			}
+
+    			if (dirty & /*$messages, profiles*/ 40) {
+    				each_value = /*$messages*/ ctx[3];
+    				let i;
+
+    				for (i = 0; i < each_value.length; i += 1) {
+    					const child_ctx = get_each_context(ctx, each_value, i);
+
+    					if (each_blocks[i]) {
+    						each_blocks[i].p(child_ctx, dirty);
+    						transition_in(each_blocks[i], 1);
+    					} else {
+    						each_blocks[i] = create_each_block(child_ctx);
+    						each_blocks[i].c();
+    						transition_in(each_blocks[i], 1);
+    						each_blocks[i].m(div1, null);
+    					}
+    				}
+
+    				group_outros();
+
+    				for (i = each_value.length; i < each_blocks.length; i += 1) {
+    					out(i);
+    				}
+
+    				check_outros();
+    			}
+
+    			const messageinput_changes = {};
+    			if (dirty & /*selectedRoom*/ 1) messageinput_changes.selectedRoom = /*selectedRoom*/ ctx[0];
+    			messageinput.$set(messageinput_changes);
+    		},
+    		i(local) {
+    			if (current) return;
+
+    			for (let i = 0; i < each_value.length; i += 1) {
+    				transition_in(each_blocks[i]);
+    			}
+
+    			transition_in(messageinput.$$.fragment, local);
+    			current = true;
+    		},
+    		o(local) {
+    			each_blocks = each_blocks.filter(Boolean);
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				transition_out(each_blocks[i]);
+    			}
+
+    			transition_out(messageinput.$$.fragment, local);
+    			current = false;
+    		},
+    		d(detaching) {
+    			if (detaching) detach(div2);
+    			if (if_block) if_block.d();
+    			destroy_each(each_blocks, detaching);
+    			/*div1_binding*/ ctx[7](null);
+    			destroy_component(messageinput);
+    		}
+    	};
+    }
+
+    function instance$2($$self, $$props, $$invalidate) {
+    	let $nostrCache;
+
+    	let $selectedRoom,
+    		$$unsubscribe_selectedRoom = noop,
+    		$$subscribe_selectedRoom = () => ($$unsubscribe_selectedRoom(), $$unsubscribe_selectedRoom = subscribe(selectedRoom, $$value => $$invalidate(2, $selectedRoom = $$value)), selectedRoom);
+
+    	let $messages;
+    	component_subscribe($$self, nostrCache, $$value => $$invalidate(6, $nostrCache = $$value));
+    	$$self.$$.on_destroy.push(() => $$unsubscribe_selectedRoom());
+    	let { selectedRoom } = $$props;
+    	$$subscribe_selectedRoom();
+    	let messages = writable([]);
+    	component_subscribe($$self, messages, value => $$invalidate(3, $messages = value));
+    	let profiles = writable(new Map());
+    	let messageContainer;
+    	let latestTimestamp = writable(0);
+
+    	// Fetches messages for the selected room from the cache
+    	async function fetchMessages() {
+    		if ($selectedRoom) {
+    			const fetchedMessages = await dmManager.getMessagesForRoom($selectedRoom.participants);
+    			messages.set(fetchedMessages);
+    			await fetchProfiles(fetchedMessages.map(msg => msg.pubkey));
+
+    			// Update the latest message timestamp
+    			if (fetchedMessages.length > 0) {
+    				latestTimestamp.set(fetchedMessages[fetchedMessages.length - 1].created_at);
+    			}
+    		}
+    	}
+
+    	async function fetchProfiles(pubkeys) {
+    		const profilePromises = pubkeys.map(async pubkey => {
+    			let profile = await socialMediaManager.getProfile(pubkey);
+    			return { pubkey, profile };
+    		});
+
+    		const results = await Promise.all(profilePromises);
+
+    		profiles.update(map => {
+    			results.forEach(({ pubkey, profile }) => {
+    				if (profile) {
+    					map.set(pubkey, profile);
+    				}
+    			});
+
+    			return map;
+    		});
+    	}
+
+    	function div1_binding($$value) {
+    		binding_callbacks[$$value ? 'unshift' : 'push'](() => {
+    			messageContainer = $$value;
+    			($$invalidate(1, messageContainer), $$invalidate(8, latestTimestamp));
+    		});
+    	}
+
+    	$$self.$$set = $$props => {
+    		if ('selectedRoom' in $$props) $$subscribe_selectedRoom($$invalidate(0, selectedRoom = $$props.selectedRoom));
+    	};
+
+    	$$self.$$.update = () => {
+    		if ($$self.$$.dirty & /*$selectedRoom*/ 4) {
+    			// Updates messages and fetches profiles whenever the selected room changes
+    			if ($selectedRoom) {
+    				fetchMessages();
+    			}
+    		}
+
+    		if ($$self.$$.dirty & /*messageContainer*/ 2) {
+    			// Scroll to the bottom when a new message is added
+    			latestTimestamp.subscribe(newTimestamp => {
+    				if (messageContainer && newTimestamp > 0) {
+    					$$invalidate(1, messageContainer.scrollTop = messageContainer.scrollHeight, messageContainer);
+    				}
+    			});
+    		}
+
+    		if ($$self.$$.dirty & /*$nostrCache*/ 64) {
+    			// Updates messages whenever the cache changes
+    			if ($nostrCache) {
+    				fetchMessages();
+    			}
+    		}
+    	};
+
+    	return [
+    		selectedRoom,
+    		messageContainer,
+    		$selectedRoom,
+    		$messages,
+    		messages,
+    		profiles,
+    		$nostrCache,
+    		div1_binding
+    	];
+    }
+
+    class ChatRoom extends SvelteComponent {
+    	constructor(options) {
+    		super();
+    		init(this, options, instance$2, create_fragment$3, safe_not_equal, { selectedRoom: 0 });
+    	}
+    }
+
+    var css_248z$1 = "body{font-family:\"Arial\", sans-serif;background-color:#f0f2f5;margin:0;padding:0}.chat-container.svelte-637yc8{display:flex;height:50vh;background-color:#fff;box-shadow:0 4px 8px rgba(0, 0, 0, 0.1);border-radius:8px;overflow:hidden;margin:auto;margin-bottom:7vh;max-width:1200px}.no-chat-selected.svelte-637yc8{flex-grow:1;display:flex;justify-content:center;align-items:center;color:#888}";
+    styleInject(css_248z$1);
+
+    /* src/components/DirectMessage/Chat.svelte generated by Svelte v3.59.1 */
+
+    function create_else_block(ctx) {
+    	let div;
+
+    	return {
+    		c() {
+    			div = element("div");
+    			div.innerHTML = `<p>Select a chat to start messaging</p>`;
+    			attr(div, "class", "no-chat-selected svelte-637yc8");
+    		},
+    		m(target, anchor) {
+    			insert(target, div, anchor);
+    		},
+    		p: noop,
+    		i: noop,
+    		o: noop,
+    		d(detaching) {
+    			if (detaching) detach(div);
+    		}
+    	};
+    }
+
+    // (37:8) {#if $selectedRoom}
+    function create_if_block(ctx) {
+    	let chatroom;
+    	let current;
+
+    	chatroom = new ChatRoom({
+    			props: { selectedRoom: /*selectedRoom*/ ctx[2] }
+    		});
+
+    	return {
+    		c() {
+    			create_component(chatroom.$$.fragment);
+    		},
+    		m(target, anchor) {
+    			mount_component(chatroom, target, anchor);
+    			current = true;
+    		},
+    		p: noop,
+    		i(local) {
+    			if (current) return;
+    			transition_in(chatroom.$$.fragment, local);
+    			current = true;
+    		},
+    		o(local) {
+    			transition_out(chatroom.$$.fragment, local);
+    			current = false;
+    		},
+    		d(detaching) {
+    			destroy_component(chatroom, detaching);
+    		}
+    	};
+    }
+
+    function create_fragment$2(ctx) {
+    	let main;
+    	let div;
+    	let chatlist;
+    	let t;
+    	let current_block_type_index;
+    	let if_block;
+    	let current;
+    	chatlist = new ChatList({ props: { pubkey: /*pubkey*/ ctx[0] } });
+    	chatlist.$on("selectRoom", /*selectRoom*/ ctx[3]);
+    	const if_block_creators = [create_if_block, create_else_block];
+    	const if_blocks = [];
+
+    	function select_block_type(ctx, dirty) {
+    		if (/*$selectedRoom*/ ctx[1]) return 0;
+    		return 1;
+    	}
+
+    	current_block_type_index = select_block_type(ctx);
+    	if_block = if_blocks[current_block_type_index] = if_block_creators[current_block_type_index](ctx);
+
+    	return {
+    		c() {
+    			main = element("main");
+    			div = element("div");
+    			create_component(chatlist.$$.fragment);
+    			t = space();
+    			if_block.c();
+    			attr(div, "class", "chat-container svelte-637yc8");
+    		},
+    		m(target, anchor) {
+    			insert(target, main, anchor);
+    			append(main, div);
+    			mount_component(chatlist, div, null);
+    			append(div, t);
+    			if_blocks[current_block_type_index].m(div, null);
+    			current = true;
+    		},
+    		p(ctx, [dirty]) {
+    			const chatlist_changes = {};
+    			if (dirty & /*pubkey*/ 1) chatlist_changes.pubkey = /*pubkey*/ ctx[0];
+    			chatlist.$set(chatlist_changes);
+    			let previous_block_index = current_block_type_index;
+    			current_block_type_index = select_block_type(ctx);
+
+    			if (current_block_type_index === previous_block_index) {
+    				if_blocks[current_block_type_index].p(ctx, dirty);
+    			} else {
+    				group_outros();
+
+    				transition_out(if_blocks[previous_block_index], 1, 1, () => {
+    					if_blocks[previous_block_index] = null;
+    				});
+
+    				check_outros();
+    				if_block = if_blocks[current_block_type_index];
+
+    				if (!if_block) {
+    					if_block = if_blocks[current_block_type_index] = if_block_creators[current_block_type_index](ctx);
+    					if_block.c();
+    				} else {
+    					if_block.p(ctx, dirty);
+    				}
+
+    				transition_in(if_block, 1);
+    				if_block.m(div, null);
+    			}
+    		},
+    		i(local) {
+    			if (current) return;
+    			transition_in(chatlist.$$.fragment, local);
+    			transition_in(if_block);
+    			current = true;
+    		},
+    		o(local) {
+    			transition_out(chatlist.$$.fragment, local);
+    			transition_out(if_block);
+    			current = false;
+    		},
+    		d(detaching) {
+    			if (detaching) detach(main);
+    			destroy_component(chatlist);
+    			if_blocks[current_block_type_index].d();
+    		}
+    	};
+    }
+
+    function instance$1($$self, $$props, $$invalidate) {
+    	let $nostrManager;
+    	let $nostrCache;
+    	let $selectedRoom;
+    	component_subscribe($$self, nostrManager, $$value => $$invalidate(4, $nostrManager = $$value));
+    	component_subscribe($$self, nostrCache, $$value => $$invalidate(5, $nostrCache = $$value));
+    	let { pubkey = null } = $$props;
+    	let selectedRoom = writable(null);
+    	component_subscribe($$self, selectedRoom, value => $$invalidate(1, $selectedRoom = value));
+
+    	function selectRoom(event) {
+    		selectedRoom.set(event.detail);
+    	}
+
+    	onMount(async () => {
+    		if ($nostrManager && $nostrManager.publicKey) {
+    			await dmManager.init();
+    			dmManager.subscribeToMessages();
+    		}
+
+    		console.log("pubkey in Chat:", pubkey);
+    	});
+
+    	$$self.$$set = $$props => {
+    		if ('pubkey' in $$props) $$invalidate(0, pubkey = $$props.pubkey);
+    	};
+
+    	$$self.$$.update = () => {
+    		if ($$self.$$.dirty & /*$nostrManager, $nostrCache*/ 48) {
+    			if ($nostrManager && $nostrCache) {
+    				if ($nostrManager.publicKey) {
+    					dmManager.init();
+    					dmManager.subscribeToMessages();
+    				}
+    			}
+    		}
+    	};
+
+    	return [pubkey, $selectedRoom, selectedRoom, selectRoom, $nostrManager, $nostrCache];
+    }
+
+    class Chat extends SvelteComponent {
+    	constructor(options) {
+    		super();
+    		init(this, options, instance$1, create_fragment$2, safe_not_equal, { pubkey: 0 });
+    	}
+    }
+
+    var css_248z = ".content-section.svelte-17eaetn{display:flex;background-color:#e2e8f0 !important}.content-container.svelte-17eaetn{flex-grow:1;z-index:0}.flex-grow.svelte-17eaetn{z-index:0}.content-container.svelte-17eaetn{margin-left:0;transition:margin-left 0.3s ease-in-out;flex-grow:1;z-index:0}.content-container.sidebar-open.svelte-17eaetn{margin-left:200px}";
+    styleInject(css_248z);
+
+    /* src/views/DMView.svelte generated by Svelte v3.59.1 */
+
+    function create_fragment$1(ctx) {
+    	let main;
+    	let menu;
+    	let t0;
+    	let div1;
+    	let banner;
+    	let t1;
+    	let toolbar;
+    	let t2;
+    	let div0;
+    	let chat;
+    	let div0_class_value;
+    	let t3;
+    	let footer;
+    	let current;
+    	menu = new Sidebar({});
+
+    	banner = new Banner({
+    			props: {
+    				bannerImage,
+    				title,
+    				subtitle,
+    				show_right_text: true
+    			}
+    		});
+
+    	toolbar = new Toolbar({});
+    	chat = new Chat({ props: { pubkey: /*pubkey*/ ctx[0] } });
+    	footer = new Footer({});
+
+    	return {
+    		c() {
+    			main = element("main");
+    			create_component(menu.$$.fragment);
+    			t0 = space();
+    			div1 = element("div");
+    			create_component(banner.$$.fragment);
+    			t1 = space();
+    			create_component(toolbar.$$.fragment);
+    			t2 = space();
+    			div0 = element("div");
+    			create_component(chat.$$.fragment);
+    			t3 = space();
+    			create_component(footer.$$.fragment);
+    			attr(div0, "class", div0_class_value = "" + (null_to_empty(/*$contentContainerClass*/ ctx[1]) + " svelte-17eaetn"));
+    			attr(div1, "class", "flex-grow svelte-17eaetn");
+    			attr(main, "class", "overview-page");
+    		},
+    		m(target, anchor) {
+    			insert(target, main, anchor);
+    			mount_component(menu, main, null);
+    			append(main, t0);
+    			append(main, div1);
+    			mount_component(banner, div1, null);
+    			append(div1, t1);
+    			mount_component(toolbar, div1, null);
+    			append(div1, t2);
+    			append(div1, div0);
+    			mount_component(chat, div0, null);
+    			append(div1, t3);
+    			mount_component(footer, div1, null);
+    			current = true;
+    		},
+    		p(ctx, [dirty]) {
+    			const chat_changes = {};
+    			if (dirty & /*pubkey*/ 1) chat_changes.pubkey = /*pubkey*/ ctx[0];
+    			chat.$set(chat_changes);
+
+    			if (!current || dirty & /*$contentContainerClass*/ 2 && div0_class_value !== (div0_class_value = "" + (null_to_empty(/*$contentContainerClass*/ ctx[1]) + " svelte-17eaetn"))) {
+    				attr(div0, "class", div0_class_value);
+    			}
+    		},
+    		i(local) {
+    			if (current) return;
+    			transition_in(menu.$$.fragment, local);
+    			transition_in(banner.$$.fragment, local);
+    			transition_in(toolbar.$$.fragment, local);
+    			transition_in(chat.$$.fragment, local);
+    			transition_in(footer.$$.fragment, local);
+    			current = true;
+    		},
+    		o(local) {
+    			transition_out(menu.$$.fragment, local);
+    			transition_out(banner.$$.fragment, local);
+    			transition_out(toolbar.$$.fragment, local);
+    			transition_out(chat.$$.fragment, local);
+    			transition_out(footer.$$.fragment, local);
+    			current = false;
+    		},
+    		d(detaching) {
+    			if (detaching) detach(main);
+    			destroy_component(menu);
+    			destroy_component(banner);
+    			destroy_component(toolbar);
+    			destroy_component(chat);
+    			destroy_component(footer);
+    		}
+    	};
+    }
+
+    let bannerImage = "../../img/Banner1u.png";
+    let title = "BitSpark";
+    let subtitle = "The idea engine";
+
+    function instance($$self, $$props, $$invalidate) {
+    	let $contentContainerClass;
+    	component_subscribe($$self, contentContainerClass, $$value => $$invalidate(1, $contentContainerClass = $$value));
+    	let { params } = $$props;
+    	let pubkey = null;
+
+    	$$self.$$set = $$props => {
+    		if ('params' in $$props) $$invalidate(2, params = $$props.params);
+    	};
+
+    	$$self.$$.update = () => {
+    		if ($$self.$$.dirty & /*params*/ 4) {
+    			// Warten auf params und Initialisieren des pubkey
+    			{
+    				if (params) {
+    					$$invalidate(0, pubkey = params.pubkey || null);
+    				}
+    			}
+    		}
+    	};
+
+    	return [pubkey, $contentContainerClass, params];
+    }
+
+    class DMView extends SvelteComponent {
+    	constructor(options) {
+    		super();
+    		init(this, options, instance, create_fragment$1, safe_not_equal, { params: 2 });
     	}
     }
 
     /* src/App.svelte generated by Svelte v3.59.1 */
 
+    function create_default_slot_2(ctx) {
+    	let dmview;
+    	let current;
+    	dmview = new DMView({ props: { params: /*params*/ ctx[0] } });
+
+    	return {
+    		c() {
+    			create_component(dmview.$$.fragment);
+    		},
+    		m(target, anchor) {
+    			mount_component(dmview, target, anchor);
+    			current = true;
+    		},
+    		p(ctx, dirty) {
+    			const dmview_changes = {};
+    			if (dirty & /*params*/ 1) dmview_changes.params = /*params*/ ctx[0];
+    			dmview.$set(dmview_changes);
+    		},
+    		i(local) {
+    			if (current) return;
+    			transition_in(dmview.$$.fragment, local);
+    			current = true;
+    		},
+    		o(local) {
+    			transition_out(dmview.$$.fragment, local);
+    			current = false;
+    		},
+    		d(detaching) {
+    			destroy_component(dmview, detaching);
+    		}
+    	};
+    }
+
+    // (58:6) <Route path="/dm" let:params>
+    function create_default_slot_1(ctx) {
+    	let dmview;
+    	let current;
+    	dmview = new DMView({ props: { params: /*params*/ ctx[0] } });
+
+    	return {
+    		c() {
+    			create_component(dmview.$$.fragment);
+    		},
+    		m(target, anchor) {
+    			mount_component(dmview, target, anchor);
+    			current = true;
+    		},
+    		p(ctx, dirty) {
+    			const dmview_changes = {};
+    			if (dirty & /*params*/ 1) dmview_changes.params = /*params*/ ctx[0];
+    			dmview.$set(dmview_changes);
+    		},
+    		i(local) {
+    			if (current) return;
+    			transition_in(dmview.$$.fragment, local);
+    			current = true;
+    		},
+    		o(local) {
+    			transition_out(dmview.$$.fragment, local);
+    			current = false;
+    		},
+    		d(detaching) {
+    			destroy_component(dmview, detaching);
+    		}
+    	};
+    }
+
+    // (29:0) <Router>
     function create_default_slot(ctx) {
     	let div;
     	let nav;
@@ -22000,6 +31647,10 @@ var app = (function () {
     	let route10;
     	let t11;
     	let route11;
+    	let t12;
+    	let route12;
+    	let t13;
+    	let route13;
     	let current;
     	route0 = new Route({ props: { path: "/", component: Home } });
 
@@ -22065,6 +31716,34 @@ var app = (function () {
     			}
     		});
 
+    	route12 = new Route({
+    			props: {
+    				path: "/dm/:pubkey",
+    				$$slots: {
+    					default: [
+    						create_default_slot_2,
+    						({ params }) => ({ 0: params }),
+    						({ params }) => params ? 1 : 0
+    					]
+    				},
+    				$$scope: { ctx }
+    			}
+    		});
+
+    	route13 = new Route({
+    			props: {
+    				path: "/dm",
+    				$$slots: {
+    					default: [
+    						create_default_slot_1,
+    						({ params }) => ({ 0: params }),
+    						({ params }) => params ? 1 : 0
+    					]
+    				},
+    				$$scope: { ctx }
+    			}
+    		});
+
     	return {
     		c() {
     			div = element("div");
@@ -22094,6 +31773,10 @@ var app = (function () {
     			create_component(route10.$$.fragment);
     			t11 = space();
     			create_component(route11.$$.fragment);
+    			t12 = space();
+    			create_component(route12.$$.fragment);
+    			t13 = space();
+    			create_component(route13.$$.fragment);
     		},
     		m(target, anchor) {
     			insert(target, div, anchor);
@@ -22123,9 +31806,28 @@ var app = (function () {
     			mount_component(route10, main, null);
     			append(main, t11);
     			mount_component(route11, main, null);
+    			append(main, t12);
+    			mount_component(route12, main, null);
+    			append(main, t13);
+    			mount_component(route13, main, null);
     			current = true;
     		},
-    		p: noop,
+    		p(ctx, dirty) {
+    			const route12_changes = {};
+
+    			if (dirty & /*$$scope, params*/ 3) {
+    				route12_changes.$$scope = { dirty, ctx };
+    			}
+
+    			route12.$set(route12_changes);
+    			const route13_changes = {};
+
+    			if (dirty & /*$$scope, params*/ 3) {
+    				route13_changes.$$scope = { dirty, ctx };
+    			}
+
+    			route13.$set(route13_changes);
+    		},
     		i(local) {
     			if (current) return;
     			transition_in(route0.$$.fragment, local);
@@ -22140,6 +31842,8 @@ var app = (function () {
     			transition_in(route9.$$.fragment, local);
     			transition_in(route10.$$.fragment, local);
     			transition_in(route11.$$.fragment, local);
+    			transition_in(route12.$$.fragment, local);
+    			transition_in(route13.$$.fragment, local);
     			current = true;
     		},
     		o(local) {
@@ -22155,6 +31859,8 @@ var app = (function () {
     			transition_out(route9.$$.fragment, local);
     			transition_out(route10.$$.fragment, local);
     			transition_out(route11.$$.fragment, local);
+    			transition_out(route12.$$.fragment, local);
+    			transition_out(route13.$$.fragment, local);
     			current = false;
     		},
     		d(detaching) {
@@ -22171,6 +31877,8 @@ var app = (function () {
     			destroy_component(route9);
     			destroy_component(route10);
     			destroy_component(route11);
+    			destroy_component(route12);
+    			destroy_component(route13);
     		}
     	};
     }
@@ -22205,7 +31913,7 @@ var app = (function () {
     		p(ctx, [dirty]) {
     			const router_changes = {};
 
-    			if (dirty & /*$$scope*/ 1) {
+    			if (dirty & /*$$scope*/ 2) {
     				router_changes.$$scope = { dirty, ctx };
     			}
 
