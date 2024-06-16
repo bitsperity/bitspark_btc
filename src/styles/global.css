@@ -1,0 +1,374 @@
+.color-for-bg {
+    color: rgb(71 85 105)
+}
+
+.text-color-df {
+    color: #4a5568;
+}
+
+/* Layout */
+.overview-page {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(71 85 105)
+        /* background-color: #E2E8F0; Assuming you have this variable defined */
+}
+
+footer {
+    z-index: 10;
+    background-color: rgb(12, 12, 12);
+}
+
+.move-up {
+    transform: translateY(-2px);
+}
+
+.content-overlay {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    /* Equivalent to top-1/2 */
+    transform: translateY(-50%);
+    /* Equivalent to -translate-y-1/2 */
+    padding: 0 1rem;
+    /* Equivalent to px-4 */
+    display: flex;
+    flex-direction: column;
+    /* Equivalent to flex-col */
+    align-items: flex-start;
+    /* Equivalent to items-start */
+    justify-content: center;
+    /* Equivalent to justify-center */
+    height: 100%;
+    /* Equivalent to h-full */
+}
+
+.content-icons {
+    position: absolute;
+    top: 1rem;
+    /* Equivalent to top-4 */
+    right: 1rem;
+    /* Equivalent to right-4 */
+    font-size: 1.875rem;
+    /* Equivalent to text-3xl */
+    color: white;
+    /* Equivalent to text-white */
+    display: flex;
+    justify-content: flex-end;
+    /* Equivalent to justify-end */
+    align-items: center;
+    /* Equivalent to items-center */
+    gap: 1.5rem;
+    /* Equivalent to gap-6 */
+}
+
+.support-button {
+    padding: 0;
+    display: flex;
+    align-items: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.support-button img {
+    height: 2.5rem;
+    width: 2.5rem;
+}
+
+
+.bg-card {
+    background-color: white;
+    width: 100%;
+    margin-bottom: 6rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+        0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    border-radius: 1.25rem;
+}
+
+/* Base class for h2 */
+.base-h2 {
+    font-size: 4rem;
+    font-weight: 700;
+    /* blueGray-700 */
+    margin-bottom: 1rem;
+    margin-top: 1.5rem;
+    /* Equivalent to mt-6 */
+}
+
+/* Base class for h3 */
+.base-h3 {
+    font-size: 3rem;
+    font-weight: 600;
+    /* blueGray-700 */
+    margin-bottom: 0.75rem;
+    margin-top: 1.25rem;
+}
+
+/* Base class for h4 */
+.base-h4 {
+    font-size: 2rem;
+    font-weight: 500;
+    /* blueGray-700 */
+    margin-bottom: 0.5rem;
+    margin-top: 1rem;
+}
+
+.flex-grow {
+    /* Other styles */
+    z-index: 0;
+    /* This will keep the div behind the button */
+}
+
+.content-section {
+    display: flex;
+    /* background-color: #e2e8f0 !important;*/
+}
+
+.content-container {
+    margin-left: 0;
+    /* This is the starting state */
+    transition: margin-left 0.3s ease-in-out;
+    flex-grow: 1;
+    z-index: 0;
+    /* This will keep the div behind the button */
+}
+
+.content-container.sidebar-open {
+    margin-left: 200px;
+    /* This should be equal to the width of the sidebar */
+}
+
+.combined-content-container {
+    /* From .content-container */
+    margin-left: 0;
+    transition: margin-left 0.3s ease-in-out;
+    flex-grow: 1;
+    z-index: 0;
+
+    /* From .relative (assuming it sets position: relative) */
+    position: relative;
+
+    /* From .py-16 (assuming it sets padding-top and padding-bottom to 4rem) */
+    padding-top: 32px;
+
+    /* From .bg-blueGray-200 */
+    /* background-color: #e2e8f0; */
+    /* This is a guess based on the name. Replace with the actual color if different. */
+
+    /* From .container (assuming it centers content with max-width and auto margins) */
+    max-width: 100%;
+    /* Adjust this value based on your design */
+    /* margin-right: auto;
+    margin-left: auto; */
+
+    /* From .mx-auto */
+    /* Already covered by the .container styles above */
+
+    /* From .px-4 (assuming it sets padding-left and padding-right to 1rem) */
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.combined-content-container.sidebar-open {
+    margin-left: 200px;
+}
+
+
+.title-class {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 1/2;
+    transition: left 0.3s ease-in-out;
+    left: 55px;
+}
+
+.title-class.sidebar-open {
+    left: 215px;
+}
+
+.html-content {
+    width: 70%;
+    margin: 0 auto;
+    text-align: justify;
+}
+
+.github-icon-size {
+    font-size: 2.5rem;
+    /* This is equivalent to 40px for most browsers */
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.single-card {
+    background-color: white;
+    width: 100%;
+    margin-bottom: 4rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+        0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    border-radius: 1.25rem;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.single-card-profile-img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+    top: -75px;
+}
+
+.single-card-content {
+    width: 70%;
+    margin: 0 auto;
+    text-align: justify;
+    margin-bottom: 90px;
+    font-size: 1.2em;
+}
+
+.abstract-text {
+    width: 50%;
+    margin: 2rem auto;
+    text-align: justify;
+    font-size: 1.1em;
+    line-height: 1.6em;
+}
+
+.single-card-content h2,
+.single-card-content h3,
+.single-card-content h4,
+.single-card-content h5,
+.single-card-content h6 {
+    margin-top: 1.5em;
+    /* Adjust as needed */
+}
+
+.diagonal-cut {
+    bottom: -1px;
+    width: 100%;
+    position: inherit;
+}
+
+.input-style {
+    font-size: 19.2px;
+    line-height: 28.8px;
+    height: 45px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    border: 1px solid #D1D5DB;
+    /* border-gray-300 */
+    border-radius: 0.375rem;
+    /* rounded-md */
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    /* shadow-sm */
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.input-style:focus {
+    border-color: #93C5FD;
+    /* focus:border-indigo-300 */
+    box-shadow: 0 0 0 3px rgba(147, 197, 253, 0.5);
+    /* focus:ring-indigo-200 with focus:ring-opacity-50 */
+}
+
+.input-style-resize {
+    resize: none;
+    overflow: hidden;
+}
+
+.bs-orange {
+    background-color: rgb(249 115 22);
+}
+
+.bs-orange:active {
+    background-color: rgb(234 88 12);
+}
+
+.bs-blue {
+    background-color: #223d6d;
+}
+
+.bs-blue:active {
+    background-color: #1a2f53;
+}
+
+.modal-button {
+    font-size: 1.0rem;
+}
+
+.remove-button {
+    /* Remove the flex-grow property if you don't want the buttons to grow */
+    padding: 2px 8px;
+    /* Adjust padding to fit the text */
+    background-color: rgb(238, 238, 238);
+    border: none;
+    /* Remove border if you don't need it */
+    cursor: pointer;
+    /* Makes it clear the element is clickable */
+    white-space: nowrap;
+    /* Prevent text inside the button from wrapping */
+    /* You can remove min-width if you want the button to only be as wide as its content plus padding */
+    /* min-width: 120px; */
+    margin: 2px;
+    /* Provide some space around the buttons */
+    border-radius: 4px;
+    /* If you want rounded corners */
+    /* Add text alignment and other styles as needed */
+    text-align: center;
+    font-size: 1rem;
+    /* Adjust font size as needed */
+}
+
+.remove-button:hover {
+    background-color: #223d6d;
+    position: relative;
+    color: #adadad;
+}
+
+.remove-button:focus {
+    outline: none;
+}
+
+.add-button {
+    /* Remove the flex-grow property if you don't want the buttons to grow */
+    padding: 2px 8px;
+    /* Adjust padding to fit the text */
+    background-color: rgb(238, 238, 238);
+    border: none;
+    /* Remove border if you don't need it */
+    cursor: pointer;
+    /* Makes it clear the element is clickable */
+    white-space: nowrap;
+    /* Prevent text inside the button from wrapping */
+    /* You can remove min-width if you want the button to only be as wide as its content plus padding */
+    /* min-width: 120px; */
+    margin: 2px;
+    /* Provide some space around the buttons */
+    border-radius: 4px;
+    /* If you want rounded corners */
+    /* Add text alignment and other styles as needed */
+    text-align: center;
+    font-size: 1rem;
+    /* Adjust font size as needed */
+}
+
+.add-button:hover {
+    background-color: rgb(249 115 22);
+    position: relative;
+    color: #fff;
+}
+
+.add-button:focus {
+    outline: none;
+}
