@@ -13,6 +13,7 @@ export class NostrCacheManager {
         this.publicKey = null;
         this.relays = [];
 
+
         relaysStore.subscribe(value => {
             this.relays = value;
         });
@@ -102,6 +103,31 @@ export class NostrCacheManager {
         event.tags = this.uniqueTags(event.tags);
         const pubs = this.pool.publish(this.relays, event);
         console.log("send event:", event);
+        console.log("used relays:", this.relays);
+        return event.id;
+    }
+
+    async sendAnonEvent(kind, content, tags) {
+        // Generiere einen zufälligen privaten Schlüssel
+        const anonPrivateKey = window.NostrTools.generateSecretKey()
+
+        const anonPublicKey = window.NostrTools.getPublicKey(anonPrivateKey);
+
+        let event = {
+            pubkey: anonPublicKey,
+            created_at: Math.floor(Date.now() / 1000),
+            kind,
+            content,
+            tags,
+        };
+
+        // Signiere das Event mit dem zufälligen privaten Schlüssel
+        
+        event.tags = this.uniqueTags(event.tags);
+        event = window.NostrTools.finalizeEvent(event, anonPrivateKey);
+        
+        const pubs = this.pool.publish(this.relays, event);
+        console.log("send anon event:", event);
         console.log("used relays:", this.relays);
         return event.id;
     }
