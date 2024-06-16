@@ -16,7 +16,6 @@
   import PostJob from "./views/PostJob.svelte";
   import JobMarket from "./views/JobMarket.svelte";
   import JobManager from "./views/JobManager.svelte";
-  import DMView from "./views/DMView.svelte";
 </script>
 
 <svelte:head>
@@ -51,15 +50,6 @@
       <Route path="/postjob/:ideaID" let:params component={PostJob} />
       <Route path="/jobmarket" component={JobMarket} />
       <Route path="/jobmanager" component={JobManager} />
-      <!-- <Route path="/dm" component={DMView} /> -->
-      <Route path="/dm/:pubkey" let:params>
-        <DMView {params} />
-      </Route>
-      <Route path="/dm" let:params>
-        <DMView {params} />
-      </Route>
-      
-      
     </main>
   </div>
 </Router>

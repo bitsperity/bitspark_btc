@@ -35,6 +35,7 @@
         if (!profile) {
             return;
         }
+        console.log("profile:", profile);
         name = profile.name;
         profile_pub = profile.pubkey;
         about = profile.dev_about;

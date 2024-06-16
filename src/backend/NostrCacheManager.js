@@ -156,6 +156,8 @@ export class NostrCacheManager {
                 console.error('Error unsubscribing:', error);
             }
         }
+
+        console.log("subscriptions:", this.subscriptions);
     }
 
     unsubscribeAll() {

@@ -57,6 +57,7 @@
     };
   }
   async function fetchCreatorProfile() {
+    console.error("no idea", id);
     if (idea) {
       creator_profile = await socialMediaManager.getProfile(idea.pubkey);
     }

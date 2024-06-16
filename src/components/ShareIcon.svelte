@@ -9,11 +9,14 @@
     $: $nostrCache, fetchIdea();
 
     async function fetchIdea() {
+        console.log("eventID:", event_id);
         ideaEvent = await $nostrCache.getEventById(event_id);
         if (!ideaEvent) {
             console.error("Idea event not found");
             return;
         }
+
+        console.log("Idea found");
     }
 
     async function shareIdea() {
