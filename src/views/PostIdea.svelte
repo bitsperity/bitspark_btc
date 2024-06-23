@@ -8,7 +8,7 @@
 
     let bannerImage = "../../img/Banner1u.png";
     let title = "BitSpark";
-    let subtitle = "Spark idea";
+    let subtitle = "spark idea";
 </script>
 
 <main class="overview-page">
