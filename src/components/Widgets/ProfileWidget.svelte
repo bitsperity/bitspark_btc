@@ -7,6 +7,7 @@
     import { NOSTR_KIND_JOB } from "../../constants/nostrKinds";
     import { socialMediaManager } from "../../backend/SocialMediaManager.js";
     import FollowButton from "../FollowButton.svelte";
+    import DMButton from "../DMButton.svelte";
 
     export let userPubKey;
 
@@ -65,7 +66,8 @@
 </script>
 
 <div class="single-card container">
-    <div class="follow-container">
+    <div class="button-container">
+        <DMButton profilePubKey={profile_pub} />
         <FollowButton profilePubKey={profile_pub} />
     </div>
     <ProfileViewImage {profile} />
@@ -80,11 +82,17 @@
 </div>
 
 <style>
-     .follow-container {
-        align-self: flex-end;
+    .button-container {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px; /* Abstand zwischen den Buttons */
         position: relative;
-        top: 10px; /* Adjust based on your layout */
-        right: 10px; /* Adjust based on your layout */
+        top: 10px; /* Anpassen basierend auf Ihrem Layout */
+        right: 10px; /* Anpassen basierend auf Ihrem Layout */
         padding: 10px;
+    }
+
+    .single-card {
+        position: relative;
     }
 </style>

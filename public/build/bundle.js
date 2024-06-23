@@ -1524,7 +1524,7 @@ var app = (function () {
     	location: /*$location*/ ctx[0]
     });
 
-    function create_fragment$X(ctx) {
+    function create_fragment$Y(ctx) {
     	let current;
     	const default_slot_template = /*#slots*/ ctx[12].default;
     	const default_slot = create_slot(default_slot_template, ctx, /*$$scope*/ ctx[11], get_default_slot_context$2);
@@ -1571,7 +1571,7 @@ var app = (function () {
     	};
     }
 
-    function instance$W($$self, $$props, $$invalidate) {
+    function instance$X($$self, $$props, $$invalidate) {
     	let $location;
     	let $routes;
     	let $base;
@@ -1728,7 +1728,7 @@ var app = (function () {
     class Router extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$W, create_fragment$X, safe_not_equal, { basepath: 6, url: 7, history: 8 });
+    		init(this, options, instance$X, create_fragment$Y, safe_not_equal, { basepath: 6, url: 7, history: 8 });
     	}
     }
 
@@ -2020,7 +2020,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$W(ctx) {
+    function create_fragment$X(ctx) {
     	let if_block_anchor;
     	let current;
     	let if_block = /*$activeRoute*/ ctx[1] && /*$activeRoute*/ ctx[1].route === /*route*/ ctx[5] && create_if_block$q(ctx);
@@ -2075,7 +2075,7 @@ var app = (function () {
     	};
     }
 
-    function instance$V($$self, $$props, $$invalidate) {
+    function instance$W($$self, $$props, $$invalidate) {
     	let $activeRoute;
     	let { $$slots: slots = {}, $$scope } = $$props;
     	let { path = "" } = $$props;
@@ -2139,7 +2139,7 @@ var app = (function () {
     class Route extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$V, create_fragment$W, safe_not_equal, { path: 6, component: 0 });
+    		init(this, options, instance$W, create_fragment$X, safe_not_equal, { path: 6, component: 0 });
     	}
     }
 
@@ -2147,7 +2147,7 @@ var app = (function () {
     const get_default_slot_changes = dirty => ({ active: dirty & /*ariaCurrent*/ 4 });
     const get_default_slot_context = ctx => ({ active: !!/*ariaCurrent*/ ctx[2] });
 
-    function create_fragment$V(ctx) {
+    function create_fragment$W(ctx) {
     	let a;
     	let current;
     	let mounted;
@@ -2229,7 +2229,7 @@ var app = (function () {
     	};
     }
 
-    function instance$U($$self, $$props, $$invalidate) {
+    function instance$V($$self, $$props, $$invalidate) {
     	let ariaCurrent;
     	const omit_props_names = ["to","replace","state","getProps"];
     	let $$restProps = compute_rest_props($$props, omit_props_names);
@@ -2323,7 +2323,7 @@ var app = (function () {
     	constructor(options) {
     		super();
 
-    		init(this, options, instance$U, create_fragment$V, safe_not_equal, {
+    		init(this, options, instance$V, create_fragment$W, safe_not_equal, {
     			to: 7,
     			replace: 8,
     			state: 9,
@@ -6521,8 +6521,8 @@ var app = (function () {
       }
     }
 
-    var css_248z$E = ".color-for-bg {\n    color: rgb(71 85 105)\n}\n\n.text-color-df {\n    color: #4a5568;\n}\n\n/* Layout */\n.overview-page {\n    position: relative;\n    display: flex;\n    flex-direction: column;\n    background-color: rgb(71 85 105)\n        /* background-color: #E2E8F0; Assuming you have this variable defined */\n}\n\nfooter {\n    z-index: 10;\n    background-color: rgb(12, 12, 12);\n}\n\n.move-up {\n    transform: translateY(-2px);\n}\n\n.content-overlay {\n    position: absolute;\n    left: 0;\n    right: 0;\n    top: 50%;\n    /* Equivalent to top-1/2 */\n    transform: translateY(-50%);\n    /* Equivalent to -translate-y-1/2 */\n    padding: 0 1rem;\n    /* Equivalent to px-4 */\n    display: flex;\n    flex-direction: column;\n    /* Equivalent to flex-col */\n    align-items: flex-start;\n    /* Equivalent to items-start */\n    justify-content: center;\n    /* Equivalent to justify-center */\n    height: 100%;\n    /* Equivalent to h-full */\n}\n\n.content-icons {\n    position: absolute;\n    top: 1rem;\n    /* Equivalent to top-4 */\n    right: 1rem;\n    /* Equivalent to right-4 */\n    font-size: 1.875rem;\n    /* Equivalent to text-3xl */\n    color: white;\n    /* Equivalent to text-white */\n    display: flex;\n    justify-content: flex-end;\n    /* Equivalent to justify-end */\n    align-items: center;\n    /* Equivalent to items-center */\n    gap: 1.5rem;\n    /* Equivalent to gap-6 */\n}\n\n.support-button {\n    padding: 0;\n    display: flex;\n    align-items: center;\n    background: none;\n    border: none;\n    cursor: pointer;\n}\n\n.support-button img {\n    height: 2.5rem;\n    width: 2.5rem;\n}\n\n\n.bg-card {\n    background-color: white;\n    width: 100%;\n    margin-bottom: 6rem;\n    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),\n        0 2px 4px -1px rgba(0, 0, 0, 0.06);\n    border-radius: 1.25rem;\n}\n\n/* Base class for h2 */\n.base-h2 {\n    font-size: 4rem;\n    font-weight: 700;\n    /* blueGray-700 */\n    margin-bottom: 1rem;\n    margin-top: 1.5rem;\n    /* Equivalent to mt-6 */\n}\n\n/* Base class for h3 */\n.base-h3 {\n    font-size: 3rem;\n    font-weight: 600;\n    /* blueGray-700 */\n    margin-bottom: 0.75rem;\n    margin-top: 1.25rem;\n}\n\n/* Base class for h4 */\n.base-h4 {\n    font-size: 2rem;\n    font-weight: 500;\n    /* blueGray-700 */\n    margin-bottom: 0.5rem;\n    margin-top: 1rem;\n}\n\n.flex-grow {\n    /* Other styles */\n    z-index: 0;\n    /* This will keep the div behind the button */\n}\n\n.content-section {\n    display: flex;\n    /* background-color: #e2e8f0 !important;*/\n}\n\n.content-container {\n    margin-left: 0;\n    /* This is the starting state */\n    transition: margin-left 0.3s ease-in-out;\n    flex-grow: 1;\n    z-index: 0;\n    /* This will keep the div behind the button */\n}\n\n.content-container.sidebar-open {\n    margin-left: 200px;\n    /* This should be equal to the width of the sidebar */\n}\n\n.combined-content-container {\n    /* From .content-container */\n    margin-left: 0;\n    transition: margin-left 0.3s ease-in-out;\n    flex-grow: 1;\n    z-index: 0;\n\n    /* From .relative (assuming it sets position: relative) */\n    position: relative;\n\n    /* From .py-16 (assuming it sets padding-top and padding-bottom to 4rem) */\n    padding-top: 32px;\n\n    /* From .bg-blueGray-200 */\n    /* background-color: #e2e8f0; */\n    /* This is a guess based on the name. Replace with the actual color if different. */\n\n    /* From .container (assuming it centers content with max-width and auto margins) */\n    max-width: 100%;\n    /* Adjust this value based on your design */\n    /* margin-right: auto;\n    margin-left: auto; */\n\n    /* From .mx-auto */\n    /* Already covered by the .container styles above */\n\n    /* From .px-4 (assuming it sets padding-left and padding-right to 1rem) */\n    padding-left: 1rem;\n    padding-right: 1rem;\n}\n\n.combined-content-container.sidebar-open {\n    margin-left: 200px;\n}\n\n\n.title-class {\n    position: absolute;\n    left: 0;\n    right: 0;\n    top: 1/2;\n    transition: left 0.3s ease-in-out;\n    left: 55px;\n}\n\n.title-class.sidebar-open {\n    left: 215px;\n}\n\n.html-content {\n    width: 70%;\n    margin: 0 auto;\n    text-align: justify;\n}\n\n.github-icon-size {\n    font-size: 2.5rem;\n    /* This is equivalent to 40px for most browsers */\n    width: 40px;\n    height: 40px;\n    display: inline-flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.single-card {\n    background-color: white;\n    width: 100%;\n    margin-bottom: 4rem;\n    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),\n        0 2px 4px -1px rgba(0, 0, 0, 0.06);\n    border-radius: 1.25rem;\n    position: relative;\n    display: flex;\n    flex-direction: column;\n}\n\n\n.single-card-profile-img {\n    width: 150px;\n    height: 150px;\n    border-radius: 50%;\n    overflow: hidden;\n    position: relative;\n    top: -75px;\n}\n\n.single-card-content {\n    width: 70%;\n    margin: 0 auto;\n    text-align: justify;\n    margin-bottom: 90px;\n    font-size: 1.2em;\n}\n\n.abstract-text {\n    width: 50%;\n    margin: 2rem auto;\n    text-align: justify;\n    font-size: 1.1em;\n    line-height: 1.6em;\n}\n\n.single-card-content h2,\n.single-card-content h3,\n.single-card-content h4,\n.single-card-content h5,\n.single-card-content h6 {\n    margin-top: 1.5em;\n    /* Adjust as needed */\n}\n\n.diagonal-cut {\n    bottom: -1px;\n    width: 100%;\n    position: inherit;\n}\n\n.input-style {\n    font-size: 19.2px;\n    line-height: 28.8px;\n    height: 45px;\n    width: 100%;\n    display: flex;\n    justify-content: center;\n    border: 1px solid #D1D5DB;\n    /* border-gray-300 */\n    border-radius: 0.375rem;\n    /* rounded-md */\n    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);\n    /* shadow-sm */\n    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;\n}\n\n.input-style:focus {\n    border-color: #93C5FD;\n    /* focus:border-indigo-300 */\n    box-shadow: 0 0 0 3px rgba(147, 197, 253, 0.5);\n    /* focus:ring-indigo-200 with focus:ring-opacity-50 */\n}\n\n.input-style-resize {\n    resize: none;\n    overflow: hidden;\n}\n\n.bs-orange {\n    background-color: rgb(249 115 22);\n}\n\n.bs-orange:active {\n    background-color: rgb(234 88 12);\n}\n\n.bs-blue {\n    background-color: #223d6d;\n}\n\n.bs-blue:active {\n    background-color: #1a2f53;\n}\n\n.modal-button {\n    font-size: 1.0rem;\n}\n\n.remove-button {\n    /* Remove the flex-grow property if you don't want the buttons to grow */\n    padding: 2px 8px;\n    /* Adjust padding to fit the text */\n    background-color: rgb(238, 238, 238);\n    border: none;\n    /* Remove border if you don't need it */\n    cursor: pointer;\n    /* Makes it clear the element is clickable */\n    white-space: nowrap;\n    /* Prevent text inside the button from wrapping */\n    /* You can remove min-width if you want the button to only be as wide as its content plus padding */\n    /* min-width: 120px; */\n    margin: 2px;\n    /* Provide some space around the buttons */\n    border-radius: 4px;\n    /* If you want rounded corners */\n    /* Add text alignment and other styles as needed */\n    text-align: center;\n    font-size: 1rem;\n    /* Adjust font size as needed */\n}\n\n.remove-button:hover {\n    background-color: #223d6d;\n    position: relative;\n    color: #adadad;\n}\n\n.remove-button:focus {\n    outline: none;\n}\n\n.add-button {\n    /* Remove the flex-grow property if you don't want the buttons to grow */\n    padding: 2px 8px;\n    /* Adjust padding to fit the text */\n    background-color: rgb(238, 238, 238);\n    border: none;\n    /* Remove border if you don't need it */\n    cursor: pointer;\n    /* Makes it clear the element is clickable */\n    white-space: nowrap;\n    /* Prevent text inside the button from wrapping */\n    /* You can remove min-width if you want the button to only be as wide as its content plus padding */\n    /* min-width: 120px; */\n    margin: 2px;\n    /* Provide some space around the buttons */\n    border-radius: 4px;\n    /* If you want rounded corners */\n    /* Add text alignment and other styles as needed */\n    text-align: center;\n    font-size: 1rem;\n    /* Adjust font size as needed */\n}\n\n.add-button:hover {\n    background-color: rgb(249 115 22);\n    position: relative;\n    color: #fff;\n}\n\n.add-button:focus {\n    outline: none;\n}";
-    styleInject(css_248z$E);
+    var css_248z$F = ".color-for-bg {\n    color: rgb(71 85 105)\n}\n\n.text-color-df {\n    color: #4a5568;\n}\n\n/* Layout */\n.overview-page {\n    position: relative;\n    display: flex;\n    flex-direction: column;\n    background-color: rgb(71 85 105)\n        /* background-color: #E2E8F0; Assuming you have this variable defined */\n}\n\nfooter {\n    z-index: 10;\n    background-color: rgb(12, 12, 12);\n}\n\n.move-up {\n    transform: translateY(-2px);\n}\n\n.content-overlay {\n    position: absolute;\n    left: 0;\n    right: 0;\n    top: 50%;\n    /* Equivalent to top-1/2 */\n    transform: translateY(-50%);\n    /* Equivalent to -translate-y-1/2 */\n    padding: 0 1rem;\n    /* Equivalent to px-4 */\n    display: flex;\n    flex-direction: column;\n    /* Equivalent to flex-col */\n    align-items: flex-start;\n    /* Equivalent to items-start */\n    justify-content: center;\n    /* Equivalent to justify-center */\n    height: 100%;\n    /* Equivalent to h-full */\n}\n\n.content-icons {\n    position: absolute;\n    top: 1rem;\n    /* Equivalent to top-4 */\n    right: 1rem;\n    /* Equivalent to right-4 */\n    font-size: 1.875rem;\n    /* Equivalent to text-3xl */\n    color: white;\n    /* Equivalent to text-white */\n    display: flex;\n    justify-content: flex-end;\n    /* Equivalent to justify-end */\n    align-items: center;\n    /* Equivalent to items-center */\n    gap: 1.5rem;\n    /* Equivalent to gap-6 */\n}\n\n.support-button {\n    padding: 0;\n    display: flex;\n    align-items: center;\n    background: none;\n    border: none;\n    cursor: pointer;\n}\n\n.support-button img {\n    height: 2.5rem;\n    width: 2.5rem;\n}\n\n\n.bg-card {\n    background-color: white;\n    width: 100%;\n    margin-bottom: 6rem;\n    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),\n        0 2px 4px -1px rgba(0, 0, 0, 0.06);\n    border-radius: 1.25rem;\n}\n\n/* Base class for h2 */\n.base-h2 {\n    font-size: 4rem;\n    font-weight: 700;\n    /* blueGray-700 */\n    margin-bottom: 1rem;\n    margin-top: 1.5rem;\n    /* Equivalent to mt-6 */\n}\n\n/* Base class for h3 */\n.base-h3 {\n    font-size: 3rem;\n    font-weight: 600;\n    /* blueGray-700 */\n    margin-bottom: 0.75rem;\n    margin-top: 1.25rem;\n}\n\n/* Base class for h4 */\n.base-h4 {\n    font-size: 2rem;\n    font-weight: 500;\n    /* blueGray-700 */\n    margin-bottom: 0.5rem;\n    margin-top: 1rem;\n}\n\n.flex-grow {\n    /* Other styles */\n    z-index: 0;\n    /* This will keep the div behind the button */\n}\n\n.content-section {\n    display: flex;\n    /* background-color: #e2e8f0 !important;*/\n}\n\n.content-container {\n    margin-left: 0;\n    /* This is the starting state */\n    transition: margin-left 0.3s ease-in-out;\n    flex-grow: 1;\n    z-index: 0;\n    /* This will keep the div behind the button */\n}\n\n.content-container.sidebar-open {\n    margin-left: 200px;\n    /* This should be equal to the width of the sidebar */\n}\n\n.combined-content-container {\n    /* From .content-container */\n    margin-left: 0;\n    transition: margin-left 0.3s ease-in-out;\n    flex-grow: 1;\n    z-index: 0;\n\n    /* From .relative (assuming it sets position: relative) */\n    position: relative;\n\n    /* From .py-16 (assuming it sets padding-top and padding-bottom to 4rem) */\n    padding-top: 32px;\n\n    /* From .bg-blueGray-200 */\n    /* background-color: #e2e8f0; */\n    /* This is a guess based on the name. Replace with the actual color if different. */\n\n    /* From .container (assuming it centers content with max-width and auto margins) */\n    max-width: 100%;\n    /* Adjust this value based on your design */\n    /* margin-right: auto;\n    margin-left: auto; */\n\n    /* From .mx-auto */\n    /* Already covered by the .container styles above */\n\n    /* From .px-4 (assuming it sets padding-left and padding-right to 1rem) */\n    padding-left: 1rem;\n    padding-right: 1rem;\n}\n\n.combined-content-container.sidebar-open {\n    margin-left: 200px;\n}\n\n\n.title-class {\n    position: absolute;\n    left: 0;\n    right: 0;\n    top: 1/2;\n    transition: left 0.3s ease-in-out;\n    left: 55px;\n}\n\n.title-class.sidebar-open {\n    left: 215px;\n}\n\n.html-content {\n    width: 70%;\n    margin: 0 auto;\n    text-align: justify;\n}\n\n.github-icon-size {\n    font-size: 2.5rem;\n    /* This is equivalent to 40px for most browsers */\n    width: 40px;\n    height: 40px;\n    display: inline-flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.single-card {\n    background-color: white;\n    width: 100%;\n    margin-bottom: 4rem;\n    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),\n        0 2px 4px -1px rgba(0, 0, 0, 0.06);\n    border-radius: 1.25rem;\n    position: relative;\n    display: flex;\n    flex-direction: column;\n}\n\n\n.single-card-profile-img {\n    width: 150px;\n    height: 150px;\n    border-radius: 50%;\n    overflow: hidden;\n    position: relative;\n    top: -75px;\n}\n\n.single-card-content {\n    width: 70%;\n    margin: 0 auto;\n    text-align: justify;\n    margin-bottom: 90px;\n    font-size: 1.2em;\n}\n\n.abstract-text {\n    width: 50%;\n    margin: 2rem auto;\n    text-align: justify;\n    font-size: 1.1em;\n    line-height: 1.6em;\n}\n\n.single-card-content h2,\n.single-card-content h3,\n.single-card-content h4,\n.single-card-content h5,\n.single-card-content h6 {\n    margin-top: 1.5em;\n    /* Adjust as needed */\n}\n\n.diagonal-cut {\n    bottom: -1px;\n    width: 100%;\n    position: inherit;\n}\n\n.input-style {\n    font-size: 19.2px;\n    line-height: 28.8px;\n    height: 45px;\n    width: 100%;\n    display: flex;\n    justify-content: center;\n    border: 1px solid #D1D5DB;\n    /* border-gray-300 */\n    border-radius: 0.375rem;\n    /* rounded-md */\n    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);\n    /* shadow-sm */\n    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;\n}\n\n.input-style:focus {\n    border-color: #93C5FD;\n    /* focus:border-indigo-300 */\n    box-shadow: 0 0 0 3px rgba(147, 197, 253, 0.5);\n    /* focus:ring-indigo-200 with focus:ring-opacity-50 */\n}\n\n.input-style-resize {\n    resize: none;\n    overflow: hidden;\n}\n\n.bs-orange {\n    background-color: rgb(249 115 22);\n}\n\n.bs-orange:active {\n    background-color: rgb(234 88 12);\n}\n\n.bs-blue {\n    background-color: #223d6d;\n}\n\n.bs-blue:active {\n    background-color: #1a2f53;\n}\n\n.modal-button {\n    font-size: 1.0rem;\n}\n\n.remove-button {\n    /* Remove the flex-grow property if you don't want the buttons to grow */\n    padding: 2px 8px;\n    /* Adjust padding to fit the text */\n    background-color: rgb(238, 238, 238);\n    border: none;\n    /* Remove border if you don't need it */\n    cursor: pointer;\n    /* Makes it clear the element is clickable */\n    white-space: nowrap;\n    /* Prevent text inside the button from wrapping */\n    /* You can remove min-width if you want the button to only be as wide as its content plus padding */\n    /* min-width: 120px; */\n    margin: 2px;\n    /* Provide some space around the buttons */\n    border-radius: 4px;\n    /* If you want rounded corners */\n    /* Add text alignment and other styles as needed */\n    text-align: center;\n    font-size: 1rem;\n    /* Adjust font size as needed */\n}\n\n.remove-button:hover {\n    background-color: #223d6d;\n    position: relative;\n    color: #adadad;\n}\n\n.remove-button:focus {\n    outline: none;\n}\n\n.add-button {\n    /* Remove the flex-grow property if you don't want the buttons to grow */\n    padding: 2px 8px;\n    /* Adjust padding to fit the text */\n    background-color: rgb(238, 238, 238);\n    border: none;\n    /* Remove border if you don't need it */\n    cursor: pointer;\n    /* Makes it clear the element is clickable */\n    white-space: nowrap;\n    /* Prevent text inside the button from wrapping */\n    /* You can remove min-width if you want the button to only be as wide as its content plus padding */\n    /* min-width: 120px; */\n    margin: 2px;\n    /* Provide some space around the buttons */\n    border-radius: 4px;\n    /* If you want rounded corners */\n    /* Add text alignment and other styles as needed */\n    text-align: center;\n    font-size: 1rem;\n    /* Adjust font size as needed */\n}\n\n.add-button:hover {\n    background-color: rgb(249 115 22);\n    position: relative;\n    color: #fff;\n}\n\n.add-button:focus {\n    outline: none;\n}";
+    styleInject(css_248z$F);
 
     // NostrCacheStore.js
     const { nip19 } = window.NostrTools;
@@ -7094,8 +7094,8 @@ var app = (function () {
         "css",
     ];
 
-    var css_248z$D = ".toggle-button.svelte-ajm12u.svelte-ajm12u{display:flex;justify-content:center;align-items:center}.menu-card.svelte-ajm12u.svelte-ajm12u{width:200px;margin-top:80px;color:#000;position:relative}.menu-item.svelte-ajm12u.svelte-ajm12u{color:#103f70;font-size:1rem;padding:15px;padding-left:30px;cursor:pointer;transition:color 0.3s;display:block;text-decoration:none;outline:none;width:200px;text-align:left}.menu-item.svelte-ajm12u.svelte-ajm12u:hover{color:#eb6f1a;text-decoration:none;outline:none}.category-style.svelte-ajm12u.svelte-ajm12u{font-size:1rem;padding:15px;padding-left:15px;cursor:pointer;transition:color 0.3s;display:block;text-decoration:none;color:#494949;outline:none;width:200px;text-align:left}.category-style.svelte-ajm12u.svelte-ajm12u:hover{color:#60adff;text-decoration:none;outline:none}.categories-wrapper.svelte-ajm12u.svelte-ajm12u{position:fixed;left:180px;background:#d1d1d1;width:310px;max-height:100vh;height:100vh;padding:10px 0;box-shadow:0px 10px 30px -5px rgba(0, 0, 0, 0.3);border-radius:20px;transition:opacity 0.3s,\n            visibility 0.3s;opacity:1;visibility:visible;z-index:50;padding-top:14px;padding-bottom:14px}.categories-wrapper.hidden.svelte-ajm12u.svelte-ajm12u{opacity:0;visibility:hidden}.categories-outer.svelte-ajm12u.svelte-ajm12u{width:100%;max-height:100%;overflow-y:auto;border-radius:20px}.categories.svelte-ajm12u.svelte-ajm12u{width:100%}.categories.hidden.svelte-ajm12u.svelte-ajm12u{opacity:0;visibility:hidden}.category-item.svelte-ajm12u.svelte-ajm12u{color:#000;padding:10px 15px;cursor:pointer;transition:color 0.3s}.category-item.svelte-ajm12u.svelte-ajm12u:hover{color:#007bff}.hide.svelte-ajm12u.svelte-ajm12u{display:none}.button-container.svelte-ajm12u.svelte-ajm12u{position:fixed;top:0;left:0;z-index:11;background-color:#33333300;display:flex;justify-content:center;align-items:center;border-radius:10%;padding:5px;margin:10px}svg.svelte-ajm12u path.svelte-ajm12u{fill:#f97316}.menu-container.svelte-ajm12u.svelte-ajm12u{position:fixed;top:0;left:0;width:200px;min-width:200px;z-index:10;flex-basis:200px;background-color:rgba(255, 255, 255, 0.7);opacity:3.7;height:100vh;overflow-y:auto;transform:translateX(-100%);transition:transform 0.3s ease-in-out}.menu-container.show.svelte-ajm12u.svelte-ajm12u{transform:translateX(0)}button.svelte-ajm12u.svelte-ajm12u:focus{outline:none}.svelte-ajm12u.svelte-ajm12u::-webkit-scrollbar{width:10px;height:10px}.svelte-ajm12u.svelte-ajm12u::-webkit-scrollbar-track{background:#f1f1f1;border-radius:20px}.svelte-ajm12u.svelte-ajm12u::-webkit-scrollbar-thumb{background:#888;border-radius:20px}.svelte-ajm12u.svelte-ajm12u::-webkit-scrollbar-thumb:hover{background:#555}.categories.svelte-ajm12u.svelte-ajm12u::-webkit-scrollbar{width:10px}.categories.svelte-ajm12u.svelte-ajm12u::-webkit-scrollbar-track{background:#f1f1f1}.categories.svelte-ajm12u.svelte-ajm12u::-webkit-scrollbar-thumb{background:#888;border-radius:20px}.categories.svelte-ajm12u.svelte-ajm12u::-webkit-scrollbar-thumb:hover{background:#555}.divider-line.svelte-ajm12u.svelte-ajm12u{margin-left:12%;border-top:1px solid #d1d1d1;padding:1px;width:76%}";
-    styleInject(css_248z$D);
+    var css_248z$E = ".toggle-button.svelte-ajm12u.svelte-ajm12u{display:flex;justify-content:center;align-items:center}.menu-card.svelte-ajm12u.svelte-ajm12u{width:200px;margin-top:80px;color:#000;position:relative}.menu-item.svelte-ajm12u.svelte-ajm12u{color:#103f70;font-size:1rem;padding:15px;padding-left:30px;cursor:pointer;transition:color 0.3s;display:block;text-decoration:none;outline:none;width:200px;text-align:left}.menu-item.svelte-ajm12u.svelte-ajm12u:hover{color:#eb6f1a;text-decoration:none;outline:none}.category-style.svelte-ajm12u.svelte-ajm12u{font-size:1rem;padding:15px;padding-left:15px;cursor:pointer;transition:color 0.3s;display:block;text-decoration:none;color:#494949;outline:none;width:200px;text-align:left}.category-style.svelte-ajm12u.svelte-ajm12u:hover{color:#60adff;text-decoration:none;outline:none}.categories-wrapper.svelte-ajm12u.svelte-ajm12u{position:fixed;left:180px;background:#d1d1d1;width:310px;max-height:100vh;height:100vh;padding:10px 0;box-shadow:0px 10px 30px -5px rgba(0, 0, 0, 0.3);border-radius:20px;transition:opacity 0.3s,\n            visibility 0.3s;opacity:1;visibility:visible;z-index:50;padding-top:14px;padding-bottom:14px}.categories-wrapper.hidden.svelte-ajm12u.svelte-ajm12u{opacity:0;visibility:hidden}.categories-outer.svelte-ajm12u.svelte-ajm12u{width:100%;max-height:100%;overflow-y:auto;border-radius:20px}.categories.svelte-ajm12u.svelte-ajm12u{width:100%}.categories.hidden.svelte-ajm12u.svelte-ajm12u{opacity:0;visibility:hidden}.category-item.svelte-ajm12u.svelte-ajm12u{color:#000;padding:10px 15px;cursor:pointer;transition:color 0.3s}.category-item.svelte-ajm12u.svelte-ajm12u:hover{color:#007bff}.hide.svelte-ajm12u.svelte-ajm12u{display:none}.button-container.svelte-ajm12u.svelte-ajm12u{position:fixed;top:0;left:0;z-index:11;background-color:#33333300;display:flex;justify-content:center;align-items:center;border-radius:10%;padding:5px;margin:10px}svg.svelte-ajm12u path.svelte-ajm12u{fill:#f97316}.menu-container.svelte-ajm12u.svelte-ajm12u{position:fixed;top:0;left:0;width:200px;min-width:200px;z-index:10;flex-basis:200px;background-color:rgba(255, 255, 255, 0.7);opacity:3.7;height:100vh;overflow-y:auto;transform:translateX(-100%);transition:transform 0.3s ease-in-out}.menu-container.show.svelte-ajm12u.svelte-ajm12u{transform:translateX(0)}button.svelte-ajm12u.svelte-ajm12u:focus{outline:none}.svelte-ajm12u.svelte-ajm12u::-webkit-scrollbar{width:10px;height:10px}.svelte-ajm12u.svelte-ajm12u::-webkit-scrollbar-track{background:#f1f1f1;border-radius:20px}.svelte-ajm12u.svelte-ajm12u::-webkit-scrollbar-thumb{background:#888;border-radius:20px}.svelte-ajm12u.svelte-ajm12u::-webkit-scrollbar-thumb:hover{background:#555}.categories.svelte-ajm12u.svelte-ajm12u::-webkit-scrollbar{width:10px}.categories.svelte-ajm12u.svelte-ajm12u::-webkit-scrollbar-track{background:#f1f1f1}.categories.svelte-ajm12u.svelte-ajm12u::-webkit-scrollbar-thumb{background:#888;border-radius:20px}.categories.svelte-ajm12u.svelte-ajm12u::-webkit-scrollbar-thumb:hover{background:#555}.divider-line.svelte-ajm12u.svelte-ajm12u{margin-left:12%;border-top:1px solid #d1d1d1;padding:1px;width:76%}";
+    styleInject(css_248z$E);
 
     /* src/components/Sidebar/Sidebar.svelte generated by Svelte v3.59.1 */
 
@@ -7442,7 +7442,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$U(ctx) {
+    function create_fragment$V(ctx) {
     	let div0;
     	let button0;
     	let t0;
@@ -7836,7 +7836,7 @@ var app = (function () {
     let linkStyle = "block menu-item";
     let categoryStyle = "category-style";
 
-    function instance$T($$self, $$props, $$invalidate) {
+    function instance$U($$self, $$props, $$invalidate) {
     	let $nostrCache;
     	let $menuState;
     	let $nostrManager;
@@ -8022,7 +8022,7 @@ var app = (function () {
     class Sidebar extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$T, create_fragment$U, safe_not_equal, {}, null, [-1, -1]);
+    		init(this, options, instance$U, create_fragment$V, safe_not_equal, {}, null, [-1, -1]);
     	}
     }
 
@@ -8060,7 +8060,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$T(ctx) {
+    function create_fragment$U(ctx) {
     	let section;
     	let div5;
     	let span0;
@@ -8185,7 +8185,7 @@ var app = (function () {
     	};
     }
 
-    function instance$S($$self, $$props, $$invalidate) {
+    function instance$T($$self, $$props, $$invalidate) {
     	let $sidebarOpen;
     	component_subscribe($$self, sidebarOpen, $$value => $$invalidate(5, $sidebarOpen = $$value));
     	let { title } = $$props;
@@ -8220,7 +8220,7 @@ var app = (function () {
     	constructor(options) {
     		super();
 
-    		init(this, options, instance$S, create_fragment$T, safe_not_equal, {
+    		init(this, options, instance$T, create_fragment$U, safe_not_equal, {
     			title: 0,
     			bannerImage: 1,
     			subtitle: 2,
@@ -8231,7 +8231,7 @@ var app = (function () {
 
     /* src/components/Footers/Footer.svelte generated by Svelte v3.59.1 */
 
-    function create_fragment$S(ctx) {
+    function create_fragment$T(ctx) {
     	let footer;
 
     	return {
@@ -8259,7 +8259,7 @@ var app = (function () {
     	};
     }
 
-    function instance$R($$self) {
+    function instance$S($$self) {
     	new Date().getFullYear();
     	return [];
     }
@@ -8267,12 +8267,12 @@ var app = (function () {
     class Footer extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$R, create_fragment$S, safe_not_equal, {});
+    		init(this, options, instance$S, create_fragment$T, safe_not_equal, {});
     	}
     }
 
-    var css_248z$C = ".profile-image.svelte-1281914{width:50px;height:50px;border-radius:50%;object-fit:cover;object-position:center}";
-    styleInject(css_248z$C);
+    var css_248z$D = ".profile-image.svelte-1281914{width:50px;height:50px;border-radius:50%;object-fit:cover;object-position:center}";
+    styleInject(css_248z$D);
 
     /* src/components/ProfileImg.svelte generated by Svelte v3.59.1 */
 
@@ -8311,7 +8311,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$R(ctx) {
+    function create_fragment$S(ctx) {
     	let link;
     	let current;
 
@@ -8356,7 +8356,7 @@ var app = (function () {
     	};
     }
 
-    function instance$Q($$self, $$props, $$invalidate) {
+    function instance$R($$self, $$props, $$invalidate) {
     	let styleString;
     	let { profile = {} } = $$props;
     	let { style = {} } = $$props;
@@ -8391,7 +8391,7 @@ var app = (function () {
     class ProfileImg extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$Q, create_fragment$R, safe_not_equal, { profile: 4, style: 5 });
+    		init(this, options, instance$R, create_fragment$S, safe_not_equal, { profile: 4, style: 5 });
     	}
     }
 
@@ -8846,8 +8846,8 @@ var app = (function () {
 
     const socialMediaManager = new SocialMediaManager();
 
-    var css_248z$B = ".balance-display.svelte-1ny4mlp{font-size:2rem;margin-right:20px;color:white}.sat-symbol.svelte-1ny4mlp{height:40px;margin-left:5px}";
-    styleInject(css_248z$B);
+    var css_248z$C = ".balance-display.svelte-1ny4mlp{font-size:2rem;margin-right:20px;color:white}.sat-symbol.svelte-1ny4mlp{height:40px;margin-left:5px}";
+    styleInject(css_248z$C);
 
     /* src/components/Toolbar/Toolbar.svelte generated by Svelte v3.59.1 */
 
@@ -9047,7 +9047,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$Q(ctx) {
+    function create_fragment$R(ctx) {
     	let div4;
     	let div3;
     	let div2;
@@ -9262,7 +9262,7 @@ var app = (function () {
     	return url;
     }
 
-    function instance$P($$self, $$props, $$invalidate) {
+    function instance$Q($$self, $$props, $$invalidate) {
     	let formattedGithubRepo;
     	let $nostrManager;
     	let $balance;
@@ -9360,16 +9360,16 @@ var app = (function () {
     class Toolbar extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$P, create_fragment$Q, safe_not_equal, { lnAddress: 0, pubkey: 6, githubRepo: 1 });
+    		init(this, options, instance$Q, create_fragment$R, safe_not_equal, { lnAddress: 0, pubkey: 6, githubRepo: 1 });
     	}
     }
 
-    var css_248z$A = ".like-icon.svelte-168p8ba{cursor:pointer;color:var(--heart-color, #f7931a)}.like-icon.filled.svelte-168p8ba{color:#f7931a}.like-icon.svelte-168p8ba:hover{color:#b4690e}";
-    styleInject(css_248z$A);
+    var css_248z$B = ".like-icon.svelte-168p8ba{cursor:pointer;color:var(--heart-color, #f7931a)}.like-icon.filled.svelte-168p8ba{color:#f7931a}.like-icon.svelte-168p8ba:hover{color:#b4690e}";
+    styleInject(css_248z$B);
 
     /* src/components/LikeIcon.svelte generated by Svelte v3.59.1 */
 
-    function create_fragment$P(ctx) {
+    function create_fragment$Q(ctx) {
     	let span1;
     	let i;
     	let i_class_value;
@@ -9427,7 +9427,7 @@ var app = (function () {
     	};
     }
 
-    function instance$O($$self, $$props, $$invalidate) {
+    function instance$P($$self, $$props, $$invalidate) {
     	let userPublicKey;
     	let $nostrCache;
     	let $nostrManager;
@@ -9497,16 +9497,16 @@ var app = (function () {
     class LikeIcon extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$O, create_fragment$P, safe_not_equal, { event_id: 4 });
+    		init(this, options, instance$P, create_fragment$Q, safe_not_equal, { event_id: 4 });
     	}
     }
 
-    var css_248z$z = ".share-icon.svelte-99v011{color:#f7931a;cursor:pointer;font-size:24px;transition:color 0.3s}.share-icon.svelte-99v011:hover{color:#b4690e}";
-    styleInject(css_248z$z);
+    var css_248z$A = ".share-icon.svelte-99v011{color:#f7931a;cursor:pointer;font-size:24px;transition:color 0.3s}.share-icon.svelte-99v011:hover{color:#b4690e}";
+    styleInject(css_248z$A);
 
     /* src/components/ShareIcon.svelte generated by Svelte v3.59.1 */
 
-    function create_fragment$O(ctx) {
+    function create_fragment$P(ctx) {
     	let i;
     	let mounted;
     	let dispose;
@@ -9536,7 +9536,7 @@ var app = (function () {
     	};
     }
 
-    function instance$N($$self, $$props, $$invalidate) {
+    function instance$O($$self, $$props, $$invalidate) {
     	let $nostrManager;
     	let $nostrCache;
     	component_subscribe($$self, nostrManager, $$value => $$invalidate(4, $nostrManager = $$value));
@@ -9586,16 +9586,16 @@ var app = (function () {
     class ShareIcon extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$N, create_fragment$O, safe_not_equal, { event_id: 1 });
+    		init(this, options, instance$O, create_fragment$P, safe_not_equal, { event_id: 1 });
     	}
     }
 
-    var css_248z$y = ".card.svelte-179l7uc{background:#ffffff;overflow:hidden;border-radius:8px;overflow:hidden;display:flex;flex-direction:column;border:4px solid #ffffff;box-shadow:0 5px 10px #0000008c}.card.svelte-179l7uc:hover{transform:scale(1.03);background:#ffffff;box-shadow:0 10px 20px #0000008c}.card-content.svelte-179l7uc{cursor:pointer;background:#ffffff}.banner-image.svelte-179l7uc{width:100%;height:200px;object-fit:cover}.content.svelte-179l7uc,.actions.svelte-179l7uc{padding:15px}.actions.svelte-179l7uc{display:flex;align-items:center;justify-content:space-between;background:#f4f4f4}";
-    styleInject(css_248z$y);
+    var css_248z$z = ".card.svelte-179l7uc{background:#ffffff;overflow:hidden;border-radius:8px;overflow:hidden;display:flex;flex-direction:column;border:4px solid #ffffff;box-shadow:0 5px 10px #0000008c}.card.svelte-179l7uc:hover{transform:scale(1.03);background:#ffffff;box-shadow:0 10px 20px #0000008c}.card-content.svelte-179l7uc{cursor:pointer;background:#ffffff}.banner-image.svelte-179l7uc{width:100%;height:200px;object-fit:cover}.content.svelte-179l7uc,.actions.svelte-179l7uc{padding:15px}.actions.svelte-179l7uc{display:flex;align-items:center;justify-content:space-between;background:#f4f4f4}";
+    styleInject(css_248z$z);
 
     /* src/components/Cards/IdeaCard.svelte generated by Svelte v3.59.1 */
 
-    function create_fragment$N(ctx) {
+    function create_fragment$O(ctx) {
     	let div3;
     	let div1;
     	let img;
@@ -9727,7 +9727,7 @@ var app = (function () {
     	: message.slice(0, maxLength) + "...";
     }
 
-    function instance$M($$self, $$props, $$invalidate) {
+    function instance$N($$self, $$props, $$invalidate) {
     	let $nostrManager;
     	component_subscribe($$self, nostrManager, $$value => $$invalidate(2, $nostrManager = $$value));
     	let { card } = $$props;
@@ -9762,7 +9762,7 @@ var app = (function () {
     class IdeaCard extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$M, create_fragment$N, safe_not_equal, { card: 0 });
+    		init(this, options, instance$N, create_fragment$O, safe_not_equal, { card: 0 });
     	}
     }
 
@@ -9776,8 +9776,8 @@ var app = (function () {
         selectedFeed.set(feedType);
     }
 
-    var css_248z$x = ".feed-selector.svelte-11ro3cj.svelte-11ro3cj{display:flex;background-color:#f9f9f9;padding:8px 16px;border-radius:25px;box-shadow:0 4px 6px rgba(0, 0, 0, 0.1);margin-bottom:20px}.feed-selector.svelte-11ro3cj button.svelte-11ro3cj{flex:1;border:none;background:none;padding:10px 20px;margin-right:10px;border-radius:20px;font-size:16px;transition:background-color 0.3s,\n            color 0.3s;cursor:pointer;outline:none;display:flex;align-items:center;justify-content:center}.feed-selector.svelte-11ro3cj button.svelte-11ro3cj:last-child{margin-right:0}.feed-selector.svelte-11ro3cj button.svelte-11ro3cj:hover{background-color:#e2e8f0}.feed-selector.svelte-11ro3cj button.active.svelte-11ro3cj{background-color:#f7931a;color:white}.feed-selector.svelte-11ro3cj i.svelte-11ro3cj{margin-right:5px}";
-    styleInject(css_248z$x);
+    var css_248z$y = ".feed-selector.svelte-11ro3cj.svelte-11ro3cj{display:flex;background-color:#f9f9f9;padding:8px 16px;border-radius:25px;box-shadow:0 4px 6px rgba(0, 0, 0, 0.1);margin-bottom:20px}.feed-selector.svelte-11ro3cj button.svelte-11ro3cj{flex:1;border:none;background:none;padding:10px 20px;margin-right:10px;border-radius:20px;font-size:16px;transition:background-color 0.3s,\n            color 0.3s;cursor:pointer;outline:none;display:flex;align-items:center;justify-content:center}.feed-selector.svelte-11ro3cj button.svelte-11ro3cj:last-child{margin-right:0}.feed-selector.svelte-11ro3cj button.svelte-11ro3cj:hover{background-color:#e2e8f0}.feed-selector.svelte-11ro3cj button.active.svelte-11ro3cj{background-color:#f7931a;color:white}.feed-selector.svelte-11ro3cj i.svelte-11ro3cj{margin-right:5px}";
+    styleInject(css_248z$y);
 
     /* src/components/Feed/FeedSelector.svelte generated by Svelte v3.59.1 */
 
@@ -9814,7 +9814,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$M(ctx) {
+    function create_fragment$N(ctx) {
     	let div;
     	let button0;
     	let t1;
@@ -9904,7 +9904,7 @@ var app = (function () {
     	};
     }
 
-    function instance$L($$self, $$props, $$invalidate) {
+    function instance$M($$self, $$props, $$invalidate) {
     	let $selectedFeed;
     	let $nostrManager;
     	component_subscribe($$self, selectedFeed, $$value => $$invalidate(0, $selectedFeed = $$value));
@@ -9933,7 +9933,7 @@ var app = (function () {
     class FeedSelector extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$L, create_fragment$M, safe_not_equal, {});
+    		init(this, options, instance$M, create_fragment$N, safe_not_equal, {});
     	}
     }
 
@@ -9983,8 +9983,8 @@ var app = (function () {
 
     const zapManager = new ZapManager();
 
-    var css_248z$w = ".feed-selector-container.svelte-10kpwlz{display:flex;justify-content:center;padding:20px}";
-    styleInject(css_248z$w);
+    var css_248z$x = ".feed-selector-container.svelte-10kpwlz{display:flex;justify-content:center;padding:20px}";
+    styleInject(css_248z$x);
 
     /* src/components/Feed/Feed.svelte generated by Svelte v3.59.1 */
 
@@ -10040,7 +10040,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$L(ctx) {
+    function create_fragment$M(ctx) {
     	let div0;
     	let feedselector;
     	let t;
@@ -10144,7 +10144,7 @@ var app = (function () {
     	};
     }
 
-    function instance$K($$self, $$props, $$invalidate) {
+    function instance$L($$self, $$props, $$invalidate) {
     	let $selectedFeed;
     	let $nostrCache;
     	let $nostrManager;
@@ -10318,16 +10318,16 @@ var app = (function () {
     class Feed extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$K, create_fragment$L, safe_not_equal, { category: 1 });
+    		init(this, options, instance$L, create_fragment$M, safe_not_equal, { category: 1 });
     	}
     }
 
-    var css_248z$v = ".content-section.svelte-17eaetn{display:flex;background-color:#e2e8f0 !important}.content-container.svelte-17eaetn{flex-grow:1;z-index:0}.flex-grow.svelte-17eaetn{z-index:0}.content-container.svelte-17eaetn{margin-left:0;transition:margin-left 0.3s ease-in-out;flex-grow:1;z-index:0}.content-container.sidebar-open.svelte-17eaetn{margin-left:200px}";
-    styleInject(css_248z$v);
+    var css_248z$w = ".content-section.svelte-17eaetn{display:flex;background-color:#e2e8f0 !important}.content-container.svelte-17eaetn{flex-grow:1;z-index:0}.flex-grow.svelte-17eaetn{z-index:0}.content-container.svelte-17eaetn{margin-left:0;transition:margin-left 0.3s ease-in-out;flex-grow:1;z-index:0}.content-container.sidebar-open.svelte-17eaetn{margin-left:200px}";
+    styleInject(css_248z$w);
 
     /* src/views/Home.svelte generated by Svelte v3.59.1 */
 
-    function create_fragment$K(ctx) {
+    function create_fragment$L(ctx) {
     	let main;
     	let menu;
     	let t0;
@@ -10441,7 +10441,7 @@ var app = (function () {
     	};
     }
 
-    function instance$J($$self, $$props, $$invalidate) {
+    function instance$K($$self, $$props, $$invalidate) {
     	let $nostrCache;
     	let $nostrManager;
     	let $relaysStore;
@@ -10523,7 +10523,7 @@ var app = (function () {
     class Home extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$J, create_fragment$K, safe_not_equal, { category: 1 });
+    		init(this, options, instance$K, create_fragment$L, safe_not_equal, { category: 1 });
     	}
     }
 
@@ -10644,7 +10644,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$J(ctx) {
+    function create_fragment$K(ctx) {
     	let main;
     	let menu;
     	let t0;
@@ -10738,7 +10738,7 @@ var app = (function () {
     	};
     }
 
-    function instance$I($$self, $$props, $$invalidate) {
+    function instance$J($$self, $$props, $$invalidate) {
     	let $contentContainerClass;
     	component_subscribe($$self, contentContainerClass, $$value => $$invalidate(1, $contentContainerClass = $$value));
     	let { id } = $$props;
@@ -10767,16 +10767,16 @@ var app = (function () {
     class Tutorial extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$I, create_fragment$J, safe_not_equal, { id: 2 });
+    		init(this, options, instance$J, create_fragment$K, safe_not_equal, { id: 2 });
     	}
     }
 
-    var css_248z$u = ".card.svelte-17539e2{background:transparent;overflow:hidden;border-radius:8px;overflow:hidden;display:flex;flex-direction:column;border:4px solid #ffffff;box-shadow:0 5px 10px #0000008c;margin-right:15px;margin-left:15px;margin-bottom:15px}.card.svelte-17539e2:hover{transform:scale(1.03);background:#ffffff;box-shadow:0 10px 20px #0000008c}.card-content.svelte-17539e2{cursor:pointer;background:#ffffff}.banner-image.svelte-17539e2{width:100%;height:250px;object-fit:cover}.content.svelte-17539e2{text-align:center;padding:1rem}";
-    styleInject(css_248z$u);
+    var css_248z$v = ".card.svelte-17539e2{background:transparent;overflow:hidden;border-radius:8px;overflow:hidden;display:flex;flex-direction:column;border:4px solid #ffffff;box-shadow:0 5px 10px #0000008c;margin-right:15px;margin-left:15px;margin-bottom:15px}.card.svelte-17539e2:hover{transform:scale(1.03);background:#ffffff;box-shadow:0 10px 20px #0000008c}.card-content.svelte-17539e2{cursor:pointer;background:#ffffff}.banner-image.svelte-17539e2{width:100%;height:250px;object-fit:cover}.content.svelte-17539e2{text-align:center;padding:1rem}";
+    styleInject(css_248z$v);
 
     /* src/components/Cards/IdeaCardSmall.svelte generated by Svelte v3.59.1 */
 
-    function create_fragment$I(ctx) {
+    function create_fragment$J(ctx) {
     	let div4;
     	let div3;
     	let div2;
@@ -10858,7 +10858,7 @@ var app = (function () {
     	};
     }
 
-    function instance$H($$self, $$props, $$invalidate) {
+    function instance$I($$self, $$props, $$invalidate) {
     	let $nostrManager;
     	component_subscribe($$self, nostrManager, $$value => $$invalidate(2, $nostrManager = $$value));
     	let { card } = $$props;
@@ -10891,7 +10891,7 @@ var app = (function () {
     class IdeaCardSmall extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$H, create_fragment$I, safe_not_equal, { card: 0 });
+    		init(this, options, instance$I, create_fragment$J, safe_not_equal, { card: 0 });
     	}
     }
 
@@ -10974,7 +10974,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$H(ctx) {
+    function create_fragment$I(ctx) {
     	let div2;
     	let div1;
     	let t;
@@ -11071,7 +11071,7 @@ var app = (function () {
     	};
     }
 
-    function instance$G($$self, $$props, $$invalidate) {
+    function instance$H($$self, $$props, $$invalidate) {
     	let $nostrCache;
     	let $nostrManager;
     	component_subscribe($$self, nostrCache, $$value => $$invalidate(3, $nostrCache = $$value));
@@ -11156,7 +11156,7 @@ var app = (function () {
     class UserIdeasWidget extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$G, create_fragment$H, safe_not_equal, { profile_id: 2 });
+    		init(this, options, instance$H, create_fragment$I, safe_not_equal, { profile_id: 2 });
     	}
     }
 
@@ -11704,8 +11704,8 @@ var app = (function () {
 
     const nostrJobManager = new NostrJobManager();
 
-    var css_248z$t = ".profile-container.svelte-sz68iv.svelte-sz68iv{width:70px;height:70px;flex-shrink:0;border-radius:50%;overflow:hidden;margin:0 15px}.content.svelte-sz68iv.svelte-sz68iv{flex-grow:1;overflow:hidden;max-width:calc(\n            100% - 90px\n        )}.rating-popup-overlay.svelte-sz68iv.svelte-sz68iv{position:fixed;top:0;left:0;width:100%;height:100%;background-color:rgba(0, 0, 0, 0.6);display:flex;justify-content:center;align-items:center;z-index:10}.rating-popup.svelte-sz68iv.svelte-sz68iv{background-color:white;padding:20px;border-radius:8px;box-shadow:0 0 15px rgba(0, 0, 0, 0.3);width:300px}.star-rating.svelte-sz68iv.svelte-sz68iv{display:flex;justify-content:center;margin-bottom:15px}.star.svelte-sz68iv.svelte-sz68iv{cursor:pointer;font-size:2em;color:#ffd700}.star.selected.svelte-sz68iv.svelte-sz68iv{color:#f39c12}textarea.svelte-sz68iv.svelte-sz68iv{width:100%;border:1px solid #ccc;border-radius:5px;padding:10px;margin-bottom:10px}.button-group.svelte-sz68iv.svelte-sz68iv{display:flex;justify-content:space-between}.button-group.svelte-sz68iv button.svelte-sz68iv{padding:8px 15px;border-radius:5px;border:none;cursor:pointer;background-color:#4caf50;color:white}.button-group.svelte-sz68iv button.svelte-sz68iv:last-child{background-color:#f44336}.blur.svelte-sz68iv.svelte-sz68iv{filter:blur(4px)}.rating-btn.svelte-sz68iv.svelte-sz68iv{border:none;background:none;cursor:pointer;color:#fcd535;position:absolute;top:10px;right:10px}textarea.svelte-sz68iv.svelte-sz68iv{width:100%;border:1px solid #ccc;border-radius:5px;padding:10px;margin-bottom:10px;resize:vertical}.bubble.svelte-sz68iv.svelte-sz68iv{width:80%;min-width:0;max-width:calc(100% - 20px);position:relative;display:flex;align-items:center;gap:15px;padding:10px;border-radius:8px;margin:10px auto;margin-bottom:10px}.own-message.svelte-sz68iv.svelte-sz68iv{flex-direction:row-reverse;justify-content:flex-end;margin-right:2%;margin-left:auto}.other-message.svelte-sz68iv.svelte-sz68iv{flex-direction:row;justify-content:flex-start;margin-left:2%;margin-right:auto}.content.svelte-sz68iv.svelte-sz68iv{margin-left:15px;flex-grow:1;overflow:hidden;padding:10px;order:1}.timestamp.svelte-sz68iv.svelte-sz68iv{color:#888;font-size:0.8em;text-align:right}.timestamp.left.svelte-sz68iv.svelte-sz68iv{text-align:left}.timestamp.right.svelte-sz68iv.svelte-sz68iv{text-align:right}";
-    styleInject(css_248z$t);
+    var css_248z$u = ".profile-container.svelte-sz68iv.svelte-sz68iv{width:70px;height:70px;flex-shrink:0;border-radius:50%;overflow:hidden;margin:0 15px}.content.svelte-sz68iv.svelte-sz68iv{flex-grow:1;overflow:hidden;max-width:calc(\n            100% - 90px\n        )}.rating-popup-overlay.svelte-sz68iv.svelte-sz68iv{position:fixed;top:0;left:0;width:100%;height:100%;background-color:rgba(0, 0, 0, 0.6);display:flex;justify-content:center;align-items:center;z-index:10}.rating-popup.svelte-sz68iv.svelte-sz68iv{background-color:white;padding:20px;border-radius:8px;box-shadow:0 0 15px rgba(0, 0, 0, 0.3);width:300px}.star-rating.svelte-sz68iv.svelte-sz68iv{display:flex;justify-content:center;margin-bottom:15px}.star.svelte-sz68iv.svelte-sz68iv{cursor:pointer;font-size:2em;color:#ffd700}.star.selected.svelte-sz68iv.svelte-sz68iv{color:#f39c12}textarea.svelte-sz68iv.svelte-sz68iv{width:100%;border:1px solid #ccc;border-radius:5px;padding:10px;margin-bottom:10px}.button-group.svelte-sz68iv.svelte-sz68iv{display:flex;justify-content:space-between}.button-group.svelte-sz68iv button.svelte-sz68iv{padding:8px 15px;border-radius:5px;border:none;cursor:pointer;background-color:#4caf50;color:white}.button-group.svelte-sz68iv button.svelte-sz68iv:last-child{background-color:#f44336}.blur.svelte-sz68iv.svelte-sz68iv{filter:blur(4px)}.rating-btn.svelte-sz68iv.svelte-sz68iv{border:none;background:none;cursor:pointer;color:#fcd535;position:absolute;top:10px;right:10px}textarea.svelte-sz68iv.svelte-sz68iv{width:100%;border:1px solid #ccc;border-radius:5px;padding:10px;margin-bottom:10px;resize:vertical}.bubble.svelte-sz68iv.svelte-sz68iv{width:80%;min-width:0;max-width:calc(100% - 20px);position:relative;display:flex;align-items:center;gap:15px;padding:10px;border-radius:8px;margin:10px auto;margin-bottom:10px}.own-message.svelte-sz68iv.svelte-sz68iv{flex-direction:row-reverse;justify-content:flex-end;margin-right:2%;margin-left:auto}.other-message.svelte-sz68iv.svelte-sz68iv{flex-direction:row;justify-content:flex-start;margin-left:2%;margin-right:auto}.content.svelte-sz68iv.svelte-sz68iv{margin-left:15px;flex-grow:1;overflow:hidden;padding:10px;order:1}.timestamp.svelte-sz68iv.svelte-sz68iv{color:#888;font-size:0.8em;text-align:right}.timestamp.left.svelte-sz68iv.svelte-sz68iv{text-align:left}.timestamp.right.svelte-sz68iv.svelte-sz68iv{text-align:right}";
+    styleInject(css_248z$u);
 
     /* src/components/JobManager2/BaseBubble.svelte generated by Svelte v3.59.1 */
 
@@ -11957,7 +11957,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$G(ctx) {
+    function create_fragment$H(ctx) {
     	let div2;
     	let t0;
     	let div1;
@@ -12143,7 +12143,7 @@ var app = (function () {
     	return new Date(timestamp * 1000).toLocaleString();
     }
 
-    function instance$F($$self, $$props, $$invalidate) {
+    function instance$G($$self, $$props, $$invalidate) {
     	let $nostrCache;
     	let $nostrManager;
     	component_subscribe($$self, nostrCache, $$value => $$invalidate(17, $nostrCache = $$value));
@@ -12267,7 +12267,7 @@ var app = (function () {
     	constructor(options) {
     		super();
 
-    		init(this, options, instance$F, create_fragment$G, safe_not_equal, {
+    		init(this, options, instance$G, create_fragment$H, safe_not_equal, {
     			event: 16,
     			backgroundColor: 1,
     			textColor: 2,
@@ -12279,8 +12279,8 @@ var app = (function () {
     	}
     }
 
-    var css_248z$s = "{--textColor:{textColor}}.review-content.svelte-198lics.svelte-198lics{display:flex;flex-direction:column;align-items:flex-start;padding:10px}.review-content.svelte-198lics p.svelte-198lics{margin-top:0;line-height:1.4;color:var(--textColor)}.rating-display.svelte-198lics.svelte-198lics{margin-bottom:5px}.star.svelte-198lics.svelte-198lics{transition:transform 0.3s ease, font-size 0.3s ease}";
-    styleInject(css_248z$s);
+    var css_248z$t = "{--textColor:{textColor}}.review-content.svelte-198lics.svelte-198lics{display:flex;flex-direction:column;align-items:flex-start;padding:10px}.review-content.svelte-198lics p.svelte-198lics{margin-top:0;line-height:1.4;color:var(--textColor)}.rating-display.svelte-198lics.svelte-198lics{margin-bottom:5px}.star.svelte-198lics.svelte-198lics{transition:transform 0.3s ease, font-size 0.3s ease}";
+    styleInject(css_248z$t);
 
     /* src/components/JobManager2/ReviewBubble.svelte generated by Svelte v3.59.1 */
 
@@ -12400,7 +12400,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$F(ctx) {
+    function create_fragment$G(ctx) {
     	let basebubble;
     	let current;
 
@@ -12451,7 +12451,7 @@ var app = (function () {
     let backgroundColor = "#FFF176"; // Ein helles Gelb
     let textColor = "#333333"; // Dunkelgrau für guten Kontrast
 
-    function instance$E($$self, $$props, $$invalidate) {
+    function instance$F($$self, $$props, $$invalidate) {
     	let stars;
     	let { event } = $$props;
     	let reviewContent = "Kein Kommentar";
@@ -12486,12 +12486,12 @@ var app = (function () {
     class ReviewBubble extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$E, create_fragment$F, safe_not_equal, { event: 0 });
+    		init(this, options, instance$F, create_fragment$G, safe_not_equal, { event: 0 });
     	}
     }
 
-    var css_248z$r = ".review-stats-header.svelte-envaai{display:flex;align-items:center;justify-content:center;margin-bottom:15px}.average-star.svelte-envaai{font-size:1.4em;color:#cccccc;margin-right:5px}.average-star.active.svelte-envaai{color:#ffcc00}.average-rating-text.svelte-envaai{font-size:1em;color:#333}.reviews-header.svelte-envaai{margin-bottom:15px;font-size:1.2em;color:#333;text-align:center}.review-widget-container.svelte-envaai{background-color:#fff;border-radius:10px;box-shadow:0 2px 4px rgba(0, 0, 0, 0.1);padding:20px}.reviews-wrapper.svelte-envaai{height:300px;overflow-y:auto;display:flex;flex-direction:column;align-items:center;justify-content:flex-start}.review-bubble-wrapper.svelte-envaai{width:100%;display:flex;justify-content:center;margin:10px 0}";
-    styleInject(css_248z$r);
+    var css_248z$s = ".review-stats-header.svelte-envaai{display:flex;align-items:center;justify-content:center;margin-bottom:15px}.average-star.svelte-envaai{font-size:1.4em;color:#cccccc;margin-right:5px}.average-star.active.svelte-envaai{color:#ffcc00}.average-rating-text.svelte-envaai{font-size:1em;color:#333}.reviews-header.svelte-envaai{margin-bottom:15px;font-size:1.2em;color:#333;text-align:center}.review-widget-container.svelte-envaai{background-color:#fff;border-radius:10px;box-shadow:0 2px 4px rgba(0, 0, 0, 0.1);padding:20px}.reviews-wrapper.svelte-envaai{height:300px;overflow-y:auto;display:flex;flex-direction:column;align-items:center;justify-content:flex-start}.review-bubble-wrapper.svelte-envaai{width:100%;display:flex;justify-content:center;margin:10px 0}";
+    styleInject(css_248z$s);
 
     /* src/components/Widgets/ReviewWidget.svelte generated by Svelte v3.59.1 */
 
@@ -12601,7 +12601,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$E(ctx) {
+    function create_fragment$F(ctx) {
     	let div2;
     	let h1;
     	let t0;
@@ -12785,7 +12785,7 @@ var app = (function () {
     	};
     }
 
-    function instance$D($$self, $$props, $$invalidate) {
+    function instance$E($$self, $$props, $$invalidate) {
     	let averageStars;
     	let $nostrManager;
     	let $nostrCache;
@@ -12878,7 +12878,7 @@ var app = (function () {
     class ReviewWidget extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$D, create_fragment$E, safe_not_equal, { userPubKey: 4 });
+    		init(this, options, instance$E, create_fragment$F, safe_not_equal, { userPubKey: 4 });
     	}
     }
 
@@ -12930,7 +12930,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$D(ctx) {
+    function create_fragment$E(ctx) {
     	let div1;
     	let div0;
     	let current;
@@ -12990,7 +12990,7 @@ var app = (function () {
     	};
     }
 
-    function instance$C($$self, $$props, $$invalidate) {
+    function instance$D($$self, $$props, $$invalidate) {
     	let { profile = null } = $$props;
 
     	$$self.$$set = $$props => {
@@ -13003,16 +13003,16 @@ var app = (function () {
     class ProfileViewImage extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$C, create_fragment$D, safe_not_equal, { profile: 0 });
+    		init(this, options, instance$D, create_fragment$E, safe_not_equal, { profile: 0 });
     	}
     }
 
-    var css_248z$q = ".follow-button.svelte-awqtfc{display:flex;align-items:center;justify-content:center;padding:10px 20px;border:none;border-radius:20px;cursor:pointer;background-color:#f7931a;color:white;font-size:16px;box-shadow:0 2px 4px rgba(0, 0, 0, 0.2);transition:background-color 0.3s,\n            box-shadow 0.3s}.follow-button.unfollow.svelte-awqtfc{background-color:rgb(44, 82, 130)}.follow-button.disabled.svelte-awqtfc{background-color:grey;cursor:default}.icon.svelte-awqtfc{margin-right:8px}";
-    styleInject(css_248z$q);
+    var css_248z$r = ".follow-button.svelte-awqtfc{display:flex;align-items:center;justify-content:center;padding:10px 20px;border:none;border-radius:20px;cursor:pointer;background-color:#f7931a;color:white;font-size:16px;box-shadow:0 2px 4px rgba(0, 0, 0, 0.2);transition:background-color 0.3s,\n            box-shadow 0.3s}.follow-button.unfollow.svelte-awqtfc{background-color:rgb(44, 82, 130)}.follow-button.disabled.svelte-awqtfc{background-color:grey;cursor:default}.icon.svelte-awqtfc{margin-right:8px}";
+    styleInject(css_248z$r);
 
     /* src/components/FollowButton.svelte generated by Svelte v3.59.1 */
 
-    function create_fragment$C(ctx) {
+    function create_fragment$D(ctx) {
     	let button;
     	let i;
     	let i_class_value;
@@ -13076,7 +13076,7 @@ var app = (function () {
     	};
     }
 
-    function instance$B($$self, $$props, $$invalidate) {
+    function instance$C($$self, $$props, $$invalidate) {
     	let $nostrCache;
     	let $nostrManager;
     	component_subscribe($$self, nostrCache, $$value => $$invalidate(4, $nostrCache = $$value));
@@ -13142,11 +13142,106 @@ var app = (function () {
     class FollowButton extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$B, create_fragment$C, safe_not_equal, { profilePubKey: 3 });
+    		init(this, options, instance$C, create_fragment$D, safe_not_equal, { profilePubKey: 3 });
     	}
     }
 
-    var css_248z$p = ".follow-container.svelte-vhbahq{align-self:flex-end;position:relative;top:10px;right:10px;padding:10px}";
+    var css_248z$q = ".dm-button.svelte-1ek1m50{display:flex;align-items:center;justify-content:center;padding:10px 20px;border:none;border-radius:20px;cursor:pointer;background-color:#f7931a;color:white;font-size:16px;box-shadow:0 2px 4px rgba(0, 0, 0, 0.2);transition:background-color 0.3s,\n            box-shadow 0.3s}.dm-button.disabled.svelte-1ek1m50{background-color:grey;cursor:default}.icon.svelte-1ek1m50{margin-right:8px}";
+    styleInject(css_248z$q);
+
+    /* src/components/DMButton.svelte generated by Svelte v3.59.1 */
+
+    function create_fragment$C(ctx) {
+    	let button;
+    	let i;
+    	let t;
+    	let button_class_value;
+    	let button_disabled_value;
+    	let mounted;
+    	let dispose;
+
+    	return {
+    		c() {
+    			button = element("button");
+    			i = element("i");
+    			t = text("\n    Message");
+    			attr(i, "class", "icon fas fa-comment svelte-1ek1m50");
+    			attr(button, "class", button_class_value = "" + (null_to_empty(`dm-button ${!/*$nostrManager*/ ctx[0]?.publicKey ? "disabled" : ""}`) + " svelte-1ek1m50"));
+    			button.disabled = button_disabled_value = !/*$nostrManager*/ ctx[0]?.publicKey;
+    		},
+    		m(target, anchor) {
+    			insert(target, button, anchor);
+    			append(button, i);
+    			append(button, t);
+
+    			if (!mounted) {
+    				dispose = listen(button, "click", /*navigateToDM*/ ctx[1]);
+    				mounted = true;
+    			}
+    		},
+    		p(ctx, [dirty]) {
+    			if (dirty & /*$nostrManager*/ 1 && button_class_value !== (button_class_value = "" + (null_to_empty(`dm-button ${!/*$nostrManager*/ ctx[0]?.publicKey ? "disabled" : ""}`) + " svelte-1ek1m50"))) {
+    				attr(button, "class", button_class_value);
+    			}
+
+    			if (dirty & /*$nostrManager*/ 1 && button_disabled_value !== (button_disabled_value = !/*$nostrManager*/ ctx[0]?.publicKey)) {
+    				button.disabled = button_disabled_value;
+    			}
+    		},
+    		i: noop,
+    		o: noop,
+    		d(detaching) {
+    			if (detaching) detach(button);
+    			mounted = false;
+    			dispose();
+    		}
+    	};
+    }
+
+    function instance$B($$self, $$props, $$invalidate) {
+    	let $nostrCache;
+    	let $nostrManager;
+    	component_subscribe($$self, nostrCache, $$value => $$invalidate(3, $nostrCache = $$value));
+    	component_subscribe($$self, nostrManager, $$value => $$invalidate(0, $nostrManager = $$value));
+    	let { profilePubKey } = $$props;
+
+    	const navigateToDM = () => {
+    		if ($nostrManager?.publicKey) {
+    			navigate(`/dm/${profilePubKey}`);
+    		} else {
+    			console.error("User must be logged in to send a direct message.");
+    		}
+    	};
+
+    	onMount(() => {
+    		
+    	}); // Initial setup if needed
+
+    	onDestroy(() => {
+    		
+    	}); // Cleanup if needed
+
+    	$$self.$$set = $$props => {
+    		if ('profilePubKey' in $$props) $$invalidate(2, profilePubKey = $$props.profilePubKey);
+    	};
+
+    	$$self.$$.update = () => {
+    		if ($$self.$$.dirty & /*$nostrManager*/ 1) ;
+
+    		if ($$self.$$.dirty & /*$nostrCache*/ 8) ;
+    	};
+
+    	return [$nostrManager, navigateToDM, profilePubKey, $nostrCache];
+    }
+
+    class DMButton extends SvelteComponent {
+    	constructor(options) {
+    		super();
+    		init(this, options, instance$B, create_fragment$C, safe_not_equal, { profilePubKey: 2 });
+    	}
+    }
+
+    var css_248z$p = ".button-container.svelte-12als6u{display:flex;justify-content:flex-end;gap:10px;position:relative;top:10px;right:10px;padding:10px}.single-card.svelte-12als6u{position:relative}";
     styleInject(css_248z$p);
 
     /* src/components/Widgets/ProfileWidget.svelte generated by Svelte v3.59.1 */
@@ -13154,16 +13249,22 @@ var app = (function () {
     function create_fragment$B(ctx) {
     	let div3;
     	let div0;
-    	let followbutton;
+    	let dmbutton;
     	let t0;
-    	let profileviewimage;
+    	let followbutton;
     	let t1;
+    	let profileviewimage;
+    	let t2;
     	let div2;
     	let h2;
-    	let t2;
     	let t3;
+    	let t4;
     	let div1;
     	let current;
+
+    	dmbutton = new DMButton({
+    			props: { profilePubKey: /*profile_pub*/ ctx[3] }
+    		});
 
     	followbutton = new FollowButton({
     			props: { profilePubKey: /*profile_pub*/ ctx[3] }
@@ -13175,60 +13276,70 @@ var app = (function () {
     		c() {
     			div3 = element("div");
     			div0 = element("div");
-    			create_component(followbutton.$$.fragment);
+    			create_component(dmbutton.$$.fragment);
     			t0 = space();
-    			create_component(profileviewimage.$$.fragment);
+    			create_component(followbutton.$$.fragment);
     			t1 = space();
+    			create_component(profileviewimage.$$.fragment);
+    			t2 = space();
     			div2 = element("div");
     			h2 = element("h2");
-    			t2 = text(/*name*/ ctx[1]);
-    			t3 = space();
+    			t3 = text(/*name*/ ctx[1]);
+    			t4 = space();
     			div1 = element("div");
-    			attr(div0, "class", "follow-container svelte-vhbahq");
+    			attr(div0, "class", "button-container svelte-12als6u");
     			attr(h2, "class", "base-h2 text-color-df");
     			attr(div1, "class", "single-card-content text-color-df");
     			attr(div2, "class", "text-center mt-6 px-6");
     			set_style(div2, "top", "-90px");
     			set_style(div2, "position", "relative");
-    			attr(div3, "class", "single-card container");
+    			attr(div3, "class", "single-card container svelte-12als6u");
     		},
     		m(target, anchor) {
     			insert(target, div3, anchor);
     			append(div3, div0);
+    			mount_component(dmbutton, div0, null);
+    			append(div0, t0);
     			mount_component(followbutton, div0, null);
-    			append(div3, t0);
-    			mount_component(profileviewimage, div3, null);
     			append(div3, t1);
+    			mount_component(profileviewimage, div3, null);
+    			append(div3, t2);
     			append(div3, div2);
     			append(div2, h2);
-    			append(h2, t2);
-    			append(div2, t3);
+    			append(h2, t3);
+    			append(div2, t4);
     			append(div2, div1);
     			div1.innerHTML = /*about*/ ctx[2];
     			current = true;
     		},
     		p(ctx, [dirty]) {
+    			const dmbutton_changes = {};
+    			if (dirty & /*profile_pub*/ 8) dmbutton_changes.profilePubKey = /*profile_pub*/ ctx[3];
+    			dmbutton.$set(dmbutton_changes);
     			const followbutton_changes = {};
     			if (dirty & /*profile_pub*/ 8) followbutton_changes.profilePubKey = /*profile_pub*/ ctx[3];
     			followbutton.$set(followbutton_changes);
     			const profileviewimage_changes = {};
     			if (dirty & /*profile*/ 1) profileviewimage_changes.profile = /*profile*/ ctx[0];
     			profileviewimage.$set(profileviewimage_changes);
-    			if (!current || dirty & /*name*/ 2) set_data(t2, /*name*/ ctx[1]);
+    			if (!current || dirty & /*name*/ 2) set_data(t3, /*name*/ ctx[1]);
     			if (!current || dirty & /*about*/ 4) div1.innerHTML = /*about*/ ctx[2];		},
     		i(local) {
     			if (current) return;
+    			transition_in(dmbutton.$$.fragment, local);
     			transition_in(followbutton.$$.fragment, local);
     			transition_in(profileviewimage.$$.fragment, local);
     			current = true;
     		},
     		o(local) {
+    			transition_out(dmbutton.$$.fragment, local);
     			transition_out(followbutton.$$.fragment, local);
     			transition_out(profileviewimage.$$.fragment, local);
     			current = false;
     		},
     		d(detaching) {
     			if (detaching) detach(div3);
+    			destroy_component(dmbutton);
     			destroy_component(followbutton);
     			destroy_component(profileviewimage);
     		}
