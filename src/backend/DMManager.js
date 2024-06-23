@@ -24,7 +24,7 @@ class DMManager {
     return unsubscribe; // Rückgabe der Unsubscribe-Funktion für spätere Aufräumaktionen
   }
 
-  async sendMessage(receiverPubKey, messageContent, subject) {
+  async sendMessage(receiverPubKeys, messageContent, subject) {
     if (!this.manager || !this.manager.publicKey) {
       console.error("Manager or public key not initialized.");
       return;
@@ -36,33 +36,33 @@ class DMManager {
       created_at: Math.floor(Date.now() / 1000),
       kind: 14,
       tags: [
-        ["p", receiverPubKey],
-        ["p", this.manager.publicKey],
+        ...receiverPubKeys.map(receiverPubKey => ["p", receiverPubKey]),
         ...(subject ? [["subject", subject]] : []),
       ],
       content: messageContent,
     };
 
-    // Versiegeln des unsignedKind14 Events (Kind 13)
-    const sealContent = await window.nostr.nip44.encrypt(receiverPubKey, JSON.stringify(unsignedKind14));
-    const seal = {
-      created_at: Math.floor(Date.now() / 1000),
-      kind: 13,
-      tags: [],
-      content: sealContent,
-    };
+    for (const receiverPubKey of receiverPubKeys) {
+      // Versiegeln des unsignedKind14 Events (Kind 13)
+      const sealContent = await window.nostr.nip44.encrypt(receiverPubKey, JSON.stringify(unsignedKind14));
+      const seal = {
+        created_at: Math.floor(Date.now() / 1000),
+        kind: 13,
+        tags: [],
+        content: sealContent,
+      };
 
-    await window.nostr.signEvent(seal);
+      await window.nostr.signEvent(seal);
 
-    // Wickele das versiegelte Event ein (Kind 1059)
-    const giftWrapContent = await window.nostr.nip44.encrypt(receiverPubKey, JSON.stringify(seal));
-    const tags = [["p", receiverPubKey]];
+      // Wickele das versiegelte Event ein (Kind 1059)
+      const giftWrapContent = await window.nostr.nip44.encrypt(receiverPubKey, JSON.stringify(seal));
+      const tags = [["p", receiverPubKey]];
 
-    try {
-      await this.manager.sendAnonEvent(1059, giftWrapContent, tags);
-      console.log("Message sent successfully.");
-    } catch (error) {
-      console.error("Error sending message:", error);
+      try {
+        await this.manager.sendAnonEvent(1059, giftWrapContent, tags);
+      } catch (error) {
+        console.error(`Error sending message to ${receiverPubKey}:`, error);
+      }
     }
   }
 
@@ -96,7 +96,6 @@ class DMManager {
 
   async getMessages() {
     if (!this.manager) {
-      console.error("NostrManager is not initialized.");
       return [];
     }
 
@@ -120,15 +119,32 @@ class DMManager {
   async getChatRooms() {
     const decryptedMessages = await this.getMessages();
     const chatRooms = {};
-
+  
     decryptedMessages.forEach(message => {
-      const participants = message.tags
+      const participantsArray = message.tags
         .filter(tag => tag[0] === 'p')
         .map(tag => tag[1])
-        .sort()
-        .join(',');
-
-      console.log(participants);
+        .sort();
+  
+      // Filtere Chatrooms mit nur einem Teilnehmer
+      if (participantsArray.length <= 1) {
+        return;
+      }
+  
+      // Filtere Chatrooms mit doppelten Teilnehmern
+      const hasDuplicates = participantsArray.some((item, index) => participantsArray.indexOf(item) !== index);
+      if (hasDuplicates) {
+        return;
+      }
+  
+      // Überprüfe auf ungültige Teilnehmer-PubKeys (zum Beispiel leere Strings)
+      const hasInvalidPubKeys = participantsArray.some(pubKey => !pubKey || typeof pubKey !== 'string');
+      if (hasInvalidPubKeys) {
+        return;
+      }
+  
+      const participants = participantsArray.join(',');
+  
       if (!chatRooms[participants]) {
         chatRooms[participants] = {
           participants,
@@ -137,19 +153,19 @@ class DMManager {
           lastSubjectTimestamp: 0
         };
       }
-
+  
       chatRooms[participants].messages.push(message);
-
+  
       const subjectTag = message.tags.find(tag => tag[0] === 'subject');
       if (subjectTag && message.created_at > chatRooms[participants].lastSubjectTimestamp) {
         chatRooms[participants].subject = subjectTag[1];
         chatRooms[participants].lastSubjectTimestamp = message.created_at;
       }
     });
-
+  
     return Object.values(chatRooms);
   }
-
+  
 
   subscribeToMessages() {
     if (!this.manager) {

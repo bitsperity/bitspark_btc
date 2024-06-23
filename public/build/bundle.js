@@ -1742,7 +1742,7 @@ var app = (function () {
     	let if_block;
     	let if_block_anchor;
     	let current;
-    	const if_block_creators = [create_if_block_1$7, create_else_block$7];
+    	const if_block_creators = [create_if_block_1$8, create_else_block$6];
     	const if_blocks = [];
 
     	function select_block_type(ctx, dirty) {
@@ -1807,7 +1807,7 @@ var app = (function () {
     }
 
     // (53:4) {:else}
-    function create_else_block$7(ctx) {
+    function create_else_block$6(ctx) {
     	let current;
     	const default_slot_template = /*#slots*/ ctx[8].default;
     	const default_slot = create_slot(default_slot_template, ctx, /*$$scope*/ ctx[7], get_default_slot_context$1);
@@ -1855,7 +1855,7 @@ var app = (function () {
     }
 
     // (45:4) {#if component}
-    function create_if_block_1$7(ctx) {
+    function create_if_block_1$8(ctx) {
     	let await_block_anchor;
     	let promise;
     	let current;
@@ -6702,8 +6702,7 @@ var app = (function () {
           // Speichern der entschlüsselten Nachricht im Event
           event.decryptedContent = unsignedKind14;
         } catch (error) {
-          console.error("Error decrypting message:", error);
-          event.decryptedContent = null;
+          event = null;
         }
       }
 
@@ -6725,9 +6724,12 @@ var app = (function () {
         if (!existingEvent) {
           this.processProfileEvent(event);
           this.processEncryptedMessage(event);
+
           // Add new event if it does not exist
-          this.events.set(event.id, event);
-          console.log("Event Added:", event);
+          if(event) {
+            this.events.set(event.id, event);
+            console.log("Event Added:", event);
+          }
 
           // Aktualisieren der kindIndex Map
           if (!this.kindIndex.has(event.kind)) {
@@ -7104,7 +7106,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    function get_each_context_1$1(ctx, list, i) {
+    function get_each_context_1$2(ctx, list, i) {
     	const child_ctx = ctx.slice();
     	child_ctx[36] = list[i];
     	return child_ctx;
@@ -7233,7 +7235,7 @@ var app = (function () {
     }
 
     // (281:16) {:else}
-    function create_else_block$6(ctx) {
+    function create_else_block$5(ctx) {
     	let button;
     	let i;
     	let t0;
@@ -7284,7 +7286,7 @@ var app = (function () {
     }
 
     // (270:47) 
-    function create_if_block_1$6(ctx) {
+    function create_if_block_1$7(ctx) {
     	let button;
     	let i;
     	let t;
@@ -7365,7 +7367,7 @@ var app = (function () {
     }
 
     // (335:12) {#each idea_categories as category}
-    function create_each_block_1$1(ctx) {
+    function create_each_block_1$2(ctx) {
     	let button;
     	let t_value = /*category*/ ctx[36] + "";
     	let t;
@@ -7497,8 +7499,8 @@ var app = (function () {
 
     	function select_block_type(ctx, dirty) {
     		if (!/*$menuState*/ ctx[0].use_extension) return create_if_block$p;
-    		if (/*$menuState*/ ctx[0].logged_in) return create_if_block_1$6;
-    		return create_else_block$6;
+    		if (/*$menuState*/ ctx[0].logged_in) return create_if_block_1$7;
+    		return create_else_block$5;
     	}
 
     	let current_block_type = select_block_type(ctx);
@@ -7507,7 +7509,7 @@ var app = (function () {
     	let each_blocks_1 = [];
 
     	for (let i = 0; i < each_value_1.length; i += 1) {
-    		each_blocks_1[i] = create_each_block_1$1(get_each_context_1$1(ctx, each_value_1, i));
+    		each_blocks_1[i] = create_each_block_1$2(get_each_context_1$2(ctx, each_value_1, i));
     	}
 
     	let each_value = /*tutorial_titles*/ ctx[7];
@@ -7757,12 +7759,12 @@ var app = (function () {
     				let i;
 
     				for (i = 0; i < each_value_1.length; i += 1) {
-    					const child_ctx = get_each_context_1$1(ctx, each_value_1, i);
+    					const child_ctx = get_each_context_1$2(ctx, each_value_1, i);
 
     					if (each_blocks_1[i]) {
     						each_blocks_1[i].p(child_ctx, dirty);
     					} else {
-    						each_blocks_1[i] = create_each_block_1$1(child_ctx);
+    						each_blocks_1[i] = create_each_block_1$2(child_ctx);
     						each_blocks_1[i].c();
     						each_blocks_1[i].m(div5, null);
     					}
@@ -8968,7 +8970,7 @@ var app = (function () {
     }
 
     // (124:16) {#if profile && profile.picture}
-    function create_if_block_1$5(ctx) {
+    function create_if_block_1$6(ctx) {
     	let profileimg;
     	let current;
 
@@ -9008,7 +9010,7 @@ var app = (function () {
     }
 
     // (133:20) {:else}
-    function create_else_block$5(ctx) {
+    function create_else_block$4(ctx) {
     	let t;
 
     	return {
@@ -9064,11 +9066,11 @@ var app = (function () {
     	let if_block1 = /*creator_profile*/ ctx[2] && /*creator_profile*/ ctx[2].picture && create_if_block_4(ctx);
     	let if_block2 = /*githubRepo*/ ctx[1] && create_if_block_3(ctx);
     	let if_block3 = (/*lnAddress*/ ctx[0] || /*creator_profile*/ ctx[2] && /*creator_profile*/ ctx[2].picture || /*githubRepo*/ ctx[1]) && /*profile*/ ctx[3] && /*profile*/ ctx[3].picture && create_if_block_2$2();
-    	let if_block4 = /*profile*/ ctx[3] && /*profile*/ ctx[3].picture && create_if_block_1$5(ctx);
+    	let if_block4 = /*profile*/ ctx[3] && /*profile*/ ctx[3].picture && create_if_block_1$6(ctx);
 
     	function select_block_type(ctx, dirty) {
     		if (/*$balance*/ ctx[5] == -1) return create_if_block$n;
-    		return create_else_block$5;
+    		return create_else_block$4;
     	}
 
     	let current_block_type = select_block_type(ctx);
@@ -9200,7 +9202,7 @@ var app = (function () {
     						transition_in(if_block4, 1);
     					}
     				} else {
-    					if_block4 = create_if_block_1$5(ctx);
+    					if_block4 = create_if_block_1$6(ctx);
     					if_block4.c();
     					transition_in(if_block4, 1);
     					if_block4.m(div1, t4);
@@ -10527,7 +10529,7 @@ var app = (function () {
 
     /* src/views/Tutorial.svelte generated by Svelte v3.59.1 */
 
-    function create_else_block$4(ctx) {
+    function create_else_block$3(ctx) {
     	let div;
 
     	return {
@@ -10653,7 +10655,7 @@ var app = (function () {
     	let footer;
     	let current;
     	menu = new Sidebar({});
-    	const if_block_creators = [create_if_block$l, create_else_block$4];
+    	const if_block_creators = [create_if_block$l, create_else_block$3];
     	const if_blocks = [];
 
     	function select_block_type(ctx, dirty) {
@@ -11762,7 +11764,7 @@ var app = (function () {
     }
 
     // (97:4) {#if showRatingButton}
-    function create_if_block_1$4(ctx) {
+    function create_if_block_1$5(ctx) {
     	let button;
     	let mounted;
     	let dispose;
@@ -11971,7 +11973,7 @@ var app = (function () {
     	let if_block0 = /*profile*/ ctx[7] && /*profile*/ ctx[7].picture && create_if_block_2$1(ctx);
     	const default_slot_template = /*#slots*/ ctx[20].default;
     	const default_slot = create_slot(default_slot_template, ctx, /*$$scope*/ ctx[19], null);
-    	let if_block1 = /*showRatingButton*/ ctx[0] && create_if_block_1$4(ctx);
+    	let if_block1 = /*showRatingButton*/ ctx[0] && create_if_block_1$5(ctx);
     	let if_block2 = /*showRatingPopup*/ ctx[9] && create_if_block$j(ctx);
 
     	return {
@@ -12070,7 +12072,7 @@ var app = (function () {
     				if (if_block1) {
     					if_block1.p(ctx, dirty);
     				} else {
-    					if_block1 = create_if_block_1$4(ctx);
+    					if_block1 = create_if_block_1$5(ctx);
     					if_block1.c();
     					if_block1.m(div2, null);
     				}
@@ -12499,7 +12501,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    function get_each_context_1(ctx, list, i) {
+    function get_each_context_1$1(ctx, list, i) {
     	const child_ctx = ctx.slice();
     	child_ctx[14] = list[i];
     	return child_ctx;
@@ -12531,7 +12533,7 @@ var app = (function () {
     }
 
     // (83:8) {#each averageStars as star}
-    function create_each_block_1(ctx) {
+    function create_each_block_1$1(ctx) {
     	let span;
     	let t;
     	let span_class_value;
@@ -12617,7 +12619,7 @@ var app = (function () {
     	let each_blocks_1 = [];
 
     	for (let i = 0; i < each_value_1.length; i += 1) {
-    		each_blocks_1[i] = create_each_block_1(get_each_context_1(ctx, each_value_1, i));
+    		each_blocks_1[i] = create_each_block_1$1(get_each_context_1$1(ctx, each_value_1, i));
     	}
 
     	let each_value = /*reviewEvents*/ ctx[1];
@@ -12709,12 +12711,12 @@ var app = (function () {
     				let i;
 
     				for (i = 0; i < each_value_1.length; i += 1) {
-    					const child_ctx = get_each_context_1(ctx, each_value_1, i);
+    					const child_ctx = get_each_context_1$1(ctx, each_value_1, i);
 
     					if (each_blocks_1[i]) {
     						each_blocks_1[i].p(child_ctx, dirty);
     					} else {
-    						each_blocks_1[i] = create_each_block_1(child_ctx);
+    						each_blocks_1[i] = create_each_block_1$1(child_ctx);
     						each_blocks_1[i].c();
     						each_blocks_1[i].m(div0, t1);
     					}
@@ -15769,7 +15771,7 @@ var app = (function () {
 
     /* src/components/Widgets/IdeaWidget.svelte generated by Svelte v3.59.1 */
 
-    function create_if_block_1$3(ctx) {
+    function create_if_block_1$4(ctx) {
     	let button;
     	let mounted;
     	let dispose;
@@ -15834,7 +15836,7 @@ var app = (function () {
     	let t8;
     	let div0;
     	let raw_value = /*idea*/ ctx[1].message + "";
-    	let if_block0 = /*creator_profile*/ ctx[0] && /*creator_profile*/ ctx[0].pubkey === /*$nostrManager*/ ctx[3].publicKey && create_if_block_1$3(ctx);
+    	let if_block0 = /*creator_profile*/ ctx[0] && /*creator_profile*/ ctx[0].pubkey === /*$nostrManager*/ ctx[3].publicKey && create_if_block_1$4(ctx);
     	let if_block1 = /*preview*/ ctx[2] && create_if_block$d();
 
     	return {
@@ -15891,7 +15893,7 @@ var app = (function () {
     				if (if_block0) {
     					if_block0.p(ctx, dirty);
     				} else {
-    					if_block0 = create_if_block_1$3(ctx);
+    					if_block0 = create_if_block_1$4(ctx);
     					if_block0.c();
     					if_block0.m(div2, t0);
     				}
@@ -16265,7 +16267,7 @@ var app = (function () {
     	let current;
     	let mounted;
     	let dispose;
-    	let if_block = /*state*/ ctx[1].closeButton && create_if_block_1$2(ctx);
+    	let if_block = /*state*/ ctx[1].closeButton && create_if_block_1$3(ctx);
     	var switch_value = /*Component*/ ctx[2];
 
     	function switch_props(ctx) {
@@ -16352,7 +16354,7 @@ var app = (function () {
     						transition_in(if_block, 1);
     					}
     				} else {
-    					if_block = create_if_block_1$2(ctx);
+    					if_block = create_if_block_1$3(ctx);
     					if_block.c();
     					transition_in(if_block, 1);
     					if_block.m(div1, t);
@@ -16495,13 +16497,13 @@ var app = (function () {
     }
 
     // (502:8) {#if state.closeButton}
-    function create_if_block_1$2(ctx) {
+    function create_if_block_1$3(ctx) {
     	let show_if;
     	let current_block_type_index;
     	let if_block;
     	let if_block_anchor;
     	let current;
-    	const if_block_creators = [create_if_block_2, create_else_block$3];
+    	const if_block_creators = [create_if_block_2, create_else_block$2];
     	const if_blocks = [];
 
     	function select_block_type(ctx, dirty) {
@@ -16568,7 +16570,7 @@ var app = (function () {
     }
 
     // (505:10) {:else}
-    function create_else_block$3(ctx) {
+    function create_else_block$2(ctx) {
     	let button;
     	let button_class_value;
     	let mounted;
@@ -18319,7 +18321,7 @@ var app = (function () {
 
     /* src/views/Job.svelte generated by Svelte v3.59.1 */
 
-    function create_if_block_1$1(ctx) {
+    function create_if_block_1$2(ctx) {
     	let button;
     	let mounted;
     	let dispose;
@@ -18534,7 +18536,7 @@ var app = (function () {
     		});
 
     	toolbar = new Toolbar({});
-    	let if_block0 = /*creator_profile*/ ctx[7] && /*creator_profile*/ ctx[7].pubkey === /*$nostrManager*/ ctx[1]?.publicKey && create_if_block_1$1(ctx);
+    	let if_block0 = /*creator_profile*/ ctx[7] && /*creator_profile*/ ctx[7].pubkey === /*$nostrManager*/ ctx[1]?.publicKey && create_if_block_1$2(ctx);
     	zapwidget = new ZapWidget({ props: { eventId: /*id*/ ctx[0] } });
     	commentwidget = new CommentWidget({ props: { id: /*id*/ ctx[0] } });
     	let if_block1 = /*showOfferPopup*/ ctx[2] && create_if_block$b(ctx);
@@ -18660,7 +18662,7 @@ var app = (function () {
     				if (if_block0) {
     					if_block0.p(ctx, dirty);
     				} else {
-    					if_block0 = create_if_block_1$1(ctx);
+    					if_block0 = create_if_block_1$2(ctx);
     					if_block0.c();
     					if_block0.m(div2, t3);
     				}
@@ -22370,7 +22372,7 @@ var app = (function () {
         return unsubscribe; // Rückgabe der Unsubscribe-Funktion für spätere Aufräumaktionen
       }
 
-      async sendMessage(receiverPubKey, messageContent, subject) {
+      async sendMessage(receiverPubKeys, messageContent, subject) {
         if (!this.manager || !this.manager.publicKey) {
           console.error("Manager or public key not initialized.");
           return;
@@ -22382,33 +22384,33 @@ var app = (function () {
           created_at: Math.floor(Date.now() / 1000),
           kind: 14,
           tags: [
-            ["p", receiverPubKey],
-            ["p", this.manager.publicKey],
+            ...receiverPubKeys.map(receiverPubKey => ["p", receiverPubKey]),
             ...(subject ? [["subject", subject]] : []),
           ],
           content: messageContent,
         };
 
-        // Versiegeln des unsignedKind14 Events (Kind 13)
-        const sealContent = await window.nostr.nip44.encrypt(receiverPubKey, JSON.stringify(unsignedKind14));
-        const seal = {
-          created_at: Math.floor(Date.now() / 1000),
-          kind: 13,
-          tags: [],
-          content: sealContent,
-        };
+        for (const receiverPubKey of receiverPubKeys) {
+          // Versiegeln des unsignedKind14 Events (Kind 13)
+          const sealContent = await window.nostr.nip44.encrypt(receiverPubKey, JSON.stringify(unsignedKind14));
+          const seal = {
+            created_at: Math.floor(Date.now() / 1000),
+            kind: 13,
+            tags: [],
+            content: sealContent,
+          };
 
-        await window.nostr.signEvent(seal);
+          await window.nostr.signEvent(seal);
 
-        // Wickele das versiegelte Event ein (Kind 1059)
-        const giftWrapContent = await window.nostr.nip44.encrypt(receiverPubKey, JSON.stringify(seal));
-        const tags = [["p", receiverPubKey]];
+          // Wickele das versiegelte Event ein (Kind 1059)
+          const giftWrapContent = await window.nostr.nip44.encrypt(receiverPubKey, JSON.stringify(seal));
+          const tags = [["p", receiverPubKey]];
 
-        try {
-          await this.manager.sendAnonEvent(1059, giftWrapContent, tags);
-          console.log("Message sent successfully.");
-        } catch (error) {
-          console.error("Error sending message:", error);
+          try {
+            await this.manager.sendAnonEvent(1059, giftWrapContent, tags);
+          } catch (error) {
+            console.error(`Error sending message to ${receiverPubKey}:`, error);
+          }
         }
       }
 
@@ -22442,7 +22444,6 @@ var app = (function () {
 
       async getMessages() {
         if (!this.manager) {
-          console.error("NostrManager is not initialized.");
           return [];
         }
 
@@ -22466,15 +22467,32 @@ var app = (function () {
       async getChatRooms() {
         const decryptedMessages = await this.getMessages();
         const chatRooms = {};
-
+      
         decryptedMessages.forEach(message => {
-          const participants = message.tags
+          const participantsArray = message.tags
             .filter(tag => tag[0] === 'p')
             .map(tag => tag[1])
-            .sort()
-            .join(',');
-
-          console.log(participants);
+            .sort();
+      
+          // Filtere Chatrooms mit nur einem Teilnehmer
+          if (participantsArray.length <= 1) {
+            return;
+          }
+      
+          // Filtere Chatrooms mit doppelten Teilnehmern
+          const hasDuplicates = participantsArray.some((item, index) => participantsArray.indexOf(item) !== index);
+          if (hasDuplicates) {
+            return;
+          }
+      
+          // Überprüfe auf ungültige Teilnehmer-PubKeys (zum Beispiel leere Strings)
+          const hasInvalidPubKeys = participantsArray.some(pubKey => !pubKey || typeof pubKey !== 'string');
+          if (hasInvalidPubKeys) {
+            return;
+          }
+      
+          const participants = participantsArray.join(',');
+      
           if (!chatRooms[participants]) {
             chatRooms[participants] = {
               participants,
@@ -22483,19 +22501,19 @@ var app = (function () {
               lastSubjectTimestamp: 0
             };
           }
-
+      
           chatRooms[participants].messages.push(message);
-
+      
           const subjectTag = message.tags.find(tag => tag[0] === 'subject');
           if (subjectTag && message.created_at > chatRooms[participants].lastSubjectTimestamp) {
             chatRooms[participants].subject = subjectTag[1];
             chatRooms[participants].lastSubjectTimestamp = message.created_at;
           }
         });
-
+      
         return Object.values(chatRooms);
       }
-
+      
 
       subscribeToMessages() {
         if (!this.manager) {
@@ -22534,54 +22552,33 @@ var app = (function () {
 
     /* src/components/DirectMessage/ChatList.svelte generated by Svelte v3.59.1 */
 
+    const { Map: Map_1 } = globals;
+
     function get_each_context$1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[12] = list[i];
+    	child_ctx[13] = list[i];
     	return child_ctx;
     }
 
-    // (97:16) {:else}
-    function create_else_block$2(ctx) {
-    	let h3;
-    	let t0;
-    	let t1_value = /*room*/ ctx[12].participants + "";
-    	let t1;
-
-    	return {
-    		c() {
-    			h3 = element("h3");
-    			t0 = text("Chat with ");
-    			t1 = text(t1_value);
-    			attr(h3, "class", "room-name svelte-h43t54");
-    		},
-    		m(target, anchor) {
-    			insert(target, h3, anchor);
-    			append(h3, t0);
-    			append(h3, t1);
-    		},
-    		p(ctx, dirty) {
-    			if (dirty & /*$chatRooms*/ 1 && t1_value !== (t1_value = /*room*/ ctx[12].participants + "")) set_data(t1, t1_value);
-    		},
-    		i: noop,
-    		o: noop,
-    		d(detaching) {
-    			if (detaching) detach(h3);
-    		}
-    	};
+    function get_each_context_1(ctx, list, i) {
+    	const child_ctx = ctx.slice();
+    	child_ctx[16] = list[i];
+    	return child_ctx;
     }
 
-    // (85:16) {#if $profiles.has(room.participants)}
-    function create_if_block_1(ctx) {
+    // (85:20) {#if $profiles.has(participant) && participant != $nostrManager.publicKey}
+    function create_if_block_1$1(ctx) {
     	let profileimg;
     	let t0;
     	let h3;
-    	let t1_value = /*$profiles*/ ctx[1].get(/*room*/ ctx[12].participants).name + "";
+    	let t1_value = /*$profiles*/ ctx[2].get(/*participant*/ ctx[16]).name + "";
     	let t1;
+    	let t2;
     	let current;
 
     	profileimg = new ProfileImg({
     			props: {
-    				profile: /*$profiles*/ ctx[1].get(/*room*/ ctx[12].participants),
+    				profile: /*$profiles*/ ctx[2].get(/*participant*/ ctx[16]),
     				style: {
     					width: "50px",
     					height: "50px",
@@ -22596,6 +22593,7 @@ var app = (function () {
     			t0 = space();
     			h3 = element("h3");
     			t1 = text(t1_value);
+    			t2 = space();
     			attr(h3, "class", "room-name svelte-h43t54");
     		},
     		m(target, anchor) {
@@ -22603,13 +22601,14 @@ var app = (function () {
     			insert(target, t0, anchor);
     			insert(target, h3, anchor);
     			append(h3, t1);
+    			append(h3, t2);
     			current = true;
     		},
     		p(ctx, dirty) {
     			const profileimg_changes = {};
-    			if (dirty & /*$profiles, $chatRooms*/ 3) profileimg_changes.profile = /*$profiles*/ ctx[1].get(/*room*/ ctx[12].participants);
+    			if (dirty & /*$profiles, $chatRooms*/ 6) profileimg_changes.profile = /*$profiles*/ ctx[2].get(/*participant*/ ctx[16]);
     			profileimg.$set(profileimg_changes);
-    			if ((!current || dirty & /*$profiles, $chatRooms*/ 3) && t1_value !== (t1_value = /*$profiles*/ ctx[1].get(/*room*/ ctx[12].participants).name + "")) set_data(t1, t1_value);
+    			if ((!current || dirty & /*$profiles, $chatRooms*/ 6) && t1_value !== (t1_value = /*$profiles*/ ctx[2].get(/*participant*/ ctx[16]).name + "")) set_data(t1, t1_value);
     		},
     		i(local) {
     			if (current) return;
@@ -22628,10 +22627,77 @@ var app = (function () {
     	};
     }
 
-    // (101:12) {#if room.subject}
+    // (84:16) {#each room.participants.split(',') as participant (participant)}
+    function create_each_block_1(key_1, ctx) {
+    	let first;
+    	let show_if = /*$profiles*/ ctx[2].has(/*participant*/ ctx[16]) && /*participant*/ ctx[16] != /*$nostrManager*/ ctx[0].publicKey;
+    	let if_block_anchor;
+    	let current;
+    	let if_block = show_if && create_if_block_1$1(ctx);
+
+    	return {
+    		key: key_1,
+    		first: null,
+    		c() {
+    			first = empty();
+    			if (if_block) if_block.c();
+    			if_block_anchor = empty();
+    			this.first = first;
+    		},
+    		m(target, anchor) {
+    			insert(target, first, anchor);
+    			if (if_block) if_block.m(target, anchor);
+    			insert(target, if_block_anchor, anchor);
+    			current = true;
+    		},
+    		p(new_ctx, dirty) {
+    			ctx = new_ctx;
+    			if (dirty & /*$profiles, $chatRooms, $nostrManager*/ 7) show_if = /*$profiles*/ ctx[2].has(/*participant*/ ctx[16]) && /*participant*/ ctx[16] != /*$nostrManager*/ ctx[0].publicKey;
+
+    			if (show_if) {
+    				if (if_block) {
+    					if_block.p(ctx, dirty);
+
+    					if (dirty & /*$profiles, $chatRooms, $nostrManager*/ 7) {
+    						transition_in(if_block, 1);
+    					}
+    				} else {
+    					if_block = create_if_block_1$1(ctx);
+    					if_block.c();
+    					transition_in(if_block, 1);
+    					if_block.m(if_block_anchor.parentNode, if_block_anchor);
+    				}
+    			} else if (if_block) {
+    				group_outros();
+
+    				transition_out(if_block, 1, 1, () => {
+    					if_block = null;
+    				});
+
+    				check_outros();
+    			}
+    		},
+    		i(local) {
+    			if (current) return;
+    			transition_in(if_block);
+    			current = true;
+    		},
+    		o(local) {
+    			transition_out(if_block);
+    			current = false;
+    		},
+    		d(detaching) {
+    			if (detaching) detach(first);
+    			if (if_block) if_block.d(detaching);
+    			if (detaching) detach(if_block_anchor);
+    		}
+    	};
+    }
+
+    // (100:12) {#if room.subject}
     function create_if_block$3(ctx) {
     	let p;
-    	let t_value = /*room*/ ctx[12].subject + "";
+    	let t_value = /*room*/ ctx[13].subject + "";
     	let t;
 
     	return {
@@ -22645,7 +22711,7 @@ var app = (function () {
     			append(p, t);
     		},
     		p(ctx, dirty) {
-    			if (dirty & /*$chatRooms*/ 1 && t_value !== (t_value = /*room*/ ctx[12].subject + "")) set_data(t, t_value);
+    			if (dirty & /*$chatRooms*/ 2 && t_value !== (t_value = /*room*/ ctx[13].subject + "")) set_data(t, t_value);
     		},
     		d(detaching) {
     			if (detaching) detach(p);
@@ -22653,43 +22719,43 @@ var app = (function () {
     	};
     }
 
-    // (82:4) {#each $chatRooms as room}
+    // (80:4) {#each $chatRooms as room}
     function create_each_block$1(ctx) {
     	let div1;
     	let div0;
-    	let show_if;
-    	let current_block_type_index;
-    	let if_block0;
+    	let each_blocks = [];
+    	let each_1_lookup = new Map_1();
     	let t0;
     	let t1;
     	let current;
     	let mounted;
     	let dispose;
-    	const if_block_creators = [create_if_block_1, create_else_block$2];
-    	const if_blocks = [];
+    	let each_value_1 = /*room*/ ctx[13].participants.split(',');
+    	const get_key = ctx => /*participant*/ ctx[16];
 
-    	function select_block_type(ctx, dirty) {
-    		if (dirty & /*$profiles, $chatRooms*/ 3) show_if = null;
-    		if (show_if == null) show_if = !!/*$profiles*/ ctx[1].has(/*room*/ ctx[12].participants);
-    		if (show_if) return 0;
-    		return 1;
+    	for (let i = 0; i < each_value_1.length; i += 1) {
+    		let child_ctx = get_each_context_1(ctx, each_value_1, i);
+    		let key = get_key(child_ctx);
+    		each_1_lookup.set(key, each_blocks[i] = create_each_block_1(key, child_ctx));
     	}
 
-    	current_block_type_index = select_block_type(ctx, -1);
-    	if_block0 = if_blocks[current_block_type_index] = if_block_creators[current_block_type_index](ctx);
-    	let if_block1 = /*room*/ ctx[12].subject && create_if_block$3(ctx);
+    	let if_block = /*room*/ ctx[13].subject && create_if_block$3(ctx);
 
     	function click_handler() {
-    		return /*click_handler*/ ctx[8](/*room*/ ctx[12]);
+    		return /*click_handler*/ ctx[8](/*room*/ ctx[13]);
     	}
 
     	return {
     		c() {
     			div1 = element("div");
     			div0 = element("div");
-    			if_block0.c();
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].c();
+    			}
+
     			t0 = space();
-    			if (if_block1) if_block1.c();
+    			if (if_block) if_block.c();
     			t1 = space();
     			attr(div0, "class", "room-header svelte-h43t54");
     			attr(div1, "class", "chat-room svelte-h43t54");
@@ -22697,9 +22763,15 @@ var app = (function () {
     		m(target, anchor) {
     			insert(target, div1, anchor);
     			append(div1, div0);
-    			if_blocks[current_block_type_index].m(div0, null);
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				if (each_blocks[i]) {
+    					each_blocks[i].m(div0, null);
+    				}
+    			}
+
     			append(div1, t0);
-    			if (if_block1) if_block1.m(div1, null);
+    			if (if_block) if_block.m(div1, null);
     			append(div1, t1);
     			current = true;
 
@@ -22710,58 +22782,51 @@ var app = (function () {
     		},
     		p(new_ctx, dirty) {
     			ctx = new_ctx;
-    			let previous_block_index = current_block_type_index;
-    			current_block_type_index = select_block_type(ctx, dirty);
 
-    			if (current_block_type_index === previous_block_index) {
-    				if_blocks[current_block_type_index].p(ctx, dirty);
-    			} else {
+    			if (dirty & /*$profiles, $chatRooms, $nostrManager*/ 7) {
+    				each_value_1 = /*room*/ ctx[13].participants.split(',');
     				group_outros();
-
-    				transition_out(if_blocks[previous_block_index], 1, 1, () => {
-    					if_blocks[previous_block_index] = null;
-    				});
-
+    				each_blocks = update_keyed_each(each_blocks, dirty, get_key, 1, ctx, each_value_1, each_1_lookup, div0, outro_and_destroy_block, create_each_block_1, null, get_each_context_1);
     				check_outros();
-    				if_block0 = if_blocks[current_block_type_index];
-
-    				if (!if_block0) {
-    					if_block0 = if_blocks[current_block_type_index] = if_block_creators[current_block_type_index](ctx);
-    					if_block0.c();
-    				} else {
-    					if_block0.p(ctx, dirty);
-    				}
-
-    				transition_in(if_block0, 1);
-    				if_block0.m(div0, null);
     			}
 
-    			if (/*room*/ ctx[12].subject) {
-    				if (if_block1) {
-    					if_block1.p(ctx, dirty);
+    			if (/*room*/ ctx[13].subject) {
+    				if (if_block) {
+    					if_block.p(ctx, dirty);
     				} else {
-    					if_block1 = create_if_block$3(ctx);
-    					if_block1.c();
-    					if_block1.m(div1, t1);
+    					if_block = create_if_block$3(ctx);
+    					if_block.c();
+    					if_block.m(div1, t1);
     				}
-    			} else if (if_block1) {
-    				if_block1.d(1);
-    				if_block1 = null;
+    			} else if (if_block) {
+    				if_block.d(1);
+    				if_block = null;
     			}
     		},
     		i(local) {
     			if (current) return;
-    			transition_in(if_block0);
+
+    			for (let i = 0; i < each_value_1.length; i += 1) {
+    				transition_in(each_blocks[i]);
+    			}
+
     			current = true;
     		},
     		o(local) {
-    			transition_out(if_block0);
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				transition_out(each_blocks[i]);
+    			}
+
     			current = false;
     		},
     		d(detaching) {
     			if (detaching) detach(div1);
-    			if_blocks[current_block_type_index].d();
-    			if (if_block1) if_block1.d();
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].d();
+    			}
+
+    			if (if_block) if_block.d();
     			mounted = false;
     			dispose();
     		}
@@ -22773,7 +22838,7 @@ var app = (function () {
     	let h2;
     	let t1;
     	let current;
-    	let each_value = /*$chatRooms*/ ctx[0];
+    	let each_value = /*$chatRooms*/ ctx[1];
     	let each_blocks = [];
 
     	for (let i = 0; i < each_value.length; i += 1) {
@@ -22811,8 +22876,8 @@ var app = (function () {
     			current = true;
     		},
     		p(ctx, [dirty]) {
-    			if (dirty & /*handleRoomClick, $chatRooms, $profiles*/ 19) {
-    				each_value = /*$chatRooms*/ ctx[0];
+    			if (dirty & /*handleRoomClick, $chatRooms, $profiles, $nostrManager*/ 39) {
+    				each_value = /*$chatRooms*/ ctx[1];
     				let i;
 
     				for (i = 0; i < each_value.length; i += 1) {
@@ -22863,26 +22928,17 @@ var app = (function () {
     	};
     }
 
-    function createDummyRoom(pubkey) {
-    	return {
-    		participants: pubkey,
-    		messages: [],
-    		subject: "New Chat",
-    		lastSubjectTimestamp: Date.now() / 1000
-    	};
-    }
-
     function instance$5($$self, $$props, $$invalidate) {
-    	let $nostrCache;
     	let $nostrManager;
+    	let $nostrCache;
     	let $chatRooms;
     	let $profiles;
-    	component_subscribe($$self, nostrCache, $$value => $$invalidate(6, $nostrCache = $$value));
-    	component_subscribe($$self, nostrManager, $$value => $$invalidate(7, $nostrManager = $$value));
+    	component_subscribe($$self, nostrManager, $$value => $$invalidate(0, $nostrManager = $$value));
+    	component_subscribe($$self, nostrCache, $$value => $$invalidate(7, $nostrCache = $$value));
     	let chatRooms = writable([]);
-    	component_subscribe($$self, chatRooms, value => $$invalidate(0, $chatRooms = value));
+    	component_subscribe($$self, chatRooms, value => $$invalidate(1, $chatRooms = value));
     	let profiles = writable(new Map());
-    	component_subscribe($$self, profiles, value => $$invalidate(1, $profiles = value));
+    	component_subscribe($$self, profiles, value => $$invalidate(2, $profiles = value));
     	const dispatch = createEventDispatcher();
     	let { pubkey = null } = $$props;
 
@@ -22890,7 +22946,6 @@ var app = (function () {
     		await dmManager.init();
     		dmManager.subscribeToMessages();
     		await updateChatRooms();
-    		console.log("pubkey in ChatList:", pubkey);
     	});
 
     	async function updateChatRooms() {
@@ -22910,11 +22965,11 @@ var app = (function () {
     			}
     		}
 
-    		await fetchProfiles(rooms.map(room => room.participants));
+    		await fetchProfiles(rooms.map(room => room.participants.split(',')));
     	}
 
     	async function fetchProfiles(pubkeys) {
-    		const profilePromises = pubkeys.map(async pubkey => {
+    		const profilePromises = pubkeys.flat().map(async pubkey => {
     			let profile = await socialMediaManager.getProfile(pubkey);
     			return { pubkey, profile };
     		});
@@ -22932,6 +22987,15 @@ var app = (function () {
     		});
     	}
 
+    	function createDummyRoom(pubkey) {
+    		return {
+    			participants: [pubkey, $nostrManager.publicKey].sort().join(','),
+    			messages: [],
+    			subject: "New Chat",
+    			lastSubjectTimestamp: Date.now() / 1000
+    		};
+    	}
+
     	function handleRoomClick(room) {
     		dispatch("selectRoom", room);
     	}
@@ -22939,11 +23003,11 @@ var app = (function () {
     	const click_handler = room => handleRoomClick(room);
 
     	$$self.$$set = $$props => {
-    		if ('pubkey' in $$props) $$invalidate(5, pubkey = $$props.pubkey);
+    		if ('pubkey' in $$props) $$invalidate(6, pubkey = $$props.pubkey);
     	};
 
     	$$self.$$.update = () => {
-    		if ($$self.$$.dirty & /*$nostrManager, $nostrCache*/ 192) {
+    		if ($$self.$$.dirty & /*$nostrManager, $nostrCache*/ 129) {
     			// Updates chat rooms whenever the cache or manager changes
     			if ($nostrManager && $nostrCache) {
     				updateChatRooms();
@@ -22952,6 +23016,7 @@ var app = (function () {
     	};
 
     	return [
+    		$nostrManager,
     		$chatRooms,
     		$profiles,
     		chatRooms,
@@ -22959,7 +23024,6 @@ var app = (function () {
     		handleRoomClick,
     		pubkey,
     		$nostrCache,
-    		$nostrManager,
     		click_handler
     	];
     }
@@ -22967,7 +23031,7 @@ var app = (function () {
     class ChatList extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$5, create_fragment$6, safe_not_equal, { pubkey: 5 });
+    		init(this, options, instance$5, create_fragment$6, safe_not_equal, { pubkey: 6 });
     	}
     }
 
@@ -23269,14 +23333,11 @@ var app = (function () {
     		if (messageContent.trim() === '') return;
 
     		if ($selectedRoom && $selectedRoom.participants) {
-    			const receiverPubKey = $selectedRoom.participants.split(',')[0];
+    			const receiverPubKeys = $selectedRoom.participants.split(',');
     			const subject = $selectedRoom.subject;
 
     			try {
-    				console.log("receiverPubKey:", receiverPubKey);
-    				console.log("messageContent:", messageContent);
-    				console.log("subject:", subject);
-    				await dmManager.sendMessage(receiverPubKey, messageContent, subject);
+    				await dmManager.sendMessage(receiverPubKeys, messageContent, subject);
     				$$invalidate(1, messageContent = '');
     				dispatch('messageSent');
     			} catch(error) {
@@ -23645,19 +23706,19 @@ var app = (function () {
     	}
     }
 
-    var css_248z$1 = "body{font-family:\"Arial\", sans-serif;background-color:#f0f2f5;margin:0;padding:0}.chat-container.svelte-637yc8{display:flex;height:50vh;background-color:#fff;box-shadow:0 4px 8px rgba(0, 0, 0, 0.1);border-radius:8px;overflow:hidden;margin:auto;margin-bottom:7vh;max-width:1200px}.no-chat-selected.svelte-637yc8{flex-grow:1;display:flex;justify-content:center;align-items:center;color:#888}";
+    var css_248z$1 = "body{font-family:\"Arial\", sans-serif;background-color:#f0f2f5;margin:0;padding:0}.chat-container.svelte-1l4j5d7{display:flex;height:50vh;background-color:#fff;box-shadow:0 4px 8px rgba(0, 0, 0, 0.1);border-radius:8px;overflow:hidden;margin:auto;margin-bottom:7vh;max-width:1200px}.no-chat-selected.svelte-1l4j5d7,.not-logged-in.svelte-1l4j5d7{flex-grow:1;display:flex;justify-content:center;align-items:center;color:#888}.not-logged-in.svelte-1l4j5d7{flex-direction:column;text-align:center}";
     styleInject(css_248z$1);
 
     /* src/components/DirectMessage/Chat.svelte generated by Svelte v3.59.1 */
 
-    function create_else_block(ctx) {
+    function create_else_block_1(ctx) {
     	let div;
 
     	return {
     		c() {
     			div = element("div");
-    			div.innerHTML = `<p>Select a chat to start messaging</p>`;
-    			attr(div, "class", "no-chat-selected svelte-637yc8");
+    			div.innerHTML = `<p>Please log in to access the chat.</p>`;
+    			attr(div, "class", "not-logged-in svelte-1l4j5d7");
     		},
     		m(target, anchor) {
     			insert(target, div, anchor);
@@ -23671,13 +23732,120 @@ var app = (function () {
     	};
     }
 
-    // (37:8) {#if $selectedRoom}
+    // (34:8) {#if loggedIn}
     function create_if_block(ctx) {
+    	let chatlist;
+    	let t;
+    	let current_block_type_index;
+    	let if_block;
+    	let if_block_anchor;
+    	let current;
+    	chatlist = new ChatList({ props: { pubkey: /*pubkey*/ ctx[0] } });
+    	chatlist.$on("selectRoom", /*selectRoom*/ ctx[4]);
+    	const if_block_creators = [create_if_block_1, create_else_block];
+    	const if_blocks = [];
+
+    	function select_block_type_1(ctx, dirty) {
+    		if (/*$selectedRoom*/ ctx[2]) return 0;
+    		return 1;
+    	}
+
+    	current_block_type_index = select_block_type_1(ctx);
+    	if_block = if_blocks[current_block_type_index] = if_block_creators[current_block_type_index](ctx);
+
+    	return {
+    		c() {
+    			create_component(chatlist.$$.fragment);
+    			t = space();
+    			if_block.c();
+    			if_block_anchor = empty();
+    		},
+    		m(target, anchor) {
+    			mount_component(chatlist, target, anchor);
+    			insert(target, t, anchor);
+    			if_blocks[current_block_type_index].m(target, anchor);
+    			insert(target, if_block_anchor, anchor);
+    			current = true;
+    		},
+    		p(ctx, dirty) {
+    			const chatlist_changes = {};
+    			if (dirty & /*pubkey*/ 1) chatlist_changes.pubkey = /*pubkey*/ ctx[0];
+    			chatlist.$set(chatlist_changes);
+    			let previous_block_index = current_block_type_index;
+    			current_block_type_index = select_block_type_1(ctx);
+
+    			if (current_block_type_index === previous_block_index) {
+    				if_blocks[current_block_type_index].p(ctx, dirty);
+    			} else {
+    				group_outros();
+
+    				transition_out(if_blocks[previous_block_index], 1, 1, () => {
+    					if_blocks[previous_block_index] = null;
+    				});
+
+    				check_outros();
+    				if_block = if_blocks[current_block_type_index];
+
+    				if (!if_block) {
+    					if_block = if_blocks[current_block_type_index] = if_block_creators[current_block_type_index](ctx);
+    					if_block.c();
+    				} else {
+    					if_block.p(ctx, dirty);
+    				}
+
+    				transition_in(if_block, 1);
+    				if_block.m(if_block_anchor.parentNode, if_block_anchor);
+    			}
+    		},
+    		i(local) {
+    			if (current) return;
+    			transition_in(chatlist.$$.fragment, local);
+    			transition_in(if_block);
+    			current = true;
+    		},
+    		o(local) {
+    			transition_out(chatlist.$$.fragment, local);
+    			transition_out(if_block);
+    			current = false;
+    		},
+    		d(detaching) {
+    			destroy_component(chatlist, detaching);
+    			if (detaching) detach(t);
+    			if_blocks[current_block_type_index].d(detaching);
+    			if (detaching) detach(if_block_anchor);
+    		}
+    	};
+    }
+
+    // (38:12) {:else}
+    function create_else_block(ctx) {
+    	let div;
+
+    	return {
+    		c() {
+    			div = element("div");
+    			div.innerHTML = `<p>Select a chat to start messaging</p>`;
+    			attr(div, "class", "no-chat-selected svelte-1l4j5d7");
+    		},
+    		m(target, anchor) {
+    			insert(target, div, anchor);
+    		},
+    		p: noop,
+    		i: noop,
+    		o: noop,
+    		d(detaching) {
+    			if (detaching) detach(div);
+    		}
+    	};
+    }
+
+    // (36:12) {#if $selectedRoom}
+    function create_if_block_1(ctx) {
     	let chatroom;
     	let current;
 
     	chatroom = new ChatRoom({
-    			props: { selectedRoom: /*selectedRoom*/ ctx[2] }
+    			props: { selectedRoom: /*selectedRoom*/ ctx[3] }
     		});
 
     	return {
@@ -23707,18 +23875,14 @@ var app = (function () {
     function create_fragment$2(ctx) {
     	let main;
     	let div;
-    	let chatlist;
-    	let t;
     	let current_block_type_index;
     	let if_block;
     	let current;
-    	chatlist = new ChatList({ props: { pubkey: /*pubkey*/ ctx[0] } });
-    	chatlist.$on("selectRoom", /*selectRoom*/ ctx[3]);
-    	const if_block_creators = [create_if_block, create_else_block];
+    	const if_block_creators = [create_if_block, create_else_block_1];
     	const if_blocks = [];
 
     	function select_block_type(ctx, dirty) {
-    		if (/*$selectedRoom*/ ctx[1]) return 0;
+    		if (/*loggedIn*/ ctx[1]) return 0;
     		return 1;
     	}
 
@@ -23729,23 +23893,16 @@ var app = (function () {
     		c() {
     			main = element("main");
     			div = element("div");
-    			create_component(chatlist.$$.fragment);
-    			t = space();
     			if_block.c();
-    			attr(div, "class", "chat-container svelte-637yc8");
+    			attr(div, "class", "chat-container svelte-1l4j5d7");
     		},
     		m(target, anchor) {
     			insert(target, main, anchor);
     			append(main, div);
-    			mount_component(chatlist, div, null);
-    			append(div, t);
     			if_blocks[current_block_type_index].m(div, null);
     			current = true;
     		},
     		p(ctx, [dirty]) {
-    			const chatlist_changes = {};
-    			if (dirty & /*pubkey*/ 1) chatlist_changes.pubkey = /*pubkey*/ ctx[0];
-    			chatlist.$set(chatlist_changes);
     			let previous_block_index = current_block_type_index;
     			current_block_type_index = select_block_type(ctx);
 
@@ -23774,44 +23931,40 @@ var app = (function () {
     		},
     		i(local) {
     			if (current) return;
-    			transition_in(chatlist.$$.fragment, local);
     			transition_in(if_block);
     			current = true;
     		},
     		o(local) {
-    			transition_out(chatlist.$$.fragment, local);
     			transition_out(if_block);
     			current = false;
     		},
     		d(detaching) {
     			if (detaching) detach(main);
-    			destroy_component(chatlist);
     			if_blocks[current_block_type_index].d();
     		}
     	};
     }
 
     function instance$1($$self, $$props, $$invalidate) {
-    	let $nostrManager;
+    	let loggedIn;
     	let $nostrCache;
+    	let $nostrManager;
     	let $selectedRoom;
-    	component_subscribe($$self, nostrManager, $$value => $$invalidate(4, $nostrManager = $$value));
     	component_subscribe($$self, nostrCache, $$value => $$invalidate(5, $nostrCache = $$value));
+    	component_subscribe($$self, nostrManager, $$value => $$invalidate(6, $nostrManager = $$value));
     	let { pubkey = null } = $$props;
     	let selectedRoom = writable(null);
-    	component_subscribe($$self, selectedRoom, value => $$invalidate(1, $selectedRoom = value));
+    	component_subscribe($$self, selectedRoom, value => $$invalidate(2, $selectedRoom = value));
 
     	function selectRoom(event) {
     		selectedRoom.set(event.detail);
     	}
 
     	onMount(async () => {
-    		if ($nostrManager && $nostrManager.publicKey) {
+    		if (loggedIn) {
     			await dmManager.init();
     			dmManager.subscribeToMessages();
     		}
-
-    		console.log("pubkey in Chat:", pubkey);
     	});
 
     	$$self.$$set = $$props => {
@@ -23819,17 +23972,27 @@ var app = (function () {
     	};
 
     	$$self.$$.update = () => {
-    		if ($$self.$$.dirty & /*$nostrManager, $nostrCache*/ 48) {
-    			if ($nostrManager && $nostrCache) {
-    				if ($nostrManager.publicKey) {
-    					dmManager.init();
-    					dmManager.subscribeToMessages();
-    				}
+    		if ($$self.$$.dirty & /*$nostrManager*/ 64) {
+    			$$invalidate(1, loggedIn = $nostrManager && $nostrManager.publicKey);
+    		}
+
+    		if ($$self.$$.dirty & /*loggedIn, $nostrCache*/ 34) {
+    			if (loggedIn && $nostrCache) {
+    				dmManager.init();
+    				dmManager.subscribeToMessages();
     			}
     		}
     	};
 
-    	return [pubkey, $selectedRoom, selectedRoom, selectRoom, $nostrManager, $nostrCache];
+    	return [
+    		pubkey,
+    		loggedIn,
+    		$selectedRoom,
+    		selectedRoom,
+    		selectRoom,
+    		$nostrCache,
+    		$nostrManager
+    	];
     }
 
     class Chat extends SvelteComponent {
