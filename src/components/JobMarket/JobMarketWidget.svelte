@@ -1,5 +1,6 @@
 <!-- JobMarketWidget.svelte -->
 <script>
+    import JobCard from "../Cards/JobCard.svelte";
     import { onMount, onDestroy } from "svelte";
     import { nostrCache } from "../../backend/NostrCacheStore.js";
     import { nostrManager } from "../../backend/NostrManagerStore.js";
@@ -55,6 +56,15 @@
         }
     }
 
+    function subscribeToIdea(ideaPublickey) {
+        if ($nostrManager) {
+            const eventCriteria = {
+                ids: [ideaPublickey],
+            };
+            $nostrManager.subscribeToEvents(eventCriteria);
+        }
+    }
+
     function subscribeToAuthors() {
         if ($nostrManager) {
             jobs.forEach((job) => {
@@ -63,7 +73,7 @@
         }
     }
 
-    function updateJobs() {
+    async function updateJobs() {
         // Erstelle ein Kriterien-Objekt für die Abfrage
         const criteria = {
             kinds: [NOSTR_KIND_JOB],
@@ -83,10 +93,26 @@
         }
 
         // Führe die Abfrage aus und lade die Jobs
-        jobs = $nostrCache.getEventsByCriteria(criteria);
-
-        // Lade die Profile der Autoren der Jobs
-        loadProfiles();
+        const fetchedJobs = await $nostrCache.getEventsByCriteria(criteria);
+        const tempJobs = [];
+        await Promise.all(
+            fetchedJobs.map(async (job) => {
+                let card = transformJobToCard(job);
+                card.profile = socialMediaManager.getProfile(job.pubkey);
+                let idea = await $nostrCache.getEventById(card.ideaPubkey);
+                if (!idea) {
+                    subscribeToIdea(card.ideaPubkey);
+                } else {
+                    const tags = idea.tags.reduce(
+                        (tagObj, [key, value]) => ({ ...tagObj, [key]: value }),
+                        {},
+                    );
+                    card.bannerImage = tags.ibUrl;
+                }
+                tempJobs.push(card);
+            }),
+        );
+        return tempJobs;
     }
 
     let jobModal = writable(null);
@@ -122,13 +148,6 @@
         subscribeToJobs();
     }
 
-    function loadProfiles() {
-        jobs = jobs.map((job) => {
-            job.profile = socialMediaManager.getProfile(job.pubkey);
-            return job;
-        });
-    }
-
     onMount(initialize);
 
     onDestroy(() => {
@@ -137,29 +156,63 @@
         languageModal.set(false);
     });
 
-    $: if ($nostrManager) {
-        initialize();
+    $: if ($nostrCache) {
+        subscribeToAuthors();
+    }
+    $: initialize(), $nostrManager;
+
+    $: if ($nostrManager && $nostrCache) {
+        updateFeed();
     }
 
-    $: if ($nostrCache) {
-        updateJobs();
-        subscribeToAuthors();
+    async function updateFeed() {
+        jobs = await updateJobs();
+    }
+
+    function transformJobToCard(job) {
+        const tags = job.tags.reduce(
+            (tagObj, [key, value]) => ({ ...tagObj, [key]: value }),
+            {},
+        );
+        return {
+            id: job.id,
+            title: tags.jTitle,
+            bannerImage: tags.jbUrl,
+            message: job.content,
+            abstract: tags.jAbstract,
+            sats: tags.sats,
+            pubkey: job.pubkey,
+            ideaPubkey: tags.e,
+        };
+    }
+    $: if ($nostrManager && $nostrCache) {
+        updateFeed();
     }
 </script>
 
-<div class="job-market-widget single-card container">
-    <div class="modal-buttons-container">
-        <Modal show={$jobModal}>
-            <button class="modal-button" on:click={openCategoryModal}>
-                <i class="fas fa-filter"></i> Filter by Category
-            </button>
-        </Modal>
-        <Modal show={$languageModal}>
-            <button class="modal-button" on:click={openLangModal}>
-                <i class="fas fa-code"></i> Filter by Language
-            </button>
-        </Modal>
+<div class="modal-buttons-container">
+    <Modal show={$jobModal}>
+        <button class="modal-button" on:click={openCategoryModal}>
+            <i class="fas fa-filter"></i> Filter by Category
+        </button>
+    </Modal>
+    <Modal show={$languageModal}>
+        <button class="modal-button" on:click={openLangModal}>
+            <i class="fas fa-code"></i> Filter by Language
+        </button>
+    </Modal>
+</div>
+<div class="container mx-auto px-4">
+    <div class="row">
+        {#each jobs as job (job.id)}
+            <div class="col-12 col-sm-6 col-md-6 col-lg-6 mb-8">
+                <JobCard card={job} />
+            </div>
+        {/each}
     </div>
+</div>
+
+<!-- <div class="job-market-widget single-card container">
 
     {#each jobs as job}
         <div class="job-entry">
@@ -187,7 +240,7 @@
             </button>
         </div>
     {/each}
-</div>
+</div> -->
 
 <style>
     .modal-buttons-container {

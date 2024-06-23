@@ -5,11 +5,11 @@
   import LikeIcon from "../LikeIcon.svelte";
   import ShareIcon from "../ShareIcon.svelte";
   import { navigate } from "svelte-routing";
-
+  
   export let card;
 
-  function goToIdea() {
-    navigate(`/idea/${card.id}`);
+  function goToJob() {
+    navigate(`/job/${card.id}`);
   }
 
   function truncateMessage(message, maxLength) {
@@ -24,8 +24,8 @@
   });
 
   function initialize() {
-    if (card) {
-      socialMediaManager.getProfile(card.pubkey);
+    if(card) {
+      socialMediaManager.getProfile(card.profile);
     }
   }
 
@@ -34,15 +34,15 @@
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <div class="bitspark-card">
-  <div class="bitspark-card-content" on:click={goToIdea}>
+  <div class="bitspark-card-content" on:click={goToJob}>
     <img
       src={card.bannerImage}
-      alt="Banner of {card.name}"
+      alt="Banner of {card.title}"
       class="bitspark-card-banner-image"
     />
     <div class="content">
-      <h3>{card.name}</h3>
-      <h4>{card.subtitle}</h4>
+      <h3>{card.title}</h3>
+      <h4>{card.sats} Sats</h4>
       <p>{truncateMessage(card.abstract, 500)}</p>
     </div>
   </div>
