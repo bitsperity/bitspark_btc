@@ -22,8 +22,6 @@
         await dmManager.init();
         dmManager.subscribeToMessages();
         await updateChatRooms();
-
-        console.log("pubkey in ChatList:", pubkey);
     });
 
     async function updateChatRooms() {
@@ -43,11 +41,11 @@
             }
         }
 
-        await fetchProfiles(rooms.map((room) => room.participants));
+        await fetchProfiles(rooms.map((room) => room.participants.split(',')));
     }
 
     async function fetchProfiles(pubkeys) {
-        const profilePromises = pubkeys.map(async (pubkey) => {
+        const profilePromises = pubkeys.flat().map(async (pubkey) => {
             let profile = await socialMediaManager.getProfile(pubkey);
             return { pubkey, profile };
         });
@@ -65,7 +63,7 @@
 
     function createDummyRoom(pubkey) {
         return {
-            participants: pubkey,
+            participants: [pubkey, $nostrManager.publicKey].sort().join(','),
             messages: [],
             subject: "New Chat",
             lastSubjectTimestamp: Date.now() / 1000
@@ -80,23 +78,24 @@
 <div class="chat-list">
     <h2>Chat Rooms</h2>
     {#each $chatRooms as room}
+        <!-- svelte-ignore a11y-click-events-have-key-events -->
         <div class="chat-room" on:click={() => handleRoomClick(room)}>
             <div class="room-header">
-                {#if $profiles.has(room.participants)}
-                    <ProfileImg
-                        profile={$profiles.get(room.participants)}
-                        style={{
-                            width: "50px",
-                            height: "50px",
-                            "margin-right": "15px",
-                        }}
-                    />
-                    <h3 class="room-name">
-                        {$profiles.get(room.participants).name}
-                    </h3>
-                {:else}
-                    <h3 class="room-name">Chat with {room.participants}</h3>
-                {/if}
+                {#each room.participants.split(',') as participant (participant)}
+                    {#if $profiles.has(participant) && participant != $nostrManager.publicKey}
+                        <ProfileImg
+                            profile={$profiles.get(participant)}
+                            style={{
+                                width: "50px",
+                                height: "50px",
+                                "margin-right": "15px",
+                            }}
+                        />
+                        <h3 class="room-name">
+                            {$profiles.get(participant).name}
+                        </h3>
+                    {/if}
+                {/each}
             </div>
             {#if room.subject}
                 <p class="subject">{room.subject}</p>

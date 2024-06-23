@@ -14,31 +14,35 @@
         selectedRoom.set(event.detail);
     }
 
-    $: if ($nostrManager && $nostrCache) {
-        if ($nostrManager.publicKey) {
-            dmManager.init();
-            dmManager.subscribeToMessages();
-        }
+    $: loggedIn = $nostrManager && $nostrManager.publicKey;
+
+    $: if (loggedIn && $nostrCache) {
+        dmManager.init();
+        dmManager.subscribeToMessages();
     }
 
     onMount(async () => {
-        if ($nostrManager && $nostrManager.publicKey) {
+        if (loggedIn) {
             await dmManager.init();
             dmManager.subscribeToMessages();
         }
-
-        console.log("pubkey in Chat:", pubkey);
     });
 </script>
 
 <main>
     <div class="chat-container">
-        <ChatList {pubkey} on:selectRoom={selectRoom} />
-        {#if $selectedRoom}
-            <ChatRoom {selectedRoom} />
+        {#if loggedIn}
+            <ChatList {pubkey} on:selectRoom={selectRoom} />
+            {#if $selectedRoom}
+                <ChatRoom {selectedRoom} />
+            {:else}
+                <div class="no-chat-selected">
+                    <p>Select a chat to start messaging</p>
+                </div>
+            {/if}
         {:else}
-            <div class="no-chat-selected">
-                <p>Select a chat to start messaging</p>
+            <div class="not-logged-in">
+                <p>Please log in to access the chat.</p>
             </div>
         {/if}
     </div>
@@ -64,11 +68,17 @@
         max-width: 1200px;
     }
 
-    .no-chat-selected {
+    .no-chat-selected,
+    .not-logged-in {
         flex-grow: 1;
         display: flex;
         justify-content: center;
         align-items: center;
         color: #888;
+    }
+
+    .not-logged-in {
+        flex-direction: column;
+        text-align: center;
     }
 </style>

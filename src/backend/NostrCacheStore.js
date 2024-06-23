@@ -178,8 +178,7 @@ class NostrEventCache {
       // Speichern der entschlüsselten Nachricht im Event
       event.decryptedContent = unsignedKind14;
     } catch (error) {
-      console.error("Error decrypting message:", error);
-      event.decryptedContent = null;
+      event = null;
     }
   }
 
@@ -201,9 +200,12 @@ class NostrEventCache {
     if (!existingEvent) {
       this.processProfileEvent(event);
       this.processEncryptedMessage(event);
+
       // Add new event if it does not exist
-      this.events.set(event.id, event);
-      console.log("Event Added:", event);
+      if(event) {
+        this.events.set(event.id, event);
+        console.log("Event Added:", event);
+      }
 
       // Aktualisieren der kindIndex Map
       if (!this.kindIndex.has(event.kind)) {

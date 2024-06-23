@@ -11,15 +11,11 @@
         if (messageContent.trim() === '') return;
 
         if ($selectedRoom && $selectedRoom.participants) {
-            const receiverPubKey = $selectedRoom.participants.split(',')[0];
+            const receiverPubKeys = $selectedRoom.participants.split(',');
             const subject = $selectedRoom.subject;
 
             try {
-                console.log("receiverPubKey:", receiverPubKey);
-                console.log("messageContent:", messageContent);
-                console.log("subject:", subject);
-
-                await dmManager.sendMessage(receiverPubKey, messageContent, subject);
+                await dmManager.sendMessage(receiverPubKeys, messageContent, subject);
                 messageContent = '';
                 dispatch('messageSent');
             } catch (error) {
