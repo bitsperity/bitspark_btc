@@ -157,26 +157,27 @@ class NostrEventCache {
     if (event.kind !== 1059) {
       return;
     }
-  
+
     try {
       // Zugriff auf den nostrManager Store
       let publicKey;
       nostrManager.subscribe(manager => {
         publicKey = manager.publicKey;
       })();
-  
+
       if (!publicKey) {
         console.error("NostrManager public key is not available.");
         event.decryptedContent = null;
         return;
       }
-  
+
       // Entschlüsseln der Nachricht
       const seal = JSON.parse(await window.nostr.nip44.decrypt(publicKey, event.content));
       const unsignedKind14 = JSON.parse(await window.nostr.nip44.decrypt(publicKey, seal.content));
-  
+
       // Speichern der entschlüsselten Nachricht im Event
       event.decryptedContent = unsignedKind14;
+      
     } catch (error) {
       event = null;
     }
@@ -202,7 +203,7 @@ class NostrEventCache {
       this.processEncryptedMessage(event);
 
       // Add new event if it does not exist
-      if(event) {
+      if (event) {
         this.events.set(event.id, event);
         console.log("Event Added:", event);
       }

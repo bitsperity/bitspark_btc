@@ -46,7 +46,7 @@ export class NostrCacheManager {
 
     updateRelays(new_relays) {
         relaysStore.set(new_relays);
-        console.log("new relays:", new_relays);
+        // console.log("new relays:", new_relays);
     }
 
     async getPublicRelaysString() {
@@ -102,8 +102,8 @@ export class NostrCacheManager {
 
         event.tags = this.uniqueTags(event.tags);
         const pubs = this.pool.publish(this.relays, event);
-        console.log("send event:", event);
-        console.log("used relays:", this.relays);
+        // console.log("send event:", event);
+        // console.log("used relays:", this.relays);
         return event.id;
     }
 
@@ -127,8 +127,8 @@ export class NostrCacheManager {
         event = window.NostrTools.finalizeEvent(event, anonPrivateKey);
         
         const pubs = this.pool.publish(this.relays, event);
-        console.log("send anon event:", event);
-        console.log("used relays:", this.relays);
+        // console.log("send anon event:", event);
+        // console.log("used relays:", this.relays);
         return event.id;
     }
 

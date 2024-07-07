@@ -113,6 +113,8 @@ class DMManager {
       }
     }
 
+    console.log(decryptedMessages);
+
     return decryptedMessages;
   }
 

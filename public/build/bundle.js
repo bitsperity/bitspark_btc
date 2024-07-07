@@ -6681,26 +6681,27 @@ var app = (function () {
         if (event.kind !== 1059) {
           return;
         }
-      
+
         try {
           // Zugriff auf den nostrManager Store
           let publicKey;
           nostrManager.subscribe(manager => {
             publicKey = manager.publicKey;
           })();
-      
+
           if (!publicKey) {
             console.error("NostrManager public key is not available.");
             event.decryptedContent = null;
             return;
           }
-      
+
           // Entschlüsseln der Nachricht
           const seal = JSON.parse(await window.nostr.nip44.decrypt(publicKey, event.content));
           const unsignedKind14 = JSON.parse(await window.nostr.nip44.decrypt(publicKey, seal.content));
-      
+
           // Speichern der entschlüsselten Nachricht im Event
           event.decryptedContent = unsignedKind14;
+          
         } catch (error) {
           event = null;
         }
@@ -6726,7 +6727,7 @@ var app = (function () {
           this.processEncryptedMessage(event);
 
           // Add new event if it does not exist
-          if(event) {
+          if (event) {
             this.events.set(event.id, event);
             console.log("Event Added:", event);
           }
@@ -6871,7 +6872,7 @@ var app = (function () {
 
         updateRelays(new_relays) {
             relaysStore.set(new_relays);
-            console.log("new relays:", new_relays);
+            // console.log("new relays:", new_relays);
         }
 
         async getPublicRelaysString() {
@@ -6927,8 +6928,8 @@ var app = (function () {
 
             event.tags = this.uniqueTags(event.tags);
             this.pool.publish(this.relays, event);
-            console.log("send event:", event);
-            console.log("used relays:", this.relays);
+            // console.log("send event:", event);
+            // console.log("used relays:", this.relays);
             return event.id;
         }
 
@@ -6952,8 +6953,8 @@ var app = (function () {
             event = window.NostrTools.finalizeEvent(event, anonPrivateKey);
             
             this.pool.publish(this.relays, event);
-            console.log("send anon event:", event);
-            console.log("used relays:", this.relays);
+            // console.log("send anon event:", event);
+            // console.log("used relays:", this.relays);
             return event.id;
         }
 
@@ -22571,6 +22572,8 @@ var app = (function () {
             }
           }
         }
+
+        console.log(decryptedMessages);
 
         return decryptedMessages;
       }
