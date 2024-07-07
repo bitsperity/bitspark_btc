@@ -1524,7 +1524,7 @@ var app = (function () {
     	location: /*$location*/ ctx[0]
     });
 
-    function create_fragment$Y(ctx) {
+    function create_fragment$Z(ctx) {
     	let current;
     	const default_slot_template = /*#slots*/ ctx[12].default;
     	const default_slot = create_slot(default_slot_template, ctx, /*$$scope*/ ctx[11], get_default_slot_context$2);
@@ -1571,7 +1571,7 @@ var app = (function () {
     	};
     }
 
-    function instance$X($$self, $$props, $$invalidate) {
+    function instance$Y($$self, $$props, $$invalidate) {
     	let $location;
     	let $routes;
     	let $base;
@@ -1728,7 +1728,7 @@ var app = (function () {
     class Router extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$X, create_fragment$Y, safe_not_equal, { basepath: 6, url: 7, history: 8 });
+    		init(this, options, instance$Y, create_fragment$Z, safe_not_equal, { basepath: 6, url: 7, history: 8 });
     	}
     }
 
@@ -1737,7 +1737,7 @@ var app = (function () {
     const get_default_slot_context$1 = ctx => ({ params: /*routeParams*/ ctx[2] });
 
     // (44:0) {#if $activeRoute && $activeRoute.route === route}
-    function create_if_block$q(ctx) {
+    function create_if_block$p(ctx) {
     	let current_block_type_index;
     	let if_block;
     	let if_block_anchor;
@@ -2020,10 +2020,10 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$X(ctx) {
+    function create_fragment$Y(ctx) {
     	let if_block_anchor;
     	let current;
-    	let if_block = /*$activeRoute*/ ctx[1] && /*$activeRoute*/ ctx[1].route === /*route*/ ctx[5] && create_if_block$q(ctx);
+    	let if_block = /*$activeRoute*/ ctx[1] && /*$activeRoute*/ ctx[1].route === /*route*/ ctx[5] && create_if_block$p(ctx);
 
     	return {
     		c() {
@@ -2044,7 +2044,7 @@ var app = (function () {
     						transition_in(if_block, 1);
     					}
     				} else {
-    					if_block = create_if_block$q(ctx);
+    					if_block = create_if_block$p(ctx);
     					if_block.c();
     					transition_in(if_block, 1);
     					if_block.m(if_block_anchor.parentNode, if_block_anchor);
@@ -2075,7 +2075,7 @@ var app = (function () {
     	};
     }
 
-    function instance$W($$self, $$props, $$invalidate) {
+    function instance$X($$self, $$props, $$invalidate) {
     	let $activeRoute;
     	let { $$slots: slots = {}, $$scope } = $$props;
     	let { path = "" } = $$props;
@@ -2139,7 +2139,7 @@ var app = (function () {
     class Route extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$W, create_fragment$X, safe_not_equal, { path: 6, component: 0 });
+    		init(this, options, instance$X, create_fragment$Y, safe_not_equal, { path: 6, component: 0 });
     	}
     }
 
@@ -2147,7 +2147,7 @@ var app = (function () {
     const get_default_slot_changes = dirty => ({ active: dirty & /*ariaCurrent*/ 4 });
     const get_default_slot_context = ctx => ({ active: !!/*ariaCurrent*/ ctx[2] });
 
-    function create_fragment$W(ctx) {
+    function create_fragment$X(ctx) {
     	let a;
     	let current;
     	let mounted;
@@ -2229,7 +2229,7 @@ var app = (function () {
     	};
     }
 
-    function instance$V($$self, $$props, $$invalidate) {
+    function instance$W($$self, $$props, $$invalidate) {
     	let ariaCurrent;
     	const omit_props_names = ["to","replace","state","getProps"];
     	let $$restProps = compute_rest_props($$props, omit_props_names);
@@ -2323,7 +2323,7 @@ var app = (function () {
     	constructor(options) {
     		super();
 
-    		init(this, options, instance$V, create_fragment$W, safe_not_equal, {
+    		init(this, options, instance$W, create_fragment$X, safe_not_equal, {
     			to: 7,
     			replace: 8,
     			state: 9,
@@ -6521,8 +6521,8 @@ var app = (function () {
       }
     }
 
-    var css_248z$F = ".color-for-bg {\n    color: rgb(71 85 105)\n}\n\n.text-color-df {\n    color: #4a5568;\n}\n\n/* Layout */\n.overview-page {\n    position: relative;\n    display: flex;\n    flex-direction: column;\n    background-color: rgb(71 85 105)\n        /* background-color: #E2E8F0; Assuming you have this variable defined */\n}\n\nfooter {\n    z-index: 10;\n    background-color: rgb(12, 12, 12);\n}\n\n.move-up {\n    transform: translateY(-2px);\n}\n\n.content-overlay {\n    position: absolute;\n    left: 0;\n    right: 0;\n    top: 50%;\n    /* Equivalent to top-1/2 */\n    transform: translateY(-50%);\n    /* Equivalent to -translate-y-1/2 */\n    padding: 0 1rem;\n    /* Equivalent to px-4 */\n    display: flex;\n    flex-direction: column;\n    /* Equivalent to flex-col */\n    align-items: flex-start;\n    /* Equivalent to items-start */\n    justify-content: center;\n    /* Equivalent to justify-center */\n    height: 100%;\n    /* Equivalent to h-full */\n}\n\n.content-icons {\n    position: absolute;\n    top: 1rem;\n    /* Equivalent to top-4 */\n    right: 1rem;\n    /* Equivalent to right-4 */\n    font-size: 1.875rem;\n    /* Equivalent to text-3xl */\n    color: white;\n    /* Equivalent to text-white */\n    display: flex;\n    justify-content: flex-end;\n    /* Equivalent to justify-end */\n    align-items: center;\n    /* Equivalent to items-center */\n    gap: 1.5rem;\n    /* Equivalent to gap-6 */\n}\n\n.support-button {\n    padding: 0;\n    display: flex;\n    align-items: center;\n    background: none;\n    border: none;\n    cursor: pointer;\n}\n\n.support-button img {\n    height: 2.5rem;\n    width: 2.5rem;\n}\n\n\n.bg-card {\n    background-color: white;\n    width: 100%;\n    margin-bottom: 6rem;\n    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),\n        0 2px 4px -1px rgba(0, 0, 0, 0.06);\n    border-radius: 1.25rem;\n}\n\n/* Base class for h2 */\n.base-h2 {\n    font-size: 4rem;\n    font-weight: 700;\n    /* blueGray-700 */\n    margin-bottom: 1rem;\n    margin-top: 1.5rem;\n    /* Equivalent to mt-6 */\n}\n\n/* Base class for h3 */\n.base-h3 {\n    font-size: 3rem;\n    font-weight: 600;\n    /* blueGray-700 */\n    margin-bottom: 0.75rem;\n    margin-top: 1.25rem;\n}\n\n/* Base class for h4 */\n.base-h4 {\n    font-size: 2rem;\n    font-weight: 500;\n    /* blueGray-700 */\n    margin-bottom: 0.5rem;\n    margin-top: 1rem;\n}\n\n.flex-grow {\n    /* Other styles */\n    z-index: 0;\n    /* This will keep the div behind the button */\n}\n\n.content-section {\n    display: flex;\n    /* background-color: #e2e8f0 !important;*/\n}\n\n.content-container {\n    margin-left: 0;\n    /* This is the starting state */\n    transition: margin-left 0.3s ease-in-out;\n    flex-grow: 1;\n    z-index: 0;\n    /* This will keep the div behind the button */\n}\n\n.content-container.sidebar-open {\n    margin-left: 200px;\n    /* This should be equal to the width of the sidebar */\n}\n\n.combined-content-container {\n    /* From .content-container */\n    margin-left: 0;\n    transition: margin-left 0.3s ease-in-out;\n    flex-grow: 1;\n    z-index: 0;\n\n    /* From .relative (assuming it sets position: relative) */\n    position: relative;\n\n    /* From .py-16 (assuming it sets padding-top and padding-bottom to 4rem) */\n    padding-top: 32px;\n\n    /* From .bg-blueGray-200 */\n    /* background-color: #e2e8f0; */\n    /* This is a guess based on the name. Replace with the actual color if different. */\n\n    /* From .container (assuming it centers content with max-width and auto margins) */\n    max-width: 100%;\n    /* Adjust this value based on your design */\n    /* margin-right: auto;\n    margin-left: auto; */\n\n    /* From .mx-auto */\n    /* Already covered by the .container styles above */\n\n    /* From .px-4 (assuming it sets padding-left and padding-right to 1rem) */\n    padding-left: 1rem;\n    padding-right: 1rem;\n}\n\n.combined-content-container.sidebar-open {\n    margin-left: 200px;\n}\n\n\n.title-class {\n    position: absolute;\n    left: 0;\n    right: 0;\n    top: 1/2;\n    transition: left 0.3s ease-in-out;\n    left: 55px;\n}\n\n.title-class.sidebar-open {\n    left: 215px;\n}\n\n.html-content {\n    width: 70%;\n    margin: 0 auto;\n    text-align: justify;\n}\n\n.github-icon-size {\n    font-size: 2.5rem;\n    /* This is equivalent to 40px for most browsers */\n    width: 40px;\n    height: 40px;\n    display: inline-flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.single-card {\n    background-color: white;\n    width: 100%;\n    margin-bottom: 4rem;\n    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),\n        0 2px 4px -1px rgba(0, 0, 0, 0.06);\n    border-radius: 1.25rem;\n    position: relative;\n    display: flex;\n    flex-direction: column;\n}\n\n\n.single-card-profile-img {\n    width: 150px;\n    height: 150px;\n    border-radius: 50%;\n    overflow: hidden;\n    position: relative;\n    top: -75px;\n}\n\n.single-card-content {\n    width: 70%;\n    margin: 0 auto;\n    text-align: justify;\n    margin-bottom: 90px;\n    font-size: 1.2em;\n}\n\n.abstract-text {\n    width: 50%;\n    margin: 2rem auto;\n    text-align: justify;\n    font-size: 1.1em;\n    line-height: 1.6em;\n}\n\n.single-card-content h2,\n.single-card-content h3,\n.single-card-content h4,\n.single-card-content h5,\n.single-card-content h6 {\n    margin-top: 1.5em;\n    /* Adjust as needed */\n}\n\n.diagonal-cut {\n    bottom: -1px;\n    width: 100%;\n    position: inherit;\n}\n\n.input-style {\n    font-size: 19.2px;\n    line-height: 28.8px;\n    height: 45px;\n    width: 100%;\n    display: flex;\n    justify-content: center;\n    border: 1px solid #D1D5DB;\n    /* border-gray-300 */\n    border-radius: 0.375rem;\n    /* rounded-md */\n    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);\n    /* shadow-sm */\n    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;\n}\n\n.input-style:focus {\n    border-color: #93C5FD;\n    /* focus:border-indigo-300 */\n    box-shadow: 0 0 0 3px rgba(147, 197, 253, 0.5);\n    /* focus:ring-indigo-200 with focus:ring-opacity-50 */\n}\n\n.input-style-resize {\n    resize: none;\n    overflow: hidden;\n}\n\n.bs-orange {\n    background-color: rgb(249 115 22);\n}\n\n.bs-orange:active {\n    background-color: rgb(234 88 12);\n}\n\n.bs-blue {\n    background-color: #223d6d;\n}\n\n.bs-blue:active {\n    background-color: #1a2f53;\n}\n\n.modal-button {\n    font-size: 1.0rem;\n}\n\n.remove-button {\n    /* Remove the flex-grow property if you don't want the buttons to grow */\n    padding: 2px 8px;\n    /* Adjust padding to fit the text */\n    background-color: rgb(238, 238, 238);\n    border: none;\n    /* Remove border if you don't need it */\n    cursor: pointer;\n    /* Makes it clear the element is clickable */\n    white-space: nowrap;\n    /* Prevent text inside the button from wrapping */\n    /* You can remove min-width if you want the button to only be as wide as its content plus padding */\n    /* min-width: 120px; */\n    margin: 2px;\n    /* Provide some space around the buttons */\n    border-radius: 4px;\n    /* If you want rounded corners */\n    /* Add text alignment and other styles as needed */\n    text-align: center;\n    font-size: 1rem;\n    /* Adjust font size as needed */\n}\n\n.remove-button:hover {\n    background-color: #223d6d;\n    position: relative;\n    color: #adadad;\n}\n\n.remove-button:focus {\n    outline: none;\n}\n\n.add-button {\n    /* Remove the flex-grow property if you don't want the buttons to grow */\n    padding: 2px 8px;\n    /* Adjust padding to fit the text */\n    background-color: rgb(238, 238, 238);\n    border: none;\n    /* Remove border if you don't need it */\n    cursor: pointer;\n    /* Makes it clear the element is clickable */\n    white-space: nowrap;\n    /* Prevent text inside the button from wrapping */\n    /* You can remove min-width if you want the button to only be as wide as its content plus padding */\n    /* min-width: 120px; */\n    margin: 2px;\n    /* Provide some space around the buttons */\n    border-radius: 4px;\n    /* If you want rounded corners */\n    /* Add text alignment and other styles as needed */\n    text-align: center;\n    font-size: 1rem;\n    /* Adjust font size as needed */\n}\n\n.add-button:hover {\n    background-color: rgb(249 115 22);\n    position: relative;\n    color: #fff;\n}\n\n.add-button:focus {\n    outline: none;\n}";
-    styleInject(css_248z$F);
+    var css_248z$D = ".color-for-bg {\n    color: rgb(71 85 105)\n}\n\n.text-color-df {\n    color: #4a5568;\n}\n\n/* Layout */\n.overview-page {\n    position: relative;\n    display: flex;\n    flex-direction: column;\n    background-color: rgb(71 85 105)\n        /* background-color: #E2E8F0; Assuming you have this variable defined */\n}\n\nfooter {\n    z-index: 10;\n    background-color: rgb(12, 12, 12);\n}\n\n.move-up {\n    transform: translateY(-2px);\n}\n\n.content-overlay {\n    position: absolute;\n    left: 0;\n    right: 0;\n    top: 50%;\n    /* Equivalent to top-1/2 */\n    transform: translateY(-50%);\n    /* Equivalent to -translate-y-1/2 */\n    padding: 0 1rem;\n    /* Equivalent to px-4 */\n    display: flex;\n    flex-direction: column;\n    /* Equivalent to flex-col */\n    align-items: flex-start;\n    /* Equivalent to items-start */\n    justify-content: center;\n    /* Equivalent to justify-center */\n    height: 100%;\n    /* Equivalent to h-full */\n}\n\n.content-icons {\n    position: absolute;\n    top: 1rem;\n    /* Equivalent to top-4 */\n    right: 1rem;\n    /* Equivalent to right-4 */\n    font-size: 1.875rem;\n    /* Equivalent to text-3xl */\n    color: white;\n    /* Equivalent to text-white */\n    display: flex;\n    justify-content: flex-end;\n    /* Equivalent to justify-end */\n    align-items: center;\n    /* Equivalent to items-center */\n    gap: 1.5rem;\n    /* Equivalent to gap-6 */\n}\n\n.support-button {\n    padding: 0;\n    display: flex;\n    align-items: center;\n    background: none;\n    border: none;\n    cursor: pointer;\n}\n\n.support-button img {\n    height: 2.5rem;\n    width: 2.5rem;\n}\n\n\n.bg-card {\n    background-color: white;\n    width: 100%;\n    margin-bottom: 6rem;\n    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),\n        0 2px 4px -1px rgba(0, 0, 0, 0.06);\n    border-radius: 1.25rem;\n}\n\n/* Base class for h2 */\n.base-h2 {\n    font-size: 4rem;\n    font-weight: 700;\n    /* blueGray-700 */\n    margin-bottom: 1rem;\n    margin-top: 1.5rem;\n    /* Equivalent to mt-6 */\n}\n\n/* Base class for h3 */\n.base-h3 {\n    font-size: 3rem;\n    font-weight: 600;\n    /* blueGray-700 */\n    margin-bottom: 0.75rem;\n    margin-top: 1.25rem;\n}\n\n/* Base class for h4 */\n.base-h4 {\n    font-size: 2rem;\n    font-weight: 500;\n    /* blueGray-700 */\n    margin-bottom: 0.5rem;\n    margin-top: 1rem;\n}\n\n.flex-grow {\n    /* Other styles */\n    z-index: 0;\n    /* This will keep the div behind the button */\n}\n\n.content-section {\n    display: flex;\n    /* background-color: #e2e8f0 !important;*/\n}\n\n.content-container {\n    margin-left: 0;\n    /* This is the starting state */\n    transition: margin-left 0.3s ease-in-out;\n    flex-grow: 1;\n    z-index: 0;\n    /* This will keep the div behind the button */\n}\n\n.content-container.sidebar-open {\n    margin-left: 200px;\n    /* This should be equal to the width of the sidebar */\n}\n\n.combined-content-container {\n    /* From .content-container */\n    margin-left: 0;\n    transition: margin-left 0.3s ease-in-out;\n    flex-grow: 1;\n    z-index: 0;\n\n    /* From .relative (assuming it sets position: relative) */\n    position: relative;\n\n    /* From .py-16 (assuming it sets padding-top and padding-bottom to 4rem) */\n    padding-top: 32px;\n\n    /* From .bg-blueGray-200 */\n    /* background-color: #e2e8f0; */\n    /* This is a guess based on the name. Replace with the actual color if different. */\n\n    /* From .container (assuming it centers content with max-width and auto margins) */\n    max-width: 100%;\n    /* Adjust this value based on your design */\n    /* margin-right: auto;\n    margin-left: auto; */\n\n    /* From .mx-auto */\n    /* Already covered by the .container styles above */\n\n    /* From .px-4 (assuming it sets padding-left and padding-right to 1rem) */\n    padding-left: 1rem;\n    padding-right: 1rem;\n}\n\n.combined-content-container.sidebar-open {\n    margin-left: 200px;\n}\n\n\n.title-class {\n    position: absolute;\n    left: 0;\n    right: 0;\n    top: 1/2;\n    transition: left 0.3s ease-in-out;\n    left: 55px;\n}\n\n.title-class.sidebar-open {\n    left: 215px;\n}\n\n.html-content {\n    width: 70%;\n    margin: 0 auto;\n    text-align: justify;\n}\n\n.github-icon-size {\n    font-size: 2.5rem;\n    /* This is equivalent to 40px for most browsers */\n    width: 40px;\n    height: 40px;\n    display: inline-flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.single-card {\n    background-color: white;\n    width: 100%;\n    margin-bottom: 4rem;\n    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),\n        0 2px 4px -1px rgba(0, 0, 0, 0.06);\n    border-radius: 1.25rem;\n    position: relative;\n    display: flex;\n    flex-direction: column;\n}\n\n\n.single-card-profile-img {\n    width: 150px;\n    height: 150px;\n    border-radius: 50%;\n    overflow: hidden;\n    position: relative;\n    top: -75px;\n}\n\n.single-card-content {\n    width: 70%;\n    margin: 0 auto;\n    text-align: justify;\n    margin-bottom: 90px;\n    font-size: 1.2em;\n}\n\n.abstract-text {\n    width: 50%;\n    margin: 2rem auto;\n    text-align: justify;\n    font-size: 1.1em;\n    line-height: 1.6em;\n}\n\n.single-card-content h2,\n.single-card-content h3,\n.single-card-content h4,\n.single-card-content h5,\n.single-card-content h6 {\n    margin-top: 1.5em;\n    /* Adjust as needed */\n}\n\n.diagonal-cut {\n    bottom: -1px;\n    width: 100%;\n    position: inherit;\n}\n\n.input-style {\n    font-size: 19.2px;\n    line-height: 28.8px;\n    height: 45px;\n    width: 100%;\n    display: flex;\n    justify-content: center;\n    border: 1px solid #D1D5DB;\n    /* border-gray-300 */\n    border-radius: 0.375rem;\n    /* rounded-md */\n    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);\n    /* shadow-sm */\n    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;\n}\n\n.input-style:focus {\n    border-color: #93C5FD;\n    /* focus:border-indigo-300 */\n    box-shadow: 0 0 0 3px rgba(147, 197, 253, 0.5);\n    /* focus:ring-indigo-200 with focus:ring-opacity-50 */\n}\n\n.input-style-resize {\n    resize: none;\n    overflow: hidden;\n}\n\n.bs-orange {\n    background-color: rgb(249 115 22);\n}\n\n.bs-orange:active {\n    background-color: rgb(234 88 12);\n}\n\n.bs-blue {\n    background-color: #223d6d;\n}\n\n.bs-blue:active {\n    background-color: #1a2f53;\n}\n\n.modal-button {\n    font-size: 1.0rem;\n}\n\n.remove-button {\n    /* Remove the flex-grow property if you don't want the buttons to grow */\n    padding: 2px 8px;\n    /* Adjust padding to fit the text */\n    background-color: rgb(238, 238, 238);\n    border: none;\n    /* Remove border if you don't need it */\n    cursor: pointer;\n    /* Makes it clear the element is clickable */\n    white-space: nowrap;\n    /* Prevent text inside the button from wrapping */\n    /* You can remove min-width if you want the button to only be as wide as its content plus padding */\n    /* min-width: 120px; */\n    margin: 2px;\n    /* Provide some space around the buttons */\n    border-radius: 4px;\n    /* If you want rounded corners */\n    /* Add text alignment and other styles as needed */\n    text-align: center;\n    font-size: 1rem;\n    /* Adjust font size as needed */\n}\n\n.remove-button:hover {\n    background-color: #223d6d;\n    position: relative;\n    color: #adadad;\n}\n\n.remove-button:focus {\n    outline: none;\n}\n\n.add-button {\n    /* Remove the flex-grow property if you don't want the buttons to grow */\n    padding: 2px 8px;\n    /* Adjust padding to fit the text */\n    background-color: rgb(238, 238, 238);\n    border: none;\n    /* Remove border if you don't need it */\n    cursor: pointer;\n    /* Makes it clear the element is clickable */\n    white-space: nowrap;\n    /* Prevent text inside the button from wrapping */\n    /* You can remove min-width if you want the button to only be as wide as its content plus padding */\n    /* min-width: 120px; */\n    margin: 2px;\n    /* Provide some space around the buttons */\n    border-radius: 4px;\n    /* If you want rounded corners */\n    /* Add text alignment and other styles as needed */\n    text-align: center;\n    font-size: 1rem;\n    /* Adjust font size as needed */\n}\n\n.add-button:hover {\n    background-color: rgb(249 115 22);\n    position: relative;\n    color: #fff;\n}\n\n.add-button:focus {\n    outline: none;\n}\n\n\n/* .card {\n    background: #ffffff;\n    overflow: hidden;\n    border-radius: 8px;\n    overflow: hidden;\n    display: flex;\n    flex-direction: column;\n    border: 4px solid #ffffff;\n    box-shadow: 0 5px 10px #0000008c;\n}\n\n.card:hover {\n    transform: scale(1.03);\n    background: #ffffff;\n    box-shadow: 0 10px 20px #0000008c;\n} */\n\n.banner-image {\n    width: 100%;\n    height: 200px;\n    object-fit: cover;\n}\n\n.content,\n.actions {\n    padding: 15px;\n}\n\n.actions {\n    display: flex;\n    align-items: center;\n    justify-content: space-between;\n    background: #f4f4f4;\n}";
+    styleInject(css_248z$D);
 
     // NostrCacheStore.js
     const { nip19 } = window.NostrTools;
@@ -7095,8 +7095,8 @@ var app = (function () {
         "css",
     ];
 
-    var css_248z$E = ".toggle-button.svelte-ajm12u.svelte-ajm12u{display:flex;justify-content:center;align-items:center}.menu-card.svelte-ajm12u.svelte-ajm12u{width:200px;margin-top:80px;color:#000;position:relative}.menu-item.svelte-ajm12u.svelte-ajm12u{color:#103f70;font-size:1rem;padding:15px;padding-left:30px;cursor:pointer;transition:color 0.3s;display:block;text-decoration:none;outline:none;width:200px;text-align:left}.menu-item.svelte-ajm12u.svelte-ajm12u:hover{color:#eb6f1a;text-decoration:none;outline:none}.category-style.svelte-ajm12u.svelte-ajm12u{font-size:1rem;padding:15px;padding-left:15px;cursor:pointer;transition:color 0.3s;display:block;text-decoration:none;color:#494949;outline:none;width:200px;text-align:left}.category-style.svelte-ajm12u.svelte-ajm12u:hover{color:#60adff;text-decoration:none;outline:none}.categories-wrapper.svelte-ajm12u.svelte-ajm12u{position:fixed;left:180px;background:#d1d1d1;width:310px;max-height:100vh;height:100vh;padding:10px 0;box-shadow:0px 10px 30px -5px rgba(0, 0, 0, 0.3);border-radius:20px;transition:opacity 0.3s,\n            visibility 0.3s;opacity:1;visibility:visible;z-index:50;padding-top:14px;padding-bottom:14px}.categories-wrapper.hidden.svelte-ajm12u.svelte-ajm12u{opacity:0;visibility:hidden}.categories-outer.svelte-ajm12u.svelte-ajm12u{width:100%;max-height:100%;overflow-y:auto;border-radius:20px}.categories.svelte-ajm12u.svelte-ajm12u{width:100%}.categories.hidden.svelte-ajm12u.svelte-ajm12u{opacity:0;visibility:hidden}.category-item.svelte-ajm12u.svelte-ajm12u{color:#000;padding:10px 15px;cursor:pointer;transition:color 0.3s}.category-item.svelte-ajm12u.svelte-ajm12u:hover{color:#007bff}.hide.svelte-ajm12u.svelte-ajm12u{display:none}.button-container.svelte-ajm12u.svelte-ajm12u{position:fixed;top:0;left:0;z-index:11;background-color:#33333300;display:flex;justify-content:center;align-items:center;border-radius:10%;padding:5px;margin:10px}svg.svelte-ajm12u path.svelte-ajm12u{fill:#f97316}.menu-container.svelte-ajm12u.svelte-ajm12u{position:fixed;top:0;left:0;width:200px;min-width:200px;z-index:10;flex-basis:200px;background-color:rgba(255, 255, 255, 0.7);opacity:3.7;height:100vh;overflow-y:auto;transform:translateX(-100%);transition:transform 0.3s ease-in-out}.menu-container.show.svelte-ajm12u.svelte-ajm12u{transform:translateX(0)}button.svelte-ajm12u.svelte-ajm12u:focus{outline:none}.svelte-ajm12u.svelte-ajm12u::-webkit-scrollbar{width:10px;height:10px}.svelte-ajm12u.svelte-ajm12u::-webkit-scrollbar-track{background:#f1f1f1;border-radius:20px}.svelte-ajm12u.svelte-ajm12u::-webkit-scrollbar-thumb{background:#888;border-radius:20px}.svelte-ajm12u.svelte-ajm12u::-webkit-scrollbar-thumb:hover{background:#555}.categories.svelte-ajm12u.svelte-ajm12u::-webkit-scrollbar{width:10px}.categories.svelte-ajm12u.svelte-ajm12u::-webkit-scrollbar-track{background:#f1f1f1}.categories.svelte-ajm12u.svelte-ajm12u::-webkit-scrollbar-thumb{background:#888;border-radius:20px}.categories.svelte-ajm12u.svelte-ajm12u::-webkit-scrollbar-thumb:hover{background:#555}.divider-line.svelte-ajm12u.svelte-ajm12u{margin-left:12%;border-top:1px solid #d1d1d1;padding:1px;width:76%}";
-    styleInject(css_248z$E);
+    var css_248z$C = ".toggle-button.svelte-ajm12u.svelte-ajm12u{display:flex;justify-content:center;align-items:center}.menu-card.svelte-ajm12u.svelte-ajm12u{width:200px;margin-top:80px;color:#000;position:relative}.menu-item.svelte-ajm12u.svelte-ajm12u{color:#103f70;font-size:1rem;padding:15px;padding-left:30px;cursor:pointer;transition:color 0.3s;display:block;text-decoration:none;outline:none;width:200px;text-align:left}.menu-item.svelte-ajm12u.svelte-ajm12u:hover{color:#eb6f1a;text-decoration:none;outline:none}.category-style.svelte-ajm12u.svelte-ajm12u{font-size:1rem;padding:15px;padding-left:15px;cursor:pointer;transition:color 0.3s;display:block;text-decoration:none;color:#494949;outline:none;width:200px;text-align:left}.category-style.svelte-ajm12u.svelte-ajm12u:hover{color:#60adff;text-decoration:none;outline:none}.categories-wrapper.svelte-ajm12u.svelte-ajm12u{position:fixed;left:180px;background:#d1d1d1;width:310px;max-height:100vh;height:100vh;padding:10px 0;box-shadow:0px 10px 30px -5px rgba(0, 0, 0, 0.3);border-radius:20px;transition:opacity 0.3s,\n            visibility 0.3s;opacity:1;visibility:visible;z-index:50;padding-top:14px;padding-bottom:14px}.categories-wrapper.hidden.svelte-ajm12u.svelte-ajm12u{opacity:0;visibility:hidden}.categories-outer.svelte-ajm12u.svelte-ajm12u{width:100%;max-height:100%;overflow-y:auto;border-radius:20px}.categories.svelte-ajm12u.svelte-ajm12u{width:100%}.categories.hidden.svelte-ajm12u.svelte-ajm12u{opacity:0;visibility:hidden}.category-item.svelte-ajm12u.svelte-ajm12u{color:#000;padding:10px 15px;cursor:pointer;transition:color 0.3s}.category-item.svelte-ajm12u.svelte-ajm12u:hover{color:#007bff}.hide.svelte-ajm12u.svelte-ajm12u{display:none}.button-container.svelte-ajm12u.svelte-ajm12u{position:fixed;top:0;left:0;z-index:11;background-color:#33333300;display:flex;justify-content:center;align-items:center;border-radius:10%;padding:5px;margin:10px}svg.svelte-ajm12u path.svelte-ajm12u{fill:#f97316}.menu-container.svelte-ajm12u.svelte-ajm12u{position:fixed;top:0;left:0;width:200px;min-width:200px;z-index:10;flex-basis:200px;background-color:rgba(255, 255, 255, 0.7);opacity:3.7;height:100vh;overflow-y:auto;transform:translateX(-100%);transition:transform 0.3s ease-in-out}.menu-container.show.svelte-ajm12u.svelte-ajm12u{transform:translateX(0)}button.svelte-ajm12u.svelte-ajm12u:focus{outline:none}.svelte-ajm12u.svelte-ajm12u::-webkit-scrollbar{width:10px;height:10px}.svelte-ajm12u.svelte-ajm12u::-webkit-scrollbar-track{background:#f1f1f1;border-radius:20px}.svelte-ajm12u.svelte-ajm12u::-webkit-scrollbar-thumb{background:#888;border-radius:20px}.svelte-ajm12u.svelte-ajm12u::-webkit-scrollbar-thumb:hover{background:#555}.categories.svelte-ajm12u.svelte-ajm12u::-webkit-scrollbar{width:10px}.categories.svelte-ajm12u.svelte-ajm12u::-webkit-scrollbar-track{background:#f1f1f1}.categories.svelte-ajm12u.svelte-ajm12u::-webkit-scrollbar-thumb{background:#888;border-radius:20px}.categories.svelte-ajm12u.svelte-ajm12u::-webkit-scrollbar-thumb:hover{background:#555}.divider-line.svelte-ajm12u.svelte-ajm12u{margin-left:12%;border-top:1px solid #d1d1d1;padding:1px;width:76%}";
+    styleInject(css_248z$C);
 
     /* src/components/Sidebar/Sidebar.svelte generated by Svelte v3.59.1 */
 
@@ -7328,7 +7328,7 @@ var app = (function () {
     }
 
     // (259:16) {#if !$menuState.use_extension}
-    function create_if_block$p(ctx) {
+    function create_if_block$o(ctx) {
     	let button;
     	let i;
     	let t0;
@@ -7443,7 +7443,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$V(ctx) {
+    function create_fragment$W(ctx) {
     	let div0;
     	let button0;
     	let t0;
@@ -7499,7 +7499,7 @@ var app = (function () {
     	let if_block0 = /*$menuState*/ ctx[0].logged_in && create_if_block_2$3(ctx);
 
     	function select_block_type(ctx, dirty) {
-    		if (!/*$menuState*/ ctx[0].use_extension) return create_if_block$p;
+    		if (!/*$menuState*/ ctx[0].use_extension) return create_if_block$o;
     		if (/*$menuState*/ ctx[0].logged_in) return create_if_block_1$7;
     		return create_else_block$5;
     	}
@@ -7837,7 +7837,7 @@ var app = (function () {
     let linkStyle = "block menu-item";
     let categoryStyle = "category-style";
 
-    function instance$U($$self, $$props, $$invalidate) {
+    function instance$V($$self, $$props, $$invalidate) {
     	let $nostrCache;
     	let $menuState;
     	let $nostrManager;
@@ -8023,13 +8023,13 @@ var app = (function () {
     class Sidebar extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$U, create_fragment$V, safe_not_equal, {}, null, [-1, -1]);
+    		init(this, options, instance$V, create_fragment$W, safe_not_equal, {}, null, [-1, -1]);
     	}
     }
 
     /* src/components/Banner.svelte generated by Svelte v3.59.1 */
 
-    function create_if_block$o(ctx) {
+    function create_if_block$n(ctx) {
     	let p0;
     	let t1;
     	let p1;
@@ -8061,7 +8061,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$U(ctx) {
+    function create_fragment$V(ctx) {
     	let section;
     	let div5;
     	let span0;
@@ -8081,7 +8081,7 @@ var app = (function () {
     	let t5;
     	let svg;
     	let polygon;
-    	let if_block = /*show_right_text*/ ctx[3] && create_if_block$o();
+    	let if_block = /*show_right_text*/ ctx[3] && create_if_block$n();
 
     	return {
     		c() {
@@ -8164,7 +8164,7 @@ var app = (function () {
 
     			if (/*show_right_text*/ ctx[3]) {
     				if (if_block) ; else {
-    					if_block = create_if_block$o();
+    					if_block = create_if_block$n();
     					if_block.c();
     					if_block.m(div2, null);
     				}
@@ -8186,7 +8186,7 @@ var app = (function () {
     	};
     }
 
-    function instance$T($$self, $$props, $$invalidate) {
+    function instance$U($$self, $$props, $$invalidate) {
     	let $sidebarOpen;
     	component_subscribe($$self, sidebarOpen, $$value => $$invalidate(5, $sidebarOpen = $$value));
     	let { title } = $$props;
@@ -8221,7 +8221,7 @@ var app = (function () {
     	constructor(options) {
     		super();
 
-    		init(this, options, instance$T, create_fragment$U, safe_not_equal, {
+    		init(this, options, instance$U, create_fragment$V, safe_not_equal, {
     			title: 0,
     			bannerImage: 1,
     			subtitle: 2,
@@ -8232,7 +8232,7 @@ var app = (function () {
 
     /* src/components/Footers/Footer.svelte generated by Svelte v3.59.1 */
 
-    function create_fragment$T(ctx) {
+    function create_fragment$U(ctx) {
     	let footer;
 
     	return {
@@ -8260,7 +8260,7 @@ var app = (function () {
     	};
     }
 
-    function instance$S($$self) {
+    function instance$T($$self) {
     	new Date().getFullYear();
     	return [];
     }
@@ -8268,12 +8268,12 @@ var app = (function () {
     class Footer extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$S, create_fragment$T, safe_not_equal, {});
+    		init(this, options, instance$T, create_fragment$U, safe_not_equal, {});
     	}
     }
 
-    var css_248z$D = ".profile-image.svelte-1281914{width:50px;height:50px;border-radius:50%;object-fit:cover;object-position:center}";
-    styleInject(css_248z$D);
+    var css_248z$B = ".profile-image.svelte-1281914{width:50px;height:50px;border-radius:50%;object-fit:cover;object-position:center}";
+    styleInject(css_248z$B);
 
     /* src/components/ProfileImg.svelte generated by Svelte v3.59.1 */
 
@@ -8312,7 +8312,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$S(ctx) {
+    function create_fragment$T(ctx) {
     	let link;
     	let current;
 
@@ -8357,7 +8357,7 @@ var app = (function () {
     	};
     }
 
-    function instance$R($$self, $$props, $$invalidate) {
+    function instance$S($$self, $$props, $$invalidate) {
     	let styleString;
     	let { profile = {} } = $$props;
     	let { style = {} } = $$props;
@@ -8392,7 +8392,7 @@ var app = (function () {
     class ProfileImg extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$R, create_fragment$S, safe_not_equal, { profile: 4, style: 5 });
+    		init(this, options, instance$S, create_fragment$T, safe_not_equal, { profile: 4, style: 5 });
     	}
     }
 
@@ -8847,8 +8847,8 @@ var app = (function () {
 
     const socialMediaManager = new SocialMediaManager();
 
-    var css_248z$C = ".balance-display.svelte-1ny4mlp{font-size:2rem;margin-right:20px;color:white}.sat-symbol.svelte-1ny4mlp{height:40px;margin-left:5px}";
-    styleInject(css_248z$C);
+    var css_248z$A = ".balance-display.svelte-1ny4mlp{font-size:2rem;margin-right:20px;color:white}.sat-symbol.svelte-1ny4mlp{height:40px;margin-left:5px}";
+    styleInject(css_248z$A);
 
     /* src/components/Toolbar/Toolbar.svelte generated by Svelte v3.59.1 */
 
@@ -9031,7 +9031,7 @@ var app = (function () {
     }
 
     // (131:20) {#if $balance == -1}
-    function create_if_block$n(ctx) {
+    function create_if_block$m(ctx) {
     	let t;
 
     	return {
@@ -9048,7 +9048,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$R(ctx) {
+    function create_fragment$S(ctx) {
     	let div4;
     	let div3;
     	let div2;
@@ -9070,7 +9070,7 @@ var app = (function () {
     	let if_block4 = /*profile*/ ctx[3] && /*profile*/ ctx[3].picture && create_if_block_1$6(ctx);
 
     	function select_block_type(ctx, dirty) {
-    		if (/*$balance*/ ctx[5] == -1) return create_if_block$n;
+    		if (/*$balance*/ ctx[5] == -1) return create_if_block$m;
     		return create_else_block$4;
     	}
 
@@ -9263,7 +9263,7 @@ var app = (function () {
     	return url;
     }
 
-    function instance$Q($$self, $$props, $$invalidate) {
+    function instance$R($$self, $$props, $$invalidate) {
     	let formattedGithubRepo;
     	let $nostrManager;
     	let $balance;
@@ -9361,16 +9361,16 @@ var app = (function () {
     class Toolbar extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$Q, create_fragment$R, safe_not_equal, { lnAddress: 0, pubkey: 6, githubRepo: 1 });
+    		init(this, options, instance$R, create_fragment$S, safe_not_equal, { lnAddress: 0, pubkey: 6, githubRepo: 1 });
     	}
     }
 
-    var css_248z$B = ".like-icon.svelte-168p8ba{cursor:pointer;color:var(--heart-color, #f7931a)}.like-icon.filled.svelte-168p8ba{color:#f7931a}.like-icon.svelte-168p8ba:hover{color:#b4690e}";
-    styleInject(css_248z$B);
+    var css_248z$z = ".like-icon.svelte-168p8ba{cursor:pointer;color:var(--heart-color, #f7931a)}.like-icon.filled.svelte-168p8ba{color:#f7931a}.like-icon.svelte-168p8ba:hover{color:#b4690e}";
+    styleInject(css_248z$z);
 
     /* src/components/LikeIcon.svelte generated by Svelte v3.59.1 */
 
-    function create_fragment$Q(ctx) {
+    function create_fragment$R(ctx) {
     	let span1;
     	let i;
     	let i_class_value;
@@ -9428,7 +9428,7 @@ var app = (function () {
     	};
     }
 
-    function instance$P($$self, $$props, $$invalidate) {
+    function instance$Q($$self, $$props, $$invalidate) {
     	let userPublicKey;
     	let $nostrCache;
     	let $nostrManager;
@@ -9498,16 +9498,16 @@ var app = (function () {
     class LikeIcon extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$P, create_fragment$Q, safe_not_equal, { event_id: 4 });
+    		init(this, options, instance$Q, create_fragment$R, safe_not_equal, { event_id: 4 });
     	}
     }
 
-    var css_248z$A = ".share-icon.svelte-99v011{color:#f7931a;cursor:pointer;font-size:24px;transition:color 0.3s}.share-icon.svelte-99v011:hover{color:#b4690e}";
-    styleInject(css_248z$A);
+    var css_248z$y = ".share-icon.svelte-99v011{color:#f7931a;cursor:pointer;font-size:24px;transition:color 0.3s}.share-icon.svelte-99v011:hover{color:#b4690e}";
+    styleInject(css_248z$y);
 
     /* src/components/ShareIcon.svelte generated by Svelte v3.59.1 */
 
-    function create_fragment$P(ctx) {
+    function create_fragment$Q(ctx) {
     	let i;
     	let mounted;
     	let dispose;
@@ -9537,7 +9537,7 @@ var app = (function () {
     	};
     }
 
-    function instance$O($$self, $$props, $$invalidate) {
+    function instance$P($$self, $$props, $$invalidate) {
     	let $nostrManager;
     	let $nostrCache;
     	component_subscribe($$self, nostrManager, $$value => $$invalidate(4, $nostrManager = $$value));
@@ -9587,16 +9587,13 @@ var app = (function () {
     class ShareIcon extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$O, create_fragment$P, safe_not_equal, { event_id: 1 });
+    		init(this, options, instance$P, create_fragment$Q, safe_not_equal, { event_id: 1 });
     	}
     }
 
-    var css_248z$z = ".card.svelte-179l7uc{background:#ffffff;overflow:hidden;border-radius:8px;overflow:hidden;display:flex;flex-direction:column;border:4px solid #ffffff;box-shadow:0 5px 10px #0000008c}.card.svelte-179l7uc:hover{transform:scale(1.03);background:#ffffff;box-shadow:0 10px 20px #0000008c}.card-content.svelte-179l7uc{cursor:pointer;background:#ffffff}.banner-image.svelte-179l7uc{width:100%;height:200px;object-fit:cover}.content.svelte-179l7uc,.actions.svelte-179l7uc{padding:15px}.actions.svelte-179l7uc{display:flex;align-items:center;justify-content:space-between;background:#f4f4f4}";
-    styleInject(css_248z$z);
-
     /* src/components/Cards/IdeaCard.svelte generated by Svelte v3.59.1 */
 
-    function create_fragment$O(ctx) {
+    function create_fragment$P(ctx) {
     	let div3;
     	let div1;
     	let img;
@@ -9613,7 +9610,7 @@ var app = (function () {
     	let t3;
     	let t4;
     	let p;
-    	let t5_value = truncateMessage(/*card*/ ctx[0].abstract, 100) + "";
+    	let t5_value = truncateMessage$1(/*card*/ ctx[0].abstract, 500) + "";
     	let t5;
     	let t6;
     	let div2;
@@ -9648,11 +9645,11 @@ var app = (function () {
     			create_component(shareicon.$$.fragment);
     			if (!src_url_equal(img.src, img_src_value = /*card*/ ctx[0].bannerImage)) attr(img, "src", img_src_value);
     			attr(img, "alt", img_alt_value = "Banner of " + /*card*/ ctx[0].name);
-    			attr(img, "class", "banner-image svelte-179l7uc");
-    			attr(div0, "class", "content svelte-179l7uc");
-    			attr(div1, "class", "card-content svelte-179l7uc");
-    			attr(div2, "class", "actions svelte-179l7uc");
-    			attr(div3, "class", "card svelte-179l7uc");
+    			attr(img, "class", "bitspark-card-banner-image");
+    			attr(div0, "class", "content");
+    			attr(div1, "class", "bitspark-card-content");
+    			attr(div2, "class", "bitspark-card-actions");
+    			attr(div3, "class", "bitspark-card");
     		},
     		m(target, anchor) {
     			insert(target, div3, anchor);
@@ -9691,7 +9688,7 @@ var app = (function () {
 
     			if ((!current || dirty & /*card*/ 1) && t1_value !== (t1_value = /*card*/ ctx[0].name + "")) set_data(t1, t1_value);
     			if ((!current || dirty & /*card*/ 1) && t3_value !== (t3_value = /*card*/ ctx[0].subtitle + "")) set_data(t3, t3_value);
-    			if ((!current || dirty & /*card*/ 1) && t5_value !== (t5_value = truncateMessage(/*card*/ ctx[0].abstract, 100) + "")) set_data(t5, t5_value);
+    			if ((!current || dirty & /*card*/ 1) && t5_value !== (t5_value = truncateMessage$1(/*card*/ ctx[0].abstract, 500) + "")) set_data(t5, t5_value);
     			const likeicon_changes = {};
     			if (dirty & /*card*/ 1) likeicon_changes.event_id = /*card*/ ctx[0].id;
     			likeicon.$set(likeicon_changes);
@@ -9720,7 +9717,7 @@ var app = (function () {
     	};
     }
 
-    function truncateMessage(message, maxLength) {
+    function truncateMessage$1(message, maxLength) {
     	const strippedMessage = message.replace(/<[^>]+>/g, "");
 
     	return strippedMessage.length <= maxLength
@@ -9728,7 +9725,7 @@ var app = (function () {
     	: message.slice(0, maxLength) + "...";
     }
 
-    function instance$N($$self, $$props, $$invalidate) {
+    function instance$O($$self, $$props, $$invalidate) {
     	let $nostrManager;
     	component_subscribe($$self, nostrManager, $$value => $$invalidate(2, $nostrManager = $$value));
     	let { card } = $$props;
@@ -9763,7 +9760,7 @@ var app = (function () {
     class IdeaCard extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$N, create_fragment$O, safe_not_equal, { card: 0 });
+    		init(this, options, instance$O, create_fragment$P, safe_not_equal, { card: 0 });
     	}
     }
 
@@ -9777,12 +9774,12 @@ var app = (function () {
         selectedFeed.set(feedType);
     }
 
-    var css_248z$y = ".feed-selector.svelte-11ro3cj.svelte-11ro3cj{display:flex;background-color:#f9f9f9;padding:8px 16px;border-radius:25px;box-shadow:0 4px 6px rgba(0, 0, 0, 0.1);margin-bottom:20px}.feed-selector.svelte-11ro3cj button.svelte-11ro3cj{flex:1;border:none;background:none;padding:10px 20px;margin-right:10px;border-radius:20px;font-size:16px;transition:background-color 0.3s,\n            color 0.3s;cursor:pointer;outline:none;display:flex;align-items:center;justify-content:center}.feed-selector.svelte-11ro3cj button.svelte-11ro3cj:last-child{margin-right:0}.feed-selector.svelte-11ro3cj button.svelte-11ro3cj:hover{background-color:#e2e8f0}.feed-selector.svelte-11ro3cj button.active.svelte-11ro3cj{background-color:#f7931a;color:white}.feed-selector.svelte-11ro3cj i.svelte-11ro3cj{margin-right:5px}";
-    styleInject(css_248z$y);
+    var css_248z$x = ".feed-selector.svelte-11ro3cj.svelte-11ro3cj{display:flex;background-color:#f9f9f9;padding:8px 16px;border-radius:25px;box-shadow:0 4px 6px rgba(0, 0, 0, 0.1);margin-bottom:20px}.feed-selector.svelte-11ro3cj button.svelte-11ro3cj{flex:1;border:none;background:none;padding:10px 20px;margin-right:10px;border-radius:20px;font-size:16px;transition:background-color 0.3s,\n            color 0.3s;cursor:pointer;outline:none;display:flex;align-items:center;justify-content:center}.feed-selector.svelte-11ro3cj button.svelte-11ro3cj:last-child{margin-right:0}.feed-selector.svelte-11ro3cj button.svelte-11ro3cj:hover{background-color:#e2e8f0}.feed-selector.svelte-11ro3cj button.active.svelte-11ro3cj{background-color:#f7931a;color:white}.feed-selector.svelte-11ro3cj i.svelte-11ro3cj{margin-right:5px}";
+    styleInject(css_248z$x);
 
     /* src/components/Feed/FeedSelector.svelte generated by Svelte v3.59.1 */
 
-    function create_if_block$m(ctx) {
+    function create_if_block$l(ctx) {
     	let button;
     	let mounted;
     	let dispose;
@@ -9815,7 +9812,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$N(ctx) {
+    function create_fragment$O(ctx) {
     	let div;
     	let button0;
     	let t1;
@@ -9825,7 +9822,7 @@ var app = (function () {
     	let button2;
     	let mounted;
     	let dispose;
-    	let if_block = /*$nostrManager*/ ctx[1] && /*$nostrManager*/ ctx[1].publicKey && create_if_block$m(ctx);
+    	let if_block = /*$nostrManager*/ ctx[1] && /*$nostrManager*/ ctx[1].publicKey && create_if_block$l(ctx);
 
     	return {
     		c() {
@@ -9877,7 +9874,7 @@ var app = (function () {
     				if (if_block) {
     					if_block.p(ctx, dirty);
     				} else {
-    					if_block = create_if_block$m(ctx);
+    					if_block = create_if_block$l(ctx);
     					if_block.c();
     					if_block.m(div, t2);
     				}
@@ -9905,7 +9902,7 @@ var app = (function () {
     	};
     }
 
-    function instance$M($$self, $$props, $$invalidate) {
+    function instance$N($$self, $$props, $$invalidate) {
     	let $selectedFeed;
     	let $nostrManager;
     	component_subscribe($$self, selectedFeed, $$value => $$invalidate(0, $selectedFeed = $$value));
@@ -9934,7 +9931,7 @@ var app = (function () {
     class FeedSelector extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$M, create_fragment$N, safe_not_equal, {});
+    		init(this, options, instance$N, create_fragment$O, safe_not_equal, {});
     	}
     }
 
@@ -9984,8 +9981,8 @@ var app = (function () {
 
     const zapManager = new ZapManager();
 
-    var css_248z$x = ".feed-selector-container.svelte-10kpwlz{display:flex;justify-content:center;padding:20px}";
-    styleInject(css_248z$x);
+    var css_248z$w = ".feed-selector-container.svelte-10kpwlz{display:flex;justify-content:center;padding:20px}";
+    styleInject(css_248z$w);
 
     /* src/components/Feed/Feed.svelte generated by Svelte v3.59.1 */
 
@@ -10041,7 +10038,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$M(ctx) {
+    function create_fragment$N(ctx) {
     	let div0;
     	let feedselector;
     	let t;
@@ -10131,7 +10128,7 @@ var app = (function () {
     	};
     }
 
-    function transformIdeaToCard$1(idea) {
+    function transformIdeaToCard(idea) {
     	const tags = idea.tags.reduce((tagObj, [key, value]) => ({ ...tagObj, [key]: value }), {});
 
     	return {
@@ -10145,7 +10142,7 @@ var app = (function () {
     	};
     }
 
-    function instance$L($$self, $$props, $$invalidate) {
+    function instance$M($$self, $$props, $$invalidate) {
     	let $selectedFeed;
     	let $nostrCache;
     	let $nostrManager;
@@ -10196,7 +10193,7 @@ var app = (function () {
     		const tempVerifiedCards = [];
 
     		await Promise.all(fetchedEvents.map(async idea => {
-    			const card = transformIdeaToCard$1(idea);
+    			const card = transformIdeaToCard(idea);
     			let profile = await socialMediaManager.getProfile(idea.pubkey);
 
     			if (profile) {
@@ -10224,7 +10221,7 @@ var app = (function () {
     		const tempUnverifiedCards = [];
 
     		await Promise.all(fetchedEvents.map(async idea => {
-    			const card = transformIdeaToCard$1(idea);
+    			const card = transformIdeaToCard(idea);
     			let profile = await socialMediaManager.getProfile(idea.pubkey);
 
     			if (profile) {
@@ -10255,12 +10252,12 @@ var app = (function () {
     		ideaWithMetrics.sort((a, b) => b.likes + b.sats - (a.likes + a.sats));
 
     		// Convert the sorted ideas to the card format and return the top N results
-    		return ideaWithMetrics.slice(0, 10).map(transformIdeaToCard$1); // Top 10 hot ideas
+    		return ideaWithMetrics.slice(0, 10).map(transformIdeaToCard); // Top 10 hot ideas
     	}
 
     	async function fetchFollowed() {
     		const followedEvents = await socialMediaManager.fetchFollowedEvents();
-    		return followedEvents.map(transformIdeaToCard$1);
+    		return followedEvents.map(transformIdeaToCard);
     	}
 
     	async function updateFeed() {
@@ -10319,16 +10316,13 @@ var app = (function () {
     class Feed extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$L, create_fragment$M, safe_not_equal, { category: 1 });
+    		init(this, options, instance$M, create_fragment$N, safe_not_equal, { category: 1 });
     	}
     }
 
-    var css_248z$w = ".content-section.svelte-17eaetn{display:flex;background-color:#e2e8f0 !important}.content-container.svelte-17eaetn{flex-grow:1;z-index:0}.flex-grow.svelte-17eaetn{z-index:0}.content-container.svelte-17eaetn{margin-left:0;transition:margin-left 0.3s ease-in-out;flex-grow:1;z-index:0}.content-container.sidebar-open.svelte-17eaetn{margin-left:200px}";
-    styleInject(css_248z$w);
-
     /* src/views/Home.svelte generated by Svelte v3.59.1 */
 
-    function create_fragment$L(ctx) {
+    function create_fragment$M(ctx) {
     	let main;
     	let menu;
     	let t0;
@@ -10339,7 +10333,6 @@ var app = (function () {
     	let t2;
     	let div0;
     	let feed;
-    	let div0_class_value;
     	let t3;
     	let footer;
     	let current;
@@ -10372,8 +10365,8 @@ var app = (function () {
     			create_component(feed.$$.fragment);
     			t3 = space();
     			create_component(footer.$$.fragment);
-    			attr(div0, "class", div0_class_value = "" + (null_to_empty(/*$contentContainerClass*/ ctx[0]) + " svelte-17eaetn"));
-    			attr(div1, "class", "flex-grow svelte-17eaetn");
+    			attr(div0, "class", /*$contentContainerClass*/ ctx[0]);
+    			attr(div1, "class", "flex-grow");
     			attr(main, "class", "overview-page");
     		},
     		m(target, anchor) {
@@ -10392,8 +10385,8 @@ var app = (function () {
     			current = true;
     		},
     		p(ctx, [dirty]) {
-    			if (!current || dirty & /*$contentContainerClass*/ 1 && div0_class_value !== (div0_class_value = "" + (null_to_empty(/*$contentContainerClass*/ ctx[0]) + " svelte-17eaetn"))) {
-    				attr(div0, "class", div0_class_value);
+    			if (!current || dirty & /*$contentContainerClass*/ 1) {
+    				attr(div0, "class", /*$contentContainerClass*/ ctx[0]);
     			}
     		},
     		i(local) {
@@ -10426,105 +10419,18 @@ var app = (function () {
 
     let bannerImage$5 = "../../img/Banner1u.png";
     let title$5 = "BitSpark";
-    let subtitle$5 = "The idea engine";
+    let subtitle$5 = "idea engine";
 
-    function transformIdeaToCard(idea) {
-    	const tags = idea.tags.reduce((tagObj, [key, value]) => ({ ...tagObj, [key]: value }), {});
-
-    	return {
-    		id: idea.id,
-    		name: tags.iName,
-    		subtitle: tags.iSub,
-    		bannerImage: tags.ibUrl,
-    		message: idea.content,
-    		abstract: tags.abstract,
-    		pubkey: idea.pubkey
-    	};
-    }
-
-    function instance$K($$self, $$props, $$invalidate) {
-    	let $nostrCache;
-    	let $nostrManager;
-    	let $relaysStore;
+    function instance$L($$self, $$props, $$invalidate) {
     	let $contentContainerClass;
-    	component_subscribe($$self, nostrCache, $$value => $$invalidate(2, $nostrCache = $$value));
-    	component_subscribe($$self, nostrManager, $$value => $$invalidate(3, $nostrManager = $$value));
-    	component_subscribe($$self, relaysStore, $$value => $$invalidate(4, $relaysStore = $$value));
     	component_subscribe($$self, contentContainerClass, $$value => $$invalidate(0, $contentContainerClass = $$value));
-    	let { category } = $$props;
-
-    	async function fetchAndDisplayIdeas() {
-    		let criteria = {
-    			kinds: [NOSTR_KIND_IDEA],
-    			tags: { s: ["bitspark"] }
-    		};
-
-    		if (category) {
-    			criteria.tags.c = [category];
-    		}
-
-    		const fetchedEvents = await $nostrCache.getEventsByCriteria(criteria);
-
-    		await Promise.all(fetchedEvents.map(async idea => {
-    			transformIdeaToCard(idea);
-    			let profile = await socialMediaManager.getProfile(idea.pubkey);
-
-    			if (profile) {
-    				if (profile.verified) ;
-    			}
-    		}));
-    	}
-
-    	function initialize() {
-    		if ($nostrManager) {
-    			$nostrManager.subscribeToEvents({
-    				kinds: [NOSTR_KIND_IDEA],
-    				"#s": ["bitspark"]
-    			});
-
-    			fetchAndDisplayIdeas();
-    		}
-    	}
-
-    	onMount(() => {
-    		initialize();
-    	});
-
-    	onDestroy(() => {
-    		$nostrManager.unsubscribeAll(); // Diese Methode müsste in Ihrem nostrManager definiert sein
-    	});
-
-    	$$self.$$set = $$props => {
-    		if ('category' in $$props) $$invalidate(1, category = $$props.category);
-    	};
-
-    	$$self.$$.update = () => {
-    		if ($$self.$$.dirty & /*category*/ 2) {
-    			(fetchAndDisplayIdeas(), category);
-    		}
-
-    		if ($$self.$$.dirty & /*$nostrManager*/ 8) {
-    			(initialize(), $nostrManager);
-    		}
-
-    		if ($$self.$$.dirty & /*$relaysStore*/ 16) {
-    			(fetchAndDisplayIdeas(), $relaysStore);
-    		}
-
-    		if ($$self.$$.dirty & /*$nostrManager, $nostrCache*/ 12) {
-    			if ($nostrManager && $nostrCache) {
-    				fetchAndDisplayIdeas();
-    			}
-    		}
-    	};
-
-    	return [$contentContainerClass, category, $nostrCache, $nostrManager, $relaysStore];
+    	return [$contentContainerClass];
     }
 
     class Home extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$K, create_fragment$L, safe_not_equal, { category: 1 });
+    		init(this, options, instance$L, create_fragment$M, safe_not_equal, {});
     	}
     }
 
@@ -10551,7 +10457,7 @@ var app = (function () {
     }
 
     // (27:4) {#if tutorial}
-    function create_if_block$l(ctx) {
+    function create_if_block$k(ctx) {
     	let banner;
     	let t0;
     	let toolbar;
@@ -10645,7 +10551,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$K(ctx) {
+    function create_fragment$L(ctx) {
     	let main;
     	let menu;
     	let t0;
@@ -10656,7 +10562,7 @@ var app = (function () {
     	let footer;
     	let current;
     	menu = new Sidebar({});
-    	const if_block_creators = [create_if_block$l, create_else_block$3];
+    	const if_block_creators = [create_if_block$k, create_else_block$3];
     	const if_blocks = [];
 
     	function select_block_type(ctx, dirty) {
@@ -10739,7 +10645,7 @@ var app = (function () {
     	};
     }
 
-    function instance$J($$self, $$props, $$invalidate) {
+    function instance$K($$self, $$props, $$invalidate) {
     	let $contentContainerClass;
     	component_subscribe($$self, contentContainerClass, $$value => $$invalidate(1, $contentContainerClass = $$value));
     	let { id } = $$props;
@@ -10768,7 +10674,7 @@ var app = (function () {
     class Tutorial extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$J, create_fragment$K, safe_not_equal, { id: 2 });
+    		init(this, options, instance$K, create_fragment$L, safe_not_equal, { id: 2 });
     	}
     }
 
@@ -10777,7 +10683,7 @@ var app = (function () {
 
     /* src/components/Cards/IdeaCardSmall.svelte generated by Svelte v3.59.1 */
 
-    function create_fragment$J(ctx) {
+    function create_fragment$K(ctx) {
     	let div4;
     	let div3;
     	let div2;
@@ -10859,7 +10765,7 @@ var app = (function () {
     	};
     }
 
-    function instance$I($$self, $$props, $$invalidate) {
+    function instance$J($$self, $$props, $$invalidate) {
     	let $nostrManager;
     	component_subscribe($$self, nostrManager, $$value => $$invalidate(2, $nostrManager = $$value));
     	let { card } = $$props;
@@ -10892,7 +10798,7 @@ var app = (function () {
     class IdeaCardSmall extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$I, create_fragment$J, safe_not_equal, { card: 0 });
+    		init(this, options, instance$J, create_fragment$K, safe_not_equal, { card: 0 });
     	}
     }
 
@@ -10905,7 +10811,7 @@ var app = (function () {
     }
 
     // (78:8) {#if profile}
-    function create_if_block$k(ctx) {
+    function create_if_block$j(ctx) {
     	let h4;
     	let t0_value = /*profile*/ ctx[1].name + "";
     	let t0;
@@ -10975,7 +10881,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$I(ctx) {
+    function create_fragment$J(ctx) {
     	let div2;
     	let div1;
     	let t;
@@ -10983,7 +10889,7 @@ var app = (function () {
     	let each_blocks = [];
     	let each_1_lookup = new Map();
     	let current;
-    	let if_block = /*profile*/ ctx[1] && create_if_block$k(ctx);
+    	let if_block = /*profile*/ ctx[1] && create_if_block$j(ctx);
     	let each_value = /*ideas*/ ctx[0];
     	const get_key = ctx => /*idea*/ ctx[7].id;
 
@@ -11029,7 +10935,7 @@ var app = (function () {
     				if (if_block) {
     					if_block.p(ctx, dirty);
     				} else {
-    					if_block = create_if_block$k(ctx);
+    					if_block = create_if_block$j(ctx);
     					if_block.c();
     					if_block.m(div1, t);
     				}
@@ -11072,7 +10978,7 @@ var app = (function () {
     	};
     }
 
-    function instance$H($$self, $$props, $$invalidate) {
+    function instance$I($$self, $$props, $$invalidate) {
     	let $nostrCache;
     	let $nostrManager;
     	component_subscribe($$self, nostrCache, $$value => $$invalidate(3, $nostrCache = $$value));
@@ -11157,7 +11063,7 @@ var app = (function () {
     class UserIdeasWidget extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$H, create_fragment$I, safe_not_equal, { profile_id: 2 });
+    		init(this, options, instance$I, create_fragment$J, safe_not_equal, { profile_id: 2 });
     	}
     }
 
@@ -11794,7 +11700,7 @@ var app = (function () {
     }
 
     // (104:0) {#if showRatingPopup}
-    function create_if_block$j(ctx) {
+    function create_if_block$i(ctx) {
     	let div3;
     	let div2;
     	let h3;
@@ -11958,7 +11864,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$H(ctx) {
+    function create_fragment$I(ctx) {
     	let div2;
     	let t0;
     	let div1;
@@ -11975,7 +11881,7 @@ var app = (function () {
     	const default_slot_template = /*#slots*/ ctx[20].default;
     	const default_slot = create_slot(default_slot_template, ctx, /*$$scope*/ ctx[19], null);
     	let if_block1 = /*showRatingButton*/ ctx[0] && create_if_block_1$5(ctx);
-    	let if_block2 = /*showRatingPopup*/ ctx[9] && create_if_block$j(ctx);
+    	let if_block2 = /*showRatingPopup*/ ctx[9] && create_if_block$i(ctx);
 
     	return {
     		c() {
@@ -12108,7 +12014,7 @@ var app = (function () {
     				if (if_block2) {
     					if_block2.p(ctx, dirty);
     				} else {
-    					if_block2 = create_if_block$j(ctx);
+    					if_block2 = create_if_block$i(ctx);
     					if_block2.c();
     					if_block2.m(if_block2_anchor.parentNode, if_block2_anchor);
     				}
@@ -12144,7 +12050,7 @@ var app = (function () {
     	return new Date(timestamp * 1000).toLocaleString();
     }
 
-    function instance$G($$self, $$props, $$invalidate) {
+    function instance$H($$self, $$props, $$invalidate) {
     	let $nostrCache;
     	let $nostrManager;
     	component_subscribe($$self, nostrCache, $$value => $$invalidate(17, $nostrCache = $$value));
@@ -12268,7 +12174,7 @@ var app = (function () {
     	constructor(options) {
     		super();
 
-    		init(this, options, instance$G, create_fragment$H, safe_not_equal, {
+    		init(this, options, instance$H, create_fragment$I, safe_not_equal, {
     			event: 16,
     			backgroundColor: 1,
     			textColor: 2,
@@ -12401,7 +12307,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$G(ctx) {
+    function create_fragment$H(ctx) {
     	let basebubble;
     	let current;
 
@@ -12452,7 +12358,7 @@ var app = (function () {
     let backgroundColor = "#FFF176"; // Ein helles Gelb
     let textColor = "#333333"; // Dunkelgrau für guten Kontrast
 
-    function instance$F($$self, $$props, $$invalidate) {
+    function instance$G($$self, $$props, $$invalidate) {
     	let stars;
     	let { event } = $$props;
     	let reviewContent = "Kein Kommentar";
@@ -12487,7 +12393,7 @@ var app = (function () {
     class ReviewBubble extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$F, create_fragment$G, safe_not_equal, { event: 0 });
+    		init(this, options, instance$G, create_fragment$H, safe_not_equal, { event: 0 });
     	}
     }
 
@@ -12509,7 +12415,7 @@ var app = (function () {
     }
 
     // (78:8) {#if profile}
-    function create_if_block$i(ctx) {
+    function create_if_block$h(ctx) {
     	let t0_value = /*profile*/ ctx[2].name + "";
     	let t0;
     	let t1;
@@ -12602,7 +12508,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$F(ctx) {
+    function create_fragment$G(ctx) {
     	let div2;
     	let h1;
     	let t0;
@@ -12615,7 +12521,7 @@ var app = (function () {
     	let t5;
     	let div1;
     	let current;
-    	let if_block = /*profile*/ ctx[2] && create_if_block$i(ctx);
+    	let if_block = /*profile*/ ctx[2] && create_if_block$h(ctx);
     	let each_value_1 = /*averageStars*/ ctx[3];
     	let each_blocks_1 = [];
 
@@ -12698,7 +12604,7 @@ var app = (function () {
     				if (if_block) {
     					if_block.p(ctx, dirty);
     				} else {
-    					if_block = create_if_block$i(ctx);
+    					if_block = create_if_block$h(ctx);
     					if_block.c();
     					if_block.m(h1, null);
     				}
@@ -12786,7 +12692,7 @@ var app = (function () {
     	};
     }
 
-    function instance$E($$self, $$props, $$invalidate) {
+    function instance$F($$self, $$props, $$invalidate) {
     	let averageStars;
     	let $nostrManager;
     	let $nostrCache;
@@ -12879,13 +12785,13 @@ var app = (function () {
     class ReviewWidget extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$E, create_fragment$F, safe_not_equal, { userPubKey: 4 });
+    		init(this, options, instance$F, create_fragment$G, safe_not_equal, { userPubKey: 4 });
     	}
     }
 
     /* src/components/ProfileViewImage.svelte generated by Svelte v3.59.1 */
 
-    function create_if_block$h(ctx) {
+    function create_if_block$g(ctx) {
     	let profileimg;
     	let current;
 
@@ -12931,11 +12837,11 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$E(ctx) {
+    function create_fragment$F(ctx) {
     	let div1;
     	let div0;
     	let current;
-    	let if_block = /*profile*/ ctx[0] && /*profile*/ ctx[0].picture && create_if_block$h(ctx);
+    	let if_block = /*profile*/ ctx[0] && /*profile*/ ctx[0].picture && create_if_block$g(ctx);
 
     	return {
     		c() {
@@ -12960,7 +12866,7 @@ var app = (function () {
     						transition_in(if_block, 1);
     					}
     				} else {
-    					if_block = create_if_block$h(ctx);
+    					if_block = create_if_block$g(ctx);
     					if_block.c();
     					transition_in(if_block, 1);
     					if_block.m(div0, null);
@@ -12991,7 +12897,7 @@ var app = (function () {
     	};
     }
 
-    function instance$D($$self, $$props, $$invalidate) {
+    function instance$E($$self, $$props, $$invalidate) {
     	let { profile = null } = $$props;
 
     	$$self.$$set = $$props => {
@@ -13004,7 +12910,7 @@ var app = (function () {
     class ProfileViewImage extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$D, create_fragment$E, safe_not_equal, { profile: 0 });
+    		init(this, options, instance$E, create_fragment$F, safe_not_equal, { profile: 0 });
     	}
     }
 
@@ -13013,7 +12919,7 @@ var app = (function () {
 
     /* src/components/FollowButton.svelte generated by Svelte v3.59.1 */
 
-    function create_fragment$D(ctx) {
+    function create_fragment$E(ctx) {
     	let button;
     	let i;
     	let i_class_value;
@@ -13077,7 +12983,7 @@ var app = (function () {
     	};
     }
 
-    function instance$C($$self, $$props, $$invalidate) {
+    function instance$D($$self, $$props, $$invalidate) {
     	let $nostrCache;
     	let $nostrManager;
     	component_subscribe($$self, nostrCache, $$value => $$invalidate(4, $nostrCache = $$value));
@@ -13143,7 +13049,7 @@ var app = (function () {
     class FollowButton extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$C, create_fragment$D, safe_not_equal, { profilePubKey: 3 });
+    		init(this, options, instance$D, create_fragment$E, safe_not_equal, { profilePubKey: 3 });
     	}
     }
 
@@ -13152,7 +13058,7 @@ var app = (function () {
 
     /* src/components/DMButton.svelte generated by Svelte v3.59.1 */
 
-    function create_fragment$C(ctx) {
+    function create_fragment$D(ctx) {
     	let button;
     	let i;
     	let t;
@@ -13199,7 +13105,7 @@ var app = (function () {
     	};
     }
 
-    function instance$B($$self, $$props, $$invalidate) {
+    function instance$C($$self, $$props, $$invalidate) {
     	let $nostrCache;
     	let $nostrManager;
     	component_subscribe($$self, nostrCache, $$value => $$invalidate(3, $nostrCache = $$value));
@@ -13238,7 +13144,7 @@ var app = (function () {
     class DMButton extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$B, create_fragment$C, safe_not_equal, { profilePubKey: 2 });
+    		init(this, options, instance$C, create_fragment$D, safe_not_equal, { profilePubKey: 2 });
     	}
     }
 
@@ -13247,7 +13153,7 @@ var app = (function () {
 
     /* src/components/Widgets/ProfileWidget.svelte generated by Svelte v3.59.1 */
 
-    function create_fragment$B(ctx) {
+    function create_fragment$C(ctx) {
     	let div3;
     	let div0;
     	let dmbutton;
@@ -13347,7 +13253,7 @@ var app = (function () {
     	};
     }
 
-    function instance$A($$self, $$props, $$invalidate) {
+    function instance$B($$self, $$props, $$invalidate) {
     	let $nostrManager;
     	let $nostrCache;
     	component_subscribe($$self, nostrManager, $$value => $$invalidate(5, $nostrManager = $$value));
@@ -13418,13 +13324,13 @@ var app = (function () {
     class ProfileWidget extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$A, create_fragment$B, safe_not_equal, { userPubKey: 4 });
+    		init(this, options, instance$B, create_fragment$C, safe_not_equal, { userPubKey: 4 });
     	}
     }
 
     /* src/components/Widgets/Banner/ProfileBannerWidget.svelte generated by Svelte v3.59.1 */
 
-    function create_fragment$A(ctx) {
+    function create_fragment$B(ctx) {
     	let banner_1;
     	let current;
 
@@ -13466,7 +13372,7 @@ var app = (function () {
     	};
     }
 
-    function instance$z($$self, $$props, $$invalidate) {
+    function instance$A($$self, $$props, $$invalidate) {
     	let $nostrCache;
     	let $nostrManager;
     	component_subscribe($$self, nostrCache, $$value => $$invalidate(3, $nostrCache = $$value));
@@ -13532,13 +13438,13 @@ var app = (function () {
     class ProfileBannerWidget extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$z, create_fragment$A, safe_not_equal, { profile_id: 2 });
+    		init(this, options, instance$A, create_fragment$B, safe_not_equal, { profile_id: 2 });
     	}
     }
 
     /* src/views/Profile.svelte generated by Svelte v3.59.1 */
 
-    function create_fragment$z(ctx) {
+    function create_fragment$A(ctx) {
     	let main;
     	let menu;
     	let t0;
@@ -13680,7 +13586,7 @@ var app = (function () {
     	};
     }
 
-    function instance$y($$self, $$props, $$invalidate) {
+    function instance$z($$self, $$props, $$invalidate) {
     	let $nostrCache;
     	let $nostrManager;
     	let $contentContainerClass;
@@ -13768,7 +13674,7 @@ var app = (function () {
     class Profile extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$y, create_fragment$z, safe_not_equal, { profile_id: 0 });
+    		init(this, options, instance$z, create_fragment$A, safe_not_equal, { profile_id: 0 });
     	}
     }
 
@@ -13837,7 +13743,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$y(ctx) {
+    function create_fragment$z(ctx) {
     	let h5;
     	let t1;
     	let div0;
@@ -14031,7 +13937,7 @@ var app = (function () {
     	};
     }
 
-    function instance$x($$self, $$props, $$invalidate) {
+    function instance$y($$self, $$props, $$invalidate) {
     	let $nostrManager;
     	let $nostrCache;
     	component_subscribe($$self, nostrManager, $$value => $$invalidate(7, $nostrManager = $$value));
@@ -14148,13 +14054,13 @@ var app = (function () {
     class RelaySelectionWidget extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$x, create_fragment$y, safe_not_equal, {});
+    		init(this, options, instance$y, create_fragment$z, safe_not_equal, {});
     	}
     }
 
     /* src/components/Widgets/EditProfileWidget.svelte generated by Svelte v3.59.1 */
 
-    function create_fragment$x(ctx) {
+    function create_fragment$y(ctx) {
     	let div6;
     	let profileviewimage;
     	let t0;
@@ -14431,7 +14337,7 @@ var app = (function () {
     	};
     }
 
-    function instance$w($$self, $$props, $$invalidate) {
+    function instance$x($$self, $$props, $$invalidate) {
     	let $nostrManager;
     	component_subscribe($$self, nostrManager, $$value => $$invalidate(16, $nostrManager = $$value));
     	let { profile = null } = $$props;
@@ -14546,13 +14452,13 @@ var app = (function () {
     class EditProfileWidget extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$w, create_fragment$x, safe_not_equal, { profile: 0 });
+    		init(this, options, instance$x, create_fragment$y, safe_not_equal, { profile: 0 });
     	}
     }
 
     /* src/views/EditProfile.svelte generated by Svelte v3.59.1 */
 
-    function create_fragment$w(ctx) {
+    function create_fragment$x(ctx) {
     	let main;
     	let menu;
     	let t0;
@@ -14649,7 +14555,7 @@ var app = (function () {
     	};
     }
 
-    function instance$v($$self, $$props, $$invalidate) {
+    function instance$w($$self, $$props, $$invalidate) {
     	let $nostrCache;
     	let $nostrManager;
     	let $contentContainerClass;
@@ -14711,7 +14617,7 @@ var app = (function () {
     class EditProfile extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$v, create_fragment$w, safe_not_equal, {});
+    		init(this, options, instance$w, create_fragment$x, safe_not_equal, {});
     	}
     }
 
@@ -14724,7 +14630,7 @@ var app = (function () {
     }
 
     // (104:6) {#if comment.picture}
-    function create_if_block$g(ctx) {
+    function create_if_block$f(ctx) {
     	let div;
     	let profileimg;
     	let current;
@@ -14782,7 +14688,7 @@ var app = (function () {
     	let t3;
     	let t4;
     	let current;
-    	let if_block = /*comment*/ ctx[11].picture && create_if_block$g(ctx);
+    	let if_block = /*comment*/ ctx[11].picture && create_if_block$f(ctx);
 
     	return {
     		key: key_1,
@@ -14827,7 +14733,7 @@ var app = (function () {
     						transition_in(if_block, 1);
     					}
     				} else {
-    					if_block = create_if_block$g(ctx);
+    					if_block = create_if_block$f(ctx);
     					if_block.c();
     					transition_in(if_block, 1);
     					if_block.m(li, t0);
@@ -14861,7 +14767,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$v(ctx) {
+    function create_fragment$w(ctx) {
     	let h4;
     	let t1;
     	let ul;
@@ -14995,7 +14901,7 @@ var app = (function () {
     	};
     }
 
-    function instance$u($$self, $$props, $$invalidate) {
+    function instance$v($$self, $$props, $$invalidate) {
     	let $nostrManager;
     	let $nostrCache;
     	component_subscribe($$self, nostrManager, $$value => $$invalidate(4, $nostrManager = $$value));
@@ -15112,7 +15018,7 @@ var app = (function () {
     class CommentWidget extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$u, create_fragment$v, safe_not_equal, { id: 3 });
+    		init(this, options, instance$v, create_fragment$w, safe_not_equal, { id: 3 });
     	}
     }
 
@@ -15128,7 +15034,7 @@ var app = (function () {
     }
 
     // (72:2) {#if creatorPubKey === $nostrManager?.publicKey}
-    function create_if_block$f(ctx) {
+    function create_if_block$e(ctx) {
     	let button;
     	let mounted;
     	let dispose;
@@ -15275,7 +15181,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$u(ctx) {
+    function create_fragment$v(ctx) {
     	let div0;
     	let h4;
     	let t1;
@@ -15284,7 +15190,7 @@ var app = (function () {
     	let each_blocks = [];
     	let each_1_lookup = new Map();
     	let current;
-    	let if_block = /*creatorPubKey*/ ctx[0] === /*$nostrManager*/ ctx[1]?.publicKey && create_if_block$f(ctx);
+    	let if_block = /*creatorPubKey*/ ctx[0] === /*$nostrManager*/ ctx[1]?.publicKey && create_if_block$e(ctx);
     	let each_value = /*jobs*/ ctx[2];
     	const get_key = ctx => /*job*/ ctx[9].id;
 
@@ -15333,7 +15239,7 @@ var app = (function () {
     				if (if_block) {
     					if_block.p(ctx, dirty);
     				} else {
-    					if_block = create_if_block$f(ctx);
+    					if_block = create_if_block$e(ctx);
     					if_block.c();
     					if_block.m(div0, null);
     				}
@@ -15378,7 +15284,7 @@ var app = (function () {
     	};
     }
 
-    function instance$t($$self, $$props, $$invalidate) {
+    function instance$u($$self, $$props, $$invalidate) {
     	let $nostrManager;
     	let $nostrCache;
     	component_subscribe($$self, nostrManager, $$value => $$invalidate(1, $nostrManager = $$value));
@@ -15453,13 +15359,13 @@ var app = (function () {
     class JobWidget extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$t, create_fragment$u, safe_not_equal, { ideaID: 4, creatorPubKey: 0 });
+    		init(this, options, instance$u, create_fragment$v, safe_not_equal, { ideaID: 4, creatorPubKey: 0 });
     	}
     }
 
     /* src/components/Widgets/Banner/IdeaBannerWidget.svelte generated by Svelte v3.59.1 */
 
-    function create_fragment$t(ctx) {
+    function create_fragment$u(ctx) {
     	let banner;
     	let current;
 
@@ -15518,7 +15424,7 @@ var app = (function () {
     	};
     }
 
-    function instance$s($$self, $$props, $$invalidate) {
+    function instance$t($$self, $$props, $$invalidate) {
     	let $nostrManager;
     	let $nostrCache;
     	component_subscribe($$self, nostrManager, $$value => $$invalidate(4, $nostrManager = $$value));
@@ -15590,7 +15496,7 @@ var app = (function () {
     class IdeaBannerWidget extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$s, create_fragment$t, safe_not_equal, { id: 3 });
+    		init(this, options, instance$t, create_fragment$u, safe_not_equal, { id: 3 });
     	}
     }
 
@@ -15599,7 +15505,7 @@ var app = (function () {
 
     /* src/components/ZapWidget.svelte generated by Svelte v3.59.1 */
 
-    function create_if_block$e(ctx) {
+    function create_if_block$d(ctx) {
     	let div1;
     	let div0;
 
@@ -15626,7 +15532,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$s(ctx) {
+    function create_fragment$t(ctx) {
     	let div3;
     	let h1;
     	let t1;
@@ -15649,7 +15555,7 @@ var app = (function () {
     	let t10;
     	let mounted;
     	let dispose;
-    	let if_block = /*satGoal*/ ctx[0] && create_if_block$e(ctx);
+    	let if_block = /*satGoal*/ ctx[0] && create_if_block$d(ctx);
 
     	return {
     		c() {
@@ -15744,7 +15650,7 @@ var app = (function () {
     				if (if_block) {
     					if_block.p(ctx, dirty);
     				} else {
-    					if_block = create_if_block$e(ctx);
+    					if_block = create_if_block$d(ctx);
     					if_block.c();
     					if_block.m(div3, null);
     				}
@@ -15764,7 +15670,7 @@ var app = (function () {
     	};
     }
 
-    function instance$r($$self, $$props, $$invalidate) {
+    function instance$s($$self, $$props, $$invalidate) {
     	let $nostrManager;
     	let $nostrCache;
     	component_subscribe($$self, nostrManager, $$value => $$invalidate(7, $nostrManager = $$value));
@@ -15877,7 +15783,7 @@ var app = (function () {
     class ZapWidget extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$r, create_fragment$s, safe_not_equal, { eventId: 6, satGoal: 0 });
+    		init(this, options, instance$s, create_fragment$t, safe_not_equal, { eventId: 6, satGoal: 0 });
     	}
     }
 
@@ -15912,7 +15818,7 @@ var app = (function () {
     }
 
     // (32:8) {#if preview}
-    function create_if_block$d(ctx) {
+    function create_if_block$c(ctx) {
     	let h5;
 
     	return {
@@ -15929,7 +15835,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$r(ctx) {
+    function create_fragment$s(ctx) {
     	let div2;
     	let t0;
     	let div1;
@@ -15949,7 +15855,7 @@ var app = (function () {
     	let div0;
     	let raw_value = /*idea*/ ctx[1].message + "";
     	let if_block0 = /*creator_profile*/ ctx[0] && /*creator_profile*/ ctx[0].pubkey === /*$nostrManager*/ ctx[3].publicKey && create_if_block_1$4(ctx);
-    	let if_block1 = /*preview*/ ctx[2] && create_if_block$d();
+    	let if_block1 = /*preview*/ ctx[2] && create_if_block$c();
 
     	return {
     		c() {
@@ -16018,7 +15924,7 @@ var app = (function () {
 
     			if (/*preview*/ ctx[2]) {
     				if (if_block1) ; else {
-    					if_block1 = create_if_block$d();
+    					if_block1 = create_if_block$c();
     					if_block1.c();
     					if_block1.m(div1, t3);
     				}
@@ -16039,7 +15945,7 @@ var app = (function () {
     	};
     }
 
-    function instance$q($$self, $$props, $$invalidate) {
+    function instance$r($$self, $$props, $$invalidate) {
     	let $nostrManager;
     	component_subscribe($$self, nostrManager, $$value => $$invalidate(3, $nostrManager = $$value));
     	let { creator_profile } = $$props;
@@ -16066,13 +15972,13 @@ var app = (function () {
     class IdeaWidget extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$q, create_fragment$r, safe_not_equal, { creator_profile: 0, idea: 1, preview: 2 });
+    		init(this, options, instance$r, create_fragment$s, safe_not_equal, { creator_profile: 0, idea: 1, preview: 2 });
     	}
     }
 
     /* src/views/Idea.svelte generated by Svelte v3.59.1 */
 
-    function create_fragment$q(ctx) {
+    function create_fragment$r(ctx) {
     	let main;
     	let menu;
     	let t0;
@@ -16256,7 +16162,7 @@ var app = (function () {
     	};
     }
 
-    function instance$p($$self, $$props, $$invalidate) {
+    function instance$q($$self, $$props, $$invalidate) {
     	let $nostrManager;
     	let $nostrCache;
     	let $contentContainerClass;
@@ -16324,7 +16230,7 @@ var app = (function () {
     class Idea extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$p, create_fragment$q, safe_not_equal, { id: 0 });
+    		init(this, options, instance$q, create_fragment$r, safe_not_equal, { id: 0 });
     	}
     }
 
@@ -16360,7 +16266,7 @@ var app = (function () {
 
     const { window: window_1 } = globals;
 
-    function create_if_block$c(ctx) {
+    function create_if_block$b(ctx) {
     	let div3;
     	let div2;
     	let div1;
@@ -16792,12 +16698,12 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$p(ctx) {
+    function create_fragment$q(ctx) {
     	let t;
     	let current;
     	let mounted;
     	let dispose;
-    	let if_block = /*Component*/ ctx[2] && create_if_block$c(ctx);
+    	let if_block = /*Component*/ ctx[2] && create_if_block$b(ctx);
     	const default_slot_template = /*#slots*/ ctx[49].default;
     	const default_slot = create_slot(default_slot_template, ctx, /*$$scope*/ ctx[48], null);
 
@@ -16831,7 +16737,7 @@ var app = (function () {
     						transition_in(if_block, 1);
     					}
     				} else {
-    					if_block = create_if_block$c(ctx);
+    					if_block = create_if_block$b(ctx);
     					if_block.c();
     					transition_in(if_block, 1);
     					if_block.m(t.parentNode, t);
@@ -16891,7 +16797,7 @@ var app = (function () {
     	};
     }
 
-    function instance$o($$self, $$props, $$invalidate) {
+    function instance$p($$self, $$props, $$invalidate) {
     	let { $$slots: slots = {}, $$scope } = $$props;
     	const dispatch = createEventDispatcher();
     	const baseSetContext = setContext;
@@ -17288,8 +17194,8 @@ var app = (function () {
     		init(
     			this,
     			options,
-    			instance$o,
-    			create_fragment$p,
+    			instance$p,
+    			create_fragment$q,
     			safe_not_equal,
     			{
     				isTabbable: 22,
@@ -17388,7 +17294,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$o(ctx) {
+    function create_fragment$p(ctx) {
     	let div2;
     	let h4;
     	let t1;
@@ -17496,7 +17402,7 @@ var app = (function () {
     	};
     }
 
-    function instance$n($$self, $$props, $$invalidate) {
+    function instance$o($$self, $$props, $$invalidate) {
     	let { categories } = $$props;
     	let { initialSelectedCategories = [] } = $$props;
     	let localSelectedCategories = [...initialSelectedCategories];
@@ -17544,7 +17450,7 @@ var app = (function () {
     	constructor(options) {
     		super();
 
-    		init(this, options, instance$n, create_fragment$o, safe_not_equal, {
+    		init(this, options, instance$o, create_fragment$p, safe_not_equal, {
     			categories: 0,
     			initialSelectedCategories: 5,
     			onConfirm: 6
@@ -17634,7 +17540,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$n(ctx) {
+    function create_fragment$o(ctx) {
     	let div5;
     	let div3;
     	let h2;
@@ -17965,7 +17871,7 @@ var app = (function () {
     	e.target.style.height = e.target.scrollHeight + "px";
     }
 
-    function instance$m($$self, $$props, $$invalidate) {
+    function instance$n($$self, $$props, $$invalidate) {
     	let $previewStore;
     	let $nostrManager;
     	let $categoryModal;
@@ -18121,13 +18027,13 @@ var app = (function () {
     class PostIdeaWidget extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$m, create_fragment$n, safe_not_equal, {});
+    		init(this, options, instance$n, create_fragment$o, safe_not_equal, {});
     	}
     }
 
     /* src/views/PostIdea.svelte generated by Svelte v3.59.1 */
 
-    function create_fragment$m(ctx) {
+    function create_fragment$n(ctx) {
     	let main;
     	let menu;
     	let t0;
@@ -18224,9 +18130,9 @@ var app = (function () {
 
     let bannerImage$4 = "../../img/Banner1u.png";
     let title$4 = "BitSpark";
-    let subtitle$4 = "Spark idea";
+    let subtitle$4 = "spark idea";
 
-    function instance$l($$self, $$props, $$invalidate) {
+    function instance$m($$self, $$props, $$invalidate) {
     	let $contentContainerClass;
     	component_subscribe($$self, contentContainerClass, $$value => $$invalidate(0, $contentContainerClass = $$value));
     	return [$contentContainerClass];
@@ -18235,13 +18141,13 @@ var app = (function () {
     class PostIdea extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$l, create_fragment$m, safe_not_equal, {});
+    		init(this, options, instance$m, create_fragment$n, safe_not_equal, {});
     	}
     }
 
     /* src/views/IdeaPreview.svelte generated by Svelte v3.59.1 */
 
-    function create_fragment$l(ctx) {
+    function create_fragment$m(ctx) {
     	let main;
     	let menu;
     	let t0;
@@ -18401,7 +18307,7 @@ var app = (function () {
     	};
     }
 
-    function instance$k($$self, $$props, $$invalidate) {
+    function instance$l($$self, $$props, $$invalidate) {
     	let $nostrManager;
     	let $previewStore;
     	let $contentContainerClass;
@@ -18424,7 +18330,7 @@ var app = (function () {
     class IdeaPreview extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$k, create_fragment$l, safe_not_equal, {});
+    		init(this, options, instance$l, create_fragment$m, safe_not_equal, {});
     	}
     }
 
@@ -18462,7 +18368,7 @@ var app = (function () {
     }
 
     // (179:2) {#if showOfferPopup}
-    function create_if_block$b(ctx) {
+    function create_if_block$a(ctx) {
     	let div2;
     	let div1;
     	let h3;
@@ -18592,7 +18498,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$k(ctx) {
+    function create_fragment$l(ctx) {
     	let main;
     	let menu;
     	let t0;
@@ -18651,7 +18557,7 @@ var app = (function () {
     	let if_block0 = /*creator_profile*/ ctx[7] && /*creator_profile*/ ctx[7].pubkey === /*$nostrManager*/ ctx[1]?.publicKey && create_if_block_1$2(ctx);
     	zapwidget = new ZapWidget({ props: { eventId: /*id*/ ctx[0] } });
     	commentwidget = new CommentWidget({ props: { id: /*id*/ ctx[0] } });
-    	let if_block1 = /*showOfferPopup*/ ctx[2] && create_if_block$b(ctx);
+    	let if_block1 = /*showOfferPopup*/ ctx[2] && create_if_block$a(ctx);
     	footer = new Footer({});
 
     	return {
@@ -18798,7 +18704,7 @@ var app = (function () {
     				if (if_block1) {
     					if_block1.p(ctx, dirty);
     				} else {
-    					if_block1 = create_if_block$b(ctx);
+    					if_block1 = create_if_block$a(ctx);
     					if_block1.c();
     					if_block1.m(main, t18);
     				}
@@ -18842,7 +18748,7 @@ var app = (function () {
     	};
     }
 
-    function instance$j($$self, $$props, $$invalidate) {
+    function instance$k($$self, $$props, $$invalidate) {
     	let $nostrManager;
     	let $nostrCache;
     	let $contentContainerClass;
@@ -19010,7 +18916,7 @@ var app = (function () {
     class Job extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$j, create_fragment$k, safe_not_equal, { id: 0 });
+    		init(this, options, instance$k, create_fragment$l, safe_not_equal, { id: 0 });
     	}
     }
 
@@ -19088,7 +18994,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$j(ctx) {
+    function create_fragment$k(ctx) {
     	let div1;
     	let button;
     	let t1;
@@ -19175,7 +19081,7 @@ var app = (function () {
     	};
     }
 
-    function instance$i($$self, $$props, $$invalidate) {
+    function instance$j($$self, $$props, $$invalidate) {
     	let { categories = [] } = $$props;
     	let { selected = [] } = $$props;
     	let dropdownOpen = false;
@@ -19228,7 +19134,7 @@ var app = (function () {
     class MultiSelectDropdown extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$i, create_fragment$j, safe_not_equal, { categories: 0, selected: 4 });
+    		init(this, options, instance$j, create_fragment$k, safe_not_equal, { categories: 0, selected: 4 });
     	}
     }
 
@@ -19250,7 +19156,7 @@ var app = (function () {
 
     /* src/views/PostJob.svelte generated by Svelte v3.59.1 */
 
-    function create_fragment$i(ctx) {
+    function create_fragment$j(ctx) {
     	let main;
     	let menu;
     	let t0;
@@ -19591,7 +19497,7 @@ var app = (function () {
     	e.target.style.height = e.target.scrollHeight + "px";
     }
 
-    function instance$h($$self, $$props, $$invalidate) {
+    function instance$i($$self, $$props, $$invalidate) {
     	let $previewJobStore;
     	let $nostrManager;
     	let $contentContainerClass;
@@ -19704,7 +19610,183 @@ var app = (function () {
     class PostJob extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$h, create_fragment$i, safe_not_equal, { ideaID: 3 });
+    		init(this, options, instance$i, create_fragment$j, safe_not_equal, { ideaID: 3 });
+    	}
+    }
+
+    /* src/components/Cards/JobCard.svelte generated by Svelte v3.59.1 */
+
+    function create_fragment$i(ctx) {
+    	let div3;
+    	let div1;
+    	let img;
+    	let img_src_value;
+    	let img_alt_value;
+    	let t0;
+    	let div0;
+    	let h3;
+    	let t1_value = /*card*/ ctx[0].title + "";
+    	let t1;
+    	let t2;
+    	let h4;
+    	let t3_value = /*card*/ ctx[0].sats + "";
+    	let t3;
+    	let t4;
+    	let t5;
+    	let p;
+    	let t6_value = truncateMessage(/*card*/ ctx[0].abstract, 500) + "";
+    	let t6;
+    	let t7;
+    	let div2;
+    	let likeicon;
+    	let t8;
+    	let shareicon;
+    	let current;
+    	let mounted;
+    	let dispose;
+    	likeicon = new LikeIcon({ props: { event_id: /*card*/ ctx[0].id } });
+    	shareicon = new ShareIcon({ props: { event_id: /*card*/ ctx[0].id } });
+
+    	return {
+    		c() {
+    			div3 = element("div");
+    			div1 = element("div");
+    			img = element("img");
+    			t0 = space();
+    			div0 = element("div");
+    			h3 = element("h3");
+    			t1 = text(t1_value);
+    			t2 = space();
+    			h4 = element("h4");
+    			t3 = text(t3_value);
+    			t4 = text(" Sats");
+    			t5 = space();
+    			p = element("p");
+    			t6 = text(t6_value);
+    			t7 = space();
+    			div2 = element("div");
+    			create_component(likeicon.$$.fragment);
+    			t8 = space();
+    			create_component(shareicon.$$.fragment);
+    			if (!src_url_equal(img.src, img_src_value = /*card*/ ctx[0].bannerImage)) attr(img, "src", img_src_value);
+    			attr(img, "alt", img_alt_value = "Banner of " + /*card*/ ctx[0].title);
+    			attr(img, "class", "bitspark-card-banner-image");
+    			attr(div0, "class", "content");
+    			attr(div1, "class", "bitspark-card-content");
+    			attr(div2, "class", "bitspark-card-actions");
+    			attr(div3, "class", "bitspark-card");
+    		},
+    		m(target, anchor) {
+    			insert(target, div3, anchor);
+    			append(div3, div1);
+    			append(div1, img);
+    			append(div1, t0);
+    			append(div1, div0);
+    			append(div0, h3);
+    			append(h3, t1);
+    			append(div0, t2);
+    			append(div0, h4);
+    			append(h4, t3);
+    			append(h4, t4);
+    			append(div0, t5);
+    			append(div0, p);
+    			append(p, t6);
+    			append(div3, t7);
+    			append(div3, div2);
+    			mount_component(likeicon, div2, null);
+    			append(div2, t8);
+    			mount_component(shareicon, div2, null);
+    			current = true;
+
+    			if (!mounted) {
+    				dispose = listen(div1, "click", /*goToJob*/ ctx[1]);
+    				mounted = true;
+    			}
+    		},
+    		p(ctx, [dirty]) {
+    			if (!current || dirty & /*card*/ 1 && !src_url_equal(img.src, img_src_value = /*card*/ ctx[0].bannerImage)) {
+    				attr(img, "src", img_src_value);
+    			}
+
+    			if (!current || dirty & /*card*/ 1 && img_alt_value !== (img_alt_value = "Banner of " + /*card*/ ctx[0].title)) {
+    				attr(img, "alt", img_alt_value);
+    			}
+
+    			if ((!current || dirty & /*card*/ 1) && t1_value !== (t1_value = /*card*/ ctx[0].title + "")) set_data(t1, t1_value);
+    			if ((!current || dirty & /*card*/ 1) && t3_value !== (t3_value = /*card*/ ctx[0].sats + "")) set_data(t3, t3_value);
+    			if ((!current || dirty & /*card*/ 1) && t6_value !== (t6_value = truncateMessage(/*card*/ ctx[0].abstract, 500) + "")) set_data(t6, t6_value);
+    			const likeicon_changes = {};
+    			if (dirty & /*card*/ 1) likeicon_changes.event_id = /*card*/ ctx[0].id;
+    			likeicon.$set(likeicon_changes);
+    			const shareicon_changes = {};
+    			if (dirty & /*card*/ 1) shareicon_changes.event_id = /*card*/ ctx[0].id;
+    			shareicon.$set(shareicon_changes);
+    		},
+    		i(local) {
+    			if (current) return;
+    			transition_in(likeicon.$$.fragment, local);
+    			transition_in(shareicon.$$.fragment, local);
+    			current = true;
+    		},
+    		o(local) {
+    			transition_out(likeicon.$$.fragment, local);
+    			transition_out(shareicon.$$.fragment, local);
+    			current = false;
+    		},
+    		d(detaching) {
+    			if (detaching) detach(div3);
+    			destroy_component(likeicon);
+    			destroy_component(shareicon);
+    			mounted = false;
+    			dispose();
+    		}
+    	};
+    }
+
+    function truncateMessage(message, maxLength) {
+    	const strippedMessage = message.replace(/<[^>]+>/g, "");
+
+    	return strippedMessage.length <= maxLength
+    	? message
+    	: message.slice(0, maxLength) + "...";
+    }
+
+    function instance$h($$self, $$props, $$invalidate) {
+    	let $nostrManager;
+    	component_subscribe($$self, nostrManager, $$value => $$invalidate(2, $nostrManager = $$value));
+    	let { card } = $$props;
+
+    	function goToJob() {
+    		navigate(`/job/${card.id}`);
+    	}
+
+    	onMount(() => {
+    		initialize();
+    	});
+
+    	function initialize() {
+    		if (card) {
+    			socialMediaManager.getProfile(card.profile);
+    		}
+    	}
+
+    	$$self.$$set = $$props => {
+    		if ('card' in $$props) $$invalidate(0, card = $$props.card);
+    	};
+
+    	$$self.$$.update = () => {
+    		if ($$self.$$.dirty & /*$nostrManager*/ 4) {
+    			(initialize());
+    		}
+    	};
+
+    	return [card, goToJob, $nostrManager];
+    }
+
+    class JobCard extends SvelteComponent {
+    	constructor(options) {
+    		super();
+    		init(this, options, instance$h, create_fragment$i, safe_not_equal, { card: 0 });
     	}
     }
 
@@ -19713,7 +19795,7 @@ var app = (function () {
     const selectedCategories = writable([]);
     const selectedLangs = writable([]);
 
-    var css_248z$g = ".modal-buttons-container.svelte-1hoyqek.svelte-1hoyqek{display:flex;justify-content:flex-end;padding:10px}.modal-button.svelte-1hoyqek.svelte-1hoyqek{background-color:#f7931a;color:white;border:none;border-radius:5px;padding:10px;margin-left:10px;cursor:pointer;font-size:0.9rem;display:flex;align-items:center;transition:background-color 0.2s ease}.modal-button.svelte-1hoyqek i.svelte-1hoyqek{margin-right:5px}.modal-button.svelte-1hoyqek.svelte-1hoyqek:hover{background-color:#e6830b}.view-idea-button.svelte-1hoyqek.svelte-1hoyqek{padding:10px 20px;background-color:#f7931a;color:white;text-decoration:none;border:none;border-radius:5px;font-size:1rem;font-weight:600;margin-left:auto;transition:background-color 0.2s ease}.view-idea-button.svelte-1hoyqek.svelte-1hoyqek:hover{background-color:#e6830b}.job-entry.svelte-1hoyqek.svelte-1hoyqek{display:flex;align-items:center;padding:15px;border-bottom:1px solid #eaeaea}.profile-container.svelte-1hoyqek.svelte-1hoyqek,.job-title.svelte-1hoyqek.svelte-1hoyqek,.view-idea-button.svelte-1hoyqek.svelte-1hoyqek{margin-right:15px}.profile-container.svelte-1hoyqek.svelte-1hoyqek{width:70px;height:70px;border-radius:50%;overflow:hidden;display:flex;justify-content:center;align-items:center}.job-title.svelte-1hoyqek.svelte-1hoyqek{flex-grow:1;margin-right:15px}.view-idea-button.svelte-1hoyqek.svelte-1hoyqek{align-self:center;height:fit-content}";
+    var css_248z$g = ".modal-buttons-container.svelte-1hoyqek.svelte-1hoyqek{display:flex;justify-content:flex-end;padding:10px}.modal-button.svelte-1hoyqek.svelte-1hoyqek{background-color:#f7931a;color:white;border:none;border-radius:5px;padding:10px;margin-left:10px;cursor:pointer;font-size:0.9rem;display:flex;align-items:center;transition:background-color 0.2s ease}.modal-button.svelte-1hoyqek i.svelte-1hoyqek{margin-right:5px}.modal-button.svelte-1hoyqek.svelte-1hoyqek:hover{background-color:#e6830b}";
     styleInject(css_248z$g);
 
     /* src/components/JobMarket/JobMarketWidget.svelte generated by Svelte v3.59.1 */
@@ -19724,8 +19806,8 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (152:8) <Modal show={$jobModal}>
-    function create_default_slot_2$1(ctx) {
+    // (194:4) <Modal show={$jobModal}>
+    function create_default_slot_1$1(ctx) {
     	let button;
     	let mounted;
     	let dispose;
@@ -19740,7 +19822,7 @@ var app = (function () {
     			insert(target, button, anchor);
 
     			if (!mounted) {
-    				dispose = listen(button, "click", /*openCategoryModal*/ ctx[6]);
+    				dispose = listen(button, "click", /*openCategoryModal*/ ctx[5]);
     				mounted = true;
     			}
     		},
@@ -19753,8 +19835,8 @@ var app = (function () {
     	};
     }
 
-    // (157:8) <Modal show={$languageModal}>
-    function create_default_slot_1$1(ctx) {
+    // (199:4) <Modal show={$languageModal}>
+    function create_default_slot$6(ctx) {
     	let button;
     	let mounted;
     	let dispose;
@@ -19769,7 +19851,7 @@ var app = (function () {
     			insert(target, button, anchor);
 
     			if (!mounted) {
-    				dispose = listen(button, "click", /*openLangModal*/ ctx[7]);
+    				dispose = listen(button, "click", /*openLangModal*/ ctx[6]);
     				mounted = true;
     			}
     		},
@@ -19782,201 +19864,68 @@ var app = (function () {
     	};
     }
 
-    // (166:12) {#if job.profile}
-    function create_if_block$a(ctx) {
+    // (207:8) {#each jobs as job (job.id)}
+    function create_each_block$4(key_1, ctx) {
     	let div;
-    	let profileimg;
+    	let jobcard;
+    	let t;
     	let current;
-
-    	profileimg = new ProfileImg({
-    			props: {
-    				profile: /*job*/ ctx[20].profile,
-    				style: "object-fit: cover; border-radius: 50%;"
-    			}
-    		});
+    	jobcard = new JobCard({ props: { card: /*job*/ ctx[20] } });
 
     	return {
+    		key: key_1,
+    		first: null,
     		c() {
     			div = element("div");
-    			create_component(profileimg.$$.fragment);
-    			attr(div, "class", "profile-container svelte-1hoyqek");
+    			create_component(jobcard.$$.fragment);
+    			t = space();
+    			attr(div, "class", "col-12 col-sm-6 col-md-6 col-lg-6 mb-8");
+    			this.first = div;
     		},
     		m(target, anchor) {
     			insert(target, div, anchor);
-    			mount_component(profileimg, div, null);
+    			mount_component(jobcard, div, null);
+    			append(div, t);
     			current = true;
     		},
-    		p(ctx, dirty) {
-    			const profileimg_changes = {};
-    			if (dirty & /*jobs*/ 1) profileimg_changes.profile = /*job*/ ctx[20].profile;
-    			profileimg.$set(profileimg_changes);
+    		p(new_ctx, dirty) {
+    			ctx = new_ctx;
+    			const jobcard_changes = {};
+    			if (dirty & /*jobs*/ 1) jobcard_changes.card = /*job*/ ctx[20];
+    			jobcard.$set(jobcard_changes);
     		},
     		i(local) {
     			if (current) return;
-    			transition_in(profileimg.$$.fragment, local);
+    			transition_in(jobcard.$$.fragment, local);
     			current = true;
     		},
     		o(local) {
-    			transition_out(profileimg.$$.fragment, local);
+    			transition_out(jobcard.$$.fragment, local);
     			current = false;
     		},
     		d(detaching) {
     			if (detaching) detach(div);
-    			destroy_component(profileimg);
-    		}
-    	};
-    }
-
-    // (176:20) <Link to={`/job/${job.id}`}>
-    function create_default_slot$6(ctx) {
-    	let t_value = /*job*/ ctx[20].tags.find(func$2)?.[1] + "";
-    	let t;
-
-    	return {
-    		c() {
-    			t = text(t_value);
-    		},
-    		m(target, anchor) {
-    			insert(target, t, anchor);
-    		},
-    		p(ctx, dirty) {
-    			if (dirty & /*jobs*/ 1 && t_value !== (t_value = /*job*/ ctx[20].tags.find(func$2)?.[1] + "")) set_data(t, t_value);
-    		},
-    		d(detaching) {
-    			if (detaching) detach(t);
-    		}
-    	};
-    }
-
-    // (164:4) {#each jobs as job}
-    function create_each_block$4(ctx) {
-    	let div1;
-    	let t0;
-    	let div0;
-    	let h2;
-    	let link;
-    	let t1;
-    	let button;
-    	let t3;
-    	let current;
-    	let mounted;
-    	let dispose;
-    	let if_block = /*job*/ ctx[20].profile && create_if_block$a(ctx);
-
-    	link = new Link({
-    			props: {
-    				to: `/job/${/*job*/ ctx[20].id}`,
-    				$$slots: { default: [create_default_slot$6] },
-    				$$scope: { ctx }
-    			}
-    		});
-
-    	function click_handler() {
-    		return /*click_handler*/ ctx[10](/*job*/ ctx[20]);
-    	}
-
-    	return {
-    		c() {
-    			div1 = element("div");
-    			if (if_block) if_block.c();
-    			t0 = space();
-    			div0 = element("div");
-    			h2 = element("h2");
-    			create_component(link.$$.fragment);
-    			t1 = space();
-    			button = element("button");
-    			button.textContent = "View Idea";
-    			t3 = space();
-    			attr(div0, "class", "job-title svelte-1hoyqek");
-    			attr(button, "class", "view-idea-button svelte-1hoyqek");
-    			attr(div1, "class", "job-entry svelte-1hoyqek");
-    		},
-    		m(target, anchor) {
-    			insert(target, div1, anchor);
-    			if (if_block) if_block.m(div1, null);
-    			append(div1, t0);
-    			append(div1, div0);
-    			append(div0, h2);
-    			mount_component(link, h2, null);
-    			append(div1, t1);
-    			append(div1, button);
-    			append(div1, t3);
-    			current = true;
-
-    			if (!mounted) {
-    				dispose = listen(button, "click", click_handler);
-    				mounted = true;
-    			}
-    		},
-    		p(new_ctx, dirty) {
-    			ctx = new_ctx;
-
-    			if (/*job*/ ctx[20].profile) {
-    				if (if_block) {
-    					if_block.p(ctx, dirty);
-
-    					if (dirty & /*jobs*/ 1) {
-    						transition_in(if_block, 1);
-    					}
-    				} else {
-    					if_block = create_if_block$a(ctx);
-    					if_block.c();
-    					transition_in(if_block, 1);
-    					if_block.m(div1, t0);
-    				}
-    			} else if (if_block) {
-    				group_outros();
-
-    				transition_out(if_block, 1, 1, () => {
-    					if_block = null;
-    				});
-
-    				check_outros();
-    			}
-
-    			const link_changes = {};
-    			if (dirty & /*jobs*/ 1) link_changes.to = `/job/${/*job*/ ctx[20].id}`;
-
-    			if (dirty & /*$$scope, jobs*/ 8388609) {
-    				link_changes.$$scope = { dirty, ctx };
-    			}
-
-    			link.$set(link_changes);
-    		},
-    		i(local) {
-    			if (current) return;
-    			transition_in(if_block);
-    			transition_in(link.$$.fragment, local);
-    			current = true;
-    		},
-    		o(local) {
-    			transition_out(if_block);
-    			transition_out(link.$$.fragment, local);
-    			current = false;
-    		},
-    		d(detaching) {
-    			if (detaching) detach(div1);
-    			if (if_block) if_block.d();
-    			destroy_component(link);
-    			mounted = false;
-    			dispose();
+    			destroy_component(jobcard);
     		}
     	};
     }
 
     function create_fragment$h(ctx) {
-    	let div1;
     	let div0;
     	let modal0;
     	let t0;
     	let modal1;
     	let t1;
+    	let div2;
+    	let div1;
+    	let each_blocks = [];
+    	let each_1_lookup = new Map();
     	let current;
 
     	modal0 = new Modal({
     			props: {
     				show: /*$jobModal*/ ctx[1],
-    				$$slots: { default: [create_default_slot_2$1] },
+    				$$slots: { default: [create_default_slot_1$1] },
     				$$scope: { ctx }
     			}
     		});
@@ -19984,45 +19933,46 @@ var app = (function () {
     	modal1 = new Modal({
     			props: {
     				show: /*$languageModal*/ ctx[2],
-    				$$slots: { default: [create_default_slot_1$1] },
+    				$$slots: { default: [create_default_slot$6] },
     				$$scope: { ctx }
     			}
     		});
 
     	let each_value = /*jobs*/ ctx[0];
-    	let each_blocks = [];
+    	const get_key = ctx => /*job*/ ctx[20].id;
 
     	for (let i = 0; i < each_value.length; i += 1) {
-    		each_blocks[i] = create_each_block$4(get_each_context$4(ctx, each_value, i));
+    		let child_ctx = get_each_context$4(ctx, each_value, i);
+    		let key = get_key(child_ctx);
+    		each_1_lookup.set(key, each_blocks[i] = create_each_block$4(key, child_ctx));
     	}
-
-    	const out = i => transition_out(each_blocks[i], 1, 1, () => {
-    		each_blocks[i] = null;
-    	});
 
     	return {
     		c() {
-    			div1 = element("div");
     			div0 = element("div");
     			create_component(modal0.$$.fragment);
     			t0 = space();
     			create_component(modal1.$$.fragment);
     			t1 = space();
+    			div2 = element("div");
+    			div1 = element("div");
 
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].c();
     			}
 
     			attr(div0, "class", "modal-buttons-container svelte-1hoyqek");
-    			attr(div1, "class", "job-market-widget single-card container");
+    			attr(div1, "class", "row");
+    			attr(div2, "class", "container mx-auto px-4");
     		},
     		m(target, anchor) {
-    			insert(target, div1, anchor);
-    			append(div1, div0);
+    			insert(target, div0, anchor);
     			mount_component(modal0, div0, null);
     			append(div0, t0);
     			mount_component(modal1, div0, null);
-    			append(div1, t1);
+    			insert(target, t1, anchor);
+    			insert(target, div2, anchor);
+    			append(div2, div1);
 
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				if (each_blocks[i]) {
@@ -20050,30 +20000,10 @@ var app = (function () {
 
     			modal1.$set(modal1_changes);
 
-    			if (dirty & /*navigateToIdea, jobs*/ 9) {
+    			if (dirty & /*jobs*/ 1) {
     				each_value = /*jobs*/ ctx[0];
-    				let i;
-
-    				for (i = 0; i < each_value.length; i += 1) {
-    					const child_ctx = get_each_context$4(ctx, each_value, i);
-
-    					if (each_blocks[i]) {
-    						each_blocks[i].p(child_ctx, dirty);
-    						transition_in(each_blocks[i], 1);
-    					} else {
-    						each_blocks[i] = create_each_block$4(child_ctx);
-    						each_blocks[i].c();
-    						transition_in(each_blocks[i], 1);
-    						each_blocks[i].m(div1, null);
-    					}
-    				}
-
     				group_outros();
-
-    				for (i = each_value.length; i < each_blocks.length; i += 1) {
-    					out(i);
-    				}
-
+    				each_blocks = update_keyed_each(each_blocks, dirty, get_key, 1, ctx, each_value, each_1_lookup, div1, outro_and_destroy_block, create_each_block$4, null, get_each_context$4);
     				check_outros();
     			}
     		},
@@ -20091,7 +20021,6 @@ var app = (function () {
     		o(local) {
     			transition_out(modal0.$$.fragment, local);
     			transition_out(modal1.$$.fragment, local);
-    			each_blocks = each_blocks.filter(Boolean);
 
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				transition_out(each_blocks[i]);
@@ -20100,15 +20029,33 @@ var app = (function () {
     			current = false;
     		},
     		d(detaching) {
-    			if (detaching) detach(div1);
+    			if (detaching) detach(div0);
     			destroy_component(modal0);
     			destroy_component(modal1);
-    			destroy_each(each_blocks, detaching);
+    			if (detaching) detach(t1);
+    			if (detaching) detach(div2);
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].d();
+    			}
     		}
     	};
     }
 
-    const func$2 = tag => tag[0] === "jTitle";
+    function transformJobToCard(job) {
+    	const tags = job.tags.reduce((tagObj, [key, value]) => ({ ...tagObj, [key]: value }), {});
+
+    	return {
+    		id: job.id,
+    		title: tags.jTitle,
+    		bannerImage: tags.jbUrl,
+    		message: job.content,
+    		abstract: tags.jAbstract,
+    		sats: tags.sats,
+    		pubkey: job.pubkey,
+    		ideaPubkey: tags.e
+    	};
+    }
 
     function instance$g($$self, $$props, $$invalidate) {
     	let $nostrCache;
@@ -20117,14 +20064,10 @@ var app = (function () {
     	let $selectedCategories;
     	let $jobModal;
     	let $languageModal;
-    	component_subscribe($$self, nostrCache, $$value => $$invalidate(8, $nostrCache = $$value));
-    	component_subscribe($$self, nostrManager, $$value => $$invalidate(9, $nostrManager = $$value));
-    	component_subscribe($$self, selectedLangs, $$value => $$invalidate(11, $selectedLangs = $$value));
-    	component_subscribe($$self, selectedCategories, $$value => $$invalidate(12, $selectedCategories = $$value));
-
-    	function navigateToIdea(ideaId) {
-    		navigate(`/idea/${ideaId}`);
-    	}
+    	component_subscribe($$self, nostrCache, $$value => $$invalidate(7, $nostrCache = $$value));
+    	component_subscribe($$self, nostrManager, $$value => $$invalidate(8, $nostrManager = $$value));
+    	component_subscribe($$self, selectedLangs, $$value => $$invalidate(9, $selectedLangs = $$value));
+    	component_subscribe($$self, selectedCategories, $$value => $$invalidate(10, $selectedCategories = $$value));
 
     	let jobs = [];
 
@@ -20156,6 +20099,13 @@ var app = (function () {
     		}
     	}
 
+    	function subscribeToIdea(ideaPublickey) {
+    		if ($nostrManager) {
+    			const eventCriteria = { ids: [ideaPublickey] };
+    			$nostrManager.subscribeToEvents(eventCriteria);
+    		}
+    	}
+
     	function subscribeToAuthors() {
     		if ($nostrManager) {
     			jobs.forEach(job => {
@@ -20164,7 +20114,7 @@ var app = (function () {
     		}
     	}
 
-    	function updateJobs() {
+    	async function updateJobs() {
     		// Erstelle ein Kriterien-Objekt für die Abfrage
     		const criteria = { kinds: [NOSTR_KIND_JOB], tags: {} };
 
@@ -20181,10 +20131,26 @@ var app = (function () {
     		}
 
     		// Führe die Abfrage aus und lade die Jobs
-    		$$invalidate(0, jobs = $nostrCache.getEventsByCriteria(criteria));
+    		const fetchedJobs = await $nostrCache.getEventsByCriteria(criteria);
 
-    		// Lade die Profile der Autoren der Jobs
-    		loadProfiles();
+    		const tempJobs = [];
+
+    		await Promise.all(fetchedJobs.map(async job => {
+    			let card = transformJobToCard(job);
+    			card.profile = socialMediaManager.getProfile(job.pubkey);
+    			let idea = await $nostrCache.getEventById(card.ideaPubkey);
+
+    			if (!idea) {
+    				subscribeToIdea(card.ideaPubkey);
+    			} else {
+    				const tags = idea.tags.reduce((tagObj, [key, value]) => ({ ...tagObj, [key]: value }), {});
+    				card.bannerImage = tags.ibUrl;
+    			}
+
+    			tempJobs.push(card);
+    		}));
+
+    		return tempJobs;
     	}
 
     	let jobModal = writable(null);
@@ -20218,13 +20184,6 @@ var app = (function () {
     		subscribeToJobs();
     	}
 
-    	function loadProfiles() {
-    		$$invalidate(0, jobs = jobs.map(job => {
-    			job.profile = socialMediaManager.getProfile(job.pubkey);
-    			return job;
-    		}));
-    	}
-
     	onMount(initialize);
 
     	onDestroy(() => {
@@ -20233,19 +20192,30 @@ var app = (function () {
     		languageModal.set(false);
     	});
 
-    	const click_handler = job => navigateToIdea(job.tags.find(tag => tag[0] === "e")[1]);
+    	async function updateFeed() {
+    		$$invalidate(0, jobs = await updateJobs());
+    	}
 
     	$$self.$$.update = () => {
-    		if ($$self.$$.dirty & /*$nostrManager*/ 512) {
-    			if ($nostrManager) {
-    				initialize();
+    		if ($$self.$$.dirty & /*$nostrCache*/ 128) {
+    			if ($nostrCache) {
+    				subscribeToAuthors();
     			}
     		}
 
-    		if ($$self.$$.dirty & /*$nostrCache*/ 256) {
-    			if ($nostrCache) {
-    				updateJobs();
-    				subscribeToAuthors();
+    		if ($$self.$$.dirty & /*$nostrManager*/ 256) {
+    			(initialize(), $nostrManager);
+    		}
+
+    		if ($$self.$$.dirty & /*$nostrManager, $nostrCache*/ 384) {
+    			if ($nostrManager && $nostrCache) {
+    				updateFeed();
+    			}
+    		}
+
+    		if ($$self.$$.dirty & /*$nostrManager, $nostrCache*/ 384) {
+    			if ($nostrManager && $nostrCache) {
+    				updateFeed();
     			}
     		}
     	};
@@ -20254,14 +20224,12 @@ var app = (function () {
     		jobs,
     		$jobModal,
     		$languageModal,
-    		navigateToIdea,
     		jobModal,
     		languageModal,
     		openCategoryModal,
     		openLangModal,
     		$nostrCache,
-    		$nostrManager,
-    		click_handler
+    		$nostrManager
     	];
     }
 
@@ -20271,9 +20239,6 @@ var app = (function () {
     		init(this, options, instance$g, create_fragment$h, safe_not_equal, {});
     	}
     }
-
-    var css_248z$f = ".overview-page.svelte-y1b9e6{display:flex;flex-direction:column;min-height:100vh;padding:0;margin:0 auto}.flex-grow.svelte-y1b9e6{flex-grow:1}";
-    styleInject(css_248z$f);
 
     /* src/views/JobMarket.svelte generated by Svelte v3.59.1 */
 
@@ -20288,7 +20253,6 @@ var app = (function () {
     	let t2;
     	let div0;
     	let jobmarket;
-    	let div0_class_value;
     	let t3;
     	let footer;
     	let current;
@@ -20321,9 +20285,9 @@ var app = (function () {
     			create_component(jobmarket.$$.fragment);
     			t3 = space();
     			create_component(footer.$$.fragment);
-    			attr(div0, "class", div0_class_value = "" + (null_to_empty(/*$contentContainerClass*/ ctx[0]) + " svelte-y1b9e6"));
-    			attr(div1, "class", "flex-grow svelte-y1b9e6");
-    			attr(main, "class", "overview-page svelte-y1b9e6");
+    			attr(div0, "class", /*$contentContainerClass*/ ctx[0]);
+    			attr(div1, "class", "flex-grow");
+    			attr(main, "class", "overview-page");
     		},
     		m(target, anchor) {
     			insert(target, main, anchor);
@@ -20341,8 +20305,8 @@ var app = (function () {
     			current = true;
     		},
     		p(ctx, [dirty]) {
-    			if (!current || dirty & /*$contentContainerClass*/ 1 && div0_class_value !== (div0_class_value = "" + (null_to_empty(/*$contentContainerClass*/ ctx[0]) + " svelte-y1b9e6"))) {
-    				attr(div0, "class", div0_class_value);
+    			if (!current || dirty & /*$contentContainerClass*/ 1) {
+    				attr(div0, "class", /*$contentContainerClass*/ ctx[0]);
     			}
     		},
     		i(local) {
@@ -20375,16 +20339,11 @@ var app = (function () {
 
     let bannerImage$2 = "../../img/Banner1u.png";
     let title$2 = "BitSpark";
-    let subtitle$2 = "Job Market";
+    let subtitle$2 = "job market";
 
     function instance$f($$self, $$props, $$invalidate) {
     	let $contentContainerClass;
     	component_subscribe($$self, contentContainerClass, $$value => $$invalidate(0, $contentContainerClass = $$value));
-
-    	onMount(async () => {
-    		
-    	});
-
     	return [$contentContainerClass];
     }
 
@@ -20395,8 +20354,8 @@ var app = (function () {
     	}
     }
 
-    var css_248z$e = ".job-list.svelte-jhtsfp{max-height:100%;overflow-y:auto}.job-item.svelte-jhtsfp{padding:10px 15px;cursor:pointer;border-bottom:1px solid #eee;transition:background-color 0.3s,\n            color 0.3s;display:flex;align-items:center;gap:10px}.job-item.svelte-jhtsfp:hover{background-color:#f5f5f5;color:#333}";
-    styleInject(css_248z$e);
+    var css_248z$f = ".job-list.svelte-jhtsfp{max-height:100%;overflow-y:auto}.job-item.svelte-jhtsfp{padding:10px 15px;cursor:pointer;border-bottom:1px solid #eee;transition:background-color 0.3s,\n            color 0.3s;display:flex;align-items:center;gap:10px}.job-item.svelte-jhtsfp:hover{background-color:#f5f5f5;color:#333}";
+    styleInject(css_248z$f);
 
     /* src/components/JobManager2/JobList.svelte generated by Svelte v3.59.1 */
 
@@ -20570,8 +20529,8 @@ var app = (function () {
     	}
     }
 
-    var css_248z$d = ".job-content.svelte-1b8lozp.svelte-1b8lozp{max-width:100%;display:flex;flex-direction:column}.job-content.svelte-1b8lozp h3.svelte-1b8lozp{margin-bottom:5px;color:#ffffff}.job-content.svelte-1b8lozp p.svelte-1b8lozp{margin-top:5px;color:#ffffff}.action-buttons.svelte-1b8lozp.svelte-1b8lozp{margin-top:10px;display:flex;gap:10px}button.svelte-1b8lozp.svelte-1b8lozp{cursor:pointer;padding:8px 16px;border:none;border-radius:20px;color:#ffffff;font-weight:bold;transition:background-color 0.3s, box-shadow 0.3s;outline:none;flex-grow:1}button.svelte-1b8lozp.svelte-1b8lozp:hover{box-shadow:0 4px 8px rgba(0, 0, 0, 0.2)}button.svelte-1b8lozp.svelte-1b8lozp:active{box-shadow:0 2px 4px rgba(0, 0, 0, 0.2)}.approve-button.svelte-1b8lozp.svelte-1b8lozp{background-color:#f7931a}.approve-button.svelte-1b8lozp.svelte-1b8lozp:hover,.approve-button.svelte-1b8lozp.svelte-1b8lozp:focus{background-color:#be7113}.decline-button.svelte-1b8lozp.svelte-1b8lozp{background-color:#6c8cd5}.decline-button.svelte-1b8lozp.svelte-1b8lozp:hover,.decline-button.svelte-1b8lozp.svelte-1b8lozp:focus{background-color:#394a72}";
-    styleInject(css_248z$d);
+    var css_248z$e = ".job-content.svelte-1b8lozp.svelte-1b8lozp{max-width:100%;display:flex;flex-direction:column}.job-content.svelte-1b8lozp h3.svelte-1b8lozp{margin-bottom:5px;color:#ffffff}.job-content.svelte-1b8lozp p.svelte-1b8lozp{margin-top:5px;color:#ffffff}.action-buttons.svelte-1b8lozp.svelte-1b8lozp{margin-top:10px;display:flex;gap:10px}button.svelte-1b8lozp.svelte-1b8lozp{cursor:pointer;padding:8px 16px;border:none;border-radius:20px;color:#ffffff;font-weight:bold;transition:background-color 0.3s, box-shadow 0.3s;outline:none;flex-grow:1}button.svelte-1b8lozp.svelte-1b8lozp:hover{box-shadow:0 4px 8px rgba(0, 0, 0, 0.2)}button.svelte-1b8lozp.svelte-1b8lozp:active{box-shadow:0 2px 4px rgba(0, 0, 0, 0.2)}.approve-button.svelte-1b8lozp.svelte-1b8lozp{background-color:#f7931a}.approve-button.svelte-1b8lozp.svelte-1b8lozp:hover,.approve-button.svelte-1b8lozp.svelte-1b8lozp:focus{background-color:#be7113}.decline-button.svelte-1b8lozp.svelte-1b8lozp{background-color:#6c8cd5}.decline-button.svelte-1b8lozp.svelte-1b8lozp:hover,.decline-button.svelte-1b8lozp.svelte-1b8lozp:focus{background-color:#394a72}";
+    styleInject(css_248z$e);
 
     /* src/components/JobManager2/JobBubble.svelte generated by Svelte v3.59.1 */
 
@@ -20834,8 +20793,8 @@ var app = (function () {
     	}
     }
 
-    var css_248z$c = ".offer-time.svelte-xdlxa4.svelte-xdlxa4{margin-top:0;line-height:1.4}.offer-content.svelte-xdlxa4.svelte-xdlxa4{display:flex;flex-direction:column;align-items:flex-start;padding:10px}.sats-amount.svelte-xdlxa4.svelte-xdlxa4{font-weight:bold;margin-bottom:5px}.offer-msg.svelte-xdlxa4.svelte-xdlxa4{margin-top:0;line-height:1.4}.offer-actions.svelte-xdlxa4 button.svelte-xdlxa4{padding:5px 10px;border:none;color:white;border-radius:4px;margin-right:10px;cursor:pointer;font-weight:bold}";
-    styleInject(css_248z$c);
+    var css_248z$d = ".offer-time.svelte-xdlxa4.svelte-xdlxa4{margin-top:0;line-height:1.4}.offer-content.svelte-xdlxa4.svelte-xdlxa4{display:flex;flex-direction:column;align-items:flex-start;padding:10px}.sats-amount.svelte-xdlxa4.svelte-xdlxa4{font-weight:bold;margin-bottom:5px}.offer-msg.svelte-xdlxa4.svelte-xdlxa4{margin-top:0;line-height:1.4}.offer-actions.svelte-xdlxa4 button.svelte-xdlxa4{padding:5px 10px;border:none;color:white;border-radius:4px;margin-right:10px;cursor:pointer;font-weight:bold}";
+    styleInject(css_248z$d);
 
     /* src/components/JobManager2/OfferBubble.svelte generated by Svelte v3.59.1 */
 
@@ -21151,8 +21110,8 @@ var app = (function () {
     	}
     }
 
-    var css_248z$b = ".pr-content.svelte-12emmvm.svelte-12emmvm{display:flex;flex-direction:column;align-items:flex-start;padding:10px}.pr-content.svelte-12emmvm input.svelte-12emmvm{width:100%;padding:8px;margin-bottom:10px;border:1px solid #ddd;border-radius:4px}.pr-content.svelte-12emmvm button.svelte-12emmvm{padding:8px 15px;background-color:#76C79E;color:white;border:none;border-radius:4px;cursor:pointer}";
-    styleInject(css_248z$b);
+    var css_248z$c = ".pr-content.svelte-12emmvm.svelte-12emmvm{display:flex;flex-direction:column;align-items:flex-start;padding:10px}.pr-content.svelte-12emmvm input.svelte-12emmvm{width:100%;padding:8px;margin-bottom:10px;border:1px solid #ddd;border-radius:4px}.pr-content.svelte-12emmvm button.svelte-12emmvm{padding:8px 15px;background-color:#76C79E;color:white;border:none;border-radius:4px;cursor:pointer}";
+    styleInject(css_248z$c);
 
     /* src/components/JobManager2/AddPRBubble.svelte generated by Svelte v3.59.1 */
 
@@ -21379,8 +21338,8 @@ var app = (function () {
     	}
     }
 
-    var css_248z$a = ".pr-content.svelte-1k15bk7.svelte-1k15bk7{display:flex;flex-direction:column;align-items:flex-start;padding:10px}.pr-content.svelte-1k15bk7 a.svelte-1k15bk7{color:#4a90e2;text-decoration:none}.pr-actions.svelte-1k15bk7.svelte-1k15bk7{display:flex;margin-top:10px}.accept-button.svelte-1k15bk7.svelte-1k15bk7,.decline-button.svelte-1k15bk7.svelte-1k15bk7{padding:5px 10px;border:none;color:white;border-radius:4px;margin-right:10px;cursor:pointer;font-weight:bold}.accept-button.svelte-1k15bk7.svelte-1k15bk7{background-color:#76c79e}.decline-button.svelte-1k15bk7.svelte-1k15bk7{background-color:#f28482}";
-    styleInject(css_248z$a);
+    var css_248z$b = ".pr-content.svelte-1k15bk7.svelte-1k15bk7{display:flex;flex-direction:column;align-items:flex-start;padding:10px}.pr-content.svelte-1k15bk7 a.svelte-1k15bk7{color:#4a90e2;text-decoration:none}.pr-actions.svelte-1k15bk7.svelte-1k15bk7{display:flex;margin-top:10px}.accept-button.svelte-1k15bk7.svelte-1k15bk7,.decline-button.svelte-1k15bk7.svelte-1k15bk7{padding:5px 10px;border:none;color:white;border-radius:4px;margin-right:10px;cursor:pointer;font-weight:bold}.accept-button.svelte-1k15bk7.svelte-1k15bk7{background-color:#76c79e}.decline-button.svelte-1k15bk7.svelte-1k15bk7{background-color:#f28482}";
+    styleInject(css_248z$b);
 
     /* src/components/JobManager2/PRBubble.svelte generated by Svelte v3.59.1 */
 
@@ -21627,8 +21586,8 @@ var app = (function () {
     	}
     }
 
-    var css_248z$9 = ".progress-bar.svelte-19gkq4k.svelte-19gkq4k{width:100%;background-color:#000;border-radius:5px;margin-top:10px;overflow:hidden}.progress.svelte-19gkq4k.svelte-19gkq4k{height:10px;background:repeating-linear-gradient(\n            45deg,\n            #ffd700,\n            #ffd700 10px,\n            #ffeb3b 10px,\n            #ffeb3b 20px\n        );border-radius:5px;animation:svelte-19gkq4k-progressAnimation 2s infinite linear}@keyframes svelte-19gkq4k-progressAnimation{0%{background-position:0 0}100%{background-position:40px 0}}.payment-request-content.svelte-19gkq4k.svelte-19gkq4k{display:flex;flex-direction:column;align-items:flex-start;padding:10px;border-radius:8px;background-color:#fddb3a}.sats-amount.svelte-19gkq4k.svelte-19gkq4k{font-size:1.2rem;margin-bottom:10px;color:#000}.send-sats-button.svelte-19gkq4k.svelte-19gkq4k{background-color:#000;color:#fddb3a;border:none;padding:10px 15px;border-radius:8px;cursor:pointer;display:flex;align-items:center;font-weight:bold;transition:background-color 0.3s, color 0.3s}.send-sats-button.svelte-19gkq4k.svelte-19gkq4k:hover{background-color:#fddb3a;color:#000}.send-sats-button.svelte-19gkq4k i.svelte-19gkq4k{margin-right:5px}";
-    styleInject(css_248z$9);
+    var css_248z$a = ".progress-bar.svelte-19gkq4k.svelte-19gkq4k{width:100%;background-color:#000;border-radius:5px;margin-top:10px;overflow:hidden}.progress.svelte-19gkq4k.svelte-19gkq4k{height:10px;background:repeating-linear-gradient(\n            45deg,\n            #ffd700,\n            #ffd700 10px,\n            #ffeb3b 10px,\n            #ffeb3b 20px\n        );border-radius:5px;animation:svelte-19gkq4k-progressAnimation 2s infinite linear}@keyframes svelte-19gkq4k-progressAnimation{0%{background-position:0 0}100%{background-position:40px 0}}.payment-request-content.svelte-19gkq4k.svelte-19gkq4k{display:flex;flex-direction:column;align-items:flex-start;padding:10px;border-radius:8px;background-color:#fddb3a}.sats-amount.svelte-19gkq4k.svelte-19gkq4k{font-size:1.2rem;margin-bottom:10px;color:#000}.send-sats-button.svelte-19gkq4k.svelte-19gkq4k{background-color:#000;color:#fddb3a;border:none;padding:10px 15px;border-radius:8px;cursor:pointer;display:flex;align-items:center;font-weight:bold;transition:background-color 0.3s, color 0.3s}.send-sats-button.svelte-19gkq4k.svelte-19gkq4k:hover{background-color:#fddb3a;color:#000}.send-sats-button.svelte-19gkq4k i.svelte-19gkq4k{margin-right:5px}";
+    styleInject(css_248z$a);
 
     /* src/components/JobManager2/PaymentRequestBubble.svelte generated by Svelte v3.59.1 */
 
@@ -21839,8 +21798,8 @@ var app = (function () {
     	}
     }
 
-    var css_248z$8 = ".job-chat.svelte-1nrgabz{max-height:100%;overflow-y:auto}";
-    styleInject(css_248z$8);
+    var css_248z$9 = ".job-chat.svelte-1nrgabz{max-height:100%;overflow-y:auto}";
+    styleInject(css_248z$9);
 
     /* src/components/JobManager2/JobChat.svelte generated by Svelte v3.59.1 */
 
@@ -22205,8 +22164,8 @@ var app = (function () {
     	}
     }
 
-    var css_248z$7 = ".job-manager-widget.svelte-1ldg9da{flex-direction:row;overflow:hidden;height:45vh}.job-list.svelte-1ldg9da{flex:0 0 30%;max-height:45vh;overflow-y:auto;border-right:2px solid #e0e0e0}.job-chat-container.svelte-1ldg9da{flex:0 0 70%;max-height:45vh;overflow-y:auto}";
-    styleInject(css_248z$7);
+    var css_248z$8 = ".job-manager-widget.svelte-1ldg9da{flex-direction:row;overflow:hidden;height:45vh}.job-list.svelte-1ldg9da{flex:0 0 30%;max-height:45vh;overflow-y:auto;border-right:2px solid #e0e0e0}.job-chat-container.svelte-1ldg9da{flex:0 0 70%;max-height:45vh;overflow-y:auto}";
+    styleInject(css_248z$8);
 
     /* src/components/JobManager2/JobManager.svelte generated by Svelte v3.59.1 */
 
@@ -22338,8 +22297,8 @@ var app = (function () {
     	}
     }
 
-    var css_248z$6 = ".overview-page.svelte-y1b9e6{display:flex;flex-direction:column;min-height:100vh;padding:0;margin:0 auto}.flex-grow.svelte-y1b9e6{flex-grow:1}";
-    styleInject(css_248z$6);
+    var css_248z$7 = ".overview-page.svelte-y1b9e6{display:flex;flex-direction:column;min-height:100vh;padding:0;margin:0 auto}.flex-grow.svelte-y1b9e6{flex-grow:1}";
+    styleInject(css_248z$7);
 
     /* src/views/JobManager.svelte generated by Svelte v3.59.1 */
 
@@ -22661,8 +22620,8 @@ var app = (function () {
 
     const dmManager = new DMManager();
 
-    var css_248z$5 = ".chat-list.svelte-h43t54{width:30%;border-right:1px solid #ccc;padding:1rem}.chat-room.svelte-h43t54{cursor:pointer;padding:0.5rem;border-bottom:1px solid #ddd}.chat-room.svelte-h43t54:hover{background-color:#f5f5f5}.room-header.svelte-h43t54{display:flex;align-items:center;margin-bottom:5px}.room-name.svelte-h43t54{margin:0;flex-grow:1}.subject.svelte-h43t54{color:#888;font-size:0.9rem;margin:0;margin-top:5px}";
-    styleInject(css_248z$5);
+    var css_248z$6 = ".chat-list.svelte-h43t54{width:30%;border-right:1px solid #ccc;padding:1rem}.chat-room.svelte-h43t54{cursor:pointer;padding:0.5rem;border-bottom:1px solid #ddd}.chat-room.svelte-h43t54:hover{background-color:#f5f5f5}.room-header.svelte-h43t54{display:flex;align-items:center;margin-bottom:5px}.room-name.svelte-h43t54{margin:0;flex-grow:1}.subject.svelte-h43t54{color:#888;font-size:0.9rem;margin:0;margin-top:5px}";
+    styleInject(css_248z$6);
 
     /* src/components/DirectMessage/ChatList.svelte generated by Svelte v3.59.1 */
 
@@ -23149,8 +23108,8 @@ var app = (function () {
     	}
     }
 
-    var css_248z$4 = ".message.svelte-1n1piku{padding:0.75rem;border-bottom:1px solid #eee;display:flex;align-items:flex-start}.content.svelte-1n1piku{white-space:pre-wrap}.message-content.svelte-1n1piku{flex-grow:1}.name.svelte-1n1piku{font-weight:bold;margin:0;margin-bottom:0.5rem}.timestamp.svelte-1n1piku{font-size:0.75rem;color:#888;margin-left:10px;align-self:flex-end}";
-    styleInject(css_248z$4);
+    var css_248z$5 = ".message.svelte-1n1piku{padding:0.75rem;border-bottom:1px solid #eee;display:flex;align-items:flex-start}.content.svelte-1n1piku{white-space:pre-wrap}.message-content.svelte-1n1piku{flex-grow:1}.name.svelte-1n1piku{font-weight:bold;margin:0;margin-bottom:0.5rem}.timestamp.svelte-1n1piku{font-size:0.75rem;color:#888;margin-left:10px;align-self:flex-end}";
+    styleInject(css_248z$5);
 
     /* src/components/DirectMessage/Message.svelte generated by Svelte v3.59.1 */
 
@@ -23375,8 +23334,8 @@ var app = (function () {
     	}
     }
 
-    var css_248z$3 = ".message-input.svelte-16tkvs6{display:flex;align-items:center;padding:0.75rem;border-top:1px solid #eee;background-color:#f9f9f9}textarea.svelte-16tkvs6{flex-grow:1;padding:0.75rem;font-size:1rem;border:1px solid #ccc;border-radius:5px;margin-right:0.5rem;resize:none;height:50px}button.svelte-16tkvs6{padding:0.75rem 1rem;font-size:1rem;color:#fff;background-color:#007bff;border:none;border-radius:5px;cursor:pointer;transition:background-color 0.2s}button.svelte-16tkvs6:hover{background-color:#0056b3}";
-    styleInject(css_248z$3);
+    var css_248z$4 = ".message-input.svelte-16tkvs6{display:flex;align-items:center;padding:0.75rem;border-top:1px solid #eee;background-color:#f9f9f9}textarea.svelte-16tkvs6{flex-grow:1;padding:0.75rem;font-size:1rem;border:1px solid #ccc;border-radius:5px;margin-right:0.5rem;resize:none;height:50px}button.svelte-16tkvs6{padding:0.75rem 1rem;font-size:1rem;color:#fff;background-color:#007bff;border:none;border-radius:5px;cursor:pointer;transition:background-color 0.2s}button.svelte-16tkvs6:hover{background-color:#0056b3}";
+    styleInject(css_248z$4);
 
     /* src/components/DirectMessage/MessageInput.svelte generated by Svelte v3.59.1 */
 
@@ -23503,8 +23462,8 @@ var app = (function () {
     	}
     }
 
-    var css_248z$2 = ".chat-room.svelte-10g9611{width:70%;padding:1rem;display:flex;flex-direction:column}.chat-header.svelte-10g9611{display:flex;align-items:center;padding-bottom:1rem;border-bottom:1px solid #eee;margin-bottom:1rem}.subject.svelte-10g9611{color:#888;font-size:1rem;margin:0;margin-top:5px}.messages.svelte-10g9611{flex-grow:1;overflow-y:auto}";
-    styleInject(css_248z$2);
+    var css_248z$3 = ".chat-room.svelte-10g9611{width:70%;padding:1rem;display:flex;flex-direction:column}.chat-header.svelte-10g9611{display:flex;align-items:center;padding-bottom:1rem;border-bottom:1px solid #eee;margin-bottom:1rem}.subject.svelte-10g9611{color:#888;font-size:1rem;margin:0;margin-top:5px}.messages.svelte-10g9611{flex-grow:1;overflow-y:auto}";
+    styleInject(css_248z$3);
 
     /* src/components/DirectMessage/ChatRoom.svelte generated by Svelte v3.59.1 */
 
@@ -23820,8 +23779,8 @@ var app = (function () {
     	}
     }
 
-    var css_248z$1 = "body{font-family:\"Arial\", sans-serif;background-color:#f0f2f5;margin:0;padding:0}.chat-container.svelte-1l4j5d7{display:flex;height:50vh;background-color:#fff;box-shadow:0 4px 8px rgba(0, 0, 0, 0.1);border-radius:8px;overflow:hidden;margin:auto;margin-bottom:7vh;max-width:1200px}.no-chat-selected.svelte-1l4j5d7,.not-logged-in.svelte-1l4j5d7{flex-grow:1;display:flex;justify-content:center;align-items:center;color:#888}.not-logged-in.svelte-1l4j5d7{flex-direction:column;text-align:center}";
-    styleInject(css_248z$1);
+    var css_248z$2 = "body{font-family:\"Arial\", sans-serif;background-color:#f0f2f5;margin:0;padding:0}.chat-container.svelte-1l4j5d7{display:flex;height:50vh;background-color:#fff;box-shadow:0 4px 8px rgba(0, 0, 0, 0.1);border-radius:8px;overflow:hidden;margin:auto;margin-bottom:7vh;max-width:1200px}.no-chat-selected.svelte-1l4j5d7,.not-logged-in.svelte-1l4j5d7{flex-grow:1;display:flex;justify-content:center;align-items:center;color:#888}.not-logged-in.svelte-1l4j5d7{flex-direction:column;text-align:center}";
+    styleInject(css_248z$2);
 
     /* src/components/DirectMessage/Chat.svelte generated by Svelte v3.59.1 */
 
@@ -24116,8 +24075,8 @@ var app = (function () {
     	}
     }
 
-    var css_248z = ".content-section.svelte-17eaetn{display:flex;background-color:#e2e8f0 !important}.content-container.svelte-17eaetn{flex-grow:1;z-index:0}.flex-grow.svelte-17eaetn{z-index:0}.content-container.svelte-17eaetn{margin-left:0;transition:margin-left 0.3s ease-in-out;flex-grow:1;z-index:0}.content-container.sidebar-open.svelte-17eaetn{margin-left:200px}";
-    styleInject(css_248z);
+    var css_248z$1 = ".content-section.svelte-17eaetn{display:flex;background-color:#e2e8f0 !important}.content-container.svelte-17eaetn{flex-grow:1;z-index:0}.flex-grow.svelte-17eaetn{z-index:0}.content-container.svelte-17eaetn{margin-left:0;transition:margin-left 0.3s ease-in-out;flex-grow:1;z-index:0}.content-container.sidebar-open.svelte-17eaetn{margin-left:200px}";
+    styleInject(css_248z$1);
 
     /* src/views/DMView.svelte generated by Svelte v3.59.1 */
 
@@ -24256,6 +24215,9 @@ var app = (function () {
     	}
     }
 
+    var css_248z = ".bitspark-card {\n    background: #ffffff;\n    overflow: hidden;\n    border-radius: 8px;\n    display: flex;\n    flex-direction: column;\n    border: 4px solid #ffffff;\n    box-shadow: 0 5px 10px #0000008c;\n    min-width: 0;\n    word-wrap: break-word;\n    background-color: #fff;\n    background-clip: border-box;\n    position: relative;\n}\n\n.bitspark-card:hover {\n    transform: scale(1.03);\n    background: #ffffff;\n    box-shadow: 0 10px 20px #0000008c;\n}\n\n.bitspark-card-content {\n    cursor: pointer;\n    background: #ffffff;\n}\n\n.bitspark-card-banner-image {\n    width: 100%;\n    height: 200px;\n    object-fit: cover;\n}\n\n.bitspark-card-actions {\n    padding: 15px;\n}\n\n.bitspark-card-actions {\n    display: flex;\n    align-items: center;\n    justify-content: space-between;\n    background: #f4f4f4;\n}";
+    styleInject(css_248z);
+
     /* src/App.svelte generated by Svelte v3.59.1 */
 
     function create_default_slot_2(ctx) {
@@ -24291,7 +24253,7 @@ var app = (function () {
     	};
     }
 
-    // (58:6) <Route path="/dm" let:params>
+    // (59:6) <Route path="/dm" let:params>
     function create_default_slot_1(ctx) {
     	let dmview;
     	let current;
@@ -24325,7 +24287,7 @@ var app = (function () {
     	};
     }
 
-    // (29:0) <Router>
+    // (30:0) <Router>
     function create_default_slot(ctx) {
     	let div;
     	let nav;
