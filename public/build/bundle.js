@@ -6696,13 +6696,29 @@ var app = (function () {
           }
 
           // Entschlüsseln der Nachricht
-          const seal = JSON.parse(await window.nostr.nip44.decrypt(publicKey, event.content));
-          const unsignedKind14 = JSON.parse(await window.nostr.nip44.decrypt(publicKey, seal.content));
+          let seal;
+          let unsignedKind14;
+          let decrypt;
+          try
+          {
+            decrypt = await window.nostr.nip44.decrypt(event.pubkey, event.content);
+            seal = await JSON.parse(decrypt);
+            console.log("seal:", seal);
+          } catch (error) {
+            console.error("Error decrypting seal", event, error, decrypt);
+          }
+
+          try {
+            unsignedKind14 = await JSON.parse(await window.nostr.nip44.decrypt(publicKey, seal.content));
+            console.log("unsignedKind14:", unsignedKind14);
+          } catch (error) {
+            console.error("Error decrypting 14", seal, error);
+          }
 
           // Speichern der entschlüsselten Nachricht im Event
           event.decryptedContent = unsignedKind14;
-          
         } catch (error) {
+          console.log("ErrorXL:", error, event);
           event = null;
         }
       }
@@ -6933,12 +6949,8 @@ var app = (function () {
             return event.id;
         }
 
-        async sendAnonEvent(kind, content, tags) {
+        async sendAnonEvent(kind, content, tags, anonPrivateKey, anonPublicKey) {
             // Generiere einen zufälligen privaten Schlüssel
-            const anonPrivateKey = window.NostrTools.generateSecretKey();
-
-            const anonPublicKey = window.NostrTools.getPublicKey(anonPrivateKey);
-
             let event = {
                 pubkey: anonPublicKey,
                 created_at: Math.floor(Date.now() / 1000),
@@ -6953,7 +6965,7 @@ var app = (function () {
             event = window.NostrTools.finalizeEvent(event, anonPrivateKey);
             
             this.pool.publish(this.relays, event);
-            // console.log("send anon event:", event);
+            console.log("send anon event:", event);
             // console.log("used relays:", this.relays);
             return event.id;
         }
@@ -22462,23 +22474,28 @@ var app = (function () {
         };
 
         for (const receiverPubKey of receiverPubKeys) {
+          const anonPrivateKey = window.NostrTools.generateSecretKey();
+          const anonPublicKey = window.NostrTools.getPublicKey(anonPrivateKey);
+
+          console.log("Encrypt with:", receiverPubKey);
           // Versiegeln des unsignedKind14 Events (Kind 13)
+
           const sealContent = await window.nostr.nip44.encrypt(receiverPubKey, JSON.stringify(unsignedKind14));
-          const seal = {
+          let seal = {
             created_at: Math.floor(Date.now() / 1000),
             kind: 13,
             tags: [],
             content: sealContent,
           };
 
-          await window.nostr.signEvent(seal);
+          seal = await window.nostr.signEvent(seal);
 
           // Wickele das versiegelte Event ein (Kind 1059)
-          const giftWrapContent = await window.nostr.nip44.encrypt(receiverPubKey, JSON.stringify(seal));
+          const giftWrapContent = await window.nostr.nip44.encrypt(anonPublicKey, JSON.stringify(seal));
           const tags = [["p", receiverPubKey]];
 
           try {
-            await this.manager.sendAnonEvent(1059, giftWrapContent, tags);
+            await this.manager.sendAnonEvent(1059, giftWrapContent, tags, anonPrivateKey, anonPublicKey);
           } catch (error) {
             console.error(`Error sending message to ${receiverPubKey}:`, error);
           }
@@ -22500,6 +22517,7 @@ var app = (function () {
           kinds: [1059],
           tags: { p: [this.manager.publicKey] },
         });
+
         return messages;
       }
 
@@ -22507,6 +22525,7 @@ var app = (function () {
         try {
           const seal = JSON.parse(await window.nostr.nip44.decrypt(this.manager.publicKey, message.content));
           const unsignedKind14 = JSON.parse(await window.nostr.nip44.decrypt(this.manager.publicKey, seal.content));
+
           return unsignedKind14;
         } catch (error) {
           return null;
@@ -22524,16 +22543,17 @@ var app = (function () {
         for (const message of messages) {
           if (message.decryptedContent) {
             decryptedMessages.push(message.decryptedContent);
-          } else {
+          } 
+          else {
+            
             const decryptedMessage = await this.decryptMessage(message);
             if (decryptedMessage) {
+              console.log("message", message);
+              console.log("PIEEEEP", decryptedMessage);
               decryptedMessages.push(decryptedMessage);
             }
           }
         }
-
-        console.log(decryptedMessages);
-
         return decryptedMessages;
       }
 
