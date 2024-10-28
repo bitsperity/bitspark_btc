@@ -1,7 +1,6 @@
 // NostrCacheStore.js
 import { writable } from 'svelte/store';
 import { nostrManager } from "./NostrManagerStore.js";
-import { decrypt } from 'nostr-tools/nip04';
 const { nip19 } = window.NostrTools;
 
 // Definiert die Struktur des Cache-Objekts

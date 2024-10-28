@@ -1,7 +1,7 @@
 // DMManager.js
 import { nostrManager } from "./NostrManagerStore.js";
 import { nostrCache } from "./NostrCacheStore.js";
-import { nip19 } from 'nostr-tools';
+import { nip19, nip44 } from 'nostr-tools';
 
 class DMManager {
   constructor() {
@@ -48,6 +48,7 @@ class DMManager {
       const anonPublicKey = window.NostrTools.getPublicKey(anonPrivateKey);
 
       console.log("Encrypt with:", receiverPubKey);
+      console.log("anonPublicKey:", anonPublicKey);
       // Versiegeln des unsignedKind14 Events (Kind 13)
 
       const sealContent = await window.nostr.nip44.encrypt(receiverPubKey, JSON.stringify(unsignedKind14));
@@ -62,7 +63,8 @@ class DMManager {
       console.log("kind13", seal);
 
       // Wickele das versiegelte Event ein (Kind 1059)
-      const giftWrapContent = await window.nostr.nip44.encrypt(anonPublicKey, JSON.stringify(seal));
+      const conversationKey = nip44.getConversationKey(anonPrivateKey, receiverPubKey);
+      const giftWrapContent = await nip44.encrypt(JSON.stringify(seal), conversationKey);
       const tags = [["p", receiverPubKey]];
 
       try {
@@ -93,18 +95,27 @@ class DMManager {
   }
 
   async decryptMessage(message) {
+    console.log("decryptMessage--", message);
     try {
-      const seal = JSON.parse(await window.nostr.nip44.decrypt(this.manager.publicKey, message.content));
-      console.log("kind13m", unsignedKind14);
-      const unsignedKind14 = JSON.parse(await window.nostr.nip44.decrypt(this.manager.publicKey, seal.content));
+      const decrypt = await window.nostr.nip44.decrypt(message.pubkey, message.content);
+      console.log("decrypt", decrypt);
+      const seal = JSON.parse(decrypt);
+      console.log("kind13m", seal);
+      
+      const decrypt2 = await window.nostr.nip44.decrypt(seal.pubkey, seal.content);
+      console.log("decrypt2", decrypt2);
+      const unsignedKind14 = JSON.parse(decrypt2);
       console.log("kind14m", unsignedKind14);
       return unsignedKind14;
     } catch (error) {
+      console.log("decryptMessage error", error);
+      console.log("decryptMessage publicKey", this.manager.publicKey);
       return null;
     }
   }
 
   async getMessages() {
+    console.log("getMessages--------------------------------");
     if (!this.manager) {
       return [];
     }
@@ -113,9 +124,11 @@ class DMManager {
     const decryptedMessages = [];
 
     for (const message of messages) {
+      console.log("message", message);
       if (message.decryptedContent) {
         decryptedMessages.push(message.decryptedContent);
-        console.log("kind14mc", message.decryptedContent);
+        console.log("kind14mc from cache", message.decryptedContent);
+        continue;
       } 
       else {
         
@@ -131,6 +144,7 @@ class DMManager {
         }
       }
     }
+    console.log("getMessages--------------------------------", decryptedMessages);
     return decryptedMessages;
   }
 
