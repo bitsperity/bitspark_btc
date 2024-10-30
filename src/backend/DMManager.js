@@ -41,15 +41,10 @@ class DMManager {
       ],
       content: messageContent,
     };
-    console.log("kind14", unsignedKind14);
 
     for (const receiverPubKey of receiverPubKeys) {
       const anonPrivateKey = window.NostrTools.generateSecretKey()
       const anonPublicKey = window.NostrTools.getPublicKey(anonPrivateKey);
-
-      console.log("Encrypt with:", receiverPubKey);
-      console.log("anonPublicKey:", anonPublicKey);
-      // Versiegeln des unsignedKind14 Events (Kind 13)
 
       const sealContent = await window.nostr.nip44.encrypt(receiverPubKey, JSON.stringify(unsignedKind14));
       let seal = {
@@ -60,7 +55,6 @@ class DMManager {
       };
 
       seal = await window.nostr.signEvent(seal);
-      console.log("kind13", seal);
 
       // Wickele das versiegelte Event ein (Kind 1059)
       const conversationKey = nip44.getConversationKey(anonPrivateKey, receiverPubKey);
@@ -87,65 +81,20 @@ class DMManager {
 
   async fetchMessages() {
     const messages = await this.cache.getEventsByCriteria({
-      kinds: [1059],
+      kinds: [14],
       tags: { p: [this.manager.publicKey] },
     });
 
     return messages;
   }
 
-  async decryptMessage(message) {
-    console.log("decryptMessage--", message);
-    try {
-      const decrypt = await window.nostr.nip44.decrypt(message.pubkey, message.content);
-      console.log("decrypt", decrypt);
-      const seal = JSON.parse(decrypt);
-      console.log("kind13m", seal);
-      
-      const decrypt2 = await window.nostr.nip44.decrypt(seal.pubkey, seal.content);
-      console.log("decrypt2", decrypt2);
-      const unsignedKind14 = JSON.parse(decrypt2);
-      console.log("kind14m", unsignedKind14);
-      return unsignedKind14;
-    } catch (error) {
-      console.log("decryptMessage error", error);
-      console.log("decryptMessage publicKey", this.manager.publicKey);
-      return null;
-    }
-  }
-
   async getMessages() {
-    console.log("getMessages--------------------------------");
     if (!this.manager) {
       return [];
     }
 
     const messages = await this.fetchMessages();
-    const decryptedMessages = [];
-
-    for (const message of messages) {
-      console.log("message", message);
-      if (message.decryptedContent) {
-        decryptedMessages.push(message.decryptedContent);
-        console.log("kind14mc from cache", message.decryptedContent);
-        continue;
-      } 
-      else {
-        
-        const decryptedMessage = await this.decryptMessage(message);
-        if (decryptedMessage) {
-          console.log("kind1059m", message);
-          console.log("kind14m", decryptedMessage);
-          decryptedMessages.push(decryptedMessage);
-        }
-        else {
-          console.log("kind1059m", message);
-          console.log("could not decrypt");
-        }
-      }
-    }
-    console.log("getMessages--------------------------------", decryptedMessages);
-    return decryptedMessages;
+    return messages;
   }
 
   async getChatRooms() {
