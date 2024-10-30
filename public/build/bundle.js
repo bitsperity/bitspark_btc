@@ -28544,14 +28544,38 @@ var app = (function () {
         return unsubscribe; // Rückgabe der Unsubscribe-Funktion für spätere Aufräumaktionen
       }
 
+      async wrapMessage(unsignedKind14, receiverPubKey) {
+        const anonPrivateKey = window.NostrTools.generateSecretKey();
+        const anonPublicKey = window.NostrTools.getPublicKey(anonPrivateKey);
+
+        // Erstelle das versiegelte Event (Kind 13)
+        const sealContent = await window.nostr.nip44.encrypt(receiverPubKey, JSON.stringify(unsignedKind14));
+        let seal = {
+          created_at: Math.floor(Date.now() / 1000),
+          kind: 13,
+          tags: [],
+          content: sealContent,
+        };
+        seal = await window.nostr.signEvent(seal);
+
+        // Wickele das versiegelte Event ein (Kind 1059)
+        const conversationKey = nip44_exports.getConversationKey(anonPrivateKey, receiverPubKey);
+        const giftWrapContent = await nip44_exports.encrypt(JSON.stringify(seal), conversationKey);
+        
+        return {
+          content: giftWrapContent,
+          anonPrivateKey,
+          anonPublicKey
+        };
+      }
+
       async sendMessage(receiverPubKeys, messageContent, subject) {
         if (!this.manager || !this.manager.publicKey) {
           console.error("Manager or public key not initialized.");
           return;
         }
 
-        // Erstelle das unsignedKind14 Event
-        const unsignedKind14 = {
+        const kind14 = {
           pubkey: this.manager.publicKey,
           created_at: Math.floor(Date.now() / 1000),
           kind: 14,
@@ -28563,26 +28587,11 @@ var app = (function () {
         };
 
         for (const receiverPubKey of receiverPubKeys) {
-          const anonPrivateKey = window.NostrTools.generateSecretKey();
-          const anonPublicKey = window.NostrTools.getPublicKey(anonPrivateKey);
-
-          const sealContent = await window.nostr.nip44.encrypt(receiverPubKey, JSON.stringify(unsignedKind14));
-          let seal = {
-            created_at: Math.floor(Date.now() / 1000),
-            kind: 13,
-            tags: [],
-            content: sealContent,
-          };
-
-          seal = await window.nostr.signEvent(seal);
-
-          // Wickele das versiegelte Event ein (Kind 1059)
-          const conversationKey = nip44_exports.getConversationKey(anonPrivateKey, receiverPubKey);
-          const giftWrapContent = await nip44_exports.encrypt(JSON.stringify(seal), conversationKey);
-          const tags = [["p", receiverPubKey]];
-
           try {
-            await this.manager.sendAnonEvent(1059, giftWrapContent, tags, anonPrivateKey, anonPublicKey);
+            const { content, anonPrivateKey, anonPublicKey } = await this.wrapMessage(kind14, receiverPubKey);
+            const tags = [["p", receiverPubKey]];
+            
+            await this.manager.sendAnonEvent(1059, content, tags, anonPrivateKey, anonPublicKey);
           } catch (error) {
             console.error(`Error sending message to ${receiverPubKey}:`, error);
           }
@@ -28590,8 +28599,8 @@ var app = (function () {
       }
 
       async getMessagesForRoom(participants) {
-        const decryptedMessages = await this.getMessages();
-        const roomMessages = decryptedMessages.filter(message => {
+        const messages = await this.getMessages();
+        const roomMessages = messages.filter(message => {
           const messageParticipants = message.tags.filter(tag => tag[0] === 'p').map(tag => tag[1]).sort().join(',');
           return messageParticipants === participants;
         });
@@ -28618,10 +28627,10 @@ var app = (function () {
       }
 
       async getChatRooms() {
-        const decryptedMessages = await this.getMessages();
+        const messages = await this.getMessages();
         const chatRooms = {};
       
-        decryptedMessages.forEach(message => {
+        messages.forEach(message => {
           const participantsArray = message.tags
             .filter(tag => tag[0] === 'p')
             .map(tag => tag[1])
