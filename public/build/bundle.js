@@ -28598,84 +28598,83 @@ var app = (function () {
         }
       }
 
-      async getMessagesForRoom(participants) {
-        const messages = await this.getMessages();
-        const roomMessages = messages.filter(message => {
-          const messageParticipants = message.tags.filter(tag => tag[0] === 'p').map(tag => tag[1]).sort().join(',');
-          return messageParticipants === participants;
-        });
-
-        return roomMessages.sort((a, b) => a.created_at - b.created_at);
-      }
-
-      async fetchMessages() {
-        const messages = await this.cache.getEventsByCriteria({
-          kinds: [14],
-          tags: { p: [this.manager.publicKey] },
-        });
-
-        return messages;
-      }
-
-      async getMessages() {
+      async getMessagesByRoom() {
         if (!this.manager) {
-          return [];
+          return new Map();
         }
 
-        const messages = await this.fetchMessages();
-        return messages;
-      }
+        const messages = await this.cache.getEventsByCriteria({
+          kinds: [14],
+          tags: { p: [this.manager.publicKey] }
+        });
 
-      async getChatRooms() {
-        const messages = await this.getMessages();
-        const chatRooms = {};
-      
+        const messagesByRoom = new Map();
+
         messages.forEach(message => {
           const participantsArray = message.tags
             .filter(tag => tag[0] === 'p')
             .map(tag => tag[1])
             .sort();
-      
-          // Filtere Chatrooms mit nur einem Teilnehmer
-          if (participantsArray.length <= 1) {
-            return;
-          }
-      
-          // Filtere Chatrooms mit doppelten Teilnehmern
-          const hasDuplicates = participantsArray.some((item, index) => participantsArray.indexOf(item) !== index);
-          if (hasDuplicates) {
-            return;
-          }
-      
-          // Überprüfe auf ungültige Teilnehmer-PubKeys (zum Beispiel leere Strings)
-          const hasInvalidPubKeys = participantsArray.some(pubKey => !pubKey || typeof pubKey !== 'string');
-          if (hasInvalidPubKeys) {
-            return;
-          }
-      
-          const participants = participantsArray.join(',');
-      
-          if (!chatRooms[participants]) {
-            chatRooms[participants] = {
-              participants,
-              messages: [],
-              subject: null,
-              lastSubjectTimestamp: 0
-            };
-          }
-      
-          chatRooms[participants].messages.push(message);
-      
-          const subjectTag = message.tags.find(tag => tag[0] === 'subject');
-          if (subjectTag && message.created_at > chatRooms[participants].lastSubjectTimestamp) {
-            chatRooms[participants].subject = subjectTag[1];
-            chatRooms[participants].lastSubjectTimestamp = message.created_at;
+
+          if (this.isValidRoom(participantsArray)) {
+            const participants = participantsArray.join(',');
+            if (!messagesByRoom.has(participants)) {
+              messagesByRoom.set(participants, []);
+            }
+            messagesByRoom.get(participants).push(message);
           }
         });
-      
-        return Object.values(chatRooms);
+
+        // Sortiere Nachrichten in jedem Room
+        messagesByRoom.forEach(messages => {
+          messages.sort((a, b) => a.created_at - b.created_at);
+        });
+
+        return messagesByRoom;
       }
-      
+
+      hasDuplicates(array) {
+        return array.some((item, index) => array.indexOf(item) !== index);
+      }
+
+      hasInvalidPubKeys(pubKeys) {
+        return pubKeys.some(pubKey => !pubKey || typeof pubKey !== 'string' || pubKey.length !== 64);
+      }
+
+      isValidRoom(participantsArray) {
+        return participantsArray.length > 1 && 
+               !this.hasDuplicates(participantsArray) && 
+               !this.hasInvalidPubKeys(participantsArray);
+      }
+
+      async getChatRooms() {
+        const messagesByRoom = await this.getMessagesByRoom();
+        return Array.from(messagesByRoom.entries()).map(([participants, messages]) => ({
+          participants,
+          messages,
+          subject: this.getLatestSubject(messages),
+          lastSubjectTimestamp: this.getLatestSubjectTimestamp(messages)
+        }));
+      }
+
+      async getMessagesForRoom(participants) {
+        const messagesByRoom = await this.getMessagesByRoom();
+        return messagesByRoom.get(participants) || [];
+      }
+
+      getLatestSubject(messages) {
+        const messageWithSubject = [...messages]
+          .reverse()
+          .find(msg => msg.tags.some(tag => tag[0] === 'subject'));
+        return messageWithSubject?.tags.find(tag => tag[0] === 'subject')?.[1] || null;
+      }
+
+      getLatestSubjectTimestamp(messages) {
+        const messageWithSubject = [...messages]
+          .reverse()
+          .find(msg => msg.tags.some(tag => tag[0] === 'subject'));
+        return messageWithSubject?.created_at || 0;
+      }
 
       subscribeToMessages() {
         if (!this.manager) {
@@ -28728,7 +28727,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (85:20) {#if $profiles.has(participant) && participant != $nostrManager.publicKey}
+    // (91:20) {#if $profiles.has(participant) && participant != $nostrManager.publicKey}
     function create_if_block_1$1(ctx) {
     	let profileimg;
     	let t0;
@@ -28789,7 +28788,7 @@ var app = (function () {
     	};
     }
 
-    // (84:16) {#each room.participants.split(',') as participant (participant)}
+    // (90:16) {#each room.participants.split(',') as participant (participant)}
     function create_each_block_1(key_1, ctx) {
     	let first;
     	let show_if = /*$profiles*/ ctx[2].has(/*participant*/ ctx[16]) && /*participant*/ ctx[16] != /*$nostrManager*/ ctx[0].publicKey;
@@ -28856,7 +28855,7 @@ var app = (function () {
     	};
     }
 
-    // (100:12) {#if room.subject}
+    // (106:12) {#if room.subject}
     function create_if_block$3(ctx) {
     	let p;
     	let t_value = /*room*/ ctx[13].subject + "";
@@ -28881,7 +28880,7 @@ var app = (function () {
     	};
     }
 
-    // (80:4) {#each $chatRooms as room}
+    // (86:4) {#each $chatRooms as room}
     function create_each_block$1(ctx) {
     	let div1;
     	let div0;
@@ -29111,7 +29110,15 @@ var app = (function () {
     	});
 
     	async function updateChatRooms() {
-    		const rooms = await dmManager.getChatRooms();
+    		const messagesByRoom = await dmManager.getMessagesByRoom();
+
+    		const rooms = Array.from(messagesByRoom.entries()).map(([participants, messages]) => ({
+    			participants,
+    			messages,
+    			subject: dmManager.getLatestSubject(messages),
+    			lastSubjectTimestamp: dmManager.getLatestSubjectTimestamp(messages)
+    		}));
+
     		chatRooms.set(rooms);
 
     		if (pubkey) {
@@ -29783,7 +29790,8 @@ var app = (function () {
     	// Fetches messages for the selected room from the cache
     	async function fetchMessages() {
     		if ($selectedRoom) {
-    			const fetchedMessages = await dmManager.getMessagesForRoom($selectedRoom.participants);
+    			const messagesByRoom = await dmManager.getMessagesByRoom();
+    			const fetchedMessages = messagesByRoom.get($selectedRoom.participants) || [];
     			messages.set(fetchedMessages);
     			await fetchProfiles(fetchedMessages.map(msg => msg.pubkey));
 
