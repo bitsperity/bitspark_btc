@@ -6745,6 +6745,7 @@ var app = (function () {
           if (event) {
             this.events.set(event.id, event);
           }
+          console.log('added event', event);
 
           // Aktualisieren der kindIndex Map
           if (!this.kindIndex.has(event.kind)) {
@@ -6978,6 +6979,7 @@ var app = (function () {
 
         // Methode zum Abonnieren von Events mit Fehlerbehandlung
         subscribeToEvents(criteria) {
+            console.log('relays:', this.relays);
             const subscriptionKey = this.generateSubscriptionKey(criteria);
 
             if (this.subscriptions.has(subscriptionKey)) {
@@ -7062,7 +7064,8 @@ var app = (function () {
       
       if (!init || currentValue === null) {  // Überprüfe, ob der aktuelle Wert des Stores null ist
         const manager = new NostrCacheManager(login);
-        manager.updateRelays(['wss://relay.damus.io', 'wss://relay.plebstr.com', 'wss://nostr.wine']);
+        manager.updateRelays(['wss://relay.damus.io', 'wss://relay.plebstr.com', 'wss://nostr.wine', 
+          'wss://nostr.primz.org', 'wss://nostr.bitcoinplebs.de', 'wss://nostr.cercatrova.me']);
         await manager.initialize();
         nostrManager.set(manager); // Setzen des Stores erst nach der Initialisierung
       }
@@ -7125,7 +7128,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    function get_each_context_1$2(ctx, list, i) {
+    function get_each_context_1$3(ctx, list, i) {
     	const child_ctx = ctx.slice();
     	child_ctx[37] = list[i];
     	return child_ctx;
@@ -7409,7 +7412,7 @@ var app = (function () {
     }
 
     // (347:12) {#each idea_categories as category}
-    function create_each_block_1$2(ctx) {
+    function create_each_block_1$3(ctx) {
     	let button;
     	let t_value = /*category*/ ctx[37] + "";
     	let t;
@@ -7551,7 +7554,7 @@ var app = (function () {
     	let each_blocks_1 = [];
 
     	for (let i = 0; i < each_value_1.length; i += 1) {
-    		each_blocks_1[i] = create_each_block_1$2(get_each_context_1$2(ctx, each_value_1, i));
+    		each_blocks_1[i] = create_each_block_1$3(get_each_context_1$3(ctx, each_value_1, i));
     	}
 
     	let each_value = /*tutorial_titles*/ ctx[7];
@@ -7801,12 +7804,12 @@ var app = (function () {
     				let i;
 
     				for (i = 0; i < each_value_1.length; i += 1) {
-    					const child_ctx = get_each_context_1$2(ctx, each_value_1, i);
+    					const child_ctx = get_each_context_1$3(ctx, each_value_1, i);
 
     					if (each_blocks_1[i]) {
     						each_blocks_1[i].p(child_ctx, dirty);
     					} else {
-    						each_blocks_1[i] = create_each_block_1$2(child_ctx);
+    						each_blocks_1[i] = create_each_block_1$3(child_ctx);
     						each_blocks_1[i].c();
     						each_blocks_1[i].m(div5, null);
     					}
@@ -8964,7 +8967,7 @@ var app = (function () {
     }
 
     // (108:16) {#if githubRepo}
-    function create_if_block_3$1(ctx) {
+    function create_if_block_3$2(ctx) {
     	let a;
     	let i;
 
@@ -9108,7 +9111,7 @@ var app = (function () {
     	let current;
     	let if_block0 = /*lnAddress*/ ctx[0] && create_if_block_5(ctx);
     	let if_block1 = /*creator_profile*/ ctx[2] && /*creator_profile*/ ctx[2].picture && create_if_block_4(ctx);
-    	let if_block2 = /*githubRepo*/ ctx[1] && create_if_block_3$1(ctx);
+    	let if_block2 = /*githubRepo*/ ctx[1] && create_if_block_3$2(ctx);
     	let if_block3 = (/*lnAddress*/ ctx[0] || /*creator_profile*/ ctx[2] && /*creator_profile*/ ctx[2].picture || /*githubRepo*/ ctx[1]) && /*profile*/ ctx[3] && /*profile*/ ctx[3].picture && create_if_block_2$3();
     	let if_block4 = /*profile*/ ctx[3] && /*profile*/ ctx[3].picture && create_if_block_1$8(ctx);
 
@@ -9218,7 +9221,7 @@ var app = (function () {
     				if (if_block2) {
     					if_block2.p(ctx, dirty);
     				} else {
-    					if_block2 = create_if_block_3$1(ctx);
+    					if_block2 = create_if_block_3$2(ctx);
     					if_block2.c();
     					if_block2.m(div1, t2);
     				}
@@ -19445,12 +19448,11 @@ var app = (function () {
         ];
 
         try {
-          const result = await this.manager.sendEvent(KINDS.JOB, "", tags); // Content bleibt leer
+          const result = await this.manager.sendEvent(KINDS.JOB, "", tags);
           console.log('Job created:', result);
           return result;
         } catch (error) {
           console.error('Error creating job:', error);
-          throw error;
         }
       }
 
@@ -19502,7 +19504,6 @@ var app = (function () {
 
           if (this.manager.publicKey !== ideaCreatorPubkey) {
             console.error('Permission denied: Current user is not the idea creator');
-            throw new Error('Only the idea creator can approve jobs');
           }
 
           const tags = [
@@ -19519,7 +19520,6 @@ var app = (function () {
 
         } catch (error) {
           console.error('Error in handleApproval:', error);
-          throw error;
         }
       }
 
@@ -19696,7 +19696,7 @@ var app = (function () {
       }
 
       // Subscription
-      subscribeToJob(ideaId) {
+      async subscribeToJob(ideaId) {
         if (!this.manager) return;
         
         // Subscribe zu allen Jobs dieser Idea
@@ -19716,16 +19716,23 @@ var app = (function () {
 
       async getApprovedJobsByIdea(ideaId) {
         const jobs = await this.getJobsByIdea(ideaId);
+        console.log('Found jobs for idea:', jobs);
+
         const ideaCreatorPubkey = await this.getIdeaCreatorPubkey(ideaId);
+        console.log('Idea creator pubkey:', ideaCreatorPubkey);
         
         const approvedJobs = await Promise.all(
           jobs.map(async (job) => {
             const status = await this.getApprovalStatus(job.id, ideaCreatorPubkey);
+            console.log(`Job ${job.id} status:`, status);
             return status === "approved" ? job : null;
           })
         );
         
-        return approvedJobs.filter(job => job !== null);
+        const filteredJobs = approvedJobs.filter(job => job !== null);
+        console.log('Final approved jobs:', filteredJobs);
+        
+        return filteredJobs;
       }
 
       async getIdeaCreatorPubkey(ideaId) {
@@ -19733,8 +19740,8 @@ var app = (function () {
         const ideaEvent = await this.cache.getEventById(ideaId);
         
         if (!ideaEvent) {
-          console.error('Idea not found:', ideaId);
-          throw new Error('Idea not found');
+          console.log('Idea not found:', ideaId);
+          return null;
         }
         
         console.log('Found idea event:', ideaEvent);
@@ -20395,19 +20402,31 @@ var app = (function () {
     	}
     }
 
-    var css_248z$f = ".job-section.svelte-gut4qc{background:white;border-radius:8px;padding:1.5rem;box-shadow:0 2px 4px rgba(0, 0, 0, 0.1)}.job-header.svelte-gut4qc{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:1px solid #e5e7eb}.section-title.svelte-gut4qc{font-size:1.5rem;font-weight:600;color:#1f2937}.create-job-btn.svelte-gut4qc{display:flex;align-items:center;background-color:#2c5282;color:white;padding:0.5rem 1rem;border-radius:6px;font-weight:500;transition:all 0.2s}.create-job-btn.svelte-gut4qc:hover{background-color:#1a365d;transform:translateY(-1px)}.job-grid.svelte-gut4qc{display:grid;grid-template-columns:repeat(auto-fill, minmax(280px, 1fr));gap:1.5rem;padding:0.5rem}.job-card-inner.svelte-gut4qc{background:white;border:1px solid #e5e7eb;border-radius:8px;overflow:hidden;height:100%;box-shadow:0 2px 4px rgba(0, 0, 0, 0.05);transition:box-shadow 0.3s ease}.job-card-inner.svelte-gut4qc:hover{box-shadow:0 4px 6px rgba(0, 0, 0, 0.1)}.job-image.svelte-gut4qc{width:100%;height:140px;background-size:cover;background-position:center;border-bottom:1px solid #e5e7eb}.job-content.svelte-gut4qc{padding:1rem}.job-title.svelte-gut4qc{font-size:1.1rem;font-weight:600;color:#1f2937;margin-bottom:0.5rem;line-height:1.4}.job-description.svelte-gut4qc{color:#6b7280;font-size:0.9rem;margin-top:0.5rem;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}@media(max-width: 640px){.job-grid.svelte-gut4qc{grid-template-columns:1fr}.job-header.svelte-gut4qc{flex-direction:column;gap:1rem;align-items:flex-start}}";
+    var css_248z$f = ".job-section.svelte-gut4qc{background:white;border-radius:8px;padding:1.5rem;box-shadow:0 2px 4px rgba(0, 0, 0, 0.1)}.job-header.svelte-gut4qc{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:1px solid #e5e7eb}.section-title.svelte-gut4qc{font-size:1.5rem;font-weight:600;color:#1f2937}.create-job-btn.svelte-gut4qc{display:flex;align-items:center;background-color:#2c5282;color:white;padding:0.5rem 1rem;border-radius:6px;font-weight:500;transition:all 0.2s}.create-job-btn.svelte-gut4qc:hover{background-color:#1a365d;transform:translateY(-1px)}.job-grid.svelte-gut4qc{display:grid;grid-template-columns:repeat(auto-fill, minmax(280px, 1fr));gap:1.5rem;padding:0.5rem}.job-card-inner.svelte-gut4qc{background:white;border:1px solid #e5e7eb;border-radius:8px;overflow:hidden;height:100%;box-shadow:0 2px 4px rgba(0, 0, 0, 0.05);transition:box-shadow 0.3s ease}.job-card-inner.svelte-gut4qc:hover{box-shadow:0 4px 6px rgba(0, 0, 0, 0.1)}.job-content.svelte-gut4qc{padding:1rem}.job-title.svelte-gut4qc{font-size:1.1rem;font-weight:600;color:#1f2937;margin-bottom:0.5rem;line-height:1.4}.job-description.svelte-gut4qc{color:#6b7280;font-size:0.9rem;margin-top:0.5rem;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}@media(max-width: 640px){.job-grid.svelte-gut4qc{grid-template-columns:1fr}.job-header.svelte-gut4qc{flex-direction:column;gap:1rem;align-items:flex-start}}";
     styleInject(css_248z$f);
 
     /* src/components/JobWidget.svelte generated by Svelte v3.59.1 */
 
     function get_each_context$7(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[11] = list[i];
+    	child_ctx[12] = list[i];
     	return child_ctx;
     }
 
-    // (61:4) {#if isLoggedIn}
-    function create_if_block_2$2(ctx) {
+    function get_each_context_1$2(ctx, list, i) {
+    	const child_ctx = ctx.slice();
+    	child_ctx[15] = list[i];
+    	return child_ctx;
+    }
+
+    function get_each_context_2$1(ctx, list, i) {
+    	const child_ctx = ctx.slice();
+    	child_ctx[18] = list[i];
+    	return child_ctx;
+    }
+
+    // (69:4) {#if isLoggedIn}
+    function create_if_block_3$1(ctx) {
     	let button;
     	let mounted;
     	let dispose;
@@ -20425,7 +20444,7 @@ var app = (function () {
     			insert(target, button, anchor);
 
     			if (!mounted) {
-    				dispose = listen(button, "click", /*click_handler*/ ctx[6]);
+    				dispose = listen(button, "click", /*click_handler*/ ctx[8]);
     				mounted = true;
     			}
     		},
@@ -20438,12 +20457,12 @@ var app = (function () {
     	};
     }
 
-    // (72:2) {#if showJobModal}
-    function create_if_block_1$7(ctx) {
+    // (80:2) {#if showJobModal}
+    function create_if_block_2$2(ctx) {
     	let jobmodal;
     	let current;
     	jobmodal = new JobModal({ props: { ideaID: /*ideaID*/ ctx[0] } });
-    	jobmodal.$on("close", /*close_handler*/ ctx[7]);
+    	jobmodal.$on("close", /*close_handler*/ ctx[9]);
     	jobmodal.$on("submit", /*handleJobSubmit*/ ctx[4]);
 
     	return {
@@ -20474,57 +20493,207 @@ var app = (function () {
     	};
     }
 
-    // (84:10) {#if job.url}
-    function create_if_block$a(ctx) {
+    // (95:12) {#if job.languages?.length}
+    function create_if_block_1$7(ctx) {
     	let div;
+    	let each_value_2 = /*job*/ ctx[12].languages;
+    	let each_blocks = [];
+
+    	for (let i = 0; i < each_value_2.length; i += 1) {
+    		each_blocks[i] = create_each_block_2$1(get_each_context_2$1(ctx, each_value_2, i));
+    	}
 
     	return {
     		c() {
     			div = element("div");
-    			attr(div, "class", "job-image svelte-gut4qc");
-    			set_style(div, "background-image", "url(" + /*job*/ ctx[11].url + ")");
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].c();
+    			}
+
+    			attr(div, "class", "tags");
     		},
     		m(target, anchor) {
     			insert(target, div, anchor);
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				if (each_blocks[i]) {
+    					each_blocks[i].m(div, null);
+    				}
+    			}
     		},
     		p(ctx, dirty) {
     			if (dirty & /*jobs*/ 2) {
-    				set_style(div, "background-image", "url(" + /*job*/ ctx[11].url + ")");
+    				each_value_2 = /*job*/ ctx[12].languages;
+    				let i;
+
+    				for (i = 0; i < each_value_2.length; i += 1) {
+    					const child_ctx = get_each_context_2$1(ctx, each_value_2, i);
+
+    					if (each_blocks[i]) {
+    						each_blocks[i].p(child_ctx, dirty);
+    					} else {
+    						each_blocks[i] = create_each_block_2$1(child_ctx);
+    						each_blocks[i].c();
+    						each_blocks[i].m(div, null);
+    					}
+    				}
+
+    				for (; i < each_blocks.length; i += 1) {
+    					each_blocks[i].d(1);
+    				}
+
+    				each_blocks.length = each_value_2.length;
     			}
     		},
     		d(detaching) {
     			if (detaching) detach(div);
+    			destroy_each(each_blocks, detaching);
     		}
     	};
     }
 
-    // (82:6) <Link to={`/job/${job.id}`} class="job-card">
+    // (97:16) {#each job.languages as lang}
+    function create_each_block_2$1(ctx) {
+    	let span;
+    	let t_value = /*lang*/ ctx[18] + "";
+    	let t;
+
+    	return {
+    		c() {
+    			span = element("span");
+    			t = text(t_value);
+    			attr(span, "class", "tag");
+    		},
+    		m(target, anchor) {
+    			insert(target, span, anchor);
+    			append(span, t);
+    		},
+    		p(ctx, dirty) {
+    			if (dirty & /*jobs*/ 2 && t_value !== (t_value = /*lang*/ ctx[18] + "")) set_data(t, t_value);
+    		},
+    		d(detaching) {
+    			if (detaching) detach(span);
+    		}
+    	};
+    }
+
+    // (102:12) {#if job.categories?.length}
+    function create_if_block$a(ctx) {
+    	let div;
+    	let each_value_1 = /*job*/ ctx[12].categories;
+    	let each_blocks = [];
+
+    	for (let i = 0; i < each_value_1.length; i += 1) {
+    		each_blocks[i] = create_each_block_1$2(get_each_context_1$2(ctx, each_value_1, i));
+    	}
+
+    	return {
+    		c() {
+    			div = element("div");
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].c();
+    			}
+
+    			attr(div, "class", "tags");
+    		},
+    		m(target, anchor) {
+    			insert(target, div, anchor);
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				if (each_blocks[i]) {
+    					each_blocks[i].m(div, null);
+    				}
+    			}
+    		},
+    		p(ctx, dirty) {
+    			if (dirty & /*jobs*/ 2) {
+    				each_value_1 = /*job*/ ctx[12].categories;
+    				let i;
+
+    				for (i = 0; i < each_value_1.length; i += 1) {
+    					const child_ctx = get_each_context_1$2(ctx, each_value_1, i);
+
+    					if (each_blocks[i]) {
+    						each_blocks[i].p(child_ctx, dirty);
+    					} else {
+    						each_blocks[i] = create_each_block_1$2(child_ctx);
+    						each_blocks[i].c();
+    						each_blocks[i].m(div, null);
+    					}
+    				}
+
+    				for (; i < each_blocks.length; i += 1) {
+    					each_blocks[i].d(1);
+    				}
+
+    				each_blocks.length = each_value_1.length;
+    			}
+    		},
+    		d(detaching) {
+    			if (detaching) detach(div);
+    			destroy_each(each_blocks, detaching);
+    		}
+    	};
+    }
+
+    // (104:16) {#each job.categories as cat}
+    function create_each_block_1$2(ctx) {
+    	let span;
+    	let t_value = /*cat*/ ctx[15] + "";
+    	let t;
+
+    	return {
+    		c() {
+    			span = element("span");
+    			t = text(t_value);
+    			attr(span, "class", "tag");
+    		},
+    		m(target, anchor) {
+    			insert(target, span, anchor);
+    			append(span, t);
+    		},
+    		p(ctx, dirty) {
+    			if (dirty & /*jobs*/ 2 && t_value !== (t_value = /*cat*/ ctx[15] + "")) set_data(t, t_value);
+    		},
+    		d(detaching) {
+    			if (detaching) detach(span);
+    		}
+    	};
+    }
+
+    // (90:6) <Link to={`/job/${job.id}`} class="job-card">
     function create_default_slot$4(ctx) {
     	let div1;
-    	let t0;
     	let div0;
     	let h3;
-    	let t1_value = /*job*/ ctx[11].title + "";
+    	let t0_value = /*job*/ ctx[12].title + "";
+    	let t0;
     	let t1;
-    	let t2;
     	let p;
-    	let t3_value = /*job*/ ctx[11].description + "";
+    	let t2_value = /*job*/ ctx[12].abstract + "";
+    	let t2;
     	let t3;
     	let t4;
-    	let if_block = /*job*/ ctx[11].url && create_if_block$a(ctx);
+    	let t5;
+    	let if_block0 = /*job*/ ctx[12].languages?.length && create_if_block_1$7(ctx);
+    	let if_block1 = /*job*/ ctx[12].categories?.length && create_if_block$a(ctx);
 
     	return {
     		c() {
     			div1 = element("div");
-    			if (if_block) if_block.c();
-    			t0 = space();
     			div0 = element("div");
     			h3 = element("h3");
-    			t1 = text(t1_value);
-    			t2 = space();
+    			t0 = text(t0_value);
+    			t1 = space();
     			p = element("p");
-    			t3 = text(t3_value);
+    			t2 = text(t2_value);
+    			t3 = space();
+    			if (if_block0) if_block0.c();
     			t4 = space();
+    			if (if_block1) if_block1.c();
+    			t5 = space();
     			attr(h3, "class", "job-title svelte-gut4qc");
     			attr(p, "class", "job-description svelte-gut4qc");
     			attr(div0, "class", "job-content svelte-gut4qc");
@@ -20532,42 +20701,58 @@ var app = (function () {
     		},
     		m(target, anchor) {
     			insert(target, div1, anchor);
-    			if (if_block) if_block.m(div1, null);
-    			append(div1, t0);
     			append(div1, div0);
     			append(div0, h3);
-    			append(h3, t1);
-    			append(div0, t2);
+    			append(h3, t0);
+    			append(div0, t1);
     			append(div0, p);
-    			append(p, t3);
-    			insert(target, t4, anchor);
+    			append(p, t2);
+    			append(div0, t3);
+    			if (if_block0) if_block0.m(div0, null);
+    			append(div0, t4);
+    			if (if_block1) if_block1.m(div0, null);
+    			insert(target, t5, anchor);
     		},
     		p(ctx, dirty) {
-    			if (/*job*/ ctx[11].url) {
-    				if (if_block) {
-    					if_block.p(ctx, dirty);
+    			if (dirty & /*jobs*/ 2 && t0_value !== (t0_value = /*job*/ ctx[12].title + "")) set_data(t0, t0_value);
+    			if (dirty & /*jobs*/ 2 && t2_value !== (t2_value = /*job*/ ctx[12].abstract + "")) set_data(t2, t2_value);
+
+    			if (/*job*/ ctx[12].languages?.length) {
+    				if (if_block0) {
+    					if_block0.p(ctx, dirty);
     				} else {
-    					if_block = create_if_block$a(ctx);
-    					if_block.c();
-    					if_block.m(div1, t0);
+    					if_block0 = create_if_block_1$7(ctx);
+    					if_block0.c();
+    					if_block0.m(div0, t4);
     				}
-    			} else if (if_block) {
-    				if_block.d(1);
-    				if_block = null;
+    			} else if (if_block0) {
+    				if_block0.d(1);
+    				if_block0 = null;
     			}
 
-    			if (dirty & /*jobs*/ 2 && t1_value !== (t1_value = /*job*/ ctx[11].title + "")) set_data(t1, t1_value);
-    			if (dirty & /*jobs*/ 2 && t3_value !== (t3_value = /*job*/ ctx[11].description + "")) set_data(t3, t3_value);
+    			if (/*job*/ ctx[12].categories?.length) {
+    				if (if_block1) {
+    					if_block1.p(ctx, dirty);
+    				} else {
+    					if_block1 = create_if_block$a(ctx);
+    					if_block1.c();
+    					if_block1.m(div0, null);
+    				}
+    			} else if (if_block1) {
+    				if_block1.d(1);
+    				if_block1 = null;
+    			}
     		},
     		d(detaching) {
     			if (detaching) detach(div1);
-    			if (if_block) if_block.d();
-    			if (detaching) detach(t4);
+    			if (if_block0) if_block0.d();
+    			if (if_block1) if_block1.d();
+    			if (detaching) detach(t5);
     		}
     	};
     }
 
-    // (81:4) {#each jobs as job (job.id)}
+    // (89:4) {#each jobs as job (job.id)}
     function create_each_block$7(key_1, ctx) {
     	let first;
     	let link;
@@ -20575,7 +20760,7 @@ var app = (function () {
 
     	link = new Link({
     			props: {
-    				to: `/job/${/*job*/ ctx[11].id}`,
+    				to: `/job/${/*job*/ ctx[12].id}`,
     				class: "job-card",
     				$$slots: { default: [create_default_slot$4] },
     				$$scope: { ctx }
@@ -20598,9 +20783,9 @@ var app = (function () {
     		p(new_ctx, dirty) {
     			ctx = new_ctx;
     			const link_changes = {};
-    			if (dirty & /*jobs*/ 2) link_changes.to = `/job/${/*job*/ ctx[11].id}`;
+    			if (dirty & /*jobs*/ 2) link_changes.to = `/job/${/*job*/ ctx[12].id}`;
 
-    			if (dirty & /*$$scope, jobs*/ 16386) {
+    			if (dirty & /*$$scope, jobs*/ 2097154) {
     				link_changes.$$scope = { dirty, ctx };
     			}
 
@@ -20633,10 +20818,10 @@ var app = (function () {
     	let each_blocks = [];
     	let each_1_lookup = new Map();
     	let current;
-    	let if_block0 = /*isLoggedIn*/ ctx[3] && create_if_block_2$2(ctx);
-    	let if_block1 = /*showJobModal*/ ctx[2] && create_if_block_1$7(ctx);
+    	let if_block0 = /*isLoggedIn*/ ctx[3] && create_if_block_3$1(ctx);
+    	let if_block1 = /*showJobModal*/ ctx[2] && create_if_block_2$2(ctx);
     	let each_value = /*jobs*/ ctx[1];
-    	const get_key = ctx => /*job*/ ctx[11].id;
+    	const get_key = ctx => /*job*/ ctx[12].id;
 
     	for (let i = 0; i < each_value.length; i += 1) {
     		let child_ctx = get_each_context$7(ctx, each_value, i);
@@ -20690,7 +20875,7 @@ var app = (function () {
     				if (if_block0) {
     					if_block0.p(ctx, dirty);
     				} else {
-    					if_block0 = create_if_block_2$2(ctx);
+    					if_block0 = create_if_block_3$1(ctx);
     					if_block0.c();
     					if_block0.m(div0, null);
     				}
@@ -20707,7 +20892,7 @@ var app = (function () {
     						transition_in(if_block1, 1);
     					}
     				} else {
-    					if_block1 = create_if_block_1$7(ctx);
+    					if_block1 = create_if_block_2$2(ctx);
     					if_block1.c();
     					transition_in(if_block1, 1);
     					if_block1.m(div2, t3);
@@ -20764,41 +20949,36 @@ var app = (function () {
     	return {
     		id: job.id,
     		title: job.title || "N/A",
+    		abstract: job.abstract || "",
     		description: job.description || "",
+    		requirements: job.requirements || "",
+    		languages: job.languages || [],
+    		categories: job.categories || [],
     		createdAt: job.created_at,
-    		url: job.bannerUrl || "",
     		pubkey: job.pubkey
     	};
     }
 
     function instance$m($$self, $$props, $$invalidate) {
+    	let $nostrCache;
     	let $nostrManager;
-    	component_subscribe($$self, nostrManager, $$value => $$invalidate(8, $nostrManager = $$value));
+    	component_subscribe($$self, nostrCache, $$value => $$invalidate(6, $nostrCache = $$value));
+    	component_subscribe($$self, nostrManager, $$value => $$invalidate(7, $nostrManager = $$value));
     	let { ideaID } = $$props;
-    	let { creatorPubKey } = $$props;
+    	let initialized = false;
     	let jobs = [];
     	let showJobModal = false;
     	let isLoggedIn = false;
 
-    	onMount(() => {
-    		initialize();
-    	});
-
     	async function initialize() {
-    		jobManager.subscribeToJob(ideaID);
-    		$$invalidate(3, isLoggedIn = !!$nostrManager?.publicKey);
+    		await jobManager.subscribeToJob(ideaID);
     		await fetchJobs();
     	}
 
     	async function fetchJobs() {
-    		try {
-    			// Immer nur approved Jobs anzeigen
-    			const fetchedJobs = await jobManager.getApprovedJobsByIdea(ideaID);
-
-    			$$invalidate(1, jobs = fetchedJobs.map(transformJob));
-    		} catch(error) {
-    			console.error('Error fetching jobs:', error);
-    		}
+    		const fetchedJobs = await jobManager.getApprovedJobsByIdea(ideaID);
+    		console.log('fetchedJobs!!!!!', fetchedJobs);
+    		$$invalidate(1, jobs = fetchedJobs.map(transformJob));
     	}
 
     	function handleJobSubmit() {
@@ -20815,7 +20995,27 @@ var app = (function () {
 
     	$$self.$$set = $$props => {
     		if ('ideaID' in $$props) $$invalidate(0, ideaID = $$props.ideaID);
-    		if ('creatorPubKey' in $$props) $$invalidate(5, creatorPubKey = $$props.creatorPubKey);
+    	};
+
+    	$$self.$$.update = () => {
+    		if ($$self.$$.dirty & /*$nostrCache, $nostrManager, initialized*/ 224) {
+    			if ($nostrCache && $nostrManager && !initialized) {
+    				initialize();
+    				$$invalidate(5, initialized = true);
+    			}
+    		}
+
+    		if ($$self.$$.dirty & /*$nostrManager*/ 128) {
+    			if ($nostrManager) {
+    				$$invalidate(3, isLoggedIn = !!$nostrManager?.publicKey);
+    			}
+    		}
+
+    		if ($$self.$$.dirty & /*$nostrCache*/ 64) {
+    			if ($nostrCache) {
+    				fetchJobs();
+    			}
+    		}
     	};
 
     	return [
@@ -20824,7 +21024,9 @@ var app = (function () {
     		showJobModal,
     		isLoggedIn,
     		handleJobSubmit,
-    		creatorPubKey,
+    		initialized,
+    		$nostrCache,
+    		$nostrManager,
     		click_handler,
     		close_handler
     	];
@@ -20833,7 +21035,7 @@ var app = (function () {
     class JobWidget extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$m, create_fragment$n, safe_not_equal, { ideaID: 0, creatorPubKey: 5 });
+    		init(this, options, instance$m, create_fragment$n, safe_not_equal, { ideaID: 0 });
     	}
     }
 

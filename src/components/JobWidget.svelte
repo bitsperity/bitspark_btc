@@ -6,41 +6,49 @@
   import JobModal from './Modals/JobModal.svelte';
   import { jobManager } from '../backend/JobManager.js';
   import { nostrManager } from '../backend/NostrManagerStore.js';
+  import { nostrCache } from '../backend/NostrCacheStore.js';
 
   export let ideaID;
-  export let creatorPubKey;
+  let initialized = false;
 
   let jobs = [];
   let showJobModal = false;
   let isLoggedIn = false;
 
-  onMount(() => {
+  $: if ($nostrCache && $nostrManager && !initialized) {
     initialize();
-  });
+    initialized = true;
+  }
+
+  $: if ($nostrManager) {
+    isLoggedIn = !!$nostrManager?.publicKey;
+  }
+
+  $: if ($nostrCache) {
+    fetchJobs();
+  }
 
   async function initialize() {
-    jobManager.subscribeToJob(ideaID);
-    isLoggedIn = !!$nostrManager?.publicKey;
+    await jobManager.subscribeToJob(ideaID);
     await fetchJobs();
   }
 
   async function fetchJobs() {
-    try {
-      // Immer nur approved Jobs anzeigen
       const fetchedJobs = await jobManager.getApprovedJobsByIdea(ideaID);
+      console.log('fetchedJobs!!!!!', fetchedJobs);
       jobs = fetchedJobs.map(transformJob);
-    } catch (error) {
-      console.error('Error fetching jobs:', error);
-    }
   }
 
   function transformJob(job) {
     return {
       id: job.id,
       title: job.title || "N/A",
+      abstract: job.abstract || "",
       description: job.description || "",
+      requirements: job.requirements || "",
+      languages: job.languages || [],
+      categories: job.categories || [],
       createdAt: job.created_at,
-      url: job.bannerUrl || "",
       pubkey: job.pubkey
     };
   }
@@ -81,12 +89,23 @@
     {#each jobs as job (job.id)}
       <Link to={`/job/${job.id}`} class="job-card">
         <div class="job-card-inner">
-          {#if job.url}
-            <div class="job-image" style="background-image: url({job.url})" />
-          {/if}
           <div class="job-content">
             <h3 class="job-title">{job.title}</h3>
-            <p class="job-description">{job.description}</p>
+            <p class="job-description">{job.abstract}</p>
+            {#if job.languages?.length}
+              <div class="tags">
+                {#each job.languages as lang}
+                  <span class="tag">{lang}</span>
+                {/each}
+              </div>
+            {/if}
+            {#if job.categories?.length}
+              <div class="tags">
+                {#each job.categories as cat}
+                  <span class="tag">{cat}</span>
+                {/each}
+              </div>
+            {/if}
           </div>
         </div>
       </Link>

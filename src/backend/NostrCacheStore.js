@@ -214,6 +214,7 @@ class NostrEventCache {
       if (event) {
         this.events.set(event.id, event);
       }
+      console.log('added event', event);
 
       // Aktualisieren der kindIndex Map
       if (!this.kindIndex.has(event.kind)) {

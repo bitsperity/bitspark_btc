@@ -130,6 +130,7 @@ export class NostrCacheManager {
 
     // Methode zum Abonnieren von Events mit Fehlerbehandlung
     subscribeToEvents(criteria) {
+        console.log('relays:', this.relays);
         const subscriptionKey = this.generateSubscriptionKey(criteria);
 
         if (this.subscriptions.has(subscriptionKey)) {
