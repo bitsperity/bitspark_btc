@@ -1,6 +1,7 @@
 <script>
   export let categories = [];
-  export let selected = []; // Hinweis: der Name "selected" wurde in Übereinstimmung mit dem Namen der übergeordneten Variable gewählt
+  export let selected = [];
+  export let id = '';
 
   let dropdownOpen = false; 
 
@@ -20,7 +21,7 @@
   }
 </script>
 
-<div class="">
+<div class="dropdown" {id}>
   <button 
     class="input-style" 
     on:click={() => dropdownOpen = !dropdownOpen}>

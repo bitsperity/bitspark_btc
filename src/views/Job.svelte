@@ -12,11 +12,10 @@
   import { NOSTR_KIND_JOB } from "../constants/nostrKinds";
   import ZapWidget from "../components/ZapWidget.svelte";
   import { socialMediaManager } from "../backend/SocialMediaManager.js";
+  import { jobManager } from "../backend/JobManager.js";
 
   export let id;
   let showOfferPopup = false;
-  let developerBid = "";
-  let requiredTime = "";
   let developerIntro = "";
   let job = null;
   let creator_profile = null;
@@ -34,28 +33,11 @@
   }
 
   async function fetchJob() {
-    const jobEvent = $nostrCache.getEventById(id);
-    if (jobEvent) {
-      job = {
-        title:
-          jobEvent.tags.find((tag) => tag[0] === "jTitle")?.[1] ||
-          "No Title",
-        abstract:
-          jobEvent.tags.find((tag) => tag[0] === "jAbstract")?.[1] ||
-          "No Abstract",
-        requirements:
-          jobEvent.tags.find((tag) => tag[0] === "jReq")?.[1] ||
-          "No Requierements",
-        sats:
-          jobEvent.tags.find((tag) => tag[0] === "sats")?.[1] || "0 Sats",
-        bannerImage:
-          jobEvent.tags.find((tag) => tag[0] === "jbUrl")?.[1] ||
-          "default_image_url",
-        description: jobEvent.content,
-      };
-      fetchProfile(jobEvent.pubkey);
+    job = await jobManager.getJobById(id);
+    if (job) {
+      console.log('Fetched job:', job);
+      fetchProfile(job.pubkey);
     }
-
   }
 
   async function fetchProfile(pubkey) {
@@ -63,12 +45,11 @@
   }
 
   async function postOffer() {
-    if (!developerIntro || !developerBid) {
+    if (!developerIntro) {
       console.log("Please fill all fields.");
       return;
     }
 
-    // Stellen Sie sicher, dass $nostrManager vorhanden und im Schreibmodus ist
     if (!$nostrManager || !$nostrManager.write_mode) {
       console.log("Nostr manager not available or not in write mode");
       return;
@@ -77,22 +58,16 @@
     const tags = [
       ["s", "bitspark"],
       ["t", "offer"],
-      ["e", id], // Die ID des Jobs
-      ["sats", developerBid], // Gebot in Sats
-      ["reqTime", requiredTime], // Gebot in Sats
+      ["e", id]
     ];
 
     try {
       await $nostrManager.sendEvent(
-        NOSTR_KIND_JOB, // Der Kind-Wert für Jobs
+        NOSTR_KIND_JOB,
         developerIntro,
-        tags,
+        tags
       );
 
-      console.log("Offer submitted successfully");
-
-      // Zurücksetzen der Werte und Schließen des Popups
-      developerBid = "";
       developerIntro = "";
       showOfferPopup = false;
     } catch (error) {
@@ -149,10 +124,10 @@
         <div class="px-6">
           <div class="text-center mt-6">
             <h2 class="section-title">Abstract</h2>
-            <p class="html-content job-requirements">
+            <p class="html-content job-abstract">
               {@html job?.abstract}
             </p>
-            <h2 class="section-title">User Story</h2>
+            <h2 class="section-title">Description</h2>
             <p class="html-content">
               {@html job?.description}
             </p>
@@ -181,20 +156,15 @@
       <div class="offer-popup">
         <h3>Send Offer</h3>
         <label>
-          Sats:
-          <input bind:value={developerBid} type="text" placeholder={job.sats} />
-        </label>
-        <label>
-          Required Time:
-          <input bind:value={requiredTime} type="text" placeholder="2 Weeks" />
-        </label>
-        <label>
           Message:
-          <textarea bind:value={developerIntro} placeholder="Your Message..." />
+          <textarea 
+            bind:value={developerIntro} 
+            placeholder="Describe your approach and experience..."
+          />
         </label>
         <div class="offer-popup-buttons">
           <button on:click={() => (showOfferPopup = false)}>Cancel</button>
-          <button on:click={postOffer}> Submit </button>
+          <button on:click={postOffer}>Submit</button>
         </div>
       </div>
     </div>

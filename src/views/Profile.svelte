@@ -8,7 +8,7 @@
     import { nostrCache } from "../backend/NostrCacheStore.js";
     import { nostrManager } from "../backend/NostrManagerStore.js";
     import { socialMediaManager } from "../backend/SocialMediaManager.js";
-    import ReviewWidget from "../components/Widgets/ReviewWidget.svelte";
+    // import ReviewWidget from "../components/Widgets/ReviewWidget.svelte";
     import ProfileWidget from "../components/Widgets/ProfileWidget.svelte";
     import ProfileBannerWidget from "../components/Widgets/Banner/ProfileBannerWidget.svelte";
 
@@ -76,7 +76,7 @@
         <div class={$contentContainerClass}>
             <ProfileWidget userPubKey={profile_id} />
             <UserIdeasWidget {profile_id} />
-            <ReviewWidget userPubKey={profile_id} />
+            <!-- <ReviewWidget userPubKey={profile_id} /> -->
         </div>
     </div>
     <Footer />

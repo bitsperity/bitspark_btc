@@ -190,13 +190,13 @@
             <li>
                 <button
                     class={linkStyle}
-                    on:click={() => navigate("/jobmarket")}
+                    on:click={() => navigate("/jobexplorer")}
                 >
                     <i
                         class="fas fa-search"
                         style="color: #223d6d; margin-right: 10px;"
                     ></i>
-                    Job Market
+                    Job Explorer
                 </button>
             </li>
             {#if $menuState.logged_in}
@@ -244,13 +244,25 @@
                 <li>
                     <button
                         class={linkStyle}
-                        on:click={() => navigate("/jobmanager")}
+                        on:click={() => navigate("/myjobs")}
                     >
                         <i
                             class="fas fa-briefcase"
                             style="color: #223d6d; margin-right: 10px;"
                         ></i>
-                        Job Manager
+                        My Jobs
+                    </button>
+                </li>
+                <li>
+                    <button
+                        class={linkStyle}
+                        on:click={() => navigate("/idealab")}
+                    >
+                        <i
+                            class="fas fa-briefcase"
+                            style="color: #223d6d; margin-right: 10px;"
+                        ></i>
+                        Idea Lab
                     </button>
                 </li>
             {/if}

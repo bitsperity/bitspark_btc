@@ -2,185 +2,208 @@
 
 <script>
   import { onMount, onDestroy } from "svelte";
-  import { navigate } from "svelte-routing";
-  import { nostrCache } from "../backend/NostrCacheStore.js";
-  import { nostrManager } from "../backend/NostrManagerStore.js";
   import { Link } from 'svelte-routing';
-  import { NOSTR_KIND_JOB } from '../constants/nostrKinds';
-
+  import JobModal from './Modals/JobModal.svelte';
+  import { jobManager } from '../backend/JobManager.js';
+  import { nostrManager } from '../backend/NostrManagerStore.js';
 
   export let ideaID;
   export let creatorPubKey;
 
   let jobs = [];
-  let jobKind = NOSTR_KIND_JOB; // Ersetzen Sie dies durch den korrekten Kind-Wert für Jobs
+  let showJobModal = false;
+  let isLoggedIn = false;
 
   onMount(() => {
-    if ($nostrManager) {
-      initialize();
-    }
+    initialize();
   });
 
-  $: $nostrManager && initialize();
-  $: $nostrCache && fetchJobs();
-
-  function initialize() {
-    // Abonnieren von Job-Events
-    $nostrManager.subscribeToEvents({
-      kinds: [jobKind], // Kind-Wert für Jobs
-      "#e": [ideaID], // ID der Idee
-      "#t": ["job"],
-    });
+  async function initialize() {
+    jobManager.subscribeToJob(ideaID);
+    isLoggedIn = !!$nostrManager?.publicKey;
+    await fetchJobs();
   }
 
   async function fetchJobs() {
-    const jobEvents = await $nostrCache.getEventsByCriteria({
-      kinds: [jobKind],
-      tags: {
-        e: [ideaID],
-        s: ["bitspark"],
-        t: ["job"],
-      },
-    });
-
-    jobs = jobEvents.map((jobEvent) => ({
-      id: jobEvent.id,
-      title: jobEvent.tags.find((tag) => tag[0] === "jTitle")?.[1] || "N/A",
-      sats: jobEvent.tags.find((tag) => tag[0] === "sats")?.[1] || "0 Sats",
-      description: jobEvent.content,
-      createdAt: jobEvent.created_at,
-      url: jobEvent.tags.find((tag) => tag[0] === "jbUrl")?.[1] || "",
-      kind: jobEvent.kind,
-      pubkey: jobEvent.pubkey,
-      sig: jobEvent.sig,
-    })).sort((a, b) => b.createdAt - a.createdAt); // Sortieren nach dem Erstellungsdatum
+    try {
+      // Immer nur approved Jobs anzeigen
+      const fetchedJobs = await jobManager.getApprovedJobsByIdea(ideaID);
+      jobs = fetchedJobs.map(transformJob);
+    } catch (error) {
+      console.error('Error fetching jobs:', error);
+    }
   }
 
-  function postJob() {
-    navigate(`/postjob/${ideaID}`);
+  function transformJob(job) {
+    return {
+      id: job.id,
+      title: job.title || "N/A",
+      description: job.description || "",
+      createdAt: job.created_at,
+      url: job.bannerUrl || "",
+      pubkey: job.pubkey
+    };
+  }
+
+  function handleJobSubmit() {
+    fetchJobs(); // Aktualisiere die Job-Liste
+    showJobModal = false;
   }
 
   onDestroy(() => {
-    if ($nostrManager) {
-      $nostrManager.unsubscribeAll();
-    }
+    jobManager.cleanup();
   });
 </script>
 
-<div class="header">
-  <h4 class="base-h4">Jobs</h4>
-  {#if creatorPubKey === $nostrManager?.publicKey}
-    <button on:click={postJob} class="add-job-icon">
-      <i class="fa fa-plus-circle" aria-hidden="true" />
-    </button>
-  {/if}
-</div>
+<div class="job-section">
+  <div class="job-header">
+    <h2 class="section-title">Jobs</h2>
+    {#if isLoggedIn}
+      <button 
+        class="create-job-btn"
+        on:click={() => showJobModal = true}
+      >
+        <i class="fas fa-plus-circle mr-2"></i>
+        Create Job
+      </button>
+    {/if}
+  </div>
 
-<div class="job-grid">
-  {#each jobs as job (job.id)}
-    <Link to={`/job/${job.id}`} class="job-card">
-      <div class="job-card-inner">
-        <div class="job-image" style="background-image: url({job.url})" />
-        <div class="job-info">
-          <div class="job-title">{job.title}</div>
-          <div class="job-sats">{job.sats} Sats</div>
+  {#if showJobModal}
+    <JobModal 
+      {ideaID}
+      on:close={() => showJobModal = false}
+      on:submit={handleJobSubmit}
+    />
+  {/if}
+
+  <div class="job-grid">
+    {#each jobs as job (job.id)}
+      <Link to={`/job/${job.id}`} class="job-card">
+        <div class="job-card-inner">
+          {#if job.url}
+            <div class="job-image" style="background-image: url({job.url})" />
+          {/if}
+          <div class="job-content">
+            <h3 class="job-title">{job.title}</h3>
+            <p class="job-description">{job.description}</p>
+          </div>
         </div>
-      </div>
-    </Link>
-  {/each}
+      </Link>
+    {/each}
+  </div>
 </div>
 
 <style>
-  .add-job-icon {
-    background-color: transparent;
-    color: #a0a0a0; /* Graue Standardfarbe des Icons */
-    font-size: 1.5em;
-    border: none; /* Rahmen entfernen */
-    width: 30px; /* Breite des Buttons festlegen */
-    height: 30px; /* Höhe des Buttons festlegen */
-    display: flex;
-    align-items: center; /* Vertikale Zentrierung des Icons */
-    justify-content: center; /* Horizontale Zentrierung des Icons */
-    border-radius: 50%; /* Runder Button */
-    padding: 0; /* Entfernen Sie jeglichen Abstand */
-    transition:
-      color 0.5s,
-      background-color 0.5s; /* Langsamere Übergänge */
-    outline: none;
-    cursor: pointer;
+  .job-section {
+    background: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
 
-  .add-job-icon:hover {
-    background-color: rgba(
-      249,
-      115,
-      22,
-      0.2
-    ); /* Dezentes Orange mit 20% Deckkraft für den Hintergrund */
-    color: rgba(
-      249,
-      115,
-      22,
-      0.7
-    ); /* Dezentes Orange mit 70% Deckkraft für das Symbol */
-    text-decoration: none;
-  }
-
-  .add-job-icon:focus {
-    outline: none; /* Entfernen Sie den Fokus */
-    box-shadow: none; /* Entfernen Sie jeglichen Schatten, der durch den Fokus entsteht */
-  }
-
-  .header {
+  .job-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #1f2937;
+  }
+
+  .create-job-btn {
+    display: flex;
+    align-items: center;
+    background-color: #2c5282;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+
+  .create-job-btn:hover {
+    background-color: #1a365d;
+    transform: translateY(-1px);
   }
 
   .job-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Responsive Gitter */
-    gap: 20px;
-    padding: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    padding: 0.5rem;
   }
 
   .job-card {
     text-decoration: none;
     color: inherit;
-    transition: transform 0.3s ease;
+    transition: all 0.3s ease;
   }
 
   .job-card:hover {
-    transform: translateY(-5px); /* Leichte Anhebung beim Hover */
+    transform: translateY(-4px);
   }
 
   .job-card-inner {
-    background-color: #f9f9f9;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
     overflow: hidden;
+    height: 100%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: box-shadow 0.3s ease;
+  }
+
+  .job-card-inner:hover {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   }
 
   .job-image {
     width: 100%;
-    height: 120px;
+    height: 140px;
     background-size: cover;
     background-position: center;
+    border-bottom: 1px solid #e5e7eb;
   }
 
-  .job-info {
-    padding: 15px;
+  .job-content {
+    padding: 1rem;
   }
 
   .job-title {
-    font-weight: bold;
-    font-size: 1.2em;
-    margin-bottom: 5px;
-    color: #333333; /* Tiefes Grau für den Jobtitel */
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
   }
 
-  .job-sats {
-    font-size: 0.9em;
-    color: #FF9900; /* Bitcoin Orange für die Sats */
+  .job-description {
+    color: #6b7280;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+
+  @media (max-width: 640px) {
+    .job-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .job-header {
+      flex-direction: column;
+      gap: 1rem;
+      align-items: flex-start;
+    }
   }
 </style>

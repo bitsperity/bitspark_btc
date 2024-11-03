@@ -13,9 +13,9 @@
   import IdeaPreview from "./views/IdeaPreview.svelte";
 
   import Job from "./views/Job.svelte";
-  import PostJob from "./views/PostJob.svelte";
-  import JobMarket from "./views/JobMarket.svelte";
-  import JobManager from "./views/JobManager.svelte";
+  import JobExplorerView from "./views/JobExplorerView.svelte";
+  import MyJobsView from "./views/MyJobsView.svelte";
+  import IdeaLabView from "./views/IdeaLabView.svelte";
   import DMView from "./views/DMView.svelte";
   import './styles/card.css'; 
 </script>
@@ -49,9 +49,9 @@
       <Route path="/preview" component={IdeaPreview} />
 
       <Route path="/job/:id" component={Job} />
-      <Route path="/postjob/:ideaID" let:params component={PostJob} />
-      <Route path="/jobmarket" component={JobMarket} />
-      <Route path="/jobmanager" component={JobManager} />
+      <Route path="/jobexplorer" component={JobExplorerView} />
+      <Route path="/myjobs" component={MyJobsView} />
+      <Route path="/idealab" component={IdeaLabView} />
       <!-- <Route path="/dm" component={DMView} /> -->
       <Route path="/dm/:pubkey" let:params>
         <DMView {params} />
