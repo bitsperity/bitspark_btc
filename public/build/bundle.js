@@ -19526,7 +19526,7 @@ var app = (function () {
       // Pull Request Handling
       async submitPR(jobId, prData) {
         if (!this.manager?.publicKey) return;
-
+        
         const tags = [
           ["e", jobId],
           ["url", prData.url],
