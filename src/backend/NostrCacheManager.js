@@ -3,7 +3,10 @@ import 'websocket-polyfill'
 import { addOrUpdateEvent, deleteEventFromCache } from './NostrCacheStore.js'; // Stelle sicher, dass der Import korrekt ist
 const { SimplePool } = window.NostrTools;
 import { relaysStore } from './RelayStore.js';
-
+import { 
+  NOSTR_KIND_SEAL,
+  NOSTR_KIND_GIFT_WRAP
+} from '../constants/nostrKinds.js';
 
 export class NostrCacheManager {
     constructor(write_mode) {
@@ -12,7 +15,6 @@ export class NostrCacheManager {
         this.write_mode = write_mode;
         this.publicKey = null;
         this.relays = [];
-
 
         relaysStore.subscribe(value => {
             this.relays = value;
@@ -85,8 +87,8 @@ export class NostrCacheManager {
         return uniqueTags;
     }
 
-    async sendEvent(kind, content, tags) {
-        if (!this.write_mode) return; // Do nothing in read-only mode
+    async sendEvent(kind, content, tags, options = {}) {
+        if (!this.write_mode) return;
         if (!this.extensionAvailable()) return;
 
         let event = {
@@ -97,13 +99,15 @@ export class NostrCacheManager {
             tags,
         };
 
-        //event.tags.push(["s", "bitspark"]);
-        event = await window.nostr.signEvent(event);
+        // Add bitspark tag if not present
+        if (!tags.some(tag => tag[0] === "s" && tag[1] === "bitspark")) {
+            event.tags.push(["s", "bitspark"]);
+        }
 
         event.tags = this.uniqueTags(event.tags);
+        event = await window.nostr.signEvent(event);
+
         const pubs = this.pool.publish(this.relays, event);
-        // console.log("send event:", event);
-        // console.log("used relays:", this.relays);
         return event.id;
     }
 
@@ -199,4 +203,70 @@ export class NostrCacheManager {
 
     // Methode zum Beenden aller Abonnements
 
+    // New methods for encryption handling
+    async generateAnonKeyPair() {
+        const privateKey = window.NostrTools.generatePrivateKey();
+        const publicKey = window.NostrTools.getPublicKey(privateKey);
+        return { privateKey, publicKey };
+    }
+
+    async createSealedEvent(event, receiverPubKey) {
+        const sealedContent = await window.nostr.nip44.encrypt(
+            receiverPubKey,
+            JSON.stringify(event)
+        );
+
+        return {
+            kind: NOSTR_KIND_SEAL,
+            content: sealedContent,
+            tags: [
+                ["p", receiverPubKey],
+                ["s", "bitspark"]
+            ]
+        };
+    }
+
+    async createGiftWrap(event, receiverPubKey, anonKeyPair) {
+        const wrappedContent = await window.nostr.nip44.encrypt(
+            receiverPubKey,
+            JSON.stringify(event)
+        );
+
+        return {
+            kind: NOSTR_KIND_GIFT_WRAP,
+            pubkey: anonKeyPair.publicKey,
+            content: wrappedContent,
+            tags: [
+                ["p", receiverPubKey],
+                ["s", "bitspark"]
+            ]
+        };
+    }
+
+    // New method for sending encrypted events
+    async sendEncryptedEvent(kind, content, tags, receiverPubKey) {
+        if (!this.write_mode) return;
+        if (!this.extensionAvailable()) return;
+
+        // 1. Create and sign the base event
+        let event = {
+            pubkey: this.publicKey,
+            created_at: Math.floor(Date.now() / 1000),
+            kind,
+            content,
+            tags: [...tags, ["s", "bitspark"]]
+        };
+        event = await window.nostr.signEvent(event);
+
+        // 2. Create seal
+        const sealedEvent = await this.createSealedEvent(event, receiverPubKey);
+
+        // 3. Always create gift wrap for anonymity
+        const anonKeyPair = await this.generateAnonKeyPair();
+        const giftWrap = await this.createGiftWrap(sealedEvent, receiverPubKey, anonKeyPair);
+        event = window.NostrTools.finalizeEvent(giftWrap, anonKeyPair.privateKey);
+
+        const pubs = this.pool.publish(this.relays, event);
+        return event.id;
+    }
 }
