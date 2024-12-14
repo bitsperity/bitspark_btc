@@ -49,13 +49,10 @@ export class NostrCacheManager {
     }
 
     updateRelays(new_relays) {
+        // remove relays that do not match relay url properties:
+        // starts with wss://
+        new_relays = new_relays.filter(relay => relay.startsWith("wss://"));
         relaysStore.set(new_relays);
-        // console.log("new relays:", new_relays);
-    }
-
-    async getPublicRelaysString() {
-        return ["wss://relay.damus.io",
-            "wss://nostr-pub.wellorder.net"];
     }
 
     async initialize() {
@@ -92,7 +89,6 @@ export class NostrCacheManager {
     async sendEvent(kind, content, tags, options = {}) {
         if (!this.write_mode) return;
         if (!this.extensionAvailable()) return;
-
         let event = {
             pubkey: this.publicKey,
             created_at: Math.floor(Date.now() / 1000),
@@ -108,8 +104,7 @@ export class NostrCacheManager {
 
         event.tags = this.uniqueTags(event.tags);
         event = await window.nostr.signEvent(event);
-
-        const pubs = this.pool.publish(this.relays, event);
+        await this.pool.publish(this.relays, event);
         return event.id;
     }
 
