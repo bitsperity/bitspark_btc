@@ -18,18 +18,18 @@ class NostrEventFactory {
     };
   }
 
-  createIdeaEvent(name, subtitle, imageUrl, gitRepo, lnAddress, page, categories) {
+  createIdeaEvent(name, subtitle, abstract, message, bannerUrl, githubRepo, lightningAddress, categories) {
     const tags = [
-      ["name", name],
-      ["subtitle", subtitle],
-      ["image", imageUrl],
-      ["repo", gitRepo],
-      ["ln", lnAddress],
-      ["page", page],
+      ["iName", name],
+      ["iSub", subtitle],
+      ["ibUrl", bannerUrl],
+      ["gitrepo", githubRepo],
+      ["lnadress", lightningAddress],
+      ["abstract", abstract],
       ...categories.map(cat => ["c", cat])
     ];
 
-    return this.createBaseEvent(NOSTR_KIND_IDEA, "", tags);
+    return this.createBaseEvent(NOSTR_KIND_IDEA, message, tags);
   }
 
   createJobEvent(name, requirements, imageUrl, page, programmingLanguage, categories, ideaId, previousJobId = null, contributorPubkeys = [], thoughts = "") {
