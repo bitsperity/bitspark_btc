@@ -7,6 +7,7 @@
     import SelectionModal from "../Modals/SelectionModal.svelte";
     import { writable } from "svelte/store";
     import { NOSTR_KIND_IDEA } from "../../constants/nostrKinds";
+    import { nostrEventFactory } from "../../backend/NostrEventFactory";
 
     let categories = [
         "Art & Design",
@@ -70,25 +71,23 @@
             $previewStore.lightningAddress &&
             $previewStore.categories
         ) {
-            let tags = [
-                ["s", "bitspark"],
-                ["iName", $previewStore.name],
-                ["iSub", $previewStore.subtitle],
-                ["ibUrl", $previewStore.bannerUrl],
-                ["gitrepo", $previewStore.githubRepo],
-                ["lnadress", $previewStore.lightningAddress],
-                ["abstract", $previewStore.abstract],
-            ];
-            $previewStore.categories.forEach((category) => {
-                tags.push(["c", category]);
-            });
+            const event = nostrEventFactory.createIdeaEvent(
+                $previewStore.name,
+                $previewStore.subtitle,
+                $previewStore.abstract,
+                $previewStore.message,
+                $previewStore.bannerUrl,
+                $previewStore.githubRepo,
+                $previewStore.lightningAddress,
+                $previewStore.categories
+            );
 
             // Senden des Events über nostrManager
             if ($nostrManager && $nostrManager.write_mode) {
                 await $nostrManager.sendEvent(
-                    NOSTR_KIND_IDEA,
-                    $previewStore.message,
-                    tags,
+                    event.kind,
+                    event.content,
+                    event.tags
                 );
             }
 
