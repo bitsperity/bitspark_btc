@@ -1,0 +1,36 @@
+rules:
+  # Nostr Core Principles (NIP-01)
+  nostr_principles:
+    - "Always treat events as immutable - never design for event mutation"
+    - "Use event references (tags) instead of traditional foreign keys"
+    - "Ensure all events are properly signed and verified"
+    - "Follow NIP specifications strictly"
+
+  # Event Structure (NIP-01, NIP-07)
+  event_structure:
+    - "Always include all required event fields: id, pubkey, created_at, kind, tags, content, sig"
+    - "Use standardized event kinds from nostrKinds.js"
+    - "Structure tags as [type, reference, recommended_relay?, marker?]"
+    - "Ensure content follows the expected format for each event kind"
+    - "Validate events through window.nostr.signEvent() when using browser extension"
+
+  # Encryption & Privacy (NIP-44, NIP-59, NIP-17)
+  encryption:
+    - "Use NIP-44 versioned encryption for sensitive content"
+    - "Implement proper key exchange for encrypted direct messages (NIP-17)"
+    - "Use Gift Wrap protocol (NIP-59) for metadata protection when needed"
+    - "Handle encrypted events in NOSTR_KIND_ENCRYPTED ranges"
+    - "Never expose encryption keys or sensitive content in event metadata"
+
+  # Code Organization
+  organization:
+    - "Separate event creation, validation, and processing logic"
+    - "Group related event kinds and their handlers together"
+    - "Use descriptive names for event kinds and tag types"
+    - "Keep encryption/decryption logic isolated from event handling"
+
+  # Documentation
+  documentation:
+    - "Reference relevant NIPs in comments"
+    - "Document event kind purposes and structures"
+    - "Include examples of expected event formats"

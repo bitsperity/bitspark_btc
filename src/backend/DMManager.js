@@ -1,7 +1,6 @@
 // DMManager.js
 import { nostrManager } from "./NostrManagerStore.js";
 import { nostrCache } from "./NostrCacheStore.js";
-import { nip19, nip44 } from 'nostr-tools';
 
 class DMManager {
   constructor() {
@@ -24,31 +23,6 @@ class DMManager {
     return unsubscribe; // Rückgabe der Unsubscribe-Funktion für spätere Aufräumaktionen
   }
 
-  async wrapMessage(unsignedKind14, receiverPubKey) {
-    const anonPrivateKey = window.NostrTools.generateSecretKey();
-    const anonPublicKey = window.NostrTools.getPublicKey(anonPrivateKey);
-
-    // Erstelle das versiegelte Event (Kind 13)
-    const sealContent = await window.nostr.nip44.encrypt(receiverPubKey, JSON.stringify(unsignedKind14));
-    let seal = {
-      created_at: Math.floor(Date.now() / 1000),
-      kind: 13,
-      tags: [],
-      content: sealContent,
-    };
-    seal = await window.nostr.signEvent(seal);
-
-    // Wickele das versiegelte Event ein (Kind 1059)
-    const conversationKey = nip44.getConversationKey(anonPrivateKey, receiverPubKey);
-    const giftWrapContent = await nip44.encrypt(JSON.stringify(seal), conversationKey);
-    
-    return {
-      content: giftWrapContent,
-      anonPrivateKey,
-      anonPublicKey
-    };
-  }
-
   async sendMessage(receiverPubKeys, messageContent, subject) {
     if (!this.manager || !this.manager.publicKey) {
       console.error("Manager or public key not initialized.");
@@ -68,10 +42,8 @@ class DMManager {
 
     for (const receiverPubKey of receiverPubKeys) {
       try {
-        const { content, anonPrivateKey, anonPublicKey } = await this.wrapMessage(kind14, receiverPubKey);
-        const tags = [["p", receiverPubKey]];
         
-        await this.manager.sendAnonEvent(1059, content, tags, anonPrivateKey, anonPublicKey);
+        await this.manager.sendPrivateEvent(kind14, receiverPubKey);
       } catch (error) {
         console.error(`Error sending message to ${receiverPubKey}:`, error);
       }

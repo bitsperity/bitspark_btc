@@ -14,8 +14,7 @@ export async function initializeNostrManager(login, init) {
   
   if (!init || currentValue === null) {  // Überprüfe, ob der aktuelle Wert des Stores null ist
     const manager = new NostrCacheManager(login);
-    manager.updateRelays(['wss://relay.damus.io', 'wss://relay.plebstr.com', 'wss://nostr.wine', 
-      'wss://nostr.primz.org', 'wss://nostr.bitcoinplebs.de', 'wss://nostr.cercatrova.me'])
+    manager.updateRelays(['wss://relay.damus.io', 'wss://nostr.einundzwanzig.space'])
     await manager.initialize();
     nostrManager.set(manager); // Setzen des Stores erst nach der Initialisierung
   }

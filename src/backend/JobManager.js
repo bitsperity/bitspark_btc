@@ -1,14 +1,13 @@
 import { nostrManager } from "./NostrManagerStore.js";
 import { nostrCache } from "./NostrCacheStore.js";
 import { nip44 } from 'nostr-tools';
-
-const KINDS = {
-  JOB: 30000,           // Public job posting
-  APPROVAL: 30001,      // Generic approval/decline event
-  APPLICATION: 30002,   // Wrapped anonymous application
-  PAYMENT: 30003,       // Wrapped anonymous payment
-  PR: 30004            // Public pull request
-};
+import {
+  NOSTR_KIND_JOB,
+  NOSTR_KIND_APPROVAL,
+  NOSTR_KIND_OFFER,
+  NOSTR_KIND_PAYMENT,
+  NOSTR_KIND_PR
+} from '../constants/nostrKinds.js';
 
 class JobManager {
   constructor() {
@@ -69,7 +68,7 @@ class JobManager {
     ];
 
     try {
-      const result = await this.manager.sendEvent(KINDS.JOB, "", tags);
+      const result = await this.manager.sendEvent(NOSTR_KIND_JOB, "", tags);
       console.log('Job created:', result);
       return result;
     } catch (error) {
@@ -82,7 +81,7 @@ class JobManager {
     if (!this.manager?.publicKey) return;
 
     const applicationEvent = {
-      kind: KINDS.APPLICATION,
+      kind: NOSTR_KIND_OFFER,
       created_at: Math.floor(Date.now() / 1000),
       content: JSON.stringify({
         bid: applicationData.bid,
@@ -100,7 +99,7 @@ class JobManager {
     );
 
     await this.manager.sendAnonEvent(
-      KINDS.APPLICATION, 
+      NOSTR_KIND_OFFER, 
       content, 
       [["p", receiverPubKey]],
       anonPrivateKey, 
@@ -135,7 +134,7 @@ class JobManager {
       if (reason) tags.push(["reason", reason]);
 
       console.log('Sending approval event with tags:', tags);
-      const result = await this.manager.sendEvent(KINDS.APPROVAL, "", tags);
+      const result = await this.manager.sendEvent(NOSTR_KIND_APPROVAL, "", tags);
       console.log('Approval event sent successfully:', result);
       return result;
 
@@ -154,7 +153,7 @@ class JobManager {
       ["commit", prData.commitHash]
     ];
 
-    await this.manager.sendEvent(KINDS.PR, prData.description || "", tags);
+    await this.manager.sendEvent(NOSTR_KIND_PR, prData.description || "", tags);
   }
 
   // Payment Handling
@@ -162,7 +161,7 @@ class JobManager {
     if (!this.manager?.publicKey) return;
 
     const paymentEvent = {
-      kind: KINDS.PAYMENT,
+      kind: NOSTR_KIND_PAYMENT,
       created_at: Math.floor(Date.now() / 1000),
       content: JSON.stringify({
         amount: paymentData.amount,
@@ -177,7 +176,7 @@ class JobManager {
     );
 
     await this.manager.sendAnonEvent(
-      KINDS.PAYMENT, 
+      NOSTR_KIND_PAYMENT, 
       content, 
       [["e", prId], ["p", receiverPubKey]], 
       anonPrivateKey, 
@@ -188,7 +187,7 @@ class JobManager {
   // Query Methods
   async getJobsByIdea(ideaId) {
     const events = await this.cache.getEventsByCriteria({
-      kinds: [KINDS.JOB],
+      kinds: [NOSTR_KIND_JOB],
       tags: { e: [ideaId] }
     });
 
@@ -217,14 +216,14 @@ class JobManager {
 
   async getApplicationsForJob(jobId) {
     return this.cache.getEventsByCriteria({
-      kinds: [KINDS.APPLICATION],
+      kinds: [NOSTR_KIND_OFFER],
       tags: { e: [jobId] }
     });
   }
 
   async getPRsForJob(jobId) {
     return this.cache.getEventsByCriteria({
-      kinds: [KINDS.PR],
+      kinds: [NOSTR_KIND_PR],
       tags: { e: [jobId] }
     });
   }
@@ -239,7 +238,7 @@ class JobManager {
     console.log('Checking approval status for:', { eventId, creatorPubkey });
 
     const approvals = await this.cache.getEventsByCriteria({
-      kinds: [KINDS.APPROVAL],
+      kinds: [NOSTR_KIND_APPROVAL],
       tags: { e: [eventId] }
     });
 
@@ -322,13 +321,13 @@ class JobManager {
     
     // Subscribe zu allen Jobs dieser Idea
     this.manager.subscribeToEvents({
-      kinds: [KINDS.JOB],
+      kinds: [NOSTR_KIND_JOB],
       "#e": [ideaId]
     });
 
     // Subscribe zu allen Approvals dieser Idea
     this.manager.subscribeToEvents({
-      kinds: [KINDS.APPROVAL],
+      kinds: [NOSTR_KIND_APPROVAL],
       "#s": ["bitspark"]
     });
 
@@ -371,4 +370,4 @@ class JobManager {
 }
 
 const jobManager = new JobManager();
-export { jobManager, KINDS };
+export { jobManager };
