@@ -86,7 +86,7 @@ export class NostrCacheManager {
         return uniqueTags;
     }
 
-    async sendEvent(kind, content, tags, options = {}) {
+    async sendEvent(kind, content, tags) {
         if (!this.write_mode) return;
         if (!this.extensionAvailable()) return;
         let event = {

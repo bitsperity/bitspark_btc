@@ -277,10 +277,28 @@ class NostrEventCache {
 
       if (criteria.tags) {
         for (let tagKey in criteria.tags) {
-          const tagValues = event.tags.filter(tag => tag[0] === tagKey).map(tag => tag[1]);
-          // Überprüft, ob jeder Wert im Filter auch in der Tag-Liste ist
-          if (!criteria.tags[tagKey].some(value => tagValues.includes(value))) {
-            return false;
+          // Erweiterte Tag-Filterung
+          if (typeof criteria.tags[tagKey] === 'object' && !Array.isArray(criteria.tags[tagKey])) {
+            // Suche nach spezifischen Tag-Eigenschaften
+            // Alle Felder sind optional: { value?, marker?, relay? }
+            const tagCriteria = criteria.tags[tagKey];
+            const matchingTags = event.tags.filter(tag => {
+              const [type, value, relay, marker] = tag;
+              return type === tagKey && 
+                     // Prüfe nur die angegebenen Felder
+                     ('value' in tagCriteria ? value === tagCriteria.value : true) &&
+                     ('marker' in tagCriteria ? marker === tagCriteria.marker : true) &&
+                     ('relay' in tagCriteria ? relay === tagCriteria.relay : true);
+            });
+            if (matchingTags.length === 0) {
+              return false;
+            }
+          } else {
+            // Bisherige einfache Tag-Filterung
+            const tagValues = event.tags.filter(tag => tag[0] === tagKey).map(tag => tag[1]);
+            if (!criteria.tags[tagKey].some(value => tagValues.includes(value))) {
+              return false;
+            }
           }
         }
       }

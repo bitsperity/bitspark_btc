@@ -32,7 +32,7 @@ class NostrEventFactory {
     return this.createBaseEvent(NOSTR_KIND_IDEA, message, tags);
   }
 
-  createJobEvent(name, requirements, imageUrl, page, programmingLanguage, categories, ideaId, previousJobId = null, contributorPubkeys = [], thoughts = "") {
+  createJobEvent(name, requirements, imageUrl, page, programmingLanguage, categories, ideaId, abstract, previousJobId = null, contributorPubkeys = [], thoughts = "") {
     const tags = [
       ["name", name],
       ["requirements", requirements],
@@ -54,17 +54,21 @@ class NostrEventFactory {
       tags.push(["thoughts", thoughts]);
     }
 
-    return this.createBaseEvent(NOSTR_KIND_JOB, "", tags);
+    return this.createBaseEvent(NOSTR_KIND_JOB, abstract, tags);
   }
 
-  createOfferEvent(message, jobId, bid, duration, startDate, termsOfAgreement) {
+  createOfferEvent(message, jobId, bid, duration, startDate, termsOfAgreement, previousOfferId = null) {
     const tags = [
       ["bid", bid.toString()],
       ["duration", duration],
       ["start", startDate],
       ["terms", termsOfAgreement],
-      ["e", jobId]  // reference to job/offer
+      ["e", jobId, "", "job"]  // job reference mit marker
     ];
+
+    if (previousOfferId) {
+      tags.push(["e", previousOfferId, "", "prev_offer"]); // previous offer mit marker
+    }
 
     return this.createBaseEvent(NOSTR_KIND_OFFER, message, tags);
   }
@@ -80,9 +84,9 @@ class NostrEventFactory {
 
   createContractEvent(message, jobId, offerId, approvalId) {
     const tags = [
-      ["e", jobId],     // reference to job
-      ["e", offerId],   // reference to offer
-      ["e", approvalId] // reference to approval
+      ["e", jobId, "", "job"],     // reference to job
+      ["e", offerId, "", "offer"],   // reference to offer
+      ["e", approvalId, "", "approval"] // reference to approval
     ];
 
     return this.createBaseEvent(NOSTR_KIND_CONTRACT, message, tags);
