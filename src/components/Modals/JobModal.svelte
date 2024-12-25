@@ -1,10 +1,13 @@
 <script>
     import { createEventDispatcher } from 'svelte';
-    import { jobManager } from '../../backend/JobManager.js';
+    import { ideaOwnerManager } from '../../backend/IdeaOwnerManager.js';
+    import { communityJobManager } from '../../backend/CommunityJobManager.js';
+    import { nostrManager } from '../../backend/NostrManagerStore.js';
     import MultiSelectDropdown from '../Dropdowns/MultiSelectDropdown.svelte';
     import { job_categories, coding_language } from '../../constants/categories.js';
   
     export let ideaID;
+    export let creatorPubKey;
     const dispatch = createEventDispatcher();
   
     let jobData = {
@@ -18,7 +21,30 @@
   
     async function handleSubmit() {
       try {
-        await jobManager.createJob(ideaID, jobData);
+        // Wenn der User der IO ist, direkt über ideaOwnerManager posten
+        // Ansonsten als Community Job posten
+        if ($nostrManager.publicKey === creatorPubKey) {
+          await ideaOwnerManager.postJob(
+            jobData.title,           // name
+            jobData.requirements,    // requirements
+            '',                      // imageUrl (optional)
+            '',                      // page (optional)
+            jobData.languages,       // programmingLanguage
+            jobData.categories,      // categories
+            ideaID,                  // ideaId
+            jobData.abstract        // abstract
+          );
+        } else {
+          // Community Job wird nur dem IO angezeigt
+          await communityJobManager.submitOffer(
+            jobData.abstract,        // content
+            ideaID,                  // jobId
+            0,                       // bid (optional für Jobs)
+            0,                       // duration (optional für Jobs)
+            '',                      // startDate (optional für Jobs)
+            jobData.requirements,    // termsOfAgreement
+          );
+        }
         dispatch('submit');
         dispatch('close');
       } catch (error) {

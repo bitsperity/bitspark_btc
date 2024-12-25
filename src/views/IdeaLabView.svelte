@@ -1,11 +1,14 @@
-<!-- JobExplorer.svelte -->
+<!-- IdeaLabView.svelte -->
 <script>
   import Menu from "../components/Sidebar/Sidebar.svelte";
-  import JobManagerWidget from "../components/IdeaLabView/JobManagerWidget.svelte";
   import Footer from "../components/Footers/Footer.svelte";
   import { contentContainerClass } from "../helperStore.js";
   import Banner from "../components/Banner.svelte";
   import ToolBar from "../components/Toolbar/Toolbar.svelte";
+  import CommunityJobsSection from "../components/IdeaLab/CommunityJobsSection.svelte";
+  import ActiveJobsSection from "../components/IdeaLab/ActiveJobsSection.svelte";
+  import ContractSection from "../components/IdeaLab/ContractSection.svelte";
+  import ApplicationsSection from "../components/IdeaLab/ApplicationsSection.svelte";
   import { nostrManager } from "../backend/NostrManagerStore.js";
   import { nostrCache } from "../backend/NostrCacheStore.js";
   import { NOSTR_KIND_IDEA } from "../constants/nostrKinds";
@@ -43,19 +46,33 @@
     <ToolBar />
     <div class={$contentContainerClass}>
       {#if userIdeas.length === 0}
-        <div class="empty-state">
-          <p>No ideas found. Create an idea to start managing jobs!</p>
+        <div class="single-card">
+          <div class="empty-state">
+            <h3>No Ideas Found</h3>
+            <p>Create an idea to start managing jobs and collaborating with developers!</p>
+          </div>
         </div>
       {:else}
         {#each userIdeas as idea (idea.id)}
-          <div class="idea-section">
-            <h2 class="idea-title">
-              {idea.title}
+          <div class="single-card">
+            <div class="idea-header">
+              <h2>{idea.title}</h2>
               {#if idea.subtitle}
-                <span class="idea-subtitle">{idea.subtitle}</span>
+                <p class="idea-subtitle">{idea.subtitle}</p>
               {/if}
-            </h2>
-            <JobManagerWidget ideaID={idea.id} />
+            </div>
+
+            <!-- Community Jobs die auf Republish warten -->
+            <CommunityJobsSection ideaId={idea.id} />
+
+            <!-- Aktive Jobs (eigene + republished) -->
+            <ActiveJobsSection ideaId={idea.id} />
+
+            <!-- Bewerbungen -->
+            <ApplicationsSection ideaId={idea.id} />
+
+            <!-- Aktive Contracts -->
+            <ContractSection ideaId={idea.id} />
           </div>
         {/each}
       {/if}
@@ -65,34 +82,34 @@
 </main>
 
 <style>
-  .idea-section {
-    margin-bottom: 2rem;
+  .idea-header {
+    padding: 2rem;
+    border-bottom: 1px solid #e5e7eb;
   }
 
-  .idea-title {
+  .idea-header h2 {
     font-size: 1.5rem;
     font-weight: 600;
     color: #1f2937;
-    margin-bottom: 1rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 2px solid #e5e7eb;
-    display: flex;
-    align-items: baseline;
-    gap: 1rem;
+    margin: 0;
   }
 
   .idea-subtitle {
-    font-size: 1rem;
-    font-weight: normal;
     color: #6b7280;
+    margin-top: 0.5rem;
+    font-size: 1.1rem;
   }
 
   .empty-state {
     text-align: center;
-    padding: 2rem;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 4rem 2rem;
+  }
+
+  .empty-state h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 1rem;
   }
 
   .empty-state p {

@@ -44,7 +44,38 @@ class DeveloperManager {
     if (!this.manager) {
       throw new Error('NostrManager not initialized');
     }
-    return communityJobManager.submitOffer(content, jobId, bid, duration, startDate, termsOfAgreement);
+
+    console.log('DeveloperManager: Creating job application event', {
+      content,
+      jobId,
+      bid,
+      duration,
+      startDate,
+      termsOfAgreement
+    });
+
+    const tags = [
+      ['e', jobId, '', 'job'],
+      ['bid', bid.toString()],
+      ['duration', duration.toString()],
+      ['startDate', startDate],
+      ['termsOfAgreement', termsOfAgreement]
+    ];
+
+    console.log('DeveloperManager: Tags for event:', tags);
+    
+    try {
+      const eventId = await this.manager.sendEvent(
+        NOSTR_KIND_OFFER,
+        content,
+        tags
+      );
+      console.log('DeveloperManager: Event sent successfully, id:', eventId);
+      return eventId;
+    } catch (error) {
+      console.error('DeveloperManager: Error submitting application:', error);
+      throw error;
+    }
   }
 
   /**

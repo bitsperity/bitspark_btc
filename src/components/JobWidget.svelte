@@ -4,11 +4,14 @@
   import { onMount, onDestroy } from "svelte";
   import { Link } from 'svelte-routing';
   import JobModal from './Modals/JobModal.svelte';
-  import { jobManager } from '../backend/JobManager.js';
+  import { ideaOwnerManager } from '../backend/IdeaOwnerManager.js';
+  import { communityJobManager } from '../backend/CommunityJobManager.js';
   import { nostrManager } from '../backend/NostrManagerStore.js';
   import { nostrCache } from '../backend/NostrCacheStore.js';
+  import { NOSTR_KIND_JOB } from '../constants/nostrKinds.js';
 
   export let ideaID;
+  export let creatorPubKey;
   let initialized = false;
 
   let jobs = [];
@@ -29,37 +32,57 @@
   }
 
   async function initialize() {
-    await jobManager.subscribeToJob(ideaID);
-    await fetchJobs();
+    if ($nostrManager) {
+      await ideaOwnerManager.subscribeToJobsByIdea(ideaID);
+    }
   }
 
   async function fetchJobs() {
-      const fetchedJobs = await jobManager.getApprovedJobsByIdea(ideaID);
-      console.log('fetchedJobs!!!!!', fetchedJobs);
-      jobs = fetchedJobs.map(transformJob);
+    if ($nostrCache) {
+      const events = await $nostrCache.getEventsByCriteria({
+        kinds: [NOSTR_KIND_JOB],
+        "#e": [ideaID]
+      });
+
+      jobs = events
+        .filter(event => 
+          event.pubkey === creatorPubKey ||
+          event.tags.some(t => t[0] === 'p')
+        )
+        .map(transformJob);
+    }
   }
 
-  function transformJob(job) {
+  function transformJob(event) {
+    const tags = event.tags.reduce(
+      (tagObj, [key, value]) => ({ ...tagObj, [key]: value }),
+      {}
+    );
+
+    const originalCreator = event.tags.find(t => t[0] === 'p')?.[1];
+
     return {
-      id: job.id,
-      title: job.title || "N/A",
-      abstract: job.abstract || "",
-      description: job.description || "",
-      requirements: job.requirements || "",
-      languages: job.languages || [],
-      categories: job.categories || [],
-      createdAt: job.created_at,
-      pubkey: job.pubkey
+      id: event.id,
+      title: tags.name || "N/A",
+      abstract: event.content || "",
+      requirements: tags.requirements || "",
+      languages: event.tags.filter(t => t[0] === 'l').map(t => t[1]),
+      categories: event.tags.filter(t => t[0] === 'c').map(t => t[1]),
+      createdAt: event.created_at,
+      pubkey: event.pubkey,
+      originalCreator
     };
   }
 
   function handleJobSubmit() {
-    fetchJobs(); // Aktualisiere die Job-Liste
+    fetchJobs();
     showJobModal = false;
   }
 
   onDestroy(() => {
-    jobManager.cleanup();
+    if ($nostrManager) {
+      $nostrManager.unsubscribeAll();
+    }
   });
 </script>
 
@@ -80,6 +103,7 @@
   {#if showJobModal}
     <JobModal 
       {ideaID}
+      {creatorPubKey}
       on:close={() => showJobModal = false}
       on:submit={handleJobSubmit}
     />
@@ -92,6 +116,11 @@
           <div class="job-content">
             <h3 class="job-title">{job.title}</h3>
             <p class="job-description">{job.abstract}</p>
+            {#if job.originalCreator}
+              <div class="creator-info">
+                Originally by: {job.originalCreator}
+              </div>
+            {/if}
             {#if job.languages?.length}
               <div class="tags">
                 {#each job.languages as lang}
@@ -224,5 +253,12 @@
       gap: 1rem;
       align-items: flex-start;
     }
+  }
+
+  .creator-info {
+    font-size: 0.8rem;
+    color: #6b7280;
+    margin-top: 0.5rem;
+    font-style: italic;
   }
 </style>
