@@ -1531,7 +1531,7 @@ var app = (function () {
     	location: /*$location*/ ctx[0]
     });
 
-    function create_fragment$V(ctx) {
+    function create_fragment$Y(ctx) {
     	let current;
     	const default_slot_template = /*#slots*/ ctx[12].default;
     	const default_slot = create_slot(default_slot_template, ctx, /*$$scope*/ ctx[11], get_default_slot_context$2);
@@ -1578,7 +1578,7 @@ var app = (function () {
     	};
     }
 
-    function instance$U($$self, $$props, $$invalidate) {
+    function instance$X($$self, $$props, $$invalidate) {
     	let $location;
     	let $routes;
     	let $base;
@@ -1735,7 +1735,7 @@ var app = (function () {
     class Router extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$U, create_fragment$V, safe_not_equal, { basepath: 6, url: 7, history: 8 });
+    		init(this, options, instance$X, create_fragment$Y, safe_not_equal, { basepath: 6, url: 7, history: 8 });
     	}
     }
 
@@ -1744,12 +1744,12 @@ var app = (function () {
     const get_default_slot_context$1 = ctx => ({ params: /*routeParams*/ ctx[2] });
 
     // (44:0) {#if $activeRoute && $activeRoute.route === route}
-    function create_if_block$o(ctx) {
+    function create_if_block$r(ctx) {
     	let current_block_type_index;
     	let if_block;
     	let if_block_anchor;
     	let current;
-    	const if_block_creators = [create_if_block_1$e, create_else_block$c];
+    	const if_block_creators = [create_if_block_1$g, create_else_block$e];
     	const if_blocks = [];
 
     	function select_block_type(ctx, dirty) {
@@ -1814,7 +1814,7 @@ var app = (function () {
     }
 
     // (53:4) {:else}
-    function create_else_block$c(ctx) {
+    function create_else_block$e(ctx) {
     	let current;
     	const default_slot_template = /*#slots*/ ctx[8].default;
     	const default_slot = create_slot(default_slot_template, ctx, /*$$scope*/ ctx[7], get_default_slot_context$1);
@@ -1862,7 +1862,7 @@ var app = (function () {
     }
 
     // (45:4) {#if component}
-    function create_if_block_1$e(ctx) {
+    function create_if_block_1$g(ctx) {
     	let await_block_anchor;
     	let promise;
     	let current;
@@ -2027,10 +2027,10 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$U(ctx) {
+    function create_fragment$X(ctx) {
     	let if_block_anchor;
     	let current;
-    	let if_block = /*$activeRoute*/ ctx[1] && /*$activeRoute*/ ctx[1].route === /*route*/ ctx[5] && create_if_block$o(ctx);
+    	let if_block = /*$activeRoute*/ ctx[1] && /*$activeRoute*/ ctx[1].route === /*route*/ ctx[5] && create_if_block$r(ctx);
 
     	return {
     		c() {
@@ -2051,7 +2051,7 @@ var app = (function () {
     						transition_in(if_block, 1);
     					}
     				} else {
-    					if_block = create_if_block$o(ctx);
+    					if_block = create_if_block$r(ctx);
     					if_block.c();
     					transition_in(if_block, 1);
     					if_block.m(if_block_anchor.parentNode, if_block_anchor);
@@ -2082,7 +2082,7 @@ var app = (function () {
     	};
     }
 
-    function instance$T($$self, $$props, $$invalidate) {
+    function instance$W($$self, $$props, $$invalidate) {
     	let $activeRoute;
     	let { $$slots: slots = {}, $$scope } = $$props;
     	let { path = "" } = $$props;
@@ -2146,7 +2146,7 @@ var app = (function () {
     class Route extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$T, create_fragment$U, safe_not_equal, { path: 6, component: 0 });
+    		init(this, options, instance$W, create_fragment$X, safe_not_equal, { path: 6, component: 0 });
     	}
     }
 
@@ -2154,7 +2154,7 @@ var app = (function () {
     const get_default_slot_changes = dirty => ({ active: dirty & /*ariaCurrent*/ 4 });
     const get_default_slot_context = ctx => ({ active: !!/*ariaCurrent*/ ctx[2] });
 
-    function create_fragment$T(ctx) {
+    function create_fragment$W(ctx) {
     	let a;
     	let current;
     	let mounted;
@@ -2236,7 +2236,7 @@ var app = (function () {
     	};
     }
 
-    function instance$S($$self, $$props, $$invalidate) {
+    function instance$V($$self, $$props, $$invalidate) {
     	let ariaCurrent;
     	const omit_props_names = ["to","replace","state","getProps"];
     	let $$restProps = compute_rest_props($$props, omit_props_names);
@@ -2330,7 +2330,7 @@ var app = (function () {
     	constructor(options) {
     		super();
 
-    		init(this, options, instance$S, create_fragment$T, safe_not_equal, {
+    		init(this, options, instance$V, create_fragment$W, safe_not_equal, {
     			to: 7,
     			replace: 8,
     			state: 9,
@@ -6528,8 +6528,8 @@ var app = (function () {
       }
     }
 
-    var css_248z$y = ".color-for-bg {\n    color: rgb(71 85 105)\n}\n\n.text-color-df {\n    color: #4a5568;\n}\n\n/* Layout */\n.overview-page {\n    position: relative;\n    display: flex;\n    flex-direction: column;\n    background-color: rgb(71 85 105)\n        /* background-color: #E2E8F0; Assuming you have this variable defined */\n}\n\nfooter {\n    z-index: 10;\n    background-color: rgb(12, 12, 12);\n}\n\n.move-up {\n    transform: translateY(-2px);\n}\n\n.content-overlay {\n    position: absolute;\n    left: 0;\n    right: 0;\n    top: 50%;\n    /* Equivalent to top-1/2 */\n    transform: translateY(-50%);\n    /* Equivalent to -translate-y-1/2 */\n    padding: 0 1rem;\n    /* Equivalent to px-4 */\n    display: flex;\n    flex-direction: column;\n    /* Equivalent to flex-col */\n    align-items: flex-start;\n    /* Equivalent to items-start */\n    justify-content: center;\n    /* Equivalent to justify-center */\n    height: 100%;\n    /* Equivalent to h-full */\n}\n\n.content-icons {\n    position: absolute;\n    top: 1rem;\n    /* Equivalent to top-4 */\n    right: 1rem;\n    /* Equivalent to right-4 */\n    font-size: 1.875rem;\n    /* Equivalent to text-3xl */\n    color: white;\n    /* Equivalent to text-white */\n    display: flex;\n    justify-content: flex-end;\n    /* Equivalent to justify-end */\n    align-items: center;\n    /* Equivalent to items-center */\n    gap: 1.5rem;\n    /* Equivalent to gap-6 */\n}\n\n.support-button {\n    padding: 0;\n    display: flex;\n    align-items: center;\n    background: none;\n    border: none;\n    cursor: pointer;\n}\n\n.support-button img {\n    height: 2.5rem;\n    width: 2.5rem;\n}\n\n\n.bg-card {\n    background-color: white;\n    width: 100%;\n    margin-bottom: 6rem;\n    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),\n        0 2px 4px -1px rgba(0, 0, 0, 0.06);\n    border-radius: 1.25rem;\n}\n\n/* Base class for h2 */\n.base-h2 {\n    font-size: 4rem;\n    font-weight: 700;\n    /* blueGray-700 */\n    margin-bottom: 1rem;\n    margin-top: 1.5rem;\n    /* Equivalent to mt-6 */\n}\n\n/* Base class for h3 */\n.base-h3 {\n    font-size: 3rem;\n    font-weight: 600;\n    /* blueGray-700 */\n    margin-bottom: 0.75rem;\n    margin-top: 1.25rem;\n}\n\n/* Base class for h4 */\n.base-h4 {\n    font-size: 2rem;\n    font-weight: 500;\n    /* blueGray-700 */\n    margin-bottom: 0.5rem;\n    margin-top: 1rem;\n}\n\n.flex-grow {\n    /* Other styles */\n    z-index: 0;\n    /* This will keep the div behind the button */\n}\n\n.content-section {\n    display: flex;\n    /* background-color: #e2e8f0 !important;*/\n}\n\n.content-container {\n    margin-left: 0;\n    /* This is the starting state */\n    transition: margin-left 0.3s ease-in-out;\n    flex-grow: 1;\n    z-index: 0;\n    /* This will keep the div behind the button */\n}\n\n.content-container.sidebar-open {\n    margin-left: 200px;\n    /* This should be equal to the width of the sidebar */\n}\n\n.combined-content-container {\n    /* From .content-container */\n    margin-left: 0;\n    transition: margin-left 0.3s ease-in-out;\n    flex-grow: 1;\n    z-index: 0;\n\n    /* From .relative (assuming it sets position: relative) */\n    position: relative;\n\n    /* From .py-16 (assuming it sets padding-top and padding-bottom to 4rem) */\n    padding-top: 32px;\n\n    /* From .bg-blueGray-200 */\n    /* background-color: #e2e8f0; */\n    /* This is a guess based on the name. Replace with the actual color if different. */\n\n    /* From .container (assuming it centers content with max-width and auto margins) */\n    max-width: 100%;\n    /* Adjust this value based on your design */\n    /* margin-right: auto;\n    margin-left: auto; */\n\n    /* From .mx-auto */\n    /* Already covered by the .container styles above */\n\n    /* From .px-4 (assuming it sets padding-left and padding-right to 1rem) */\n    padding-left: 1rem;\n    padding-right: 1rem;\n}\n\n.combined-content-container.sidebar-open {\n    margin-left: 200px;\n}\n\n\n.title-class {\n    position: absolute;\n    left: 0;\n    right: 0;\n    top: 1/2;\n    transition: left 0.3s ease-in-out;\n    left: 55px;\n}\n\n.title-class.sidebar-open {\n    left: 215px;\n}\n\n.html-content {\n    width: 70%;\n    margin: 0 auto;\n    text-align: justify;\n}\n\n.github-icon-size {\n    font-size: 2.5rem;\n    /* This is equivalent to 40px for most browsers */\n    width: 40px;\n    height: 40px;\n    display: inline-flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.single-card {\n    background-color: white;\n    width: 100%;\n    margin-bottom: 4rem;\n    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),\n        0 2px 4px -1px rgba(0, 0, 0, 0.06);\n    border-radius: 1.25rem;\n    position: relative;\n    display: flex;\n    flex-direction: column;\n}\n\n\n.single-card-profile-img {\n    width: 150px;\n    height: 150px;\n    border-radius: 50%;\n    overflow: hidden;\n    position: relative;\n    top: -75px;\n}\n\n.single-card-content {\n    width: 70%;\n    margin: 0 auto;\n    text-align: justify;\n    margin-bottom: 90px;\n    font-size: 1.2em;\n}\n\n.abstract-text {\n    width: 50%;\n    margin: 2rem auto;\n    text-align: justify;\n    font-size: 1.1em;\n    line-height: 1.6em;\n}\n\n.single-card-content h2,\n.single-card-content h3,\n.single-card-content h4,\n.single-card-content h5,\n.single-card-content h6 {\n    margin-top: 1.5em;\n    /* Adjust as needed */\n}\n\n.diagonal-cut {\n    bottom: -1px;\n    width: 100%;\n    position: inherit;\n}\n\n.input-style {\n    font-size: 19.2px;\n    line-height: 28.8px;\n    height: 45px;\n    width: 100%;\n    display: flex;\n    justify-content: center;\n    border: 1px solid #D1D5DB;\n    /* border-gray-300 */\n    border-radius: 0.375rem;\n    /* rounded-md */\n    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);\n    /* shadow-sm */\n    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;\n}\n\n.input-style:focus {\n    border-color: #93C5FD;\n    /* focus:border-indigo-300 */\n    box-shadow: 0 0 0 3px rgba(147, 197, 253, 0.5);\n    /* focus:ring-indigo-200 with focus:ring-opacity-50 */\n}\n\n.input-style-resize {\n    resize: none;\n    overflow: hidden;\n}\n\n.bs-orange {\n    background-color: rgb(249 115 22);\n}\n\n.bs-orange:active {\n    background-color: rgb(234 88 12);\n}\n\n.bs-blue {\n    background-color: #223d6d;\n}\n\n.bs-blue:active {\n    background-color: #1a2f53;\n}\n\n.modal-button {\n    font-size: 1.0rem;\n}\n\n.remove-button {\n    /* Remove the flex-grow property if you don't want the buttons to grow */\n    padding: 2px 8px;\n    /* Adjust padding to fit the text */\n    background-color: rgb(238, 238, 238);\n    border: none;\n    /* Remove border if you don't need it */\n    cursor: pointer;\n    /* Makes it clear the element is clickable */\n    white-space: nowrap;\n    /* Prevent text inside the button from wrapping */\n    /* You can remove min-width if you want the button to only be as wide as its content plus padding */\n    /* min-width: 120px; */\n    margin: 2px;\n    /* Provide some space around the buttons */\n    border-radius: 4px;\n    /* If you want rounded corners */\n    /* Add text alignment and other styles as needed */\n    text-align: center;\n    font-size: 1rem;\n    /* Adjust font size as needed */\n}\n\n.remove-button:hover {\n    background-color: #223d6d;\n    position: relative;\n    color: #adadad;\n}\n\n.remove-button:focus {\n    outline: none;\n}\n\n.add-button {\n    /* Remove the flex-grow property if you don't want the buttons to grow */\n    padding: 2px 8px;\n    /* Adjust padding to fit the text */\n    background-color: rgb(238, 238, 238);\n    border: none;\n    /* Remove border if you don't need it */\n    cursor: pointer;\n    /* Makes it clear the element is clickable */\n    white-space: nowrap;\n    /* Prevent text inside the button from wrapping */\n    /* You can remove min-width if you want the button to only be as wide as its content plus padding */\n    /* min-width: 120px; */\n    margin: 2px;\n    /* Provide some space around the buttons */\n    border-radius: 4px;\n    /* If you want rounded corners */\n    /* Add text alignment and other styles as needed */\n    text-align: center;\n    font-size: 1rem;\n    /* Adjust font size as needed */\n}\n\n.add-button:hover {\n    background-color: rgb(249 115 22);\n    position: relative;\n    color: #fff;\n}\n\n.add-button:focus {\n    outline: none;\n}\n\n\n/* .card {\n    background: #ffffff;\n    overflow: hidden;\n    border-radius: 8px;\n    overflow: hidden;\n    display: flex;\n    flex-direction: column;\n    border: 4px solid #ffffff;\n    box-shadow: 0 5px 10px #0000008c;\n}\n\n.card:hover {\n    transform: scale(1.03);\n    background: #ffffff;\n    box-shadow: 0 10px 20px #0000008c;\n} */\n\n.banner-image {\n    width: 100%;\n    height: 200px;\n    object-fit: cover;\n}\n\n.content,\n.actions {\n    padding: 15px;\n}\n\n.actions {\n    display: flex;\n    align-items: center;\n    justify-content: space-between;\n    background: #f4f4f4;\n}";
-    styleInject(css_248z$y);
+    var css_248z$B = ".color-for-bg {\n    color: rgb(71 85 105)\n}\n\n.text-color-df {\n    color: #4a5568;\n}\n\n/* Layout */\n.overview-page {\n    position: relative;\n    display: flex;\n    flex-direction: column;\n    background-color: rgb(71 85 105)\n        /* background-color: #E2E8F0; Assuming you have this variable defined */\n}\n\nfooter {\n    z-index: 10;\n    background-color: rgb(12, 12, 12);\n}\n\n.move-up {\n    transform: translateY(-2px);\n}\n\n.content-overlay {\n    position: absolute;\n    left: 0;\n    right: 0;\n    top: 50%;\n    /* Equivalent to top-1/2 */\n    transform: translateY(-50%);\n    /* Equivalent to -translate-y-1/2 */\n    padding: 0 1rem;\n    /* Equivalent to px-4 */\n    display: flex;\n    flex-direction: column;\n    /* Equivalent to flex-col */\n    align-items: flex-start;\n    /* Equivalent to items-start */\n    justify-content: center;\n    /* Equivalent to justify-center */\n    height: 100%;\n    /* Equivalent to h-full */\n}\n\n.content-icons {\n    position: absolute;\n    top: 1rem;\n    /* Equivalent to top-4 */\n    right: 1rem;\n    /* Equivalent to right-4 */\n    font-size: 1.875rem;\n    /* Equivalent to text-3xl */\n    color: white;\n    /* Equivalent to text-white */\n    display: flex;\n    justify-content: flex-end;\n    /* Equivalent to justify-end */\n    align-items: center;\n    /* Equivalent to items-center */\n    gap: 1.5rem;\n    /* Equivalent to gap-6 */\n}\n\n.support-button {\n    padding: 0;\n    display: flex;\n    align-items: center;\n    background: none;\n    border: none;\n    cursor: pointer;\n}\n\n.support-button img {\n    height: 2.5rem;\n    width: 2.5rem;\n}\n\n\n.bg-card {\n    background-color: white;\n    width: 100%;\n    margin-bottom: 6rem;\n    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),\n        0 2px 4px -1px rgba(0, 0, 0, 0.06);\n    border-radius: 1.25rem;\n}\n\n/* Base class for h2 */\n.base-h2 {\n    font-size: 4rem;\n    font-weight: 700;\n    /* blueGray-700 */\n    margin-bottom: 1rem;\n    margin-top: 1.5rem;\n    /* Equivalent to mt-6 */\n}\n\n/* Base class for h3 */\n.base-h3 {\n    font-size: 3rem;\n    font-weight: 600;\n    /* blueGray-700 */\n    margin-bottom: 0.75rem;\n    margin-top: 1.25rem;\n}\n\n/* Base class for h4 */\n.base-h4 {\n    font-size: 2rem;\n    font-weight: 500;\n    /* blueGray-700 */\n    margin-bottom: 0.5rem;\n    margin-top: 1rem;\n}\n\n.flex-grow {\n    /* Other styles */\n    z-index: 0;\n    /* This will keep the div behind the button */\n}\n\n.content-section {\n    display: flex;\n    /* background-color: #e2e8f0 !important;*/\n}\n\n.content-container {\n    margin-left: 0;\n    /* This is the starting state */\n    transition: margin-left 0.3s ease-in-out;\n    flex-grow: 1;\n    z-index: 0;\n    /* This will keep the div behind the button */\n}\n\n.content-container.sidebar-open {\n    margin-left: 200px;\n    /* This should be equal to the width of the sidebar */\n}\n\n.combined-content-container {\n    /* From .content-container */\n    margin-left: 0;\n    transition: margin-left 0.3s ease-in-out;\n    flex-grow: 1;\n    z-index: 0;\n\n    /* From .relative (assuming it sets position: relative) */\n    position: relative;\n\n    /* From .py-16 (assuming it sets padding-top and padding-bottom to 4rem) */\n    padding-top: 32px;\n\n    /* From .bg-blueGray-200 */\n    /* background-color: #e2e8f0; */\n    /* This is a guess based on the name. Replace with the actual color if different. */\n\n    /* From .container (assuming it centers content with max-width and auto margins) */\n    max-width: 100%;\n    /* Adjust this value based on your design */\n    /* margin-right: auto;\n    margin-left: auto; */\n\n    /* From .mx-auto */\n    /* Already covered by the .container styles above */\n\n    /* From .px-4 (assuming it sets padding-left and padding-right to 1rem) */\n    padding-left: 1rem;\n    padding-right: 1rem;\n}\n\n.combined-content-container.sidebar-open {\n    margin-left: 200px;\n}\n\n\n.title-class {\n    position: absolute;\n    left: 0;\n    right: 0;\n    top: 1/2;\n    transition: left 0.3s ease-in-out;\n    left: 55px;\n}\n\n.title-class.sidebar-open {\n    left: 215px;\n}\n\n.html-content {\n    width: 70%;\n    margin: 0 auto;\n    text-align: justify;\n}\n\n.github-icon-size {\n    font-size: 2.5rem;\n    /* This is equivalent to 40px for most browsers */\n    width: 40px;\n    height: 40px;\n    display: inline-flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.single-card {\n    background-color: white;\n    width: 100%;\n    margin-bottom: 4rem;\n    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),\n        0 2px 4px -1px rgba(0, 0, 0, 0.06);\n    border-radius: 1.25rem;\n    position: relative;\n    display: flex;\n    flex-direction: column;\n}\n\n\n.single-card-profile-img {\n    width: 150px;\n    height: 150px;\n    border-radius: 50%;\n    overflow: hidden;\n    position: relative;\n    top: -75px;\n}\n\n.single-card-content {\n    width: 70%;\n    margin: 0 auto;\n    text-align: justify;\n    margin-bottom: 90px;\n    font-size: 1.2em;\n}\n\n.abstract-text {\n    width: 50%;\n    margin: 2rem auto;\n    text-align: justify;\n    font-size: 1.1em;\n    line-height: 1.6em;\n}\n\n.single-card-content h2,\n.single-card-content h3,\n.single-card-content h4,\n.single-card-content h5,\n.single-card-content h6 {\n    margin-top: 1.5em;\n    /* Adjust as needed */\n}\n\n.diagonal-cut {\n    bottom: -1px;\n    width: 100%;\n    position: inherit;\n}\n\n.input-style {\n    font-size: 19.2px;\n    line-height: 28.8px;\n    height: 45px;\n    width: 100%;\n    display: flex;\n    justify-content: center;\n    border: 1px solid #D1D5DB;\n    /* border-gray-300 */\n    border-radius: 0.375rem;\n    /* rounded-md */\n    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);\n    /* shadow-sm */\n    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;\n}\n\n.input-style:focus {\n    border-color: #93C5FD;\n    /* focus:border-indigo-300 */\n    box-shadow: 0 0 0 3px rgba(147, 197, 253, 0.5);\n    /* focus:ring-indigo-200 with focus:ring-opacity-50 */\n}\n\n.input-style-resize {\n    resize: none;\n    overflow: hidden;\n}\n\n.bs-orange {\n    background-color: rgb(249 115 22);\n}\n\n.bs-orange:active {\n    background-color: rgb(234 88 12);\n}\n\n.bs-blue {\n    background-color: #223d6d;\n}\n\n.bs-blue:active {\n    background-color: #1a2f53;\n}\n\n.modal-button {\n    font-size: 1.0rem;\n}\n\n.remove-button {\n    /* Remove the flex-grow property if you don't want the buttons to grow */\n    padding: 2px 8px;\n    /* Adjust padding to fit the text */\n    background-color: rgb(238, 238, 238);\n    border: none;\n    /* Remove border if you don't need it */\n    cursor: pointer;\n    /* Makes it clear the element is clickable */\n    white-space: nowrap;\n    /* Prevent text inside the button from wrapping */\n    /* You can remove min-width if you want the button to only be as wide as its content plus padding */\n    /* min-width: 120px; */\n    margin: 2px;\n    /* Provide some space around the buttons */\n    border-radius: 4px;\n    /* If you want rounded corners */\n    /* Add text alignment and other styles as needed */\n    text-align: center;\n    font-size: 1rem;\n    /* Adjust font size as needed */\n}\n\n.remove-button:hover {\n    background-color: #223d6d;\n    position: relative;\n    color: #adadad;\n}\n\n.remove-button:focus {\n    outline: none;\n}\n\n.add-button {\n    /* Remove the flex-grow property if you don't want the buttons to grow */\n    padding: 2px 8px;\n    /* Adjust padding to fit the text */\n    background-color: rgb(238, 238, 238);\n    border: none;\n    /* Remove border if you don't need it */\n    cursor: pointer;\n    /* Makes it clear the element is clickable */\n    white-space: nowrap;\n    /* Prevent text inside the button from wrapping */\n    /* You can remove min-width if you want the button to only be as wide as its content plus padding */\n    /* min-width: 120px; */\n    margin: 2px;\n    /* Provide some space around the buttons */\n    border-radius: 4px;\n    /* If you want rounded corners */\n    /* Add text alignment and other styles as needed */\n    text-align: center;\n    font-size: 1rem;\n    /* Adjust font size as needed */\n}\n\n.add-button:hover {\n    background-color: rgb(249 115 22);\n    position: relative;\n    color: #fff;\n}\n\n.add-button:focus {\n    outline: none;\n}\n\n\n/* .card {\n    background: #ffffff;\n    overflow: hidden;\n    border-radius: 8px;\n    overflow: hidden;\n    display: flex;\n    flex-direction: column;\n    border: 4px solid #ffffff;\n    box-shadow: 0 5px 10px #0000008c;\n}\n\n.card:hover {\n    transform: scale(1.03);\n    background: #ffffff;\n    box-shadow: 0 10px 20px #0000008c;\n} */\n\n.banner-image {\n    width: 100%;\n    height: 200px;\n    object-fit: cover;\n}\n\n.content,\n.actions {\n    padding: 15px;\n}\n\n.actions {\n    display: flex;\n    align-items: center;\n    justify-content: space-between;\n    background: #f4f4f4;\n}";
+    styleInject(css_248z$B);
 
     // NostrCacheStore.js
     const { nip19 } = window.NostrTools;
@@ -13304,26 +13304,26 @@ var app = (function () {
         "css",
     ];
 
-    var css_248z$x = ".toggle-button.svelte-ajm12u.svelte-ajm12u{display:flex;justify-content:center;align-items:center}.menu-card.svelte-ajm12u.svelte-ajm12u{width:200px;margin-top:80px;color:#000;position:relative}.menu-item.svelte-ajm12u.svelte-ajm12u{color:#103f70;font-size:1rem;padding:15px;padding-left:30px;cursor:pointer;transition:color 0.3s;display:block;text-decoration:none;outline:none;width:200px;text-align:left}.menu-item.svelte-ajm12u.svelte-ajm12u:hover{color:#eb6f1a;text-decoration:none;outline:none}.category-style.svelte-ajm12u.svelte-ajm12u{font-size:1rem;padding:15px;padding-left:15px;cursor:pointer;transition:color 0.3s;display:block;text-decoration:none;color:#494949;outline:none;width:200px;text-align:left}.category-style.svelte-ajm12u.svelte-ajm12u:hover{color:#60adff;text-decoration:none;outline:none}.categories-wrapper.svelte-ajm12u.svelte-ajm12u{position:fixed;left:180px;background:#d1d1d1;width:310px;max-height:100vh;height:100vh;padding:10px 0;box-shadow:0px 10px 30px -5px rgba(0, 0, 0, 0.3);border-radius:20px;transition:opacity 0.3s,\n            visibility 0.3s;opacity:1;visibility:visible;z-index:50;padding-top:14px;padding-bottom:14px}.categories-wrapper.hidden.svelte-ajm12u.svelte-ajm12u{opacity:0;visibility:hidden}.categories-outer.svelte-ajm12u.svelte-ajm12u{width:100%;max-height:100%;overflow-y:auto;border-radius:20px}.categories.svelte-ajm12u.svelte-ajm12u{width:100%}.categories.hidden.svelte-ajm12u.svelte-ajm12u{opacity:0;visibility:hidden}.category-item.svelte-ajm12u.svelte-ajm12u{color:#000;padding:10px 15px;cursor:pointer;transition:color 0.3s}.category-item.svelte-ajm12u.svelte-ajm12u:hover{color:#007bff}.hide.svelte-ajm12u.svelte-ajm12u{display:none}.button-container.svelte-ajm12u.svelte-ajm12u{position:fixed;top:0;left:0;z-index:11;background-color:#33333300;display:flex;justify-content:center;align-items:center;border-radius:10%;padding:5px;margin:10px}svg.svelte-ajm12u path.svelte-ajm12u{fill:#f97316}.menu-container.svelte-ajm12u.svelte-ajm12u{position:fixed;top:0;left:0;width:200px;min-width:200px;z-index:10;flex-basis:200px;background-color:rgba(255, 255, 255, 0.7);opacity:3.7;height:100vh;overflow-y:auto;transform:translateX(-100%);transition:transform 0.3s ease-in-out}.menu-container.show.svelte-ajm12u.svelte-ajm12u{transform:translateX(0)}button.svelte-ajm12u.svelte-ajm12u:focus{outline:none}.svelte-ajm12u.svelte-ajm12u::-webkit-scrollbar{width:10px;height:10px}.svelte-ajm12u.svelte-ajm12u::-webkit-scrollbar-track{background:#f1f1f1;border-radius:20px}.svelte-ajm12u.svelte-ajm12u::-webkit-scrollbar-thumb{background:#888;border-radius:20px}.svelte-ajm12u.svelte-ajm12u::-webkit-scrollbar-thumb:hover{background:#555}.categories.svelte-ajm12u.svelte-ajm12u::-webkit-scrollbar{width:10px}.categories.svelte-ajm12u.svelte-ajm12u::-webkit-scrollbar-track{background:#f1f1f1}.categories.svelte-ajm12u.svelte-ajm12u::-webkit-scrollbar-thumb{background:#888;border-radius:20px}.categories.svelte-ajm12u.svelte-ajm12u::-webkit-scrollbar-thumb:hover{background:#555}.divider-line.svelte-ajm12u.svelte-ajm12u{margin-left:12%;border-top:1px solid #d1d1d1;padding:1px;width:76%}";
-    styleInject(css_248z$x);
+    var css_248z$A = ".toggle-button.svelte-ajm12u.svelte-ajm12u{display:flex;justify-content:center;align-items:center}.menu-card.svelte-ajm12u.svelte-ajm12u{width:200px;margin-top:80px;color:#000;position:relative}.menu-item.svelte-ajm12u.svelte-ajm12u{color:#103f70;font-size:1rem;padding:15px;padding-left:30px;cursor:pointer;transition:color 0.3s;display:block;text-decoration:none;outline:none;width:200px;text-align:left}.menu-item.svelte-ajm12u.svelte-ajm12u:hover{color:#eb6f1a;text-decoration:none;outline:none}.category-style.svelte-ajm12u.svelte-ajm12u{font-size:1rem;padding:15px;padding-left:15px;cursor:pointer;transition:color 0.3s;display:block;text-decoration:none;color:#494949;outline:none;width:200px;text-align:left}.category-style.svelte-ajm12u.svelte-ajm12u:hover{color:#60adff;text-decoration:none;outline:none}.categories-wrapper.svelte-ajm12u.svelte-ajm12u{position:fixed;left:180px;background:#d1d1d1;width:310px;max-height:100vh;height:100vh;padding:10px 0;box-shadow:0px 10px 30px -5px rgba(0, 0, 0, 0.3);border-radius:20px;transition:opacity 0.3s,\n            visibility 0.3s;opacity:1;visibility:visible;z-index:50;padding-top:14px;padding-bottom:14px}.categories-wrapper.hidden.svelte-ajm12u.svelte-ajm12u{opacity:0;visibility:hidden}.categories-outer.svelte-ajm12u.svelte-ajm12u{width:100%;max-height:100%;overflow-y:auto;border-radius:20px}.categories.svelte-ajm12u.svelte-ajm12u{width:100%}.categories.hidden.svelte-ajm12u.svelte-ajm12u{opacity:0;visibility:hidden}.category-item.svelte-ajm12u.svelte-ajm12u{color:#000;padding:10px 15px;cursor:pointer;transition:color 0.3s}.category-item.svelte-ajm12u.svelte-ajm12u:hover{color:#007bff}.hide.svelte-ajm12u.svelte-ajm12u{display:none}.button-container.svelte-ajm12u.svelte-ajm12u{position:fixed;top:0;left:0;z-index:11;background-color:#33333300;display:flex;justify-content:center;align-items:center;border-radius:10%;padding:5px;margin:10px}svg.svelte-ajm12u path.svelte-ajm12u{fill:#f97316}.menu-container.svelte-ajm12u.svelte-ajm12u{position:fixed;top:0;left:0;width:200px;min-width:200px;z-index:10;flex-basis:200px;background-color:rgba(255, 255, 255, 0.7);opacity:3.7;height:100vh;overflow-y:auto;transform:translateX(-100%);transition:transform 0.3s ease-in-out}.menu-container.show.svelte-ajm12u.svelte-ajm12u{transform:translateX(0)}button.svelte-ajm12u.svelte-ajm12u:focus{outline:none}.svelte-ajm12u.svelte-ajm12u::-webkit-scrollbar{width:10px;height:10px}.svelte-ajm12u.svelte-ajm12u::-webkit-scrollbar-track{background:#f1f1f1;border-radius:20px}.svelte-ajm12u.svelte-ajm12u::-webkit-scrollbar-thumb{background:#888;border-radius:20px}.svelte-ajm12u.svelte-ajm12u::-webkit-scrollbar-thumb:hover{background:#555}.categories.svelte-ajm12u.svelte-ajm12u::-webkit-scrollbar{width:10px}.categories.svelte-ajm12u.svelte-ajm12u::-webkit-scrollbar-track{background:#f1f1f1}.categories.svelte-ajm12u.svelte-ajm12u::-webkit-scrollbar-thumb{background:#888;border-radius:20px}.categories.svelte-ajm12u.svelte-ajm12u::-webkit-scrollbar-thumb:hover{background:#555}.divider-line.svelte-ajm12u.svelte-ajm12u{margin-left:12%;border-top:1px solid #d1d1d1;padding:1px;width:76%}";
+    styleInject(css_248z$A);
 
     /* src/components/Sidebar/Sidebar.svelte generated by Svelte v3.59.1 */
 
-    function get_each_context$i(ctx, list, i) {
+    function get_each_context$l(ctx, list, i) {
     	const child_ctx = ctx.slice();
     	child_ctx[34] = list[i];
     	child_ctx[36] = i;
     	return child_ctx;
     }
 
-    function get_each_context_1$4(ctx, list, i) {
+    function get_each_context_1$5(ctx, list, i) {
     	const child_ctx = ctx.slice();
     	child_ctx[37] = list[i];
     	return child_ctx;
     }
 
     // (202:12) {#if $menuState.logged_in}
-    function create_if_block_2$6(ctx) {
+    function create_if_block_2$7(ctx) {
     	let hr;
     	let t0;
     	let li0;
@@ -13468,7 +13468,7 @@ var app = (function () {
     }
 
     // (293:16) {:else}
-    function create_else_block$b(ctx) {
+    function create_else_block$d(ctx) {
     	let button;
     	let i;
     	let t0;
@@ -13519,7 +13519,7 @@ var app = (function () {
     }
 
     // (282:47) 
-    function create_if_block_1$d(ctx) {
+    function create_if_block_1$f(ctx) {
     	let button;
     	let i;
     	let t;
@@ -13560,7 +13560,7 @@ var app = (function () {
     }
 
     // (271:16) {#if !$menuState.use_extension}
-    function create_if_block$n(ctx) {
+    function create_if_block$q(ctx) {
     	let button;
     	let i;
     	let t0;
@@ -13600,7 +13600,7 @@ var app = (function () {
     }
 
     // (347:12) {#each idea_categories as category}
-    function create_each_block_1$4(ctx) {
+    function create_each_block_1$5(ctx) {
     	let button;
     	let t_value = /*category*/ ctx[37] + "";
     	let t;
@@ -13638,7 +13638,7 @@ var app = (function () {
     }
 
     // (367:12) {#each tutorial_titles as tutorial, index}
-    function create_each_block$i(ctx) {
+    function create_each_block$l(ctx) {
     	let button;
     	let t_value = /*tutorial*/ ctx[34] + "";
     	let t;
@@ -13675,7 +13675,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$S(ctx) {
+    function create_fragment$V(ctx) {
     	let div0;
     	let button0;
     	let t0;
@@ -13728,12 +13728,12 @@ var app = (function () {
     	let div10_class_value;
     	let mounted;
     	let dispose;
-    	let if_block0 = /*$menuState*/ ctx[0].logged_in && create_if_block_2$6(ctx);
+    	let if_block0 = /*$menuState*/ ctx[0].logged_in && create_if_block_2$7(ctx);
 
     	function select_block_type(ctx, dirty) {
-    		if (!/*$menuState*/ ctx[0].use_extension) return create_if_block$n;
-    		if (/*$menuState*/ ctx[0].logged_in) return create_if_block_1$d;
-    		return create_else_block$b;
+    		if (!/*$menuState*/ ctx[0].use_extension) return create_if_block$q;
+    		if (/*$menuState*/ ctx[0].logged_in) return create_if_block_1$f;
+    		return create_else_block$d;
     	}
 
     	let current_block_type = select_block_type(ctx);
@@ -13742,14 +13742,14 @@ var app = (function () {
     	let each_blocks_1 = [];
 
     	for (let i = 0; i < each_value_1.length; i += 1) {
-    		each_blocks_1[i] = create_each_block_1$4(get_each_context_1$4(ctx, each_value_1, i));
+    		each_blocks_1[i] = create_each_block_1$5(get_each_context_1$5(ctx, each_value_1, i));
     	}
 
     	let each_value = /*tutorial_titles*/ ctx[7];
     	let each_blocks = [];
 
     	for (let i = 0; i < each_value.length; i += 1) {
-    		each_blocks[i] = create_each_block$i(get_each_context$i(ctx, each_value, i));
+    		each_blocks[i] = create_each_block$l(get_each_context$l(ctx, each_value, i));
     	}
 
     	return {
@@ -13962,7 +13962,7 @@ var app = (function () {
     				if (if_block0) {
     					if_block0.p(ctx, dirty);
     				} else {
-    					if_block0 = create_if_block_2$6(ctx);
+    					if_block0 = create_if_block_2$7(ctx);
     					if_block0.c();
     					if_block0.m(ul, t10);
     				}
@@ -13992,12 +13992,12 @@ var app = (function () {
     				let i;
 
     				for (i = 0; i < each_value_1.length; i += 1) {
-    					const child_ctx = get_each_context_1$4(ctx, each_value_1, i);
+    					const child_ctx = get_each_context_1$5(ctx, each_value_1, i);
 
     					if (each_blocks_1[i]) {
     						each_blocks_1[i].p(child_ctx, dirty);
     					} else {
-    						each_blocks_1[i] = create_each_block_1$4(child_ctx);
+    						each_blocks_1[i] = create_each_block_1$5(child_ctx);
     						each_blocks_1[i].c();
     						each_blocks_1[i].m(div5, null);
     					}
@@ -14021,12 +14021,12 @@ var app = (function () {
     				let i;
 
     				for (i = 0; i < each_value.length; i += 1) {
-    					const child_ctx = get_each_context$i(ctx, each_value, i);
+    					const child_ctx = get_each_context$l(ctx, each_value, i);
 
     					if (each_blocks[i]) {
     						each_blocks[i].p(child_ctx, dirty);
     					} else {
-    						each_blocks[i] = create_each_block$i(child_ctx);
+    						each_blocks[i] = create_each_block$l(child_ctx);
     						each_blocks[i].c();
     						each_blocks[i].m(div8, null);
     					}
@@ -14069,7 +14069,7 @@ var app = (function () {
     let linkStyle = "block menu-item";
     let categoryStyle = "category-style";
 
-    function instance$R($$self, $$props, $$invalidate) {
+    function instance$U($$self, $$props, $$invalidate) {
     	let $nostrCache;
     	let $menuState;
     	let $nostrManager;
@@ -14257,13 +14257,13 @@ var app = (function () {
     class Sidebar extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$R, create_fragment$S, safe_not_equal, {}, null, [-1, -1]);
+    		init(this, options, instance$U, create_fragment$V, safe_not_equal, {}, null, [-1, -1]);
     	}
     }
 
     /* src/components/Banner.svelte generated by Svelte v3.59.1 */
 
-    function create_if_block$m(ctx) {
+    function create_if_block$p(ctx) {
     	let p0;
     	let t1;
     	let p1;
@@ -14295,7 +14295,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$R(ctx) {
+    function create_fragment$U(ctx) {
     	let section;
     	let div5;
     	let span0;
@@ -14315,7 +14315,7 @@ var app = (function () {
     	let t5;
     	let svg;
     	let polygon;
-    	let if_block = /*show_right_text*/ ctx[3] && create_if_block$m();
+    	let if_block = /*show_right_text*/ ctx[3] && create_if_block$p();
 
     	return {
     		c() {
@@ -14398,7 +14398,7 @@ var app = (function () {
 
     			if (/*show_right_text*/ ctx[3]) {
     				if (if_block) ; else {
-    					if_block = create_if_block$m();
+    					if_block = create_if_block$p();
     					if_block.c();
     					if_block.m(div2, null);
     				}
@@ -14420,7 +14420,7 @@ var app = (function () {
     	};
     }
 
-    function instance$Q($$self, $$props, $$invalidate) {
+    function instance$T($$self, $$props, $$invalidate) {
     	let $sidebarOpen;
     	component_subscribe($$self, sidebarOpen, $$value => $$invalidate(5, $sidebarOpen = $$value));
     	let { title } = $$props;
@@ -14455,7 +14455,7 @@ var app = (function () {
     	constructor(options) {
     		super();
 
-    		init(this, options, instance$Q, create_fragment$R, safe_not_equal, {
+    		init(this, options, instance$T, create_fragment$U, safe_not_equal, {
     			title: 0,
     			bannerImage: 1,
     			subtitle: 2,
@@ -14466,7 +14466,7 @@ var app = (function () {
 
     /* src/components/Footers/Footer.svelte generated by Svelte v3.59.1 */
 
-    function create_fragment$Q(ctx) {
+    function create_fragment$T(ctx) {
     	let footer;
 
     	return {
@@ -14494,7 +14494,7 @@ var app = (function () {
     	};
     }
 
-    function instance$P($$self) {
+    function instance$S($$self) {
     	new Date().getFullYear();
     	return [];
     }
@@ -14502,12 +14502,12 @@ var app = (function () {
     class Footer extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$P, create_fragment$Q, safe_not_equal, {});
+    		init(this, options, instance$S, create_fragment$T, safe_not_equal, {});
     	}
     }
 
-    var css_248z$w = ".profile-image.svelte-1281914{width:50px;height:50px;border-radius:50%;object-fit:cover;object-position:center}";
-    styleInject(css_248z$w);
+    var css_248z$z = ".profile-image.svelte-1281914{width:50px;height:50px;border-radius:50%;object-fit:cover;object-position:center}";
+    styleInject(css_248z$z);
 
     /* src/components/ProfileImg.svelte generated by Svelte v3.59.1 */
 
@@ -14546,7 +14546,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$P(ctx) {
+    function create_fragment$S(ctx) {
     	let link;
     	let current;
 
@@ -14591,7 +14591,7 @@ var app = (function () {
     	};
     }
 
-    function instance$O($$self, $$props, $$invalidate) {
+    function instance$R($$self, $$props, $$invalidate) {
     	let styleString;
     	let { profile = {} } = $$props;
     	let { style = {} } = $$props;
@@ -14626,7 +14626,7 @@ var app = (function () {
     class ProfileImg extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$O, create_fragment$P, safe_not_equal, { profile: 4, style: 5 });
+    		init(this, options, instance$R, create_fragment$S, safe_not_equal, { profile: 4, style: 5 });
     	}
     }
 
@@ -15076,12 +15076,12 @@ var app = (function () {
 
     const socialMediaManager = new SocialMediaManager();
 
-    var css_248z$v = ".balance-display.svelte-1ny4mlp{font-size:2rem;margin-right:20px;color:white}.sat-symbol.svelte-1ny4mlp{height:40px;margin-left:5px}";
-    styleInject(css_248z$v);
+    var css_248z$y = ".balance-display.svelte-1ny4mlp{font-size:2rem;margin-right:20px;color:white}.sat-symbol.svelte-1ny4mlp{height:40px;margin-left:5px}";
+    styleInject(css_248z$y);
 
     /* src/components/Toolbar/Toolbar.svelte generated by Svelte v3.59.1 */
 
-    function create_if_block_5$2(ctx) {
+    function create_if_block_5$3(ctx) {
     	let button;
     	let mounted;
     	let dispose;
@@ -15110,7 +15110,7 @@ var app = (function () {
     }
 
     // (102:16) {#if creator_profile && creator_profile.picture}
-    function create_if_block_4$4(ctx) {
+    function create_if_block_4$5(ctx) {
     	let profileimg;
     	let current;
 
@@ -15150,7 +15150,7 @@ var app = (function () {
     }
 
     // (108:16) {#if githubRepo}
-    function create_if_block_3$4(ctx) {
+    function create_if_block_3$5(ctx) {
     	let a;
     	let i;
 
@@ -15179,7 +15179,7 @@ var app = (function () {
     }
 
     // (118:16) {#if (lnAddress || (creator_profile && creator_profile.picture) || githubRepo) && profile && profile.picture}
-    function create_if_block_2$5(ctx) {
+    function create_if_block_2$6(ctx) {
     	let span;
 
     	return {
@@ -15200,7 +15200,7 @@ var app = (function () {
     }
 
     // (124:16) {#if profile && profile.picture}
-    function create_if_block_1$c(ctx) {
+    function create_if_block_1$e(ctx) {
     	let profileimg;
     	let current;
 
@@ -15240,7 +15240,7 @@ var app = (function () {
     }
 
     // (133:20) {:else}
-    function create_else_block$a(ctx) {
+    function create_else_block$c(ctx) {
     	let t;
 
     	return {
@@ -15260,7 +15260,7 @@ var app = (function () {
     }
 
     // (131:20) {#if $balance == -1}
-    function create_if_block$l(ctx) {
+    function create_if_block$o(ctx) {
     	let t;
 
     	return {
@@ -15277,7 +15277,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$O(ctx) {
+    function create_fragment$R(ctx) {
     	let div4;
     	let div3;
     	let div2;
@@ -15292,15 +15292,15 @@ var app = (function () {
     	let img;
     	let img_src_value;
     	let current;
-    	let if_block0 = /*lnAddress*/ ctx[0] && create_if_block_5$2(ctx);
-    	let if_block1 = /*creator_profile*/ ctx[2] && /*creator_profile*/ ctx[2].picture && create_if_block_4$4(ctx);
-    	let if_block2 = /*githubRepo*/ ctx[1] && create_if_block_3$4(ctx);
-    	let if_block3 = (/*lnAddress*/ ctx[0] || /*creator_profile*/ ctx[2] && /*creator_profile*/ ctx[2].picture || /*githubRepo*/ ctx[1]) && /*profile*/ ctx[3] && /*profile*/ ctx[3].picture && create_if_block_2$5();
-    	let if_block4 = /*profile*/ ctx[3] && /*profile*/ ctx[3].picture && create_if_block_1$c(ctx);
+    	let if_block0 = /*lnAddress*/ ctx[0] && create_if_block_5$3(ctx);
+    	let if_block1 = /*creator_profile*/ ctx[2] && /*creator_profile*/ ctx[2].picture && create_if_block_4$5(ctx);
+    	let if_block2 = /*githubRepo*/ ctx[1] && create_if_block_3$5(ctx);
+    	let if_block3 = (/*lnAddress*/ ctx[0] || /*creator_profile*/ ctx[2] && /*creator_profile*/ ctx[2].picture || /*githubRepo*/ ctx[1]) && /*profile*/ ctx[3] && /*profile*/ ctx[3].picture && create_if_block_2$6();
+    	let if_block4 = /*profile*/ ctx[3] && /*profile*/ ctx[3].picture && create_if_block_1$e(ctx);
 
     	function select_block_type(ctx, dirty) {
-    		if (/*$balance*/ ctx[5] == -1) return create_if_block$l;
-    		return create_else_block$a;
+    		if (/*$balance*/ ctx[5] == -1) return create_if_block$o;
+    		return create_else_block$c;
     	}
 
     	let current_block_type = select_block_type(ctx);
@@ -15368,7 +15368,7 @@ var app = (function () {
     				if (if_block0) {
     					if_block0.p(ctx, dirty);
     				} else {
-    					if_block0 = create_if_block_5$2(ctx);
+    					if_block0 = create_if_block_5$3(ctx);
     					if_block0.c();
     					if_block0.m(div1, t0);
     				}
@@ -15385,7 +15385,7 @@ var app = (function () {
     						transition_in(if_block1, 1);
     					}
     				} else {
-    					if_block1 = create_if_block_4$4(ctx);
+    					if_block1 = create_if_block_4$5(ctx);
     					if_block1.c();
     					transition_in(if_block1, 1);
     					if_block1.m(div1, t1);
@@ -15404,7 +15404,7 @@ var app = (function () {
     				if (if_block2) {
     					if_block2.p(ctx, dirty);
     				} else {
-    					if_block2 = create_if_block_3$4(ctx);
+    					if_block2 = create_if_block_3$5(ctx);
     					if_block2.c();
     					if_block2.m(div1, t2);
     				}
@@ -15415,7 +15415,7 @@ var app = (function () {
 
     			if ((/*lnAddress*/ ctx[0] || /*creator_profile*/ ctx[2] && /*creator_profile*/ ctx[2].picture || /*githubRepo*/ ctx[1]) && /*profile*/ ctx[3] && /*profile*/ ctx[3].picture) {
     				if (if_block3) ; else {
-    					if_block3 = create_if_block_2$5();
+    					if_block3 = create_if_block_2$6();
     					if_block3.c();
     					if_block3.m(div1, t3);
     				}
@@ -15432,7 +15432,7 @@ var app = (function () {
     						transition_in(if_block4, 1);
     					}
     				} else {
-    					if_block4 = create_if_block_1$c(ctx);
+    					if_block4 = create_if_block_1$e(ctx);
     					if_block4.c();
     					transition_in(if_block4, 1);
     					if_block4.m(div1, t4);
@@ -15492,7 +15492,7 @@ var app = (function () {
     	return url;
     }
 
-    function instance$N($$self, $$props, $$invalidate) {
+    function instance$Q($$self, $$props, $$invalidate) {
     	let formattedGithubRepo;
     	let $nostrManager;
     	let $balance;
@@ -15590,16 +15590,16 @@ var app = (function () {
     class Toolbar extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$N, create_fragment$O, safe_not_equal, { lnAddress: 0, pubkey: 6, githubRepo: 1 });
+    		init(this, options, instance$Q, create_fragment$R, safe_not_equal, { lnAddress: 0, pubkey: 6, githubRepo: 1 });
     	}
     }
 
-    var css_248z$u = ".like-icon.svelte-168p8ba{cursor:pointer;color:var(--heart-color, #f7931a)}.like-icon.filled.svelte-168p8ba{color:#f7931a}.like-icon.svelte-168p8ba:hover{color:#b4690e}";
-    styleInject(css_248z$u);
+    var css_248z$x = ".like-icon.svelte-168p8ba{cursor:pointer;color:var(--heart-color, #f7931a)}.like-icon.filled.svelte-168p8ba{color:#f7931a}.like-icon.svelte-168p8ba:hover{color:#b4690e}";
+    styleInject(css_248z$x);
 
     /* src/components/LikeIcon.svelte generated by Svelte v3.59.1 */
 
-    function create_fragment$N(ctx) {
+    function create_fragment$Q(ctx) {
     	let span1;
     	let i;
     	let i_class_value;
@@ -15657,7 +15657,7 @@ var app = (function () {
     	};
     }
 
-    function instance$M($$self, $$props, $$invalidate) {
+    function instance$P($$self, $$props, $$invalidate) {
     	let userPublicKey;
     	let $nostrCache;
     	let $nostrManager;
@@ -15727,16 +15727,16 @@ var app = (function () {
     class LikeIcon extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$M, create_fragment$N, safe_not_equal, { event_id: 4 });
+    		init(this, options, instance$P, create_fragment$Q, safe_not_equal, { event_id: 4 });
     	}
     }
 
-    var css_248z$t = ".share-icon.svelte-99v011{color:#f7931a;cursor:pointer;font-size:24px;transition:color 0.3s}.share-icon.svelte-99v011:hover{color:#b4690e}";
-    styleInject(css_248z$t);
+    var css_248z$w = ".share-icon.svelte-99v011{color:#f7931a;cursor:pointer;font-size:24px;transition:color 0.3s}.share-icon.svelte-99v011:hover{color:#b4690e}";
+    styleInject(css_248z$w);
 
     /* src/components/ShareIcon.svelte generated by Svelte v3.59.1 */
 
-    function create_fragment$M(ctx) {
+    function create_fragment$P(ctx) {
     	let i;
     	let mounted;
     	let dispose;
@@ -15766,7 +15766,7 @@ var app = (function () {
     	};
     }
 
-    function instance$L($$self, $$props, $$invalidate) {
+    function instance$O($$self, $$props, $$invalidate) {
     	let $nostrManager;
     	let $nostrCache;
     	component_subscribe($$self, nostrManager, $$value => $$invalidate(4, $nostrManager = $$value));
@@ -15816,13 +15816,13 @@ var app = (function () {
     class ShareIcon extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$L, create_fragment$M, safe_not_equal, { event_id: 1 });
+    		init(this, options, instance$O, create_fragment$P, safe_not_equal, { event_id: 1 });
     	}
     }
 
     /* src/components/Cards/IdeaCard.svelte generated by Svelte v3.59.1 */
 
-    function create_fragment$L(ctx) {
+    function create_fragment$O(ctx) {
     	let div3;
     	let div1;
     	let img;
@@ -15954,7 +15954,7 @@ var app = (function () {
     	: message.slice(0, maxLength) + "...";
     }
 
-    function instance$K($$self, $$props, $$invalidate) {
+    function instance$N($$self, $$props, $$invalidate) {
     	let $nostrManager;
     	component_subscribe($$self, nostrManager, $$value => $$invalidate(2, $nostrManager = $$value));
     	let { card } = $$props;
@@ -15989,7 +15989,7 @@ var app = (function () {
     class IdeaCard extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$K, create_fragment$L, safe_not_equal, { card: 0 });
+    		init(this, options, instance$N, create_fragment$O, safe_not_equal, { card: 0 });
     	}
     }
 
@@ -16003,12 +16003,12 @@ var app = (function () {
         selectedFeed.set(feedType);
     }
 
-    var css_248z$s = ".feed-selector.svelte-11ro3cj.svelte-11ro3cj{display:flex;background-color:#f9f9f9;padding:8px 16px;border-radius:25px;box-shadow:0 4px 6px rgba(0, 0, 0, 0.1);margin-bottom:20px}.feed-selector.svelte-11ro3cj button.svelte-11ro3cj{flex:1;border:none;background:none;padding:10px 20px;margin-right:10px;border-radius:20px;font-size:16px;transition:background-color 0.3s,\n            color 0.3s;cursor:pointer;outline:none;display:flex;align-items:center;justify-content:center}.feed-selector.svelte-11ro3cj button.svelte-11ro3cj:last-child{margin-right:0}.feed-selector.svelte-11ro3cj button.svelte-11ro3cj:hover{background-color:#e2e8f0}.feed-selector.svelte-11ro3cj button.active.svelte-11ro3cj{background-color:#f7931a;color:white}.feed-selector.svelte-11ro3cj i.svelte-11ro3cj{margin-right:5px}";
-    styleInject(css_248z$s);
+    var css_248z$v = ".feed-selector.svelte-11ro3cj.svelte-11ro3cj{display:flex;background-color:#f9f9f9;padding:8px 16px;border-radius:25px;box-shadow:0 4px 6px rgba(0, 0, 0, 0.1);margin-bottom:20px}.feed-selector.svelte-11ro3cj button.svelte-11ro3cj{flex:1;border:none;background:none;padding:10px 20px;margin-right:10px;border-radius:20px;font-size:16px;transition:background-color 0.3s,\n            color 0.3s;cursor:pointer;outline:none;display:flex;align-items:center;justify-content:center}.feed-selector.svelte-11ro3cj button.svelte-11ro3cj:last-child{margin-right:0}.feed-selector.svelte-11ro3cj button.svelte-11ro3cj:hover{background-color:#e2e8f0}.feed-selector.svelte-11ro3cj button.active.svelte-11ro3cj{background-color:#f7931a;color:white}.feed-selector.svelte-11ro3cj i.svelte-11ro3cj{margin-right:5px}";
+    styleInject(css_248z$v);
 
     /* src/components/Feed/FeedSelector.svelte generated by Svelte v3.59.1 */
 
-    function create_if_block$k(ctx) {
+    function create_if_block$n(ctx) {
     	let button;
     	let mounted;
     	let dispose;
@@ -16041,7 +16041,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$K(ctx) {
+    function create_fragment$N(ctx) {
     	let div;
     	let button0;
     	let t1;
@@ -16051,7 +16051,7 @@ var app = (function () {
     	let button2;
     	let mounted;
     	let dispose;
-    	let if_block = /*$nostrManager*/ ctx[1] && /*$nostrManager*/ ctx[1].publicKey && create_if_block$k(ctx);
+    	let if_block = /*$nostrManager*/ ctx[1] && /*$nostrManager*/ ctx[1].publicKey && create_if_block$n(ctx);
 
     	return {
     		c() {
@@ -16103,7 +16103,7 @@ var app = (function () {
     				if (if_block) {
     					if_block.p(ctx, dirty);
     				} else {
-    					if_block = create_if_block$k(ctx);
+    					if_block = create_if_block$n(ctx);
     					if_block.c();
     					if_block.m(div, t2);
     				}
@@ -16131,7 +16131,7 @@ var app = (function () {
     	};
     }
 
-    function instance$J($$self, $$props, $$invalidate) {
+    function instance$M($$self, $$props, $$invalidate) {
     	let $selectedFeed;
     	let $nostrManager;
     	component_subscribe($$self, selectedFeed, $$value => $$invalidate(0, $selectedFeed = $$value));
@@ -16160,7 +16160,7 @@ var app = (function () {
     class FeedSelector extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$J, create_fragment$K, safe_not_equal, {});
+    		init(this, options, instance$M, create_fragment$N, safe_not_equal, {});
     	}
     }
 
@@ -16210,19 +16210,19 @@ var app = (function () {
 
     const zapManager = new ZapManager();
 
-    var css_248z$r = ".feed-selector-container.svelte-10kpwlz{display:flex;justify-content:center;padding:20px}";
-    styleInject(css_248z$r);
+    var css_248z$u = ".feed-selector-container.svelte-10kpwlz{display:flex;justify-content:center;padding:20px}";
+    styleInject(css_248z$u);
 
     /* src/components/Feed/Feed.svelte generated by Svelte v3.59.1 */
 
-    function get_each_context$h(ctx, list, i) {
+    function get_each_context$k(ctx, list, i) {
     	const child_ctx = ctx.slice();
     	child_ctx[13] = list[i];
     	return child_ctx;
     }
 
     // (176:8) {#each ideas as idea (idea.id)}
-    function create_each_block$h(key_1, ctx) {
+    function create_each_block$k(key_1, ctx) {
     	let div;
     	let ideacard;
     	let t;
@@ -16267,7 +16267,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$J(ctx) {
+    function create_fragment$M(ctx) {
     	let div0;
     	let feedselector;
     	let t;
@@ -16281,9 +16281,9 @@ var app = (function () {
     	const get_key = ctx => /*idea*/ ctx[13].id;
 
     	for (let i = 0; i < each_value.length; i += 1) {
-    		let child_ctx = get_each_context$h(ctx, each_value, i);
+    		let child_ctx = get_each_context$k(ctx, each_value, i);
     		let key = get_key(child_ctx);
-    		each_1_lookup.set(key, each_blocks[i] = create_each_block$h(key, child_ctx));
+    		each_1_lookup.set(key, each_blocks[i] = create_each_block$k(key, child_ctx));
     	}
 
     	return {
@@ -16321,7 +16321,7 @@ var app = (function () {
     			if (dirty & /*ideas*/ 1) {
     				each_value = /*ideas*/ ctx[0];
     				group_outros();
-    				each_blocks = update_keyed_each(each_blocks, dirty, get_key, 1, ctx, each_value, each_1_lookup, div1, outro_and_destroy_block, create_each_block$h, null, get_each_context$h);
+    				each_blocks = update_keyed_each(each_blocks, dirty, get_key, 1, ctx, each_value, each_1_lookup, div1, outro_and_destroy_block, create_each_block$k, null, get_each_context$k);
     				check_outros();
     			}
     		},
@@ -16371,7 +16371,7 @@ var app = (function () {
     	};
     }
 
-    function instance$I($$self, $$props, $$invalidate) {
+    function instance$L($$self, $$props, $$invalidate) {
     	let $selectedFeed;
     	let $nostrCache;
     	let $nostrManager;
@@ -16545,13 +16545,13 @@ var app = (function () {
     class Feed extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$I, create_fragment$J, safe_not_equal, { category: 1 });
+    		init(this, options, instance$L, create_fragment$M, safe_not_equal, { category: 1 });
     	}
     }
 
     /* src/views/Home.svelte generated by Svelte v3.59.1 */
 
-    function create_fragment$I(ctx) {
+    function create_fragment$L(ctx) {
     	let main;
     	let menu;
     	let t0;
@@ -16650,7 +16650,7 @@ var app = (function () {
     let title$5 = "BitSpark";
     let subtitle$5 = "idea engine";
 
-    function instance$H($$self, $$props, $$invalidate) {
+    function instance$K($$self, $$props, $$invalidate) {
     	let $contentContainerClass;
     	component_subscribe($$self, contentContainerClass, $$value => $$invalidate(0, $contentContainerClass = $$value));
     	return [$contentContainerClass];
@@ -16659,13 +16659,13 @@ var app = (function () {
     class Home extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$H, create_fragment$I, safe_not_equal, {});
+    		init(this, options, instance$K, create_fragment$L, safe_not_equal, {});
     	}
     }
 
     /* src/views/Tutorial.svelte generated by Svelte v3.59.1 */
 
-    function create_else_block$9(ctx) {
+    function create_else_block$b(ctx) {
     	let div;
 
     	return {
@@ -16686,7 +16686,7 @@ var app = (function () {
     }
 
     // (27:4) {#if tutorial}
-    function create_if_block$j(ctx) {
+    function create_if_block$m(ctx) {
     	let banner;
     	let t0;
     	let toolbar;
@@ -16780,7 +16780,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$H(ctx) {
+    function create_fragment$K(ctx) {
     	let main;
     	let menu;
     	let t0;
@@ -16791,7 +16791,7 @@ var app = (function () {
     	let footer;
     	let current;
     	menu = new Sidebar({});
-    	const if_block_creators = [create_if_block$j, create_else_block$9];
+    	const if_block_creators = [create_if_block$m, create_else_block$b];
     	const if_blocks = [];
 
     	function select_block_type(ctx, dirty) {
@@ -16874,7 +16874,7 @@ var app = (function () {
     	};
     }
 
-    function instance$G($$self, $$props, $$invalidate) {
+    function instance$J($$self, $$props, $$invalidate) {
     	let $contentContainerClass;
     	component_subscribe($$self, contentContainerClass, $$value => $$invalidate(1, $contentContainerClass = $$value));
     	let { id } = $$props;
@@ -16903,16 +16903,16 @@ var app = (function () {
     class Tutorial extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$G, create_fragment$H, safe_not_equal, { id: 2 });
+    		init(this, options, instance$J, create_fragment$K, safe_not_equal, { id: 2 });
     	}
     }
 
-    var css_248z$q = ".card.svelte-17539e2{background:transparent;overflow:hidden;border-radius:8px;overflow:hidden;display:flex;flex-direction:column;border:4px solid #ffffff;box-shadow:0 5px 10px #0000008c;margin-right:15px;margin-left:15px;margin-bottom:15px}.card.svelte-17539e2:hover{transform:scale(1.03);background:#ffffff;box-shadow:0 10px 20px #0000008c}.card-content.svelte-17539e2{cursor:pointer;background:#ffffff}.banner-image.svelte-17539e2{width:100%;height:250px;object-fit:cover}.content.svelte-17539e2{text-align:center;padding:1rem}";
-    styleInject(css_248z$q);
+    var css_248z$t = ".card.svelte-17539e2{background:transparent;overflow:hidden;border-radius:8px;overflow:hidden;display:flex;flex-direction:column;border:4px solid #ffffff;box-shadow:0 5px 10px #0000008c;margin-right:15px;margin-left:15px;margin-bottom:15px}.card.svelte-17539e2:hover{transform:scale(1.03);background:#ffffff;box-shadow:0 10px 20px #0000008c}.card-content.svelte-17539e2{cursor:pointer;background:#ffffff}.banner-image.svelte-17539e2{width:100%;height:250px;object-fit:cover}.content.svelte-17539e2{text-align:center;padding:1rem}";
+    styleInject(css_248z$t);
 
     /* src/components/Cards/IdeaCardSmall.svelte generated by Svelte v3.59.1 */
 
-    function create_fragment$G(ctx) {
+    function create_fragment$J(ctx) {
     	let div4;
     	let div3;
     	let div2;
@@ -16994,7 +16994,7 @@ var app = (function () {
     	};
     }
 
-    function instance$F($$self, $$props, $$invalidate) {
+    function instance$I($$self, $$props, $$invalidate) {
     	let $nostrManager;
     	component_subscribe($$self, nostrManager, $$value => $$invalidate(2, $nostrManager = $$value));
     	let { card } = $$props;
@@ -17027,20 +17027,20 @@ var app = (function () {
     class IdeaCardSmall extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$F, create_fragment$G, safe_not_equal, { card: 0 });
+    		init(this, options, instance$I, create_fragment$J, safe_not_equal, { card: 0 });
     	}
     }
 
     /* src/components/Widgets/UserIdeasWidget.svelte generated by Svelte v3.59.1 */
 
-    function get_each_context$g(ctx, list, i) {
+    function get_each_context$j(ctx, list, i) {
     	const child_ctx = ctx.slice();
     	child_ctx[7] = list[i];
     	return child_ctx;
     }
 
     // (78:8) {#if profile}
-    function create_if_block$i(ctx) {
+    function create_if_block$l(ctx) {
     	let h4;
     	let t0_value = /*profile*/ ctx[1].name + "";
     	let t0;
@@ -17069,7 +17069,7 @@ var app = (function () {
     }
 
     // (84:12) {#each ideas as idea (idea.id)}
-    function create_each_block$g(key_1, ctx) {
+    function create_each_block$j(key_1, ctx) {
     	let first;
     	let ideacardsmall;
     	let current;
@@ -17110,7 +17110,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$F(ctx) {
+    function create_fragment$I(ctx) {
     	let div2;
     	let div1;
     	let t;
@@ -17118,14 +17118,14 @@ var app = (function () {
     	let each_blocks = [];
     	let each_1_lookup = new Map();
     	let current;
-    	let if_block = /*profile*/ ctx[1] && create_if_block$i(ctx);
+    	let if_block = /*profile*/ ctx[1] && create_if_block$l(ctx);
     	let each_value = /*ideas*/ ctx[0];
     	const get_key = ctx => /*idea*/ ctx[7].id;
 
     	for (let i = 0; i < each_value.length; i += 1) {
-    		let child_ctx = get_each_context$g(ctx, each_value, i);
+    		let child_ctx = get_each_context$j(ctx, each_value, i);
     		let key = get_key(child_ctx);
-    		each_1_lookup.set(key, each_blocks[i] = create_each_block$g(key, child_ctx));
+    		each_1_lookup.set(key, each_blocks[i] = create_each_block$j(key, child_ctx));
     	}
 
     	return {
@@ -17164,7 +17164,7 @@ var app = (function () {
     				if (if_block) {
     					if_block.p(ctx, dirty);
     				} else {
-    					if_block = create_if_block$i(ctx);
+    					if_block = create_if_block$l(ctx);
     					if_block.c();
     					if_block.m(div1, t);
     				}
@@ -17176,7 +17176,7 @@ var app = (function () {
     			if (dirty & /*ideas*/ 1) {
     				each_value = /*ideas*/ ctx[0];
     				group_outros();
-    				each_blocks = update_keyed_each(each_blocks, dirty, get_key, 1, ctx, each_value, each_1_lookup, div0, outro_and_destroy_block, create_each_block$g, null, get_each_context$g);
+    				each_blocks = update_keyed_each(each_blocks, dirty, get_key, 1, ctx, each_value, each_1_lookup, div0, outro_and_destroy_block, create_each_block$j, null, get_each_context$j);
     				check_outros();
     			}
     		},
@@ -17207,7 +17207,7 @@ var app = (function () {
     	};
     }
 
-    function instance$E($$self, $$props, $$invalidate) {
+    function instance$H($$self, $$props, $$invalidate) {
     	let $nostrCache;
     	let $nostrManager;
     	component_subscribe($$self, nostrCache, $$value => $$invalidate(3, $nostrCache = $$value));
@@ -17292,13 +17292,13 @@ var app = (function () {
     class UserIdeasWidget extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$E, create_fragment$F, safe_not_equal, { profile_id: 2 });
+    		init(this, options, instance$H, create_fragment$I, safe_not_equal, { profile_id: 2 });
     	}
     }
 
     /* src/components/ProfileViewImage.svelte generated by Svelte v3.59.1 */
 
-    function create_if_block$h(ctx) {
+    function create_if_block$k(ctx) {
     	let profileimg;
     	let current;
 
@@ -17344,11 +17344,11 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$E(ctx) {
+    function create_fragment$H(ctx) {
     	let div1;
     	let div0;
     	let current;
-    	let if_block = /*profile*/ ctx[0] && /*profile*/ ctx[0].picture && create_if_block$h(ctx);
+    	let if_block = /*profile*/ ctx[0] && /*profile*/ ctx[0].picture && create_if_block$k(ctx);
 
     	return {
     		c() {
@@ -17373,7 +17373,7 @@ var app = (function () {
     						transition_in(if_block, 1);
     					}
     				} else {
-    					if_block = create_if_block$h(ctx);
+    					if_block = create_if_block$k(ctx);
     					if_block.c();
     					transition_in(if_block, 1);
     					if_block.m(div0, null);
@@ -17404,7 +17404,7 @@ var app = (function () {
     	};
     }
 
-    function instance$D($$self, $$props, $$invalidate) {
+    function instance$G($$self, $$props, $$invalidate) {
     	let { profile = null } = $$props;
 
     	$$self.$$set = $$props => {
@@ -17417,16 +17417,16 @@ var app = (function () {
     class ProfileViewImage extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$D, create_fragment$E, safe_not_equal, { profile: 0 });
+    		init(this, options, instance$G, create_fragment$H, safe_not_equal, { profile: 0 });
     	}
     }
 
-    var css_248z$p = ".follow-button.svelte-awqtfc{display:flex;align-items:center;justify-content:center;padding:10px 20px;border:none;border-radius:20px;cursor:pointer;background-color:#f7931a;color:white;font-size:16px;box-shadow:0 2px 4px rgba(0, 0, 0, 0.2);transition:background-color 0.3s,\n            box-shadow 0.3s}.follow-button.unfollow.svelte-awqtfc{background-color:rgb(44, 82, 130)}.follow-button.disabled.svelte-awqtfc{background-color:grey;cursor:default}.icon.svelte-awqtfc{margin-right:8px}";
-    styleInject(css_248z$p);
+    var css_248z$s = ".follow-button.svelte-awqtfc{display:flex;align-items:center;justify-content:center;padding:10px 20px;border:none;border-radius:20px;cursor:pointer;background-color:#f7931a;color:white;font-size:16px;box-shadow:0 2px 4px rgba(0, 0, 0, 0.2);transition:background-color 0.3s,\n            box-shadow 0.3s}.follow-button.unfollow.svelte-awqtfc{background-color:rgb(44, 82, 130)}.follow-button.disabled.svelte-awqtfc{background-color:grey;cursor:default}.icon.svelte-awqtfc{margin-right:8px}";
+    styleInject(css_248z$s);
 
     /* src/components/FollowButton.svelte generated by Svelte v3.59.1 */
 
-    function create_fragment$D(ctx) {
+    function create_fragment$G(ctx) {
     	let button;
     	let i;
     	let i_class_value;
@@ -17490,7 +17490,7 @@ var app = (function () {
     	};
     }
 
-    function instance$C($$self, $$props, $$invalidate) {
+    function instance$F($$self, $$props, $$invalidate) {
     	let $nostrCache;
     	let $nostrManager;
     	component_subscribe($$self, nostrCache, $$value => $$invalidate(4, $nostrCache = $$value));
@@ -17556,16 +17556,16 @@ var app = (function () {
     class FollowButton extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$C, create_fragment$D, safe_not_equal, { profilePubKey: 3 });
+    		init(this, options, instance$F, create_fragment$G, safe_not_equal, { profilePubKey: 3 });
     	}
     }
 
-    var css_248z$o = ".dm-button.svelte-1ek1m50{display:flex;align-items:center;justify-content:center;padding:10px 20px;border:none;border-radius:20px;cursor:pointer;background-color:#f7931a;color:white;font-size:16px;box-shadow:0 2px 4px rgba(0, 0, 0, 0.2);transition:background-color 0.3s,\n            box-shadow 0.3s}.dm-button.disabled.svelte-1ek1m50{background-color:grey;cursor:default}.icon.svelte-1ek1m50{margin-right:8px}";
-    styleInject(css_248z$o);
+    var css_248z$r = ".dm-button.svelte-1ek1m50{display:flex;align-items:center;justify-content:center;padding:10px 20px;border:none;border-radius:20px;cursor:pointer;background-color:#f7931a;color:white;font-size:16px;box-shadow:0 2px 4px rgba(0, 0, 0, 0.2);transition:background-color 0.3s,\n            box-shadow 0.3s}.dm-button.disabled.svelte-1ek1m50{background-color:grey;cursor:default}.icon.svelte-1ek1m50{margin-right:8px}";
+    styleInject(css_248z$r);
 
     /* src/components/DMButton.svelte generated by Svelte v3.59.1 */
 
-    function create_fragment$C(ctx) {
+    function create_fragment$F(ctx) {
     	let button;
     	let i;
     	let t;
@@ -17612,7 +17612,7 @@ var app = (function () {
     	};
     }
 
-    function instance$B($$self, $$props, $$invalidate) {
+    function instance$E($$self, $$props, $$invalidate) {
     	let $nostrCache;
     	let $nostrManager;
     	component_subscribe($$self, nostrCache, $$value => $$invalidate(3, $nostrCache = $$value));
@@ -17651,16 +17651,16 @@ var app = (function () {
     class DMButton extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$B, create_fragment$C, safe_not_equal, { profilePubKey: 2 });
+    		init(this, options, instance$E, create_fragment$F, safe_not_equal, { profilePubKey: 2 });
     	}
     }
 
-    var css_248z$n = ".button-container.svelte-12als6u{display:flex;justify-content:flex-end;gap:10px;position:relative;top:10px;right:10px;padding:10px}.single-card.svelte-12als6u{position:relative}";
-    styleInject(css_248z$n);
+    var css_248z$q = ".button-container.svelte-12als6u{display:flex;justify-content:flex-end;gap:10px;position:relative;top:10px;right:10px;padding:10px}.single-card.svelte-12als6u{position:relative}";
+    styleInject(css_248z$q);
 
     /* src/components/Widgets/ProfileWidget.svelte generated by Svelte v3.59.1 */
 
-    function create_fragment$B(ctx) {
+    function create_fragment$E(ctx) {
     	let div3;
     	let div0;
     	let dmbutton;
@@ -17760,7 +17760,7 @@ var app = (function () {
     	};
     }
 
-    function instance$A($$self, $$props, $$invalidate) {
+    function instance$D($$self, $$props, $$invalidate) {
     	let $nostrManager;
     	let $nostrCache;
     	component_subscribe($$self, nostrManager, $$value => $$invalidate(5, $nostrManager = $$value));
@@ -17831,13 +17831,13 @@ var app = (function () {
     class ProfileWidget extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$A, create_fragment$B, safe_not_equal, { userPubKey: 4 });
+    		init(this, options, instance$D, create_fragment$E, safe_not_equal, { userPubKey: 4 });
     	}
     }
 
     /* src/components/Widgets/Banner/ProfileBannerWidget.svelte generated by Svelte v3.59.1 */
 
-    function create_fragment$A(ctx) {
+    function create_fragment$D(ctx) {
     	let banner_1;
     	let current;
 
@@ -17879,7 +17879,7 @@ var app = (function () {
     	};
     }
 
-    function instance$z($$self, $$props, $$invalidate) {
+    function instance$C($$self, $$props, $$invalidate) {
     	let $nostrCache;
     	let $nostrManager;
     	component_subscribe($$self, nostrCache, $$value => $$invalidate(3, $nostrCache = $$value));
@@ -17945,13 +17945,13 @@ var app = (function () {
     class ProfileBannerWidget extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$z, create_fragment$A, safe_not_equal, { profile_id: 2 });
+    		init(this, options, instance$C, create_fragment$D, safe_not_equal, { profile_id: 2 });
     	}
     }
 
     /* src/views/Profile.svelte generated by Svelte v3.59.1 */
 
-    function create_fragment$z(ctx) {
+    function create_fragment$C(ctx) {
     	let main;
     	let menu;
     	let t0;
@@ -18077,7 +18077,7 @@ var app = (function () {
     	};
     }
 
-    function instance$y($$self, $$props, $$invalidate) {
+    function instance$B($$self, $$props, $$invalidate) {
     	let $nostrCache;
     	let $nostrManager;
     	let $contentContainerClass;
@@ -18165,23 +18165,23 @@ var app = (function () {
     class Profile extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$y, create_fragment$z, safe_not_equal, { profile_id: 0 });
+    		init(this, options, instance$B, create_fragment$C, safe_not_equal, { profile_id: 0 });
     	}
     }
 
-    var css_248z$m = "ul.svelte-1gaioac{list-style-type:disc;padding-left:40px}.relay-item.svelte-1gaioac{display:flex;justify-content:space-between;align-items:center;margin-bottom:2px}.relay-text.svelte-1gaioac{flex-grow:1;font-size:1rem}.add-relay-container.svelte-1gaioac{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}.add-relay-input.svelte-1gaioac{flex-grow:1;margin-right:10px;font-size:1rem;height:28px}";
-    styleInject(css_248z$m);
+    var css_248z$p = "ul.svelte-1gaioac{list-style-type:disc;padding-left:40px}.relay-item.svelte-1gaioac{display:flex;justify-content:space-between;align-items:center;margin-bottom:2px}.relay-text.svelte-1gaioac{flex-grow:1;font-size:1rem}.add-relay-container.svelte-1gaioac{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}.add-relay-input.svelte-1gaioac{flex-grow:1;margin-right:10px;font-size:1rem;height:28px}";
+    styleInject(css_248z$p);
 
     /* src/components/Widgets/RelaySelectionWidget.svelte generated by Svelte v3.59.1 */
 
-    function get_each_context$f(ctx, list, i) {
+    function get_each_context$i(ctx, list, i) {
     	const child_ctx = ctx.slice();
     	child_ctx[16] = list[i];
     	return child_ctx;
     }
 
     // (120:2) {#each relays as relay}
-    function create_each_block$f(ctx) {
+    function create_each_block$i(ctx) {
     	let div;
     	let span;
     	let t0_value = /*relay*/ ctx[16] + "";
@@ -18234,7 +18234,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$y(ctx) {
+    function create_fragment$B(ctx) {
     	let h5;
     	let t1;
     	let div0;
@@ -18260,7 +18260,7 @@ var app = (function () {
     	let each_blocks = [];
 
     	for (let i = 0; i < each_value.length; i += 1) {
-    		each_blocks[i] = create_each_block$f(get_each_context$f(ctx, each_value, i));
+    		each_blocks[i] = create_each_block$i(get_each_context$i(ctx, each_value, i));
     	}
 
     	return {
@@ -18367,12 +18367,12 @@ var app = (function () {
     				let i;
 
     				for (i = 0; i < each_value.length; i += 1) {
-    					const child_ctx = get_each_context$f(ctx, each_value, i);
+    					const child_ctx = get_each_context$i(ctx, each_value, i);
 
     					if (each_blocks[i]) {
     						each_blocks[i].p(child_ctx, dirty);
     					} else {
-    						each_blocks[i] = create_each_block$f(child_ctx);
+    						each_blocks[i] = create_each_block$i(child_ctx);
     						each_blocks[i].c();
     						each_blocks[i].m(div1, null);
     					}
@@ -18428,7 +18428,7 @@ var app = (function () {
     	};
     }
 
-    function instance$x($$self, $$props, $$invalidate) {
+    function instance$A($$self, $$props, $$invalidate) {
     	let $nostrManager;
     	let $nostrCache;
     	component_subscribe($$self, nostrManager, $$value => $$invalidate(7, $nostrManager = $$value));
@@ -18545,13 +18545,13 @@ var app = (function () {
     class RelaySelectionWidget extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$x, create_fragment$y, safe_not_equal, {});
+    		init(this, options, instance$A, create_fragment$B, safe_not_equal, {});
     	}
     }
 
     /* src/components/Widgets/EditProfileWidget.svelte generated by Svelte v3.59.1 */
 
-    function create_fragment$x(ctx) {
+    function create_fragment$A(ctx) {
     	let div6;
     	let profileviewimage;
     	let t0;
@@ -18828,7 +18828,7 @@ var app = (function () {
     	};
     }
 
-    function instance$w($$self, $$props, $$invalidate) {
+    function instance$z($$self, $$props, $$invalidate) {
     	let $nostrManager;
     	component_subscribe($$self, nostrManager, $$value => $$invalidate(16, $nostrManager = $$value));
     	let { profile = null } = $$props;
@@ -18943,13 +18943,13 @@ var app = (function () {
     class EditProfileWidget extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$w, create_fragment$x, safe_not_equal, { profile: 0 });
+    		init(this, options, instance$z, create_fragment$A, safe_not_equal, { profile: 0 });
     	}
     }
 
     /* src/views/EditProfile.svelte generated by Svelte v3.59.1 */
 
-    function create_fragment$w(ctx) {
+    function create_fragment$z(ctx) {
     	let main;
     	let menu;
     	let t0;
@@ -19046,7 +19046,7 @@ var app = (function () {
     	};
     }
 
-    function instance$v($$self, $$props, $$invalidate) {
+    function instance$y($$self, $$props, $$invalidate) {
     	let $nostrCache;
     	let $nostrManager;
     	let $contentContainerClass;
@@ -19108,20 +19108,20 @@ var app = (function () {
     class EditProfile extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$v, create_fragment$w, safe_not_equal, {});
+    		init(this, options, instance$y, create_fragment$z, safe_not_equal, {});
     	}
     }
 
     /* src/components/CommentWidget.svelte generated by Svelte v3.59.1 */
 
-    function get_each_context$e(ctx, list, i) {
+    function get_each_context$h(ctx, list, i) {
     	const child_ctx = ctx.slice();
     	child_ctx[11] = list[i];
     	return child_ctx;
     }
 
     // (104:6) {#if comment.picture}
-    function create_if_block$g(ctx) {
+    function create_if_block$j(ctx) {
     	let div;
     	let profileimg;
     	let current;
@@ -19166,7 +19166,7 @@ var app = (function () {
     }
 
     // (102:2) {#each comments as comment (comment.id)}
-    function create_each_block$e(key_1, ctx) {
+    function create_each_block$h(key_1, ctx) {
     	let li;
     	let t0;
     	let div;
@@ -19179,7 +19179,7 @@ var app = (function () {
     	let t3;
     	let t4;
     	let current;
-    	let if_block = /*comment*/ ctx[11].picture && create_if_block$g(ctx);
+    	let if_block = /*comment*/ ctx[11].picture && create_if_block$j(ctx);
 
     	return {
     		key: key_1,
@@ -19224,7 +19224,7 @@ var app = (function () {
     						transition_in(if_block, 1);
     					}
     				} else {
-    					if_block = create_if_block$g(ctx);
+    					if_block = create_if_block$j(ctx);
     					if_block.c();
     					transition_in(if_block, 1);
     					if_block.m(li, t0);
@@ -19258,7 +19258,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$v(ctx) {
+    function create_fragment$y(ctx) {
     	let h4;
     	let t1;
     	let ul;
@@ -19279,9 +19279,9 @@ var app = (function () {
     	const get_key = ctx => /*comment*/ ctx[11].id;
 
     	for (let i = 0; i < each_value.length; i += 1) {
-    		let child_ctx = get_each_context$e(ctx, each_value, i);
+    		let child_ctx = get_each_context$h(ctx, each_value, i);
     		let key = get_key(child_ctx);
-    		each_1_lookup.set(key, each_blocks[i] = create_each_block$e(key, child_ctx));
+    		each_1_lookup.set(key, each_blocks[i] = create_each_block$h(key, child_ctx));
     	}
 
     	return {
@@ -19351,7 +19351,7 @@ var app = (function () {
     			if (dirty & /*comments*/ 1) {
     				each_value = /*comments*/ ctx[0];
     				group_outros();
-    				each_blocks = update_keyed_each(each_blocks, dirty, get_key, 1, ctx, each_value, each_1_lookup, ul, outro_and_destroy_block, create_each_block$e, null, get_each_context$e);
+    				each_blocks = update_keyed_each(each_blocks, dirty, get_key, 1, ctx, each_value, each_1_lookup, ul, outro_and_destroy_block, create_each_block$h, null, get_each_context$h);
     				check_outros();
     			}
 
@@ -19392,7 +19392,7 @@ var app = (function () {
     	};
     }
 
-    function instance$u($$self, $$props, $$invalidate) {
+    function instance$x($$self, $$props, $$invalidate) {
     	let $nostrManager;
     	let $nostrCache;
     	component_subscribe($$self, nostrManager, $$value => $$invalidate(4, $nostrManager = $$value));
@@ -19509,7 +19509,7 @@ var app = (function () {
     class CommentWidget extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$u, create_fragment$v, safe_not_equal, { id: 3 });
+    		init(this, options, instance$x, create_fragment$y, safe_not_equal, { id: 3 });
     	}
     }
 
@@ -19561,13 +19561,14 @@ var app = (function () {
         return this.createBaseEvent(NOSTR_KIND_JOB, abstract, tags);
       }
 
-      createOfferEvent(message, jobId, bid, duration, startDate, termsOfAgreement, previousOfferId = null) {
+      createOfferEvent(message, jobId, bid, duration, startDate, termsOfAgreement, recipientPubkey, previousOfferId = null) {
         const tags = [
           ["bid", bid.toString()],
           ["duration", duration.toString()],
           ["startDate", startDate],
           ["termsOfAgreement", termsOfAgreement],
-          ["e", jobId, "", "job"]  // job reference mit marker
+          ["e", jobId, "", "job"],  // job reference mit marker
+          ["p", recipientPubkey]    // Empfänger des Offers
         ];
 
         if (previousOfferId) {
@@ -19923,6 +19924,7 @@ var app = (function () {
           parseInt(duration),
           startDate,
           termsOfAgreement,
+          targetEvent.pubkey,  // Empfänger ist der Ersteller des vorherigen Events
           previousOfferId
         );
 
@@ -20027,6 +20029,169 @@ var app = (function () {
           status,
           approvalEvent: latestApproval
         };
+      }
+
+      // === Job Ownership & Role Management ===
+
+      /**
+       * Prüft ob der aktuelle User der Developer eines Jobs ist
+       * @param {string} jobId - ID des Jobs
+       * @returns {Promise<boolean>} true wenn der User der Developer ist
+       */
+      async isJobDeveloper(jobId) {
+        if (!this.manager || !this.manager.publicKey) {
+          return false;
+        }
+
+        // Finde Contract für diesen Job
+        const contracts = await this.cache.getEventsByCriteria({
+          kinds: [NOSTR_KIND_CONTRACT],
+          tags: {
+            'e': { value: jobId, marker: 'job' }
+          }
+        });
+
+        // Sortiere nach Datum, nehme den neuesten
+        const latestContract = contracts.sort((a, b) => b.created_at - a.created_at)[0];
+        if (!latestContract) return false;
+
+        // Prüfe ob ich der Developer bin (p-tag zeigt auf mich)
+        const developerTag = latestContract.tags.find(tag => tag[0] === 'p');
+        return developerTag && developerTag[1] === this.manager.publicKey;
+      }
+
+      /**
+       * Findet den IdeaOwner eines Jobs
+       * @param {string} jobId - ID des Jobs
+       * @returns {Promise<string|null>} pubkey des IdeaOwners oder null
+       */
+      async getJobIdeaOwner(jobId) {
+        // Finde den Job
+        const job = await this.cache.getEventById(jobId);
+        if (!job) return null;
+
+        // Finde die Idea auf die der Job zeigt
+        const ideaTag = job.tags.find(tag => tag[0] === 'e');
+        if (!ideaTag) return null;
+
+        const idea = await this.cache.getEventById(ideaTag[1]);
+        if (!idea) return null;
+
+        // Der Ersteller der Idea ist der IdeaOwner
+        return idea.pubkey;
+      }
+
+      /**
+       * Findet alle Jobs bei denen ich der Developer bin
+       * @returns {Promise<Array>} Array von Job-Events
+       */
+      async getMyDeveloperJobs() {
+        if (!this.manager || !this.manager.publicKey) {
+          return [];
+        }
+
+        // Finde alle Contracts wo ich als Developer (p-tag) markiert bin
+        const contracts = await this.cache.getEventsByCriteria({
+          kinds: [NOSTR_KIND_CONTRACT],
+          tags: {
+            'p': { value: this.manager.publicKey }
+          }
+        });
+
+        // Für jeden Contract den zugehörigen Job finden
+        const jobs = await Promise.all(
+          contracts.map(async contract => {
+            const jobTag = contract.tags.find(tag => tag[0] === 'e' && tag[3] === 'job');
+            if (!jobTag) return null;
+
+            const job = await this.cache.getEventById(jobTag[1]);
+            if (!job) return null;
+
+            // Hole den IdeaOwner
+            const ideaOwner = await this.getJobIdeaOwner(job.id);
+            
+            return {
+              ...job,
+              contract,
+              ideaOwner
+            };
+          })
+        );
+
+        // Null-Werte filtern
+        return jobs.filter(Boolean);
+      }
+
+      // === Application Management ===
+
+      /**
+       * Findet alle Bewerbungen die an mich gerichtet sind
+       * @returns {Promise<Array>} Array von Application-Objekten gruppiert nach Job
+       */
+      async getMyJobApplications() {
+        if (!this.manager || !this.manager.publicKey || !this.cache) {
+          return [];
+        }
+
+        // Finde alle Offers die an mich gerichtet sind (p-tag)
+        const offers = await this.cache.getEventsByCriteria({
+          kinds: [NOSTR_KIND_OFFER, NOSTR_KIND_GIFT_WRAP],
+          tags: {
+            'p': { value: this.manager.publicKey }
+          }
+        });
+
+        // Gruppiere nach Jobs
+        const jobGroups = new Map();
+        
+        await Promise.all(offers.map(async offer => {
+          // Finde den Job auf den sich das Offer bezieht
+          const jobTag = offer.tags.find(t => t[0] === 'e' && t[3] === 'job');
+          if (!jobTag) return;
+
+          const job = await this.cache.getEventById(jobTag[1]);
+          if (!job) return;
+
+          // Status und weitere Details holen
+          const { status, approvalEvent } = await this.getOfferStatus(offer.id);
+          
+          // Finde vorheriges Offer falls es ein Counter ist
+          const prevOfferTag = offer.tags.find(t => t[0] === 'e' && t[3] === 'prev_offer');
+          const previousOffer = prevOfferTag ? 
+            await this.cache.getEventById(prevOfferTag[1]) : null;
+
+          const application = {
+            id: offer.id,
+            content: offer.content,
+            pubkey: offer.pubkey,
+            created_at: offer.created_at,
+            bid: parseInt(offer.tags.find(t => t[0] === 'bid')?.[1] || '0'),
+            duration: parseInt(offer.tags.find(t => t[0] === 'duration')?.[1] || '0'),
+            startDate: offer.tags.find(t => t[0] === 'startDate')?.[1],
+            termsOfAgreement: offer.tags.find(t => t[0] === 'termsOfAgreement')?.[1],
+            status,
+            approvalEvent,
+            previousOffer,
+            jobId: job.id
+          };
+
+          // Zum Job gruppieren
+          if (!jobGroups.has(job.id)) {
+            jobGroups.set(job.id, {
+              job,
+              applications: []
+            });
+          }
+          jobGroups.get(job.id).applications.push(application);
+        }));
+
+        // Nach Datum sortieren und nur Jobs mit Applications zurückgeben
+        return Array.from(jobGroups.values())
+          .map(group => ({
+            ...group,
+            applications: group.applications.sort((a, b) => b.created_at - a.created_at)
+          }))
+          .filter(group => group.applications.length > 0);
       }
     }
 
@@ -20270,7 +20435,7 @@ var app = (function () {
 
     /* src/components/Dropdowns/MultiSelectDropdown.svelte generated by Svelte v3.59.1 */
 
-    function get_each_context$d(ctx, list, i) {
+    function get_each_context$g(ctx, list, i) {
     	const child_ctx = ctx.slice();
     	child_ctx[9] = list[i];
     	child_ctx[10] = list;
@@ -20279,7 +20444,7 @@ var app = (function () {
     }
 
     // (31:4) {#each categories as category}
-    function create_each_block$d(ctx) {
+    function create_each_block$g(ctx) {
     	let label;
     	let input;
     	let t0;
@@ -20342,7 +20507,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$u(ctx) {
+    function create_fragment$x(ctx) {
     	let div1;
     	let button;
     	let t1;
@@ -20354,7 +20519,7 @@ var app = (function () {
     	let each_blocks = [];
 
     	for (let i = 0; i < each_value.length; i += 1) {
-    		each_blocks[i] = create_each_block$d(get_each_context$d(ctx, each_value, i));
+    		each_blocks[i] = create_each_block$g(get_each_context$g(ctx, each_value, i));
     	}
 
     	return {
@@ -20397,12 +20562,12 @@ var app = (function () {
     				let i;
 
     				for (i = 0; i < each_value.length; i += 1) {
-    					const child_ctx = get_each_context$d(ctx, each_value, i);
+    					const child_ctx = get_each_context$g(ctx, each_value, i);
 
     					if (each_blocks[i]) {
     						each_blocks[i].p(child_ctx, dirty);
     					} else {
-    						each_blocks[i] = create_each_block$d(child_ctx);
+    						each_blocks[i] = create_each_block$g(child_ctx);
     						each_blocks[i].c();
     						each_blocks[i].m(div0, null);
     					}
@@ -20434,7 +20599,7 @@ var app = (function () {
     	};
     }
 
-    function instance$t($$self, $$props, $$invalidate) {
+    function instance$w($$self, $$props, $$invalidate) {
     	let { categories = [] } = $$props;
     	let { selected = [] } = $$props;
     	let { id = '' } = $$props;
@@ -20490,16 +20655,16 @@ var app = (function () {
     class MultiSelectDropdown extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$t, create_fragment$u, safe_not_equal, { categories: 0, selected: 5, id: 1 });
+    		init(this, options, instance$w, create_fragment$x, safe_not_equal, { categories: 0, selected: 5, id: 1 });
     	}
     }
 
-    var css_248z$l = ".modal-overlay.svelte-1x1y2us.svelte-1x1y2us{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0, 0, 0, 0.75);backdrop-filter:blur(4px);display:flex;justify-content:center;align-items:center;z-index:1000}.modal-content.svelte-1x1y2us.svelte-1x1y2us{background:white;width:90%;max-width:1000px;border-radius:12px;box-shadow:0 4px 20px rgba(0, 0, 0, 0.2);display:flex;flex-direction:column;max-height:85vh}.modal-header.svelte-1x1y2us.svelte-1x1y2us{padding:1.5rem 2rem;border-bottom:1px solid #e5e7eb;display:flex;justify-content:space-between;align-items:center}.modal-header.svelte-1x1y2us h2.svelte-1x1y2us{font-size:1.5rem;font-weight:600;color:#1f2937;margin:0}.close-btn.svelte-1x1y2us.svelte-1x1y2us{background:none;border:none;font-size:1.25rem;color:#6b7280;cursor:pointer;padding:0.5rem}.modal-body.svelte-1x1y2us.svelte-1x1y2us{padding:2rem;overflow-y:auto}.form-grid.svelte-1x1y2us.svelte-1x1y2us{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-bottom:2rem}.form-group.svelte-1x1y2us.svelte-1x1y2us{margin-bottom:1.5rem}.form-group.svelte-1x1y2us label.svelte-1x1y2us{display:block;font-weight:500;color:#374151;margin-bottom:0.5rem}input.svelte-1x1y2us.svelte-1x1y2us,textarea.svelte-1x1y2us.svelte-1x1y2us{width:100%;padding:0.75rem;border:1px solid #d1d5db;border-radius:6px;font-size:1rem;transition:border-color 0.2s}input.svelte-1x1y2us.svelte-1x1y2us:focus,textarea.svelte-1x1y2us.svelte-1x1y2us:focus{outline:none;border-color:#2c5282;box-shadow:0 0 0 3px rgba(44, 82, 130, 0.1)}.categories-section.svelte-1x1y2us.svelte-1x1y2us{border-top:1px solid #e5e7eb;padding-top:1.5rem}.modal-footer.svelte-1x1y2us.svelte-1x1y2us{padding:1.5rem 2rem;border-top:1px solid #e5e7eb;display:flex;justify-content:flex-end;gap:1rem}.cancel-btn.svelte-1x1y2us.svelte-1x1y2us,.submit-btn.svelte-1x1y2us.svelte-1x1y2us{padding:0.75rem 1.5rem;border-radius:6px;font-weight:500;cursor:pointer;transition:all 0.2s}.cancel-btn.svelte-1x1y2us.svelte-1x1y2us{background:white;border:1px solid #d1d5db;color:#374151}.submit-btn.svelte-1x1y2us.svelte-1x1y2us{background:#2c5282;border:none;color:white}.cancel-btn.svelte-1x1y2us.svelte-1x1y2us:hover{background:#f3f4f6}.submit-btn.svelte-1x1y2us.svelte-1x1y2us:hover{background:#1a365d}@media(max-width: 768px){.form-grid.svelte-1x1y2us.svelte-1x1y2us{grid-template-columns:1fr;gap:1rem}.modal-content.svelte-1x1y2us.svelte-1x1y2us{width:95%;max-height:90vh}}";
-    styleInject(css_248z$l);
+    var css_248z$o = ".modal-overlay.svelte-1x1y2us.svelte-1x1y2us{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0, 0, 0, 0.75);backdrop-filter:blur(4px);display:flex;justify-content:center;align-items:center;z-index:1000}.modal-content.svelte-1x1y2us.svelte-1x1y2us{background:white;width:90%;max-width:1000px;border-radius:12px;box-shadow:0 4px 20px rgba(0, 0, 0, 0.2);display:flex;flex-direction:column;max-height:85vh}.modal-header.svelte-1x1y2us.svelte-1x1y2us{padding:1.5rem 2rem;border-bottom:1px solid #e5e7eb;display:flex;justify-content:space-between;align-items:center}.modal-header.svelte-1x1y2us h2.svelte-1x1y2us{font-size:1.5rem;font-weight:600;color:#1f2937;margin:0}.close-btn.svelte-1x1y2us.svelte-1x1y2us{background:none;border:none;font-size:1.25rem;color:#6b7280;cursor:pointer;padding:0.5rem}.modal-body.svelte-1x1y2us.svelte-1x1y2us{padding:2rem;overflow-y:auto}.form-grid.svelte-1x1y2us.svelte-1x1y2us{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-bottom:2rem}.form-group.svelte-1x1y2us.svelte-1x1y2us{margin-bottom:1.5rem}.form-group.svelte-1x1y2us label.svelte-1x1y2us{display:block;font-weight:500;color:#374151;margin-bottom:0.5rem}input.svelte-1x1y2us.svelte-1x1y2us,textarea.svelte-1x1y2us.svelte-1x1y2us{width:100%;padding:0.75rem;border:1px solid #d1d5db;border-radius:6px;font-size:1rem;transition:border-color 0.2s}input.svelte-1x1y2us.svelte-1x1y2us:focus,textarea.svelte-1x1y2us.svelte-1x1y2us:focus{outline:none;border-color:#2c5282;box-shadow:0 0 0 3px rgba(44, 82, 130, 0.1)}.categories-section.svelte-1x1y2us.svelte-1x1y2us{border-top:1px solid #e5e7eb;padding-top:1.5rem}.modal-footer.svelte-1x1y2us.svelte-1x1y2us{padding:1.5rem 2rem;border-top:1px solid #e5e7eb;display:flex;justify-content:flex-end;gap:1rem}.cancel-btn.svelte-1x1y2us.svelte-1x1y2us,.submit-btn.svelte-1x1y2us.svelte-1x1y2us{padding:0.75rem 1.5rem;border-radius:6px;font-weight:500;cursor:pointer;transition:all 0.2s}.cancel-btn.svelte-1x1y2us.svelte-1x1y2us{background:white;border:1px solid #d1d5db;color:#374151}.submit-btn.svelte-1x1y2us.svelte-1x1y2us{background:#2c5282;border:none;color:white}.cancel-btn.svelte-1x1y2us.svelte-1x1y2us:hover{background:#f3f4f6}.submit-btn.svelte-1x1y2us.svelte-1x1y2us:hover{background:#1a365d}@media(max-width: 768px){.form-grid.svelte-1x1y2us.svelte-1x1y2us{grid-template-columns:1fr;gap:1rem}.modal-content.svelte-1x1y2us.svelte-1x1y2us{width:95%;max-height:90vh}}";
+    styleInject(css_248z$o);
 
     /* src/components/Modals/JobModal.svelte generated by Svelte v3.59.1 */
 
-    function create_fragment$t(ctx) {
+    function create_fragment$w(ctx) {
     	let div14;
     	let div13;
     	let div0;
@@ -20820,7 +20985,7 @@ var app = (function () {
     	};
     }
 
-    function instance$s($$self, $$props, $$invalidate) {
+    function instance$v($$self, $$props, $$invalidate) {
     	let $nostrManager;
     	component_subscribe($$self, nostrManager, $$value => $$invalidate(16, $nostrManager = $$value));
     	let { ideaID } = $$props;
@@ -20940,22 +21105,22 @@ var app = (function () {
     class JobModal extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$s, create_fragment$t, safe_not_equal, { ideaID: 4, creatorPubKey: 5 });
+    		init(this, options, instance$v, create_fragment$w, safe_not_equal, { ideaID: 4, creatorPubKey: 5 });
     	}
     }
 
-    var css_248z$k = ".job-section.svelte-1yjnm19{background:white;border-radius:8px;padding:1.5rem;box-shadow:0 2px 4px rgba(0, 0, 0, 0.1)}.job-header.svelte-1yjnm19{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:1px solid #e5e7eb}.section-title.svelte-1yjnm19{font-size:1.5rem;font-weight:600;color:#1f2937}.create-job-btn.svelte-1yjnm19{display:flex;align-items:center;background-color:#2c5282;color:white;padding:0.5rem 1rem;border-radius:6px;font-weight:500;transition:all 0.2s}.create-job-btn.svelte-1yjnm19:hover{background-color:#1a365d;transform:translateY(-1px)}.job-grid.svelte-1yjnm19{display:grid;grid-template-columns:repeat(auto-fill, minmax(280px, 1fr));gap:1.5rem;padding:0.5rem}.job-card-inner.svelte-1yjnm19{background:white;border:1px solid #e5e7eb;border-radius:8px;overflow:hidden;height:100%;box-shadow:0 2px 4px rgba(0, 0, 0, 0.05);transition:box-shadow 0.3s ease}.job-card-inner.svelte-1yjnm19:hover{box-shadow:0 4px 6px rgba(0, 0, 0, 0.1)}.job-content.svelte-1yjnm19{padding:1rem}.job-title.svelte-1yjnm19{font-size:1.1rem;font-weight:600;color:#1f2937;margin-bottom:0.5rem;line-height:1.4}.job-description.svelte-1yjnm19{color:#6b7280;font-size:0.9rem;margin-top:0.5rem;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}@media(max-width: 640px){.job-grid.svelte-1yjnm19{grid-template-columns:1fr}.job-header.svelte-1yjnm19{flex-direction:column;gap:1rem;align-items:flex-start}}.creator-info.svelte-1yjnm19{font-size:0.8rem;color:#6b7280;margin-top:0.5rem;font-style:italic}";
-    styleInject(css_248z$k);
+    var css_248z$n = ".job-section.svelte-1yjnm19{background:white;border-radius:8px;padding:1.5rem;box-shadow:0 2px 4px rgba(0, 0, 0, 0.1)}.job-header.svelte-1yjnm19{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:1px solid #e5e7eb}.section-title.svelte-1yjnm19{font-size:1.5rem;font-weight:600;color:#1f2937}.create-job-btn.svelte-1yjnm19{display:flex;align-items:center;background-color:#2c5282;color:white;padding:0.5rem 1rem;border-radius:6px;font-weight:500;transition:all 0.2s}.create-job-btn.svelte-1yjnm19:hover{background-color:#1a365d;transform:translateY(-1px)}.job-grid.svelte-1yjnm19{display:grid;grid-template-columns:repeat(auto-fill, minmax(280px, 1fr));gap:1.5rem;padding:0.5rem}.job-card-inner.svelte-1yjnm19{background:white;border:1px solid #e5e7eb;border-radius:8px;overflow:hidden;height:100%;box-shadow:0 2px 4px rgba(0, 0, 0, 0.05);transition:box-shadow 0.3s ease}.job-card-inner.svelte-1yjnm19:hover{box-shadow:0 4px 6px rgba(0, 0, 0, 0.1)}.job-content.svelte-1yjnm19{padding:1rem}.job-title.svelte-1yjnm19{font-size:1.1rem;font-weight:600;color:#1f2937;margin-bottom:0.5rem;line-height:1.4}.job-description.svelte-1yjnm19{color:#6b7280;font-size:0.9rem;margin-top:0.5rem;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}@media(max-width: 640px){.job-grid.svelte-1yjnm19{grid-template-columns:1fr}.job-header.svelte-1yjnm19{flex-direction:column;gap:1rem;align-items:flex-start}}.creator-info.svelte-1yjnm19{font-size:0.8rem;color:#6b7280;margin-top:0.5rem;font-style:italic}";
+    styleInject(css_248z$n);
 
     /* src/components/JobWidget.svelte generated by Svelte v3.59.1 */
 
-    function get_each_context$c(ctx, list, i) {
+    function get_each_context$f(ctx, list, i) {
     	const child_ctx = ctx.slice();
     	child_ctx[13] = list[i];
     	return child_ctx;
     }
 
-    function get_each_context_1$3(ctx, list, i) {
+    function get_each_context_1$4(ctx, list, i) {
     	const child_ctx = ctx.slice();
     	child_ctx[16] = list[i];
     	return child_ctx;
@@ -20968,7 +21133,7 @@ var app = (function () {
     }
 
     // (92:4) {#if isLoggedIn}
-    function create_if_block_4$3(ctx) {
+    function create_if_block_4$4(ctx) {
     	let button;
     	let mounted;
     	let dispose;
@@ -21000,7 +21165,7 @@ var app = (function () {
     }
 
     // (103:2) {#if showJobModal}
-    function create_if_block_3$3(ctx) {
+    function create_if_block_3$4(ctx) {
     	let jobmodal;
     	let current;
 
@@ -21044,7 +21209,7 @@ var app = (function () {
     }
 
     // (119:12) {#if job.originalCreator}
-    function create_if_block_2$4(ctx) {
+    function create_if_block_2$5(ctx) {
     	let div;
     	let t0;
     	let t1_value = /*job*/ ctx[13].originalCreator + "";
@@ -21072,7 +21237,7 @@ var app = (function () {
     }
 
     // (124:12) {#if job.languages?.length}
-    function create_if_block_1$b(ctx) {
+    function create_if_block_1$d(ctx) {
     	let div;
     	let each_value_2 = /*job*/ ctx[13].languages;
     	let each_blocks = [];
@@ -21157,13 +21322,13 @@ var app = (function () {
     }
 
     // (131:12) {#if job.categories?.length}
-    function create_if_block$f(ctx) {
+    function create_if_block$i(ctx) {
     	let div;
     	let each_value_1 = /*job*/ ctx[13].categories;
     	let each_blocks = [];
 
     	for (let i = 0; i < each_value_1.length; i += 1) {
-    		each_blocks[i] = create_each_block_1$3(get_each_context_1$3(ctx, each_value_1, i));
+    		each_blocks[i] = create_each_block_1$4(get_each_context_1$4(ctx, each_value_1, i));
     	}
 
     	return {
@@ -21191,12 +21356,12 @@ var app = (function () {
     				let i;
 
     				for (i = 0; i < each_value_1.length; i += 1) {
-    					const child_ctx = get_each_context_1$3(ctx, each_value_1, i);
+    					const child_ctx = get_each_context_1$4(ctx, each_value_1, i);
 
     					if (each_blocks[i]) {
     						each_blocks[i].p(child_ctx, dirty);
     					} else {
-    						each_blocks[i] = create_each_block_1$3(child_ctx);
+    						each_blocks[i] = create_each_block_1$4(child_ctx);
     						each_blocks[i].c();
     						each_blocks[i].m(div, null);
     					}
@@ -21217,7 +21382,7 @@ var app = (function () {
     }
 
     // (133:16) {#each job.categories as cat}
-    function create_each_block_1$3(ctx) {
+    function create_each_block_1$4(ctx) {
     	let span;
     	let t_value = /*cat*/ ctx[16] + "";
     	let t;
@@ -21256,9 +21421,9 @@ var app = (function () {
     	let t4;
     	let t5;
     	let t6;
-    	let if_block0 = /*job*/ ctx[13].originalCreator && create_if_block_2$4(ctx);
-    	let if_block1 = /*job*/ ctx[13].languages?.length && create_if_block_1$b(ctx);
-    	let if_block2 = /*job*/ ctx[13].categories?.length && create_if_block$f(ctx);
+    	let if_block0 = /*job*/ ctx[13].originalCreator && create_if_block_2$5(ctx);
+    	let if_block1 = /*job*/ ctx[13].languages?.length && create_if_block_1$d(ctx);
+    	let if_block2 = /*job*/ ctx[13].categories?.length && create_if_block$i(ctx);
 
     	return {
     		c() {
@@ -21305,7 +21470,7 @@ var app = (function () {
     				if (if_block0) {
     					if_block0.p(ctx, dirty);
     				} else {
-    					if_block0 = create_if_block_2$4(ctx);
+    					if_block0 = create_if_block_2$5(ctx);
     					if_block0.c();
     					if_block0.m(div0, t4);
     				}
@@ -21318,7 +21483,7 @@ var app = (function () {
     				if (if_block1) {
     					if_block1.p(ctx, dirty);
     				} else {
-    					if_block1 = create_if_block_1$b(ctx);
+    					if_block1 = create_if_block_1$d(ctx);
     					if_block1.c();
     					if_block1.m(div0, t5);
     				}
@@ -21331,7 +21496,7 @@ var app = (function () {
     				if (if_block2) {
     					if_block2.p(ctx, dirty);
     				} else {
-    					if_block2 = create_if_block$f(ctx);
+    					if_block2 = create_if_block$i(ctx);
     					if_block2.c();
     					if_block2.m(div0, null);
     				}
@@ -21351,7 +21516,7 @@ var app = (function () {
     }
 
     // (113:4) {#each jobs as job (job.id)}
-    function create_each_block$c(key_1, ctx) {
+    function create_each_block$f(key_1, ctx) {
     	let first;
     	let link;
     	let current;
@@ -21405,7 +21570,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$s(ctx) {
+    function create_fragment$v(ctx) {
     	let div2;
     	let div0;
     	let h2;
@@ -21416,15 +21581,15 @@ var app = (function () {
     	let each_blocks = [];
     	let each_1_lookup = new Map();
     	let current;
-    	let if_block0 = /*isLoggedIn*/ ctx[4] && create_if_block_4$3(ctx);
-    	let if_block1 = /*showJobModal*/ ctx[3] && create_if_block_3$3(ctx);
+    	let if_block0 = /*isLoggedIn*/ ctx[4] && create_if_block_4$4(ctx);
+    	let if_block1 = /*showJobModal*/ ctx[3] && create_if_block_3$4(ctx);
     	let each_value = /*jobs*/ ctx[2];
     	const get_key = ctx => /*job*/ ctx[13].id;
 
     	for (let i = 0; i < each_value.length; i += 1) {
-    		let child_ctx = get_each_context$c(ctx, each_value, i);
+    		let child_ctx = get_each_context$f(ctx, each_value, i);
     		let key = get_key(child_ctx);
-    		each_1_lookup.set(key, each_blocks[i] = create_each_block$c(key, child_ctx));
+    		each_1_lookup.set(key, each_blocks[i] = create_each_block$f(key, child_ctx));
     	}
 
     	return {
@@ -21473,7 +21638,7 @@ var app = (function () {
     				if (if_block0) {
     					if_block0.p(ctx, dirty);
     				} else {
-    					if_block0 = create_if_block_4$3(ctx);
+    					if_block0 = create_if_block_4$4(ctx);
     					if_block0.c();
     					if_block0.m(div0, null);
     				}
@@ -21490,7 +21655,7 @@ var app = (function () {
     						transition_in(if_block1, 1);
     					}
     				} else {
-    					if_block1 = create_if_block_3$3(ctx);
+    					if_block1 = create_if_block_3$4(ctx);
     					if_block1.c();
     					transition_in(if_block1, 1);
     					if_block1.m(div2, t3);
@@ -21508,7 +21673,7 @@ var app = (function () {
     			if (dirty & /*jobs*/ 4) {
     				each_value = /*jobs*/ ctx[2];
     				group_outros();
-    				each_blocks = update_keyed_each(each_blocks, dirty, get_key, 1, ctx, each_value, each_1_lookup, div1, outro_and_destroy_block, create_each_block$c, null, get_each_context$c);
+    				each_blocks = update_keyed_each(each_blocks, dirty, get_key, 1, ctx, each_value, each_1_lookup, div1, outro_and_destroy_block, create_each_block$f, null, get_each_context$f);
     				check_outros();
     			}
     		},
@@ -21560,7 +21725,7 @@ var app = (function () {
     	};
     }
 
-    function instance$r($$self, $$props, $$invalidate) {
+    function instance$u($$self, $$props, $$invalidate) {
     	let $nostrManager;
     	let $nostrCache;
     	component_subscribe($$self, nostrManager, $$value => $$invalidate(7, $nostrManager = $$value));
@@ -21643,13 +21808,13 @@ var app = (function () {
     class JobWidget extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$r, create_fragment$s, safe_not_equal, { ideaID: 0, creatorPubKey: 1 });
+    		init(this, options, instance$u, create_fragment$v, safe_not_equal, { ideaID: 0, creatorPubKey: 1 });
     	}
     }
 
     /* src/components/Widgets/Banner/IdeaBannerWidget.svelte generated by Svelte v3.59.1 */
 
-    function create_fragment$r(ctx) {
+    function create_fragment$u(ctx) {
     	let banner;
     	let current;
 
@@ -21708,7 +21873,7 @@ var app = (function () {
     	};
     }
 
-    function instance$q($$self, $$props, $$invalidate) {
+    function instance$t($$self, $$props, $$invalidate) {
     	let $nostrManager;
     	let $nostrCache;
     	component_subscribe($$self, nostrManager, $$value => $$invalidate(4, $nostrManager = $$value));
@@ -21780,16 +21945,16 @@ var app = (function () {
     class IdeaBannerWidget extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$q, create_fragment$r, safe_not_equal, { id: 3 });
+    		init(this, options, instance$t, create_fragment$u, safe_not_equal, { id: 3 });
     	}
     }
 
-    var css_248z$j = ".total-received-section.svelte-1vbeatt{display:flex;justify-content:center;width:100%;margin-top:20px}.total-received-display.svelte-1vbeatt{display:flex;align-items:center;justify-content:center;margin-top:20px;background:#fffde7;padding:10px 20px;border-radius:5px;box-shadow:0px 4px 10px rgba(0, 0, 0, 0.1);font-family:\"Roboto\", sans-serif;width:50%}.sat-symbol.svelte-1vbeatt{height:30px;margin-right:10px}.total-received-amount.svelte-1vbeatt{font-size:1.5rem;font-weight:bold;color:#333;margin-right:5px}.total-received-text.svelte-1vbeatt{font-size:1rem;color:#777}.widget-title.svelte-1vbeatt{text-align:center;color:#333;font-weight:600;margin-bottom:20px;font-family:\"Roboto\", sans-serif}.single-card.svelte-1vbeatt{background-color:#fffbea;box-shadow:0 4px 8px rgba(0, 0, 0, 0.1);border-radius:10px;padding:20px}.input-group.svelte-1vbeatt{display:flex;flex-direction:column;gap:10px;margin-bottom:15px;width:50%;margin-left:auto;margin-right:auto}.sats-input.svelte-1vbeatt,.message-input.svelte-1vbeatt{border:2px solid #fcbf49;background-color:#fffde7;border-radius:5px;padding:10px;font-size:1rem;font-family:\"Roboto\", sans-serif}.send-sats-button.svelte-1vbeatt{background-color:#ffc107;color:white;border:none;padding:10px 15px;border-radius:5px;cursor:pointer;font-size:1rem;transition:background-color 0.3s ease}.send-sats-button.svelte-1vbeatt:hover,.send-sats-button.svelte-1vbeatt:focus{transform:scale(1.05);background-color:#ffca2c;outline:none;box-shadow:0 0 0 2px rgba(255, 193, 7, 0.5)}.progress-bar.svelte-1vbeatt{background-color:#f6f6f6;border-radius:5px;margin-top:10px;height:20px;width:100%}.progress.svelte-1vbeatt{transition:width 0.5s ease,\n      background-color 0.5s ease;background-color:#ffc107;height:100%;border-radius:5px}.sats-input.svelte-1vbeatt:focus,.message-input.svelte-1vbeatt:focus{outline:none;box-shadow:0 0 5px rgba(252, 191, 73, 0.8)}";
-    styleInject(css_248z$j);
+    var css_248z$m = ".total-received-section.svelte-1vbeatt{display:flex;justify-content:center;width:100%;margin-top:20px}.total-received-display.svelte-1vbeatt{display:flex;align-items:center;justify-content:center;margin-top:20px;background:#fffde7;padding:10px 20px;border-radius:5px;box-shadow:0px 4px 10px rgba(0, 0, 0, 0.1);font-family:\"Roboto\", sans-serif;width:50%}.sat-symbol.svelte-1vbeatt{height:30px;margin-right:10px}.total-received-amount.svelte-1vbeatt{font-size:1.5rem;font-weight:bold;color:#333;margin-right:5px}.total-received-text.svelte-1vbeatt{font-size:1rem;color:#777}.widget-title.svelte-1vbeatt{text-align:center;color:#333;font-weight:600;margin-bottom:20px;font-family:\"Roboto\", sans-serif}.single-card.svelte-1vbeatt{background-color:#fffbea;box-shadow:0 4px 8px rgba(0, 0, 0, 0.1);border-radius:10px;padding:20px}.input-group.svelte-1vbeatt{display:flex;flex-direction:column;gap:10px;margin-bottom:15px;width:50%;margin-left:auto;margin-right:auto}.sats-input.svelte-1vbeatt,.message-input.svelte-1vbeatt{border:2px solid #fcbf49;background-color:#fffde7;border-radius:5px;padding:10px;font-size:1rem;font-family:\"Roboto\", sans-serif}.send-sats-button.svelte-1vbeatt{background-color:#ffc107;color:white;border:none;padding:10px 15px;border-radius:5px;cursor:pointer;font-size:1rem;transition:background-color 0.3s ease}.send-sats-button.svelte-1vbeatt:hover,.send-sats-button.svelte-1vbeatt:focus{transform:scale(1.05);background-color:#ffca2c;outline:none;box-shadow:0 0 0 2px rgba(255, 193, 7, 0.5)}.progress-bar.svelte-1vbeatt{background-color:#f6f6f6;border-radius:5px;margin-top:10px;height:20px;width:100%}.progress.svelte-1vbeatt{transition:width 0.5s ease,\n      background-color 0.5s ease;background-color:#ffc107;height:100%;border-radius:5px}.sats-input.svelte-1vbeatt:focus,.message-input.svelte-1vbeatt:focus{outline:none;box-shadow:0 0 5px rgba(252, 191, 73, 0.8)}";
+    styleInject(css_248z$m);
 
     /* src/components/ZapWidget.svelte generated by Svelte v3.59.1 */
 
-    function create_if_block$e(ctx) {
+    function create_if_block$h(ctx) {
     	let div1;
     	let div0;
 
@@ -21816,7 +21981,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$q(ctx) {
+    function create_fragment$t(ctx) {
     	let div3;
     	let h1;
     	let t1;
@@ -21839,7 +22004,7 @@ var app = (function () {
     	let t10;
     	let mounted;
     	let dispose;
-    	let if_block = /*satGoal*/ ctx[0] && create_if_block$e(ctx);
+    	let if_block = /*satGoal*/ ctx[0] && create_if_block$h(ctx);
 
     	return {
     		c() {
@@ -21934,7 +22099,7 @@ var app = (function () {
     				if (if_block) {
     					if_block.p(ctx, dirty);
     				} else {
-    					if_block = create_if_block$e(ctx);
+    					if_block = create_if_block$h(ctx);
     					if_block.c();
     					if_block.m(div3, null);
     				}
@@ -21954,7 +22119,7 @@ var app = (function () {
     	};
     }
 
-    function instance$p($$self, $$props, $$invalidate) {
+    function instance$s($$self, $$props, $$invalidate) {
     	let $nostrManager;
     	let $nostrCache;
     	component_subscribe($$self, nostrManager, $$value => $$invalidate(7, $nostrManager = $$value));
@@ -22067,13 +22232,13 @@ var app = (function () {
     class ZapWidget extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$p, create_fragment$q, safe_not_equal, { eventId: 6, satGoal: 0 });
+    		init(this, options, instance$s, create_fragment$t, safe_not_equal, { eventId: 6, satGoal: 0 });
     	}
     }
 
     /* src/components/Widgets/IdeaWidget.svelte generated by Svelte v3.59.1 */
 
-    function create_if_block_1$a(ctx) {
+    function create_if_block_1$c(ctx) {
     	let button;
     	let mounted;
     	let dispose;
@@ -22102,7 +22267,7 @@ var app = (function () {
     }
 
     // (32:8) {#if preview}
-    function create_if_block$d(ctx) {
+    function create_if_block$g(ctx) {
     	let h5;
 
     	return {
@@ -22119,7 +22284,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$p(ctx) {
+    function create_fragment$s(ctx) {
     	let div2;
     	let t0;
     	let div1;
@@ -22138,8 +22303,8 @@ var app = (function () {
     	let t8;
     	let div0;
     	let raw_value = /*idea*/ ctx[1].message + "";
-    	let if_block0 = /*creator_profile*/ ctx[0] && /*creator_profile*/ ctx[0].pubkey === /*$nostrManager*/ ctx[3].publicKey && create_if_block_1$a(ctx);
-    	let if_block1 = /*preview*/ ctx[2] && create_if_block$d();
+    	let if_block0 = /*creator_profile*/ ctx[0] && /*creator_profile*/ ctx[0].pubkey === /*$nostrManager*/ ctx[3].publicKey && create_if_block_1$c(ctx);
+    	let if_block1 = /*preview*/ ctx[2] && create_if_block$g();
 
     	return {
     		c() {
@@ -22195,7 +22360,7 @@ var app = (function () {
     				if (if_block0) {
     					if_block0.p(ctx, dirty);
     				} else {
-    					if_block0 = create_if_block_1$a(ctx);
+    					if_block0 = create_if_block_1$c(ctx);
     					if_block0.c();
     					if_block0.m(div2, t0);
     				}
@@ -22208,7 +22373,7 @@ var app = (function () {
 
     			if (/*preview*/ ctx[2]) {
     				if (if_block1) ; else {
-    					if_block1 = create_if_block$d();
+    					if_block1 = create_if_block$g();
     					if_block1.c();
     					if_block1.m(div1, t3);
     				}
@@ -22229,7 +22394,7 @@ var app = (function () {
     	};
     }
 
-    function instance$o($$self, $$props, $$invalidate) {
+    function instance$r($$self, $$props, $$invalidate) {
     	let $nostrManager;
     	component_subscribe($$self, nostrManager, $$value => $$invalidate(3, $nostrManager = $$value));
     	let { creator_profile } = $$props;
@@ -22256,13 +22421,13 @@ var app = (function () {
     class IdeaWidget extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$o, create_fragment$p, safe_not_equal, { creator_profile: 0, idea: 1, preview: 2 });
+    		init(this, options, instance$r, create_fragment$s, safe_not_equal, { creator_profile: 0, idea: 1, preview: 2 });
     	}
     }
 
     /* src/views/Idea.svelte generated by Svelte v3.59.1 */
 
-    function create_fragment$o(ctx) {
+    function create_fragment$r(ctx) {
     	let main;
     	let menu;
     	let t0;
@@ -22446,7 +22611,7 @@ var app = (function () {
     	};
     }
 
-    function instance$n($$self, $$props, $$invalidate) {
+    function instance$q($$self, $$props, $$invalidate) {
     	let $nostrManager;
     	let $nostrCache;
     	let $contentContainerClass;
@@ -22514,7 +22679,7 @@ var app = (function () {
     class Idea extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$n, create_fragment$o, safe_not_equal, { id: 0 });
+    		init(this, options, instance$q, create_fragment$r, safe_not_equal, { id: 0 });
     	}
     }
 
@@ -22543,14 +22708,14 @@ var app = (function () {
         };
     }
 
-    var css_248z$i = ".svelte-n7cvum{box-sizing:border-box}.bg.svelte-n7cvum{position:fixed;z-index:1000;top:0;left:0;display:flex;flex-direction:column;justify-content:center;width:100vw;height:100vh;background:rgba(0, 0, 0, 0.66)}@supports (-webkit-touch-callout: none){}.wrap.svelte-n7cvum{position:relative;margin:2rem;max-height:100%}.window.svelte-n7cvum{position:relative;width:40rem;max-width:100%;max-height:100%;margin:2rem auto;color:black;border-radius:0.5rem;background:white}.content.svelte-n7cvum{position:relative;padding:1rem;max-height:calc(100vh - 4rem);overflow:auto}.close.svelte-n7cvum{display:block;box-sizing:border-box;position:absolute;z-index:1000;top:1rem;right:1rem;margin:0;padding:0;width:1.5rem;height:1.5rem;border:0;color:black;border-radius:1.5rem;background:white;box-shadow:0 0 0 1px black;transition:transform 0.2s cubic-bezier(0.25, 0.1, 0.25, 1),\n      background 0.2s cubic-bezier(0.25, 0.1, 0.25, 1);-webkit-appearance:none}.close.svelte-n7cvum:before,.close.svelte-n7cvum:after{content:'';display:block;box-sizing:border-box;position:absolute;top:50%;width:1rem;height:1px;background:black;transform-origin:center;transition:height 0.2s cubic-bezier(0.25, 0.1, 0.25, 1),\n      background 0.2s cubic-bezier(0.25, 0.1, 0.25, 1)}.close.svelte-n7cvum:before{-webkit-transform:translate(0, -50%) rotate(45deg);-moz-transform:translate(0, -50%) rotate(45deg);transform:translate(0, -50%) rotate(45deg);left:0.25rem}.close.svelte-n7cvum:after{-webkit-transform:translate(0, -50%) rotate(-45deg);-moz-transform:translate(0, -50%) rotate(-45deg);transform:translate(0, -50%) rotate(-45deg);left:0.25rem}.close.svelte-n7cvum:hover{background:black}.close.svelte-n7cvum:hover:before,.close.svelte-n7cvum:hover:after{height:2px;background:white}.close.svelte-n7cvum:focus{border-color:#3399ff;box-shadow:0 0 0 2px #3399ff}.close.svelte-n7cvum:active{transform:scale(0.9)}.close.svelte-n7cvum:hover,.close.svelte-n7cvum:focus,.close.svelte-n7cvum:active{outline:none}";
-    styleInject(css_248z$i);
+    var css_248z$l = ".svelte-n7cvum{box-sizing:border-box}.bg.svelte-n7cvum{position:fixed;z-index:1000;top:0;left:0;display:flex;flex-direction:column;justify-content:center;width:100vw;height:100vh;background:rgba(0, 0, 0, 0.66)}@supports (-webkit-touch-callout: none){}.wrap.svelte-n7cvum{position:relative;margin:2rem;max-height:100%}.window.svelte-n7cvum{position:relative;width:40rem;max-width:100%;max-height:100%;margin:2rem auto;color:black;border-radius:0.5rem;background:white}.content.svelte-n7cvum{position:relative;padding:1rem;max-height:calc(100vh - 4rem);overflow:auto}.close.svelte-n7cvum{display:block;box-sizing:border-box;position:absolute;z-index:1000;top:1rem;right:1rem;margin:0;padding:0;width:1.5rem;height:1.5rem;border:0;color:black;border-radius:1.5rem;background:white;box-shadow:0 0 0 1px black;transition:transform 0.2s cubic-bezier(0.25, 0.1, 0.25, 1),\n      background 0.2s cubic-bezier(0.25, 0.1, 0.25, 1);-webkit-appearance:none}.close.svelte-n7cvum:before,.close.svelte-n7cvum:after{content:'';display:block;box-sizing:border-box;position:absolute;top:50%;width:1rem;height:1px;background:black;transform-origin:center;transition:height 0.2s cubic-bezier(0.25, 0.1, 0.25, 1),\n      background 0.2s cubic-bezier(0.25, 0.1, 0.25, 1)}.close.svelte-n7cvum:before{-webkit-transform:translate(0, -50%) rotate(45deg);-moz-transform:translate(0, -50%) rotate(45deg);transform:translate(0, -50%) rotate(45deg);left:0.25rem}.close.svelte-n7cvum:after{-webkit-transform:translate(0, -50%) rotate(-45deg);-moz-transform:translate(0, -50%) rotate(-45deg);transform:translate(0, -50%) rotate(-45deg);left:0.25rem}.close.svelte-n7cvum:hover{background:black}.close.svelte-n7cvum:hover:before,.close.svelte-n7cvum:hover:after{height:2px;background:white}.close.svelte-n7cvum:focus{border-color:#3399ff;box-shadow:0 0 0 2px #3399ff}.close.svelte-n7cvum:active{transform:scale(0.9)}.close.svelte-n7cvum:hover,.close.svelte-n7cvum:focus,.close.svelte-n7cvum:active{outline:none}";
+    styleInject(css_248z$l);
 
     /* node_modules/svelte-simple-modal/src/Modal.svelte generated by Svelte v3.59.1 */
 
     const { window: window_1 } = globals;
 
-    function create_if_block$c(ctx) {
+    function create_if_block$f(ctx) {
     	let div3;
     	let div2;
     	let div1;
@@ -22569,7 +22734,7 @@ var app = (function () {
     	let current;
     	let mounted;
     	let dispose;
-    	let if_block = /*state*/ ctx[1].closeButton && create_if_block_1$9(ctx);
+    	let if_block = /*state*/ ctx[1].closeButton && create_if_block_1$b(ctx);
     	var switch_value = /*Component*/ ctx[2];
 
     	function switch_props(ctx) {
@@ -22656,7 +22821,7 @@ var app = (function () {
     						transition_in(if_block, 1);
     					}
     				} else {
-    					if_block = create_if_block_1$9(ctx);
+    					if_block = create_if_block_1$b(ctx);
     					if_block.c();
     					transition_in(if_block, 1);
     					if_block.m(div1, t);
@@ -22799,13 +22964,13 @@ var app = (function () {
     }
 
     // (502:8) {#if state.closeButton}
-    function create_if_block_1$9(ctx) {
+    function create_if_block_1$b(ctx) {
     	let show_if;
     	let current_block_type_index;
     	let if_block;
     	let if_block_anchor;
     	let current;
-    	const if_block_creators = [create_if_block_2$3, create_else_block$8];
+    	const if_block_creators = [create_if_block_2$4, create_else_block$a];
     	const if_blocks = [];
 
     	function select_block_type(ctx, dirty) {
@@ -22872,7 +23037,7 @@ var app = (function () {
     }
 
     // (505:10) {:else}
-    function create_else_block$8(ctx) {
+    function create_else_block$a(ctx) {
     	let button;
     	let button_class_value;
     	let mounted;
@@ -22919,7 +23084,7 @@ var app = (function () {
     }
 
     // (503:10) {#if isFunction(state.closeButton)}
-    function create_if_block_2$3(ctx) {
+    function create_if_block_2$4(ctx) {
     	let switch_instance;
     	let switch_instance_anchor;
     	let current;
@@ -22982,12 +23147,12 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$n(ctx) {
+    function create_fragment$q(ctx) {
     	let t;
     	let current;
     	let mounted;
     	let dispose;
-    	let if_block = /*Component*/ ctx[2] && create_if_block$c(ctx);
+    	let if_block = /*Component*/ ctx[2] && create_if_block$f(ctx);
     	const default_slot_template = /*#slots*/ ctx[49].default;
     	const default_slot = create_slot(default_slot_template, ctx, /*$$scope*/ ctx[48], null);
 
@@ -23021,7 +23186,7 @@ var app = (function () {
     						transition_in(if_block, 1);
     					}
     				} else {
-    					if_block = create_if_block$c(ctx);
+    					if_block = create_if_block$f(ctx);
     					if_block.c();
     					transition_in(if_block, 1);
     					if_block.m(t.parentNode, t);
@@ -23081,7 +23246,7 @@ var app = (function () {
     	};
     }
 
-    function instance$m($$self, $$props, $$invalidate) {
+    function instance$p($$self, $$props, $$invalidate) {
     	let { $$slots: slots = {}, $$scope } = $$props;
     	const dispatch = createEventDispatcher();
     	const baseSetContext = setContext;
@@ -23478,8 +23643,8 @@ var app = (function () {
     		init(
     			this,
     			options,
-    			instance$m,
-    			create_fragment$n,
+    			instance$p,
+    			create_fragment$q,
     			safe_not_equal,
     			{
     				isTabbable: 22,
@@ -23515,19 +23680,19 @@ var app = (function () {
     	}
     }
 
-    var css_248z$h = ".modal-content.svelte-1cny4wt{border:none}.category-container.svelte-1cny4wt{display:flex;flex-wrap:wrap;gap:8px}.category-button.svelte-1cny4wt{padding:4px 8px;background-color:rgb(238, 238, 238);border:none;cursor:pointer;white-space:nowrap;margin:2px;border-radius:4px;text-align:center;font-size:1rem;border:1px solid rgb(238, 238, 238)}.category-button.svelte-1cny4wt:focus{outline:none}.category-button.selected.svelte-1cny4wt{background-color:rgb(249 115 22);color:white;border:1px solid rgb(249 115 22)}.category-button.svelte-1cny4wt:hover{border:1px solid black}";
-    styleInject(css_248z$h);
+    var css_248z$k = ".modal-content.svelte-1cny4wt{border:none}.category-container.svelte-1cny4wt{display:flex;flex-wrap:wrap;gap:8px}.category-button.svelte-1cny4wt{padding:4px 8px;background-color:rgb(238, 238, 238);border:none;cursor:pointer;white-space:nowrap;margin:2px;border-radius:4px;text-align:center;font-size:1rem;border:1px solid rgb(238, 238, 238)}.category-button.svelte-1cny4wt:focus{outline:none}.category-button.selected.svelte-1cny4wt{background-color:rgb(249 115 22);color:white;border:1px solid rgb(249 115 22)}.category-button.svelte-1cny4wt:hover{border:1px solid black}";
+    styleInject(css_248z$k);
 
     /* src/components/Modals/SelectionModal.svelte generated by Svelte v3.59.1 */
 
-    function get_each_context$b(ctx, list, i) {
+    function get_each_context$e(ctx, list, i) {
     	const child_ctx = ctx.slice();
     	child_ctx[9] = list[i];
     	return child_ctx;
     }
 
     // (32:8) {#each categories as category}
-    function create_each_block$b(ctx) {
+    function create_each_block$e(ctx) {
     	let button;
     	let t0_value = /*category*/ ctx[9] + "";
     	let t0;
@@ -23578,7 +23743,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$m(ctx) {
+    function create_fragment$p(ctx) {
     	let div2;
     	let h4;
     	let t1;
@@ -23594,7 +23759,7 @@ var app = (function () {
     	let each_blocks = [];
 
     	for (let i = 0; i < each_value.length; i += 1) {
-    		each_blocks[i] = create_each_block$b(get_each_context$b(ctx, each_value, i));
+    		each_blocks[i] = create_each_block$e(get_each_context$e(ctx, each_value, i));
     	}
 
     	return {
@@ -23657,12 +23822,12 @@ var app = (function () {
     				let i;
 
     				for (i = 0; i < each_value.length; i += 1) {
-    					const child_ctx = get_each_context$b(ctx, each_value, i);
+    					const child_ctx = get_each_context$e(ctx, each_value, i);
 
     					if (each_blocks[i]) {
     						each_blocks[i].p(child_ctx, dirty);
     					} else {
-    						each_blocks[i] = create_each_block$b(child_ctx);
+    						each_blocks[i] = create_each_block$e(child_ctx);
     						each_blocks[i].c();
     						each_blocks[i].m(div0, null);
     					}
@@ -23686,7 +23851,7 @@ var app = (function () {
     	};
     }
 
-    function instance$l($$self, $$props, $$invalidate) {
+    function instance$o($$self, $$props, $$invalidate) {
     	let { categories } = $$props;
     	let { initialSelectedCategories = [] } = $$props;
     	let localSelectedCategories = [...initialSelectedCategories];
@@ -23734,7 +23899,7 @@ var app = (function () {
     	constructor(options) {
     		super();
 
-    		init(this, options, instance$l, create_fragment$m, safe_not_equal, {
+    		init(this, options, instance$o, create_fragment$p, safe_not_equal, {
     			categories: 0,
     			initialSelectedCategories: 5,
     			onConfirm: 6
@@ -23742,12 +23907,12 @@ var app = (function () {
     	}
     }
 
-    var css_248z$g = ".category-container.svelte-19klr7q{display:flex;flex-wrap:wrap;gap:8px}.remove-button.svelte-19klr7q:hover::after{content:\"×\";position:absolute;left:50%;top:50%;transform:translate(-50%, -50%);color:#fff;font-size:1.5rem;pointer-events:none}";
-    styleInject(css_248z$g);
+    var css_248z$j = ".category-container.svelte-19klr7q{display:flex;flex-wrap:wrap;gap:8px}.remove-button.svelte-19klr7q:hover::after{content:\"×\";position:absolute;left:50%;top:50%;transform:translate(-50%, -50%);color:#fff;font-size:1.5rem;pointer-events:none}";
+    styleInject(css_248z$j);
 
     /* src/components/Widgets/PostIdeaWidget.svelte generated by Svelte v3.59.1 */
 
-    function get_each_context$a(ctx, list, i) {
+    function get_each_context$d(ctx, list, i) {
     	const child_ctx = ctx.slice();
     	child_ctx[18] = list[i];
     	return child_ctx;
@@ -23783,7 +23948,7 @@ var app = (function () {
     }
 
     // (181:16) {#each $previewStore.categories as category}
-    function create_each_block$a(ctx) {
+    function create_each_block$d(ctx) {
     	let button;
     	let t0_value = /*category*/ ctx[18] + "";
     	let t0;
@@ -23824,7 +23989,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$l(ctx) {
+    function create_fragment$o(ctx) {
     	let div5;
     	let div3;
     	let h2;
@@ -23887,7 +24052,7 @@ var app = (function () {
     	let each_blocks = [];
 
     	for (let i = 0; i < each_value.length; i += 1) {
-    		each_blocks[i] = create_each_block$a(get_each_context$a(ctx, each_value, i));
+    		each_blocks[i] = create_each_block$d(get_each_context$d(ctx, each_value, i));
     	}
 
     	return {
@@ -24113,12 +24278,12 @@ var app = (function () {
     				let i;
 
     				for (i = 0; i < each_value.length; i += 1) {
-    					const child_ctx = get_each_context$a(ctx, each_value, i);
+    					const child_ctx = get_each_context$d(ctx, each_value, i);
 
     					if (each_blocks[i]) {
     						each_blocks[i].p(child_ctx, dirty);
     					} else {
-    						each_blocks[i] = create_each_block$a(child_ctx);
+    						each_blocks[i] = create_each_block$d(child_ctx);
     						each_blocks[i].c();
     						each_blocks[i].m(div1, null);
     					}
@@ -24155,7 +24320,7 @@ var app = (function () {
     	e.target.style.height = e.target.scrollHeight + "px";
     }
 
-    function instance$k($$self, $$props, $$invalidate) {
+    function instance$n($$self, $$props, $$invalidate) {
     	let $previewStore;
     	let $nostrManager;
     	let $categoryModal;
@@ -24299,13 +24464,13 @@ var app = (function () {
     class PostIdeaWidget extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$k, create_fragment$l, safe_not_equal, {});
+    		init(this, options, instance$n, create_fragment$o, safe_not_equal, {});
     	}
     }
 
     /* src/views/PostIdea.svelte generated by Svelte v3.59.1 */
 
-    function create_fragment$k(ctx) {
+    function create_fragment$n(ctx) {
     	let main;
     	let menu;
     	let t0;
@@ -24404,7 +24569,7 @@ var app = (function () {
     let title$4 = "BitSpark";
     let subtitle$4 = "spark idea";
 
-    function instance$j($$self, $$props, $$invalidate) {
+    function instance$m($$self, $$props, $$invalidate) {
     	let $contentContainerClass;
     	component_subscribe($$self, contentContainerClass, $$value => $$invalidate(0, $contentContainerClass = $$value));
     	return [$contentContainerClass];
@@ -24413,13 +24578,13 @@ var app = (function () {
     class PostIdea extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$j, create_fragment$k, safe_not_equal, {});
+    		init(this, options, instance$m, create_fragment$n, safe_not_equal, {});
     	}
     }
 
     /* src/views/IdeaPreview.svelte generated by Svelte v3.59.1 */
 
-    function create_fragment$j(ctx) {
+    function create_fragment$m(ctx) {
     	let main;
     	let menu;
     	let t0;
@@ -24579,7 +24744,7 @@ var app = (function () {
     	};
     }
 
-    function instance$i($$self, $$props, $$invalidate) {
+    function instance$l($$self, $$props, $$invalidate) {
     	let $nostrManager;
     	let $previewStore;
     	let $contentContainerClass;
@@ -24602,16 +24767,16 @@ var app = (function () {
     class IdeaPreview extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$i, create_fragment$j, safe_not_equal, {});
+    		init(this, options, instance$l, create_fragment$m, safe_not_equal, {});
     	}
     }
 
-    var css_248z$f = ".modal-overlay.svelte-7r37km.svelte-7r37km{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0, 0, 0, 0.75);backdrop-filter:blur(4px);display:flex;justify-content:center;align-items:center;z-index:9998}.modal-content.svelte-7r37km.svelte-7r37km{background:white;width:90%;max-width:800px;border-radius:12px;box-shadow:0 4px 20px rgba(0, 0, 0, 0.2);display:flex;flex-direction:column;max-height:85vh;z-index:9999}.modal-header.svelte-7r37km.svelte-7r37km{padding:1.5rem 2rem;border-bottom:1px solid #e5e7eb;display:flex;justify-content:space-between;align-items:center}.modal-header.svelte-7r37km h2.svelte-7r37km{font-size:1.5rem;font-weight:600;color:#1f2937;margin:0}.close-btn.svelte-7r37km.svelte-7r37km{background:none;border:none;font-size:1.25rem;color:#6b7280;cursor:pointer;padding:0.5rem}.modal-body.svelte-7r37km.svelte-7r37km{padding:2rem;overflow-y:auto}.error-message.svelte-7r37km.svelte-7r37km{background:#fff5f5;color:#c53030;padding:1rem;border-radius:0.5rem;margin-bottom:1.5rem;font-size:0.875rem}.form-group.svelte-7r37km.svelte-7r37km{margin-bottom:1.5rem}.form-row.svelte-7r37km.svelte-7r37km{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem}label.svelte-7r37km.svelte-7r37km{display:block;font-weight:500;color:#374151;margin-bottom:0.5rem}input.svelte-7r37km.svelte-7r37km,textarea.svelte-7r37km.svelte-7r37km{width:100%;padding:0.75rem;border:1px solid #d1d5db;border-radius:6px;font-size:1rem;transition:border-color 0.2s}textarea.svelte-7r37km.svelte-7r37km{resize:vertical}input.svelte-7r37km.svelte-7r37km:focus,textarea.svelte-7r37km.svelte-7r37km:focus{outline:none;border-color:#2c5282;box-shadow:0 0 0 3px rgba(44, 82, 130, 0.1)}.modal-footer.svelte-7r37km.svelte-7r37km{padding:1.5rem 2rem;border-top:1px solid #e5e7eb;display:flex;justify-content:flex-end;gap:1rem}button.svelte-7r37km.svelte-7r37km{padding:0.75rem 1.5rem;border-radius:6px;font-weight:500;cursor:pointer;transition:all 0.2s}button.svelte-7r37km.svelte-7r37km:disabled{opacity:0.7;cursor:not-allowed}.cancel-btn.svelte-7r37km.svelte-7r37km{background:white;border:1px solid #d1d5db;color:#374151}.cancel-btn.svelte-7r37km.svelte-7r37km:hover:not(:disabled){background:#f3f4f6}.submit-btn.svelte-7r37km.svelte-7r37km{background:#2c5282;border:none;color:white}.submit-btn.svelte-7r37km.svelte-7r37km:hover:not(:disabled){background:#1a365d}@media(max-width: 768px){.modal-content.svelte-7r37km.svelte-7r37km{width:95%;max-height:90vh}}";
-    styleInject(css_248z$f);
+    var css_248z$i = ".modal-overlay.svelte-7r37km.svelte-7r37km{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0, 0, 0, 0.75);backdrop-filter:blur(4px);display:flex;justify-content:center;align-items:center;z-index:9998}.modal-content.svelte-7r37km.svelte-7r37km{background:white;width:90%;max-width:800px;border-radius:12px;box-shadow:0 4px 20px rgba(0, 0, 0, 0.2);display:flex;flex-direction:column;max-height:85vh;z-index:9999}.modal-header.svelte-7r37km.svelte-7r37km{padding:1.5rem 2rem;border-bottom:1px solid #e5e7eb;display:flex;justify-content:space-between;align-items:center}.modal-header.svelte-7r37km h2.svelte-7r37km{font-size:1.5rem;font-weight:600;color:#1f2937;margin:0}.close-btn.svelte-7r37km.svelte-7r37km{background:none;border:none;font-size:1.25rem;color:#6b7280;cursor:pointer;padding:0.5rem}.modal-body.svelte-7r37km.svelte-7r37km{padding:2rem;overflow-y:auto}.error-message.svelte-7r37km.svelte-7r37km{background:#fff5f5;color:#c53030;padding:1rem;border-radius:0.5rem;margin-bottom:1.5rem;font-size:0.875rem}.form-group.svelte-7r37km.svelte-7r37km{margin-bottom:1.5rem}.form-row.svelte-7r37km.svelte-7r37km{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem}label.svelte-7r37km.svelte-7r37km{display:block;font-weight:500;color:#374151;margin-bottom:0.5rem}input.svelte-7r37km.svelte-7r37km,textarea.svelte-7r37km.svelte-7r37km{width:100%;padding:0.75rem;border:1px solid #d1d5db;border-radius:6px;font-size:1rem;transition:border-color 0.2s}textarea.svelte-7r37km.svelte-7r37km{resize:vertical}input.svelte-7r37km.svelte-7r37km:focus,textarea.svelte-7r37km.svelte-7r37km:focus{outline:none;border-color:#2c5282;box-shadow:0 0 0 3px rgba(44, 82, 130, 0.1)}.modal-footer.svelte-7r37km.svelte-7r37km{padding:1.5rem 2rem;border-top:1px solid #e5e7eb;display:flex;justify-content:flex-end;gap:1rem}button.svelte-7r37km.svelte-7r37km{padding:0.75rem 1.5rem;border-radius:6px;font-weight:500;cursor:pointer;transition:all 0.2s}button.svelte-7r37km.svelte-7r37km:disabled{opacity:0.7;cursor:not-allowed}.cancel-btn.svelte-7r37km.svelte-7r37km{background:white;border:1px solid #d1d5db;color:#374151}.cancel-btn.svelte-7r37km.svelte-7r37km:hover:not(:disabled){background:#f3f4f6}.submit-btn.svelte-7r37km.svelte-7r37km{background:#2c5282;border:none;color:white}.submit-btn.svelte-7r37km.svelte-7r37km:hover:not(:disabled){background:#1a365d}@media(max-width: 768px){.modal-content.svelte-7r37km.svelte-7r37km{width:95%;max-height:90vh}}";
+    styleInject(css_248z$i);
 
     /* src/components/Modals/ApplicationModal.svelte generated by Svelte v3.59.1 */
 
-    function create_if_block$b(ctx) {
+    function create_if_block$e(ctx) {
     	let div;
     	let t;
 
@@ -24634,7 +24799,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$i(ctx) {
+    function create_fragment$l(ctx) {
     	let div10;
     	let div9;
     	let div0;
@@ -24692,7 +24857,7 @@ var app = (function () {
     	let t21;
     	let mounted;
     	let dispose;
-    	let if_block = /*error*/ ctx[6] && create_if_block$b(ctx);
+    	let if_block = /*error*/ ctx[6] && create_if_block$e(ctx);
 
     	return {
     		c() {
@@ -24878,7 +25043,7 @@ var app = (function () {
     				if (if_block) {
     					if_block.p(ctx, dirty);
     				} else {
-    					if_block = create_if_block$b(ctx);
+    					if_block = create_if_block$e(ctx);
     					if_block.c();
     					if_block.m(div7, t3);
     				}
@@ -24930,7 +25095,7 @@ var app = (function () {
 
     let isSubmitting = false;
 
-    function instance$h($$self, $$props, $$invalidate) {
+    function instance$k($$self, $$props, $$invalidate) {
     	let { jobId } = $$props;
     	let { mode = 'apply' } = $$props;
     	let { existingApplication = null } = $$props;
@@ -25032,7 +25197,7 @@ var app = (function () {
     	constructor(options) {
     		super();
 
-    		init(this, options, instance$h, create_fragment$i, safe_not_equal, {
+    		init(this, options, instance$k, create_fragment$l, safe_not_equal, {
     			jobId: 9,
     			mode: 0,
     			existingApplication: 10
@@ -25040,25 +25205,25 @@ var app = (function () {
     	}
     }
 
-    var css_248z$e = ".single-card.svelte-1lt6qjd.svelte-1lt6qjd{background:white;border-radius:1.25rem;box-shadow:0 4px 6px -1px rgba(0, 0, 0, 0.1);margin-bottom:2rem;padding:2rem}.job-header.svelte-1lt6qjd.svelte-1lt6qjd{margin-bottom:2rem;padding-bottom:1rem;border-bottom:1px solid #e2e8f0}.creator-info.svelte-1lt6qjd.svelte-1lt6qjd{color:#718096;font-size:0.875rem;margin-bottom:1rem}.republished.svelte-1lt6qjd.svelte-1lt6qjd{display:flex;flex-direction:column;gap:0.5rem}.tags-container.svelte-1lt6qjd.svelte-1lt6qjd{display:flex;flex-wrap:wrap;gap:1.5rem;margin-top:1rem}.tags.svelte-1lt6qjd.svelte-1lt6qjd{display:flex;flex-wrap:wrap;gap:0.5rem;align-items:center}.tag-label.svelte-1lt6qjd.svelte-1lt6qjd{color:#4a5568;font-weight:500}.tag.svelte-1lt6qjd.svelte-1lt6qjd{padding:0.25rem 0.75rem;border-radius:9999px;font-size:0.75rem;font-weight:500}.tag.language.svelte-1lt6qjd.svelte-1lt6qjd{background:#ebf4ff;color:#2c5282}.tag.category.svelte-1lt6qjd.svelte-1lt6qjd{background:#f0fff4;color:#2f855a}.job-content.svelte-1lt6qjd.svelte-1lt6qjd{color:#4a5568;font-size:1.1rem;line-height:1.7}.job-image.svelte-1lt6qjd.svelte-1lt6qjd{width:100%;max-height:400px;object-fit:cover;border-radius:0.5rem;margin-bottom:2rem}.description.svelte-1lt6qjd.svelte-1lt6qjd,.details.svelte-1lt6qjd.svelte-1lt6qjd,.requirements.svelte-1lt6qjd.svelte-1lt6qjd{margin-bottom:3rem}.description.svelte-1lt6qjd h3.svelte-1lt6qjd,.details.svelte-1lt6qjd h3.svelte-1lt6qjd,.requirements.svelte-1lt6qjd h3.svelte-1lt6qjd{color:#2c5282;font-size:1.5rem;font-weight:600;margin-bottom:1rem}.text-content.svelte-1lt6qjd.svelte-1lt6qjd{max-width:70ch;margin:0 auto}.plain-text.svelte-1lt6qjd.svelte-1lt6qjd{white-space:pre-wrap;font-family:monospace;background:#f7fafc;padding:1.5rem;border-radius:0.5rem;font-size:0.9em}.rich-text.svelte-1lt6qjd.svelte-1lt6qjd{background:white;padding:1rem;border-radius:0.5rem}.rich-text.svelte-1lt6qjd h1,.rich-text.svelte-1lt6qjd h2,.rich-text.svelte-1lt6qjd h3{color:#2c5282;margin-top:1.5em;margin-bottom:0.5em}.rich-text.svelte-1lt6qjd p{margin-bottom:1em}.rich-text.svelte-1lt6qjd ul,.rich-text.svelte-1lt6qjd ol{margin-left:1.5em;margin-bottom:1em}.rich-text.svelte-1lt6qjd li{margin-bottom:0.5em}.rich-text.svelte-1lt6qjd pre,.rich-text.svelte-1lt6qjd code{background:#f7fafc;padding:0.2em 0.4em;border-radius:0.25em;font-family:monospace}.rich-text.svelte-1lt6qjd pre{padding:1em;margin:1em 0;overflow-x:auto}.rich-text.svelte-1lt6qjd a{color:#2c5282;text-decoration:underline}.rich-text.svelte-1lt6qjd blockquote{border-left:4px solid #e2e8f0;padding-left:1em;margin:1em 0;color:#718096}.apply-button.svelte-1lt6qjd.svelte-1lt6qjd{display:block;width:fit-content;margin:1.5rem auto 0;padding:0.75rem 1.5rem;background-color:#2c5282;color:white;border:none;border-radius:0.5rem;font-weight:500;font-size:1rem;cursor:pointer;transition:all 0.2s}.apply-button.svelte-1lt6qjd.svelte-1lt6qjd:hover{background-color:#2a4365;transform:translateY(-1px)}";
-    styleInject(css_248z$e);
+    var css_248z$h = ".single-card.svelte-1lt6qjd.svelte-1lt6qjd{background:white;border-radius:1.25rem;box-shadow:0 4px 6px -1px rgba(0, 0, 0, 0.1);margin-bottom:2rem;padding:2rem}.job-header.svelte-1lt6qjd.svelte-1lt6qjd{margin-bottom:2rem;padding-bottom:1rem;border-bottom:1px solid #e2e8f0}.creator-info.svelte-1lt6qjd.svelte-1lt6qjd{color:#718096;font-size:0.875rem;margin-bottom:1rem}.republished.svelte-1lt6qjd.svelte-1lt6qjd{display:flex;flex-direction:column;gap:0.5rem}.tags-container.svelte-1lt6qjd.svelte-1lt6qjd{display:flex;flex-wrap:wrap;gap:1.5rem;margin-top:1rem}.tags.svelte-1lt6qjd.svelte-1lt6qjd{display:flex;flex-wrap:wrap;gap:0.5rem;align-items:center}.tag-label.svelte-1lt6qjd.svelte-1lt6qjd{color:#4a5568;font-weight:500}.tag.svelte-1lt6qjd.svelte-1lt6qjd{padding:0.25rem 0.75rem;border-radius:9999px;font-size:0.75rem;font-weight:500}.tag.language.svelte-1lt6qjd.svelte-1lt6qjd{background:#ebf4ff;color:#2c5282}.tag.category.svelte-1lt6qjd.svelte-1lt6qjd{background:#f0fff4;color:#2f855a}.job-content.svelte-1lt6qjd.svelte-1lt6qjd{color:#4a5568;font-size:1.1rem;line-height:1.7}.job-image.svelte-1lt6qjd.svelte-1lt6qjd{width:100%;max-height:400px;object-fit:cover;border-radius:0.5rem;margin-bottom:2rem}.description.svelte-1lt6qjd.svelte-1lt6qjd,.details.svelte-1lt6qjd.svelte-1lt6qjd,.requirements.svelte-1lt6qjd.svelte-1lt6qjd{margin-bottom:3rem}.description.svelte-1lt6qjd h3.svelte-1lt6qjd,.details.svelte-1lt6qjd h3.svelte-1lt6qjd,.requirements.svelte-1lt6qjd h3.svelte-1lt6qjd{color:#2c5282;font-size:1.5rem;font-weight:600;margin-bottom:1rem}.text-content.svelte-1lt6qjd.svelte-1lt6qjd{max-width:70ch;margin:0 auto}.plain-text.svelte-1lt6qjd.svelte-1lt6qjd{white-space:pre-wrap;font-family:monospace;background:#f7fafc;padding:1.5rem;border-radius:0.5rem;font-size:0.9em}.rich-text.svelte-1lt6qjd.svelte-1lt6qjd{background:white;padding:1rem;border-radius:0.5rem}.rich-text.svelte-1lt6qjd h1,.rich-text.svelte-1lt6qjd h2,.rich-text.svelte-1lt6qjd h3{color:#2c5282;margin-top:1.5em;margin-bottom:0.5em}.rich-text.svelte-1lt6qjd p{margin-bottom:1em}.rich-text.svelte-1lt6qjd ul,.rich-text.svelte-1lt6qjd ol{margin-left:1.5em;margin-bottom:1em}.rich-text.svelte-1lt6qjd li{margin-bottom:0.5em}.rich-text.svelte-1lt6qjd pre,.rich-text.svelte-1lt6qjd code{background:#f7fafc;padding:0.2em 0.4em;border-radius:0.25em;font-family:monospace}.rich-text.svelte-1lt6qjd pre{padding:1em;margin:1em 0;overflow-x:auto}.rich-text.svelte-1lt6qjd a{color:#2c5282;text-decoration:underline}.rich-text.svelte-1lt6qjd blockquote{border-left:4px solid #e2e8f0;padding-left:1em;margin:1em 0;color:#718096}.apply-button.svelte-1lt6qjd.svelte-1lt6qjd{display:block;width:fit-content;margin:1.5rem auto 0;padding:0.75rem 1.5rem;background-color:#2c5282;color:white;border:none;border-radius:0.5rem;font-weight:500;font-size:1rem;cursor:pointer;transition:all 0.2s}.apply-button.svelte-1lt6qjd.svelte-1lt6qjd:hover{background-color:#2a4365;transform:translateY(-1px)}";
+    styleInject(css_248z$h);
 
     /* src/views/Job.svelte generated by Svelte v3.59.1 */
 
-    function get_each_context$9(ctx, list, i) {
+    function get_each_context$c(ctx, list, i) {
     	const child_ctx = ctx.slice();
     	child_ctx[14] = list[i];
     	return child_ctx;
     }
 
-    function get_each_context_1$2(ctx, list, i) {
+    function get_each_context_1$3(ctx, list, i) {
     	const child_ctx = ctx.slice();
     	child_ctx[17] = list[i];
     	return child_ctx;
     }
 
     // (128:8) {#if job}
-    function create_if_block_2$2(ctx) {
+    function create_if_block_2$3(ctx) {
     	let div1;
     	let div0;
     	let t0;
@@ -25081,11 +25246,11 @@ var app = (function () {
 
     	let current_block_type = select_block_type(ctx);
     	let if_block0 = current_block_type(ctx);
-    	let if_block1 = (/*job*/ ctx[1].languages?.length || /*job*/ ctx[1].categories?.length) && create_if_block_7$1(ctx);
-    	let if_block2 = /*canApply*/ ctx[3] && create_if_block_6$1(ctx);
-    	let if_block3 = /*job*/ ctx[1].image && create_if_block_5$1(ctx);
-    	let if_block4 = /*job*/ ctx[1].page && create_if_block_4$2(ctx);
-    	let if_block5 = /*job*/ ctx[1].requirements && create_if_block_3$2(ctx);
+    	let if_block1 = (/*job*/ ctx[1].languages?.length || /*job*/ ctx[1].categories?.length) && create_if_block_7$2(ctx);
+    	let if_block2 = /*canApply*/ ctx[3] && create_if_block_6$2(ctx);
+    	let if_block3 = /*job*/ ctx[1].image && create_if_block_5$2(ctx);
+    	let if_block4 = /*job*/ ctx[1].page && create_if_block_4$3(ctx);
+    	let if_block5 = /*job*/ ctx[1].requirements && create_if_block_3$3(ctx);
 
     	return {
     		c() {
@@ -25155,7 +25320,7 @@ var app = (function () {
     				if (if_block1) {
     					if_block1.p(ctx, dirty);
     				} else {
-    					if_block1 = create_if_block_7$1(ctx);
+    					if_block1 = create_if_block_7$2(ctx);
     					if_block1.c();
     					if_block1.m(div1, t1);
     				}
@@ -25168,7 +25333,7 @@ var app = (function () {
     				if (if_block2) {
     					if_block2.p(ctx, dirty);
     				} else {
-    					if_block2 = create_if_block_6$1(ctx);
+    					if_block2 = create_if_block_6$2(ctx);
     					if_block2.c();
     					if_block2.m(div1, null);
     				}
@@ -25181,7 +25346,7 @@ var app = (function () {
     				if (if_block3) {
     					if_block3.p(ctx, dirty);
     				} else {
-    					if_block3 = create_if_block_5$1(ctx);
+    					if_block3 = create_if_block_5$2(ctx);
     					if_block3.c();
     					if_block3.m(div4, t3);
     				}
@@ -25195,7 +25360,7 @@ var app = (function () {
     				if (if_block4) {
     					if_block4.p(ctx, dirty);
     				} else {
-    					if_block4 = create_if_block_4$2(ctx);
+    					if_block4 = create_if_block_4$3(ctx);
     					if_block4.c();
     					if_block4.m(div4, t7);
     				}
@@ -25208,7 +25373,7 @@ var app = (function () {
     				if (if_block5) {
     					if_block5.p(ctx, dirty);
     				} else {
-    					if_block5 = create_if_block_3$2(ctx);
+    					if_block5 = create_if_block_3$3(ctx);
     					if_block5.c();
     					if_block5.m(div4, null);
     				}
@@ -25304,7 +25469,7 @@ var app = (function () {
     }
 
     // (141:12) {#if job.languages?.length || job.categories?.length}
-    function create_if_block_7$1(ctx) {
+    function create_if_block_7$2(ctx) {
     	let div;
     	let t;
     	let if_block0 = /*job*/ ctx[1].languages?.length && create_if_block_9$1(ctx);
@@ -25368,7 +25533,7 @@ var app = (function () {
     	let each_blocks = [];
 
     	for (let i = 0; i < each_value_1.length; i += 1) {
-    		each_blocks[i] = create_each_block_1$2(get_each_context_1$2(ctx, each_value_1, i));
+    		each_blocks[i] = create_each_block_1$3(get_each_context_1$3(ctx, each_value_1, i));
     	}
 
     	return {
@@ -25402,12 +25567,12 @@ var app = (function () {
     				let i;
 
     				for (i = 0; i < each_value_1.length; i += 1) {
-    					const child_ctx = get_each_context_1$2(ctx, each_value_1, i);
+    					const child_ctx = get_each_context_1$3(ctx, each_value_1, i);
 
     					if (each_blocks[i]) {
     						each_blocks[i].p(child_ctx, dirty);
     					} else {
-    						each_blocks[i] = create_each_block_1$2(child_ctx);
+    						each_blocks[i] = create_each_block_1$3(child_ctx);
     						each_blocks[i].c();
     						each_blocks[i].m(div, null);
     					}
@@ -25428,7 +25593,7 @@ var app = (function () {
     }
 
     // (146:20) {#each job.languages as lang}
-    function create_each_block_1$2(ctx) {
+    function create_each_block_1$3(ctx) {
     	let span;
     	let t_value = /*lang*/ ctx[17] + "";
     	let t;
@@ -25461,7 +25626,7 @@ var app = (function () {
     	let each_blocks = [];
 
     	for (let i = 0; i < each_value.length; i += 1) {
-    		each_blocks[i] = create_each_block$9(get_each_context$9(ctx, each_value, i));
+    		each_blocks[i] = create_each_block$c(get_each_context$c(ctx, each_value, i));
     	}
 
     	return {
@@ -25495,12 +25660,12 @@ var app = (function () {
     				let i;
 
     				for (i = 0; i < each_value.length; i += 1) {
-    					const child_ctx = get_each_context$9(ctx, each_value, i);
+    					const child_ctx = get_each_context$c(ctx, each_value, i);
 
     					if (each_blocks[i]) {
     						each_blocks[i].p(child_ctx, dirty);
     					} else {
-    						each_blocks[i] = create_each_block$9(child_ctx);
+    						each_blocks[i] = create_each_block$c(child_ctx);
     						each_blocks[i].c();
     						each_blocks[i].m(div, null);
     					}
@@ -25521,7 +25686,7 @@ var app = (function () {
     }
 
     // (155:20) {#each job.categories as cat}
-    function create_each_block$9(ctx) {
+    function create_each_block$c(ctx) {
     	let span;
     	let t_value = /*cat*/ ctx[14] + "";
     	let t;
@@ -25546,7 +25711,7 @@ var app = (function () {
     }
 
     // (163:12) {#if canApply}
-    function create_if_block_6$1(ctx) {
+    function create_if_block_6$2(ctx) {
     	let button;
     	let mounted;
     	let dispose;
@@ -25575,7 +25740,7 @@ var app = (function () {
     }
 
     // (174:12) {#if job.image}
-    function create_if_block_5$1(ctx) {
+    function create_if_block_5$2(ctx) {
     	let img;
     	let img_src_value;
     	let img_alt_value;
@@ -25606,7 +25771,7 @@ var app = (function () {
     }
 
     // (185:12) {#if job.page}
-    function create_if_block_4$2(ctx) {
+    function create_if_block_4$3(ctx) {
     	let div1;
     	let h3;
     	let t1;
@@ -25640,7 +25805,7 @@ var app = (function () {
     }
 
     // (194:12) {#if job.requirements}
-    function create_if_block_3$2(ctx) {
+    function create_if_block_3$3(ctx) {
     	let div1;
     	let h3;
     	let t1;
@@ -25677,13 +25842,13 @@ var app = (function () {
     }
 
     // (217:0) {#if showApplicationModal}
-    function create_if_block$a(ctx) {
+    function create_if_block$d(ctx) {
     	let t;
     	let current_block_type_index;
     	let if_block;
     	let if_block_anchor;
     	let current;
-    	const if_block_creators = [create_if_block_1$8, create_else_block$7];
+    	const if_block_creators = [create_if_block_1$a, create_else_block$9];
     	const if_blocks = [];
 
     	function select_block_type_1(ctx, dirty) {
@@ -25751,7 +25916,7 @@ var app = (function () {
     }
 
     // (228:2) {:else}
-    function create_else_block$7(ctx) {
+    function create_else_block$9(ctx) {
     	let div;
 
     	return {
@@ -25773,7 +25938,7 @@ var app = (function () {
     }
 
     // (219:2) {#if job?.id}
-    function create_if_block_1$8(ctx) {
+    function create_if_block_1$a(ctx) {
     	let applicationmodal;
     	let current;
     	applicationmodal = new ApplicationModal({ props: { jobId: /*job*/ ctx[1].id } });
@@ -25808,7 +25973,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$h(ctx) {
+    function create_fragment$k(ctx) {
     	let main;
     	let menu;
     	let t0;
@@ -25843,11 +26008,11 @@ var app = (function () {
     		});
 
     	toolbar = new Toolbar({});
-    	let if_block0 = /*job*/ ctx[1] && create_if_block_2$2(ctx);
+    	let if_block0 = /*job*/ ctx[1] && create_if_block_2$3(ctx);
     	zapwidget = new ZapWidget({ props: { eventId: /*id*/ ctx[0] } });
     	commentwidget = new CommentWidget({ props: { id: /*id*/ ctx[0] } });
     	footer = new Footer({});
-    	let if_block1 = /*showApplicationModal*/ ctx[2] && create_if_block$a(ctx);
+    	let if_block1 = /*showApplicationModal*/ ctx[2] && create_if_block$d(ctx);
 
     	return {
     		c() {
@@ -25916,7 +26081,7 @@ var app = (function () {
     				if (if_block0) {
     					if_block0.p(ctx, dirty);
     				} else {
-    					if_block0 = create_if_block_2$2(ctx);
+    					if_block0 = create_if_block_2$3(ctx);
     					if_block0.c();
     					if_block0.m(div0, null);
     				}
@@ -25944,7 +26109,7 @@ var app = (function () {
     						transition_in(if_block1, 1);
     					}
     				} else {
-    					if_block1 = create_if_block$a(ctx);
+    					if_block1 = create_if_block$d(ctx);
     					if_block1.c();
     					transition_in(if_block1, 1);
     					if_block1.m(if_block1_anchor.parentNode, if_block1_anchor);
@@ -25996,7 +26161,7 @@ var app = (function () {
     	};
     }
 
-    function instance$g($$self, $$props, $$invalidate) {
+    function instance$j($$self, $$props, $$invalidate) {
     	let $nostrManager;
     	let $nostrCache;
     	let $contentContainerClass;
@@ -26129,13 +26294,13 @@ var app = (function () {
     class Job extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$g, create_fragment$h, safe_not_equal, { id: 0 });
+    		init(this, options, instance$j, create_fragment$k, safe_not_equal, { id: 0 });
     	}
     }
 
     /* src/components/Cards/JobCard.svelte generated by Svelte v3.59.1 */
 
-    function create_fragment$g(ctx) {
+    function create_fragment$j(ctx) {
     	let div3;
     	let div1;
     	let img;
@@ -26270,7 +26435,7 @@ var app = (function () {
     	: message.slice(0, maxLength) + "...";
     }
 
-    function instance$f($$self, $$props, $$invalidate) {
+    function instance$i($$self, $$props, $$invalidate) {
     	let $nostrManager;
     	component_subscribe($$self, nostrManager, $$value => $$invalidate(2, $nostrManager = $$value));
     	let { card } = $$props;
@@ -26305,7 +26470,7 @@ var app = (function () {
     class JobCard$1 extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$f, create_fragment$g, safe_not_equal, { card: 0 });
+    		init(this, options, instance$i, create_fragment$j, safe_not_equal, { card: 0 });
     	}
     }
 
@@ -26314,12 +26479,12 @@ var app = (function () {
     const selectedCategories = writable([]);
     const selectedLangs = writable([]);
 
-    var css_248z$d = ".modal-buttons-container.svelte-1hoyqek.svelte-1hoyqek{display:flex;justify-content:flex-end;padding:10px}.modal-button.svelte-1hoyqek.svelte-1hoyqek{background-color:#f7931a;color:white;border:none;border-radius:5px;padding:10px;margin-left:10px;cursor:pointer;font-size:0.9rem;display:flex;align-items:center;transition:background-color 0.2s ease}.modal-button.svelte-1hoyqek i.svelte-1hoyqek{margin-right:5px}.modal-button.svelte-1hoyqek.svelte-1hoyqek:hover{background-color:#e6830b}";
-    styleInject(css_248z$d);
+    var css_248z$g = ".modal-buttons-container.svelte-1hoyqek.svelte-1hoyqek{display:flex;justify-content:flex-end;padding:10px}.modal-button.svelte-1hoyqek.svelte-1hoyqek{background-color:#f7931a;color:white;border:none;border-radius:5px;padding:10px;margin-left:10px;cursor:pointer;font-size:0.9rem;display:flex;align-items:center;transition:background-color 0.2s ease}.modal-button.svelte-1hoyqek i.svelte-1hoyqek{margin-right:5px}.modal-button.svelte-1hoyqek.svelte-1hoyqek:hover{background-color:#e6830b}";
+    styleInject(css_248z$g);
 
     /* src/components/JobExplorer/JobExplorerWidget.svelte generated by Svelte v3.59.1 */
 
-    function get_each_context$8(ctx, list, i) {
+    function get_each_context$b(ctx, list, i) {
     	const child_ctx = ctx.slice();
     	child_ctx[20] = list[i];
     	return child_ctx;
@@ -26384,7 +26549,7 @@ var app = (function () {
     }
 
     // (207:8) {#each jobs as job (job.id)}
-    function create_each_block$8(key_1, ctx) {
+    function create_each_block$b(key_1, ctx) {
     	let div;
     	let jobcard;
     	let t;
@@ -26429,7 +26594,7 @@ var app = (function () {
     	};
     }
 
-    function create_fragment$f(ctx) {
+    function create_fragment$i(ctx) {
     	let div0;
     	let modal0;
     	let t0;
@@ -26461,9 +26626,9 @@ var app = (function () {
     	const get_key = ctx => /*job*/ ctx[20].id;
 
     	for (let i = 0; i < each_value.length; i += 1) {
-    		let child_ctx = get_each_context$8(ctx, each_value, i);
+    		let child_ctx = get_each_context$b(ctx, each_value, i);
     		let key = get_key(child_ctx);
-    		each_1_lookup.set(key, each_blocks[i] = create_each_block$8(key, child_ctx));
+    		each_1_lookup.set(key, each_blocks[i] = create_each_block$b(key, child_ctx));
     	}
 
     	return {
@@ -26522,7 +26687,7 @@ var app = (function () {
     			if (dirty & /*jobs*/ 1) {
     				each_value = /*jobs*/ ctx[0];
     				group_outros();
-    				each_blocks = update_keyed_each(each_blocks, dirty, get_key, 1, ctx, each_value, each_1_lookup, div1, outro_and_destroy_block, create_each_block$8, null, get_each_context$8);
+    				each_blocks = update_keyed_each(each_blocks, dirty, get_key, 1, ctx, each_value, each_1_lookup, div1, outro_and_destroy_block, create_each_block$b, null, get_each_context$b);
     				check_outros();
     			}
     		},
@@ -26576,7 +26741,7 @@ var app = (function () {
     	};
     }
 
-    function instance$e($$self, $$props, $$invalidate) {
+    function instance$h($$self, $$props, $$invalidate) {
     	let $nostrCache;
     	let $nostrManager;
     	let $selectedLangs;
@@ -26755,13 +26920,13 @@ var app = (function () {
     class JobExplorerWidget extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$e, create_fragment$f, safe_not_equal, {});
+    		init(this, options, instance$h, create_fragment$i, safe_not_equal, {});
     	}
     }
 
     /* src/views/JobExplorerView.svelte generated by Svelte v3.59.1 */
 
-    function create_fragment$e(ctx) {
+    function create_fragment$h(ctx) {
     	let main;
     	let menu;
     	let t0;
@@ -26860,13 +27025,1473 @@ var app = (function () {
     let title$3 = "BitSpark";
     let subtitle$3 = "job market";
 
-    function instance$d($$self, $$props, $$invalidate) {
+    function instance$g($$self, $$props, $$invalidate) {
     	let $contentContainerClass;
     	component_subscribe($$self, contentContainerClass, $$value => $$invalidate(0, $contentContainerClass = $$value));
     	return [$contentContainerClass];
     }
 
     class JobExplorerView extends SvelteComponent {
+    	constructor(options) {
+    		super();
+    		init(this, options, instance$g, create_fragment$h, safe_not_equal, {});
+    	}
+    }
+
+    var css_248z$f = ".job-card.svelte-1iiy6e4.svelte-1iiy6e4{background:var(--surface-2);border-radius:8px;padding:1.5rem}.header.svelte-1iiy6e4.svelte-1iiy6e4{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem}.title.svelte-1iiy6e4.svelte-1iiy6e4{flex-grow:1}.title.svelte-1iiy6e4 h4.svelte-1iiy6e4{margin:0;color:var(--text-1)}.idea-owner.svelte-1iiy6e4.svelte-1iiy6e4{display:flex;align-items:center;gap:0.5rem;margin-top:0.5rem;color:var(--text-2)}.content.svelte-1iiy6e4.svelte-1iiy6e4{margin:1rem 0;color:var(--text-1)}.footer.svelte-1iiy6e4.svelte-1iiy6e4{margin-top:1rem}.tags.svelte-1iiy6e4.svelte-1iiy6e4{display:flex;gap:0.5rem;flex-wrap:wrap}.tag.svelte-1iiy6e4.svelte-1iiy6e4{background:var(--surface-3);color:var(--text-2);padding:0.25rem 0.75rem;border-radius:9999px;font-size:0.875rem}";
+    styleInject(css_248z$f);
+
+    /* src/components/MyJobsView/MyJobCard.svelte generated by Svelte v3.59.1 */
+
+    function get_each_context$a(ctx, list, i) {
+    	const child_ctx = ctx.slice();
+    	child_ctx[3] = list[i][0];
+    	child_ctx[4] = list[i][1];
+    	return child_ctx;
+    }
+
+    // (25:6) {#if ideaOwnerProfile}
+    function create_if_block$c(ctx) {
+    	let div;
+    	let profileimg;
+    	let t0;
+    	let span;
+    	let t1_value = (/*ideaOwnerProfile*/ ctx[1].name || /*job*/ ctx[0].ideaOwner) + "";
+    	let t1;
+    	let current;
+
+    	profileimg = new ProfileImg({
+    			props: { profile: /*ideaOwnerProfile*/ ctx[1] }
+    		});
+
+    	return {
+    		c() {
+    			div = element("div");
+    			create_component(profileimg.$$.fragment);
+    			t0 = space();
+    			span = element("span");
+    			t1 = text(t1_value);
+    			attr(div, "class", "idea-owner svelte-1iiy6e4");
+    		},
+    		m(target, anchor) {
+    			insert(target, div, anchor);
+    			mount_component(profileimg, div, null);
+    			append(div, t0);
+    			append(div, span);
+    			append(span, t1);
+    			current = true;
+    		},
+    		p(ctx, dirty) {
+    			const profileimg_changes = {};
+    			if (dirty & /*ideaOwnerProfile*/ 2) profileimg_changes.profile = /*ideaOwnerProfile*/ ctx[1];
+    			profileimg.$set(profileimg_changes);
+    			if ((!current || dirty & /*ideaOwnerProfile, job*/ 3) && t1_value !== (t1_value = (/*ideaOwnerProfile*/ ctx[1].name || /*job*/ ctx[0].ideaOwner) + "")) set_data(t1, t1_value);
+    		},
+    		i(local) {
+    			if (current) return;
+    			transition_in(profileimg.$$.fragment, local);
+    			current = true;
+    		},
+    		o(local) {
+    			transition_out(profileimg.$$.fragment, local);
+    			current = false;
+    		},
+    		d(detaching) {
+    			if (detaching) detach(div);
+    			destroy_component(profileimg);
+    		}
+    	};
+    }
+
+    // (40:6) {#each job.tags.filter(t => t[0] === 'l') as [_, lang]}
+    function create_each_block$a(ctx) {
+    	let span;
+    	let t_value = /*lang*/ ctx[4] + "";
+    	let t;
+
+    	return {
+    		c() {
+    			span = element("span");
+    			t = text(t_value);
+    			attr(span, "class", "tag svelte-1iiy6e4");
+    		},
+    		m(target, anchor) {
+    			insert(target, span, anchor);
+    			append(span, t);
+    		},
+    		p(ctx, dirty) {
+    			if (dirty & /*job*/ 1 && t_value !== (t_value = /*lang*/ ctx[4] + "")) set_data(t, t_value);
+    		},
+    		d(detaching) {
+    			if (detaching) detach(span);
+    		}
+    	};
+    }
+
+    function create_fragment$g(ctx) {
+    	let div5;
+    	let div1;
+    	let div0;
+    	let h4;
+    	let t0_value = (/*job*/ ctx[0].tags.find(func$1)?.[1] || 'Unbenannter Job') + "";
+    	let t0;
+    	let t1;
+    	let t2;
+    	let div2;
+    	let p;
+    	let t3_value = /*job*/ ctx[0].content + "";
+    	let t3;
+    	let t4;
+    	let div4;
+    	let div3;
+    	let current;
+    	let if_block = /*ideaOwnerProfile*/ ctx[1] && create_if_block$c(ctx);
+    	let each_value = /*job*/ ctx[0].tags.filter(func_1);
+    	let each_blocks = [];
+
+    	for (let i = 0; i < each_value.length; i += 1) {
+    		each_blocks[i] = create_each_block$a(get_each_context$a(ctx, each_value, i));
+    	}
+
+    	return {
+    		c() {
+    			div5 = element("div");
+    			div1 = element("div");
+    			div0 = element("div");
+    			h4 = element("h4");
+    			t0 = text(t0_value);
+    			t1 = space();
+    			if (if_block) if_block.c();
+    			t2 = space();
+    			div2 = element("div");
+    			p = element("p");
+    			t3 = text(t3_value);
+    			t4 = space();
+    			div4 = element("div");
+    			div3 = element("div");
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].c();
+    			}
+
+    			attr(h4, "class", "svelte-1iiy6e4");
+    			attr(div0, "class", "title svelte-1iiy6e4");
+    			attr(div1, "class", "header svelte-1iiy6e4");
+    			attr(div2, "class", "content svelte-1iiy6e4");
+    			attr(div3, "class", "tags svelte-1iiy6e4");
+    			attr(div4, "class", "footer svelte-1iiy6e4");
+    			attr(div5, "class", "job-card svelte-1iiy6e4");
+    		},
+    		m(target, anchor) {
+    			insert(target, div5, anchor);
+    			append(div5, div1);
+    			append(div1, div0);
+    			append(div0, h4);
+    			append(h4, t0);
+    			append(div0, t1);
+    			if (if_block) if_block.m(div0, null);
+    			append(div5, t2);
+    			append(div5, div2);
+    			append(div2, p);
+    			append(p, t3);
+    			append(div5, t4);
+    			append(div5, div4);
+    			append(div4, div3);
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				if (each_blocks[i]) {
+    					each_blocks[i].m(div3, null);
+    				}
+    			}
+
+    			current = true;
+    		},
+    		p(ctx, [dirty]) {
+    			if ((!current || dirty & /*job*/ 1) && t0_value !== (t0_value = (/*job*/ ctx[0].tags.find(func$1)?.[1] || 'Unbenannter Job') + "")) set_data(t0, t0_value);
+
+    			if (/*ideaOwnerProfile*/ ctx[1]) {
+    				if (if_block) {
+    					if_block.p(ctx, dirty);
+
+    					if (dirty & /*ideaOwnerProfile*/ 2) {
+    						transition_in(if_block, 1);
+    					}
+    				} else {
+    					if_block = create_if_block$c(ctx);
+    					if_block.c();
+    					transition_in(if_block, 1);
+    					if_block.m(div0, null);
+    				}
+    			} else if (if_block) {
+    				group_outros();
+
+    				transition_out(if_block, 1, 1, () => {
+    					if_block = null;
+    				});
+
+    				check_outros();
+    			}
+
+    			if ((!current || dirty & /*job*/ 1) && t3_value !== (t3_value = /*job*/ ctx[0].content + "")) set_data(t3, t3_value);
+
+    			if (dirty & /*job*/ 1) {
+    				each_value = /*job*/ ctx[0].tags.filter(func_1);
+    				let i;
+
+    				for (i = 0; i < each_value.length; i += 1) {
+    					const child_ctx = get_each_context$a(ctx, each_value, i);
+
+    					if (each_blocks[i]) {
+    						each_blocks[i].p(child_ctx, dirty);
+    					} else {
+    						each_blocks[i] = create_each_block$a(child_ctx);
+    						each_blocks[i].c();
+    						each_blocks[i].m(div3, null);
+    					}
+    				}
+
+    				for (; i < each_blocks.length; i += 1) {
+    					each_blocks[i].d(1);
+    				}
+
+    				each_blocks.length = each_value.length;
+    			}
+    		},
+    		i(local) {
+    			if (current) return;
+    			transition_in(if_block);
+    			current = true;
+    		},
+    		o(local) {
+    			transition_out(if_block);
+    			current = false;
+    		},
+    		d(detaching) {
+    			if (detaching) detach(div5);
+    			if (if_block) if_block.d();
+    			destroy_each(each_blocks, detaching);
+    		}
+    	};
+    }
+
+    const func$1 = t => t[0] === 'name';
+    const func_1 = t => t[0] === 'l';
+
+    function instance$f($$self, $$props, $$invalidate) {
+    	let { job } = $$props;
+    	let ideaOwnerProfile = null;
+
+    	async function fetchIdeaOwnerProfile() {
+    		if (job.ideaOwner) {
+    			$$invalidate(1, ideaOwnerProfile = await socialMediaManager.getProfile(job.ideaOwner));
+    		}
+    	}
+
+    	$$self.$$set = $$props => {
+    		if ('job' in $$props) $$invalidate(0, job = $$props.job);
+    	};
+
+    	$$self.$$.update = () => {
+    		if ($$self.$$.dirty & /*job*/ 1) {
+    			if (job) {
+    				fetchIdeaOwnerProfile();
+    			}
+    		}
+    	};
+
+    	return [job, ideaOwnerProfile];
+    }
+
+    class MyJobCard extends SvelteComponent {
+    	constructor(options) {
+    		super();
+    		init(this, options, instance$f, create_fragment$g, safe_not_equal, { job: 0 });
+    	}
+    }
+
+    var css_248z$e = ".section.svelte-yg5t4x{padding:2rem}.section-header.svelte-yg5t4x{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem}.badge.svelte-yg5t4x{background:#f3f4f6;color:#6b7280;padding:0.25rem 0.75rem;border-radius:9999px;font-size:0.875rem}.jobs.svelte-yg5t4x{display:grid;gap:1rem}.no-jobs.svelte-yg5t4x{text-align:center;color:#6b7280}";
+    styleInject(css_248z$e);
+
+    /* src/components/MyJobsView/MyJobsWidget.svelte generated by Svelte v3.59.1 */
+
+    function get_each_context$9(ctx, list, i) {
+    	const child_ctx = ctx.slice();
+    	child_ctx[3] = list[i];
+    	return child_ctx;
+    }
+
+    // (19:4) {#if myJobs.length > 0}
+    function create_if_block_1$9(ctx) {
+    	let span;
+    	let t_value = /*myJobs*/ ctx[0].length + "";
+    	let t;
+
+    	return {
+    		c() {
+    			span = element("span");
+    			t = text(t_value);
+    			attr(span, "class", "badge svelte-yg5t4x");
+    		},
+    		m(target, anchor) {
+    			insert(target, span, anchor);
+    			append(span, t);
+    		},
+    		p(ctx, dirty) {
+    			if (dirty & /*myJobs*/ 1 && t_value !== (t_value = /*myJobs*/ ctx[0].length + "")) set_data(t, t_value);
+    		},
+    		d(detaching) {
+    			if (detaching) detach(span);
+    		}
+    	};
+    }
+
+    // (30:2) {:else}
+    function create_else_block$8(ctx) {
+    	let p;
+
+    	return {
+    		c() {
+    			p = element("p");
+    			p.textContent = "Keine Jobs gefunden";
+    			attr(p, "class", "no-jobs svelte-yg5t4x");
+    		},
+    		m(target, anchor) {
+    			insert(target, p, anchor);
+    		},
+    		p: noop,
+    		i: noop,
+    		o: noop,
+    		d(detaching) {
+    			if (detaching) detach(p);
+    		}
+    	};
+    }
+
+    // (24:2) {#if myJobs.length > 0}
+    function create_if_block$b(ctx) {
+    	let div;
+    	let current;
+    	let each_value = /*myJobs*/ ctx[0];
+    	let each_blocks = [];
+
+    	for (let i = 0; i < each_value.length; i += 1) {
+    		each_blocks[i] = create_each_block$9(get_each_context$9(ctx, each_value, i));
+    	}
+
+    	const out = i => transition_out(each_blocks[i], 1, 1, () => {
+    		each_blocks[i] = null;
+    	});
+
+    	return {
+    		c() {
+    			div = element("div");
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].c();
+    			}
+
+    			attr(div, "class", "jobs svelte-yg5t4x");
+    		},
+    		m(target, anchor) {
+    			insert(target, div, anchor);
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				if (each_blocks[i]) {
+    					each_blocks[i].m(div, null);
+    				}
+    			}
+
+    			current = true;
+    		},
+    		p(ctx, dirty) {
+    			if (dirty & /*myJobs*/ 1) {
+    				each_value = /*myJobs*/ ctx[0];
+    				let i;
+
+    				for (i = 0; i < each_value.length; i += 1) {
+    					const child_ctx = get_each_context$9(ctx, each_value, i);
+
+    					if (each_blocks[i]) {
+    						each_blocks[i].p(child_ctx, dirty);
+    						transition_in(each_blocks[i], 1);
+    					} else {
+    						each_blocks[i] = create_each_block$9(child_ctx);
+    						each_blocks[i].c();
+    						transition_in(each_blocks[i], 1);
+    						each_blocks[i].m(div, null);
+    					}
+    				}
+
+    				group_outros();
+
+    				for (i = each_value.length; i < each_blocks.length; i += 1) {
+    					out(i);
+    				}
+
+    				check_outros();
+    			}
+    		},
+    		i(local) {
+    			if (current) return;
+
+    			for (let i = 0; i < each_value.length; i += 1) {
+    				transition_in(each_blocks[i]);
+    			}
+
+    			current = true;
+    		},
+    		o(local) {
+    			each_blocks = each_blocks.filter(Boolean);
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				transition_out(each_blocks[i]);
+    			}
+
+    			current = false;
+    		},
+    		d(detaching) {
+    			if (detaching) detach(div);
+    			destroy_each(each_blocks, detaching);
+    		}
+    	};
+    }
+
+    // (26:6) {#each myJobs as job}
+    function create_each_block$9(ctx) {
+    	let myjobcard;
+    	let current;
+    	myjobcard = new MyJobCard({ props: { job: /*job*/ ctx[3] } });
+
+    	return {
+    		c() {
+    			create_component(myjobcard.$$.fragment);
+    		},
+    		m(target, anchor) {
+    			mount_component(myjobcard, target, anchor);
+    			current = true;
+    		},
+    		p(ctx, dirty) {
+    			const myjobcard_changes = {};
+    			if (dirty & /*myJobs*/ 1) myjobcard_changes.job = /*job*/ ctx[3];
+    			myjobcard.$set(myjobcard_changes);
+    		},
+    		i(local) {
+    			if (current) return;
+    			transition_in(myjobcard.$$.fragment, local);
+    			current = true;
+    		},
+    		o(local) {
+    			transition_out(myjobcard.$$.fragment, local);
+    			current = false;
+    		},
+    		d(detaching) {
+    			destroy_component(myjobcard, detaching);
+    		}
+    	};
+    }
+
+    function create_fragment$f(ctx) {
+    	let section;
+    	let div;
+    	let h3;
+    	let t1;
+    	let t2;
+    	let current_block_type_index;
+    	let if_block1;
+    	let current;
+    	let if_block0 = /*myJobs*/ ctx[0].length > 0 && create_if_block_1$9(ctx);
+    	const if_block_creators = [create_if_block$b, create_else_block$8];
+    	const if_blocks = [];
+
+    	function select_block_type(ctx, dirty) {
+    		if (/*myJobs*/ ctx[0].length > 0) return 0;
+    		return 1;
+    	}
+
+    	current_block_type_index = select_block_type(ctx);
+    	if_block1 = if_blocks[current_block_type_index] = if_block_creators[current_block_type_index](ctx);
+
+    	return {
+    		c() {
+    			section = element("section");
+    			div = element("div");
+    			h3 = element("h3");
+    			h3.textContent = "Meine Jobs";
+    			t1 = space();
+    			if (if_block0) if_block0.c();
+    			t2 = space();
+    			if_block1.c();
+    			attr(div, "class", "section-header svelte-yg5t4x");
+    			attr(section, "class", "section svelte-yg5t4x");
+    		},
+    		m(target, anchor) {
+    			insert(target, section, anchor);
+    			append(section, div);
+    			append(div, h3);
+    			append(div, t1);
+    			if (if_block0) if_block0.m(div, null);
+    			append(section, t2);
+    			if_blocks[current_block_type_index].m(section, null);
+    			current = true;
+    		},
+    		p(ctx, [dirty]) {
+    			if (/*myJobs*/ ctx[0].length > 0) {
+    				if (if_block0) {
+    					if_block0.p(ctx, dirty);
+    				} else {
+    					if_block0 = create_if_block_1$9(ctx);
+    					if_block0.c();
+    					if_block0.m(div, null);
+    				}
+    			} else if (if_block0) {
+    				if_block0.d(1);
+    				if_block0 = null;
+    			}
+
+    			let previous_block_index = current_block_type_index;
+    			current_block_type_index = select_block_type(ctx);
+
+    			if (current_block_type_index === previous_block_index) {
+    				if_blocks[current_block_type_index].p(ctx, dirty);
+    			} else {
+    				group_outros();
+
+    				transition_out(if_blocks[previous_block_index], 1, 1, () => {
+    					if_blocks[previous_block_index] = null;
+    				});
+
+    				check_outros();
+    				if_block1 = if_blocks[current_block_type_index];
+
+    				if (!if_block1) {
+    					if_block1 = if_blocks[current_block_type_index] = if_block_creators[current_block_type_index](ctx);
+    					if_block1.c();
+    				} else {
+    					if_block1.p(ctx, dirty);
+    				}
+
+    				transition_in(if_block1, 1);
+    				if_block1.m(section, null);
+    			}
+    		},
+    		i(local) {
+    			if (current) return;
+    			transition_in(if_block1);
+    			current = true;
+    		},
+    		o(local) {
+    			transition_out(if_block1);
+    			current = false;
+    		},
+    		d(detaching) {
+    			if (detaching) detach(section);
+    			if (if_block0) if_block0.d();
+    			if_blocks[current_block_type_index].d();
+    		}
+    	};
+    }
+
+    function instance$e($$self, $$props, $$invalidate) {
+    	let $nostrCache;
+    	component_subscribe($$self, nostrCache, $$value => $$invalidate(1, $nostrCache = $$value));
+    	let myJobs = [];
+
+    	async function fetchMyJobs() {
+    		$$invalidate(0, myJobs = await communityJobManager.getMyDeveloperJobs());
+    	}
+
+    	$$self.$$.update = () => {
+    		if ($$self.$$.dirty & /*$nostrCache*/ 2) {
+    			// Auf Cache-Änderungen reagieren
+    			(fetchMyJobs());
+    		}
+    	};
+
+    	return [myJobs, $nostrCache];
+    }
+
+    class MyJobsWidget extends SvelteComponent {
+    	constructor(options) {
+    		super();
+    		init(this, options, instance$e, create_fragment$f, safe_not_equal, {});
+    	}
+    }
+
+    var css_248z$d = ".section-header.svelte-lq3tca.svelte-lq3tca{padding:2rem;border-bottom:1px solid #e5e7eb;display:flex;align-items:center;gap:1rem}.section-header.svelte-lq3tca h3.svelte-lq3tca{font-size:1.5rem;font-weight:600;color:#1f2937;margin:0}.job-section.svelte-lq3tca.svelte-lq3tca{padding:2rem;border-bottom:1px solid #e5e7eb}.job-section.svelte-lq3tca.svelte-lq3tca:last-child{border-bottom:none}.job-section.svelte-lq3tca h4.svelte-lq3tca{font-size:1.25rem;font-weight:600;color:#1f2937;margin:0 0 1.5rem 0}.applications.svelte-lq3tca.svelte-lq3tca{display:grid;gap:1.5rem}.application.svelte-lq3tca.svelte-lq3tca{background:white;border-radius:0.75rem;padding:1.5rem;box-shadow:0 1px 3px rgba(0, 0, 0, 0.1);border:1px solid #e5e7eb}.application.declined.svelte-lq3tca.svelte-lq3tca{border-color:#ef4444;background:#fef2f2}.header.svelte-lq3tca.svelte-lq3tca{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem}.developer.svelte-lq3tca.svelte-lq3tca{display:flex;align-items:center;gap:0.75rem}.developer.svelte-lq3tca span.svelte-lq3tca{font-weight:500;color:#1f2937}.content.svelte-lq3tca.svelte-lq3tca{color:#4b5563;line-height:1.5;margin-bottom:1.5rem}.details.svelte-lq3tca.svelte-lq3tca{display:grid;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));gap:1.5rem;margin-bottom:1.5rem;padding:1rem;background:#f9fafb;border-radius:0.5rem}.detail.svelte-lq3tca.svelte-lq3tca{display:flex;flex-direction:column;gap:0.25rem}.label.svelte-lq3tca.svelte-lq3tca{font-size:0.875rem;color:#6b7280}.value.svelte-lq3tca.svelte-lq3tca{font-weight:500;color:#1f2937}.counter-offer-info.svelte-lq3tca.svelte-lq3tca{margin-bottom:1.5rem;padding:0.75rem;background:#dbeafe;border-radius:0.5rem;color:#1e40af}.actions.svelte-lq3tca.svelte-lq3tca{display:flex;gap:1rem;justify-content:flex-end}button.svelte-lq3tca.svelte-lq3tca{padding:0.5rem 1.25rem;border-radius:0.5rem;font-weight:500;border:none;cursor:pointer;transition:all 0.2s}button.svelte-lq3tca.svelte-lq3tca:hover{transform:translateY(-1px)}.approve.svelte-lq3tca.svelte-lq3tca{background:#059669;color:white}.approve.svelte-lq3tca.svelte-lq3tca:hover{background:#047857}.decline.svelte-lq3tca.svelte-lq3tca{background:#f3f4f6;color:#1f2937}.decline.svelte-lq3tca.svelte-lq3tca:hover{background:#e5e7eb}.badge.svelte-lq3tca.svelte-lq3tca{padding:0.25rem 0.75rem;border-radius:9999px;font-size:0.875rem;font-weight:500}.badge.pending.svelte-lq3tca.svelte-lq3tca{background:#f3f4f6;color:#6b7280}.badge.approved.svelte-lq3tca.svelte-lq3tca{background:#ecfdf5;color:#059669}.badge.declined.svelte-lq3tca.svelte-lq3tca{background:#fef2f2;color:#ef4444}.empty-state.svelte-lq3tca.svelte-lq3tca{padding:4rem 2rem;text-align:center;color:#6b7280}";
+    styleInject(css_248z$d);
+
+    /* src/components/MyJobsView/ApplicationsWidget.svelte generated by Svelte v3.59.1 */
+
+    function get_each_context$8(ctx, list, i) {
+    	const child_ctx = ctx.slice();
+    	child_ctx[10] = list[i].job;
+    	child_ctx[11] = list[i].applications;
+    	return child_ctx;
+    }
+
+    function get_each_context_1$2(ctx, list, i) {
+    	const child_ctx = ctx.slice();
+    	child_ctx[14] = list[i];
+    	return child_ctx;
+    }
+
+    // (64:4) {#if jobApplications.length > 0}
+    function create_if_block_7$1(ctx) {
+    	let span;
+    	let t_value = /*jobApplications*/ ctx[0].length + "";
+    	let t;
+
+    	return {
+    		c() {
+    			span = element("span");
+    			t = text(t_value);
+    			attr(span, "class", "badge svelte-lq3tca");
+    		},
+    		m(target, anchor) {
+    			insert(target, span, anchor);
+    			append(span, t);
+    		},
+    		p(ctx, dirty) {
+    			if (dirty & /*jobApplications*/ 1 && t_value !== (t_value = /*jobApplications*/ ctx[0].length + "")) set_data(t, t_value);
+    		},
+    		d(detaching) {
+    			if (detaching) detach(span);
+    		}
+    	};
+    }
+
+    // (136:2) {:else}
+    function create_else_block$7(ctx) {
+    	let div;
+
+    	return {
+    		c() {
+    			div = element("div");
+    			div.innerHTML = `<p>Keine Bewerbungen vorhanden</p>`;
+    			attr(div, "class", "empty-state svelte-lq3tca");
+    		},
+    		m(target, anchor) {
+    			insert(target, div, anchor);
+    		},
+    		p: noop,
+    		i: noop,
+    		o: noop,
+    		d(detaching) {
+    			if (detaching) detach(div);
+    		}
+    	};
+    }
+
+    // (69:2) {#if jobApplications.length > 0}
+    function create_if_block$a(ctx) {
+    	let each_1_anchor;
+    	let current;
+    	let each_value = /*jobApplications*/ ctx[0];
+    	let each_blocks = [];
+
+    	for (let i = 0; i < each_value.length; i += 1) {
+    		each_blocks[i] = create_each_block$8(get_each_context$8(ctx, each_value, i));
+    	}
+
+    	const out = i => transition_out(each_blocks[i], 1, 1, () => {
+    		each_blocks[i] = null;
+    	});
+
+    	return {
+    		c() {
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].c();
+    			}
+
+    			each_1_anchor = empty();
+    		},
+    		m(target, anchor) {
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				if (each_blocks[i]) {
+    					each_blocks[i].m(target, anchor);
+    				}
+    			}
+
+    			insert(target, each_1_anchor, anchor);
+    			current = true;
+    		},
+    		p(ctx, dirty) {
+    			if (dirty & /*jobApplications, handleApprove, handleDecline, Date, $profiles*/ 27) {
+    				each_value = /*jobApplications*/ ctx[0];
+    				let i;
+
+    				for (i = 0; i < each_value.length; i += 1) {
+    					const child_ctx = get_each_context$8(ctx, each_value, i);
+
+    					if (each_blocks[i]) {
+    						each_blocks[i].p(child_ctx, dirty);
+    						transition_in(each_blocks[i], 1);
+    					} else {
+    						each_blocks[i] = create_each_block$8(child_ctx);
+    						each_blocks[i].c();
+    						transition_in(each_blocks[i], 1);
+    						each_blocks[i].m(each_1_anchor.parentNode, each_1_anchor);
+    					}
+    				}
+
+    				group_outros();
+
+    				for (i = each_value.length; i < each_blocks.length; i += 1) {
+    					out(i);
+    				}
+
+    				check_outros();
+    			}
+    		},
+    		i(local) {
+    			if (current) return;
+
+    			for (let i = 0; i < each_value.length; i += 1) {
+    				transition_in(each_blocks[i]);
+    			}
+
+    			current = true;
+    		},
+    		o(local) {
+    			each_blocks = each_blocks.filter(Boolean);
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				transition_out(each_blocks[i]);
+    			}
+
+    			current = false;
+    		},
+    		d(detaching) {
+    			destroy_each(each_blocks, detaching);
+    			if (detaching) detach(each_1_anchor);
+    		}
+    	};
+    }
+
+    // (79:18) {#if $profiles.has(application.pubkey)}
+    function create_if_block_6$1(ctx) {
+    	let profileimg;
+    	let t0;
+    	let span;
+    	let t1_value = (/*$profiles*/ ctx[1].get(/*application*/ ctx[14].pubkey).name || /*application*/ ctx[14].pubkey) + "";
+    	let t1;
+    	let current;
+
+    	profileimg = new ProfileImg({
+    			props: {
+    				profile: /*$profiles*/ ctx[1].get(/*application*/ ctx[14].pubkey)
+    			}
+    		});
+
+    	return {
+    		c() {
+    			create_component(profileimg.$$.fragment);
+    			t0 = space();
+    			span = element("span");
+    			t1 = text(t1_value);
+    			attr(span, "class", "svelte-lq3tca");
+    		},
+    		m(target, anchor) {
+    			mount_component(profileimg, target, anchor);
+    			insert(target, t0, anchor);
+    			insert(target, span, anchor);
+    			append(span, t1);
+    			current = true;
+    		},
+    		p(ctx, dirty) {
+    			const profileimg_changes = {};
+    			if (dirty & /*$profiles, jobApplications*/ 3) profileimg_changes.profile = /*$profiles*/ ctx[1].get(/*application*/ ctx[14].pubkey);
+    			profileimg.$set(profileimg_changes);
+    			if ((!current || dirty & /*$profiles, jobApplications*/ 3) && t1_value !== (t1_value = (/*$profiles*/ ctx[1].get(/*application*/ ctx[14].pubkey).name || /*application*/ ctx[14].pubkey) + "")) set_data(t1, t1_value);
+    		},
+    		i(local) {
+    			if (current) return;
+    			transition_in(profileimg.$$.fragment, local);
+    			current = true;
+    		},
+    		o(local) {
+    			transition_out(profileimg.$$.fragment, local);
+    			current = false;
+    		},
+    		d(detaching) {
+    			destroy_component(profileimg, detaching);
+    			if (detaching) detach(t0);
+    			if (detaching) detach(span);
+    		}
+    	};
+    }
+
+    // (90:62) 
+    function create_if_block_5$1(ctx) {
+    	let span;
+
+    	return {
+    		c() {
+    			span = element("span");
+    			span.textContent = "Abgelehnt";
+    			attr(span, "class", "badge declined svelte-lq3tca");
+    		},
+    		m(target, anchor) {
+    			insert(target, span, anchor);
+    		},
+    		d(detaching) {
+    			if (detaching) detach(span);
+    		}
+    	};
+    }
+
+    // (88:62) 
+    function create_if_block_4$2(ctx) {
+    	let span;
+
+    	return {
+    		c() {
+    			span = element("span");
+    			span.textContent = "Akzeptiert";
+    			attr(span, "class", "badge approved svelte-lq3tca");
+    		},
+    		m(target, anchor) {
+    			insert(target, span, anchor);
+    		},
+    		d(detaching) {
+    			if (detaching) detach(span);
+    		}
+    	};
+    }
+
+    // (86:18) {#if application.status === 'pending'}
+    function create_if_block_3$2(ctx) {
+    	let span;
+
+    	return {
+    		c() {
+    			span = element("span");
+    			span.textContent = "Ausstehend";
+    			attr(span, "class", "badge pending svelte-lq3tca");
+    		},
+    		m(target, anchor) {
+    			insert(target, span, anchor);
+    		},
+    		d(detaching) {
+    			if (detaching) detach(span);
+    		}
+    	};
+    }
+
+    // (115:14) {#if application.previousOffer}
+    function create_if_block_2$2(ctx) {
+    	let div;
+
+    	return {
+    		c() {
+    			div = element("div");
+    			div.innerHTML = `<span class="label svelte-lq3tca">Counter-Offer zu vorheriger Bewerbung</span>`;
+    			attr(div, "class", "counter-offer-info svelte-lq3tca");
+    		},
+    		m(target, anchor) {
+    			insert(target, div, anchor);
+    		},
+    		d(detaching) {
+    			if (detaching) detach(div);
+    		}
+    	};
+    }
+
+    // (121:14) {#if application.status === 'pending'}
+    function create_if_block_1$8(ctx) {
+    	let div;
+    	let button0;
+    	let t1;
+    	let button1;
+    	let mounted;
+    	let dispose;
+
+    	function click_handler() {
+    		return /*click_handler*/ ctx[6](/*application*/ ctx[14]);
+    	}
+
+    	function click_handler_1() {
+    		return /*click_handler_1*/ ctx[7](/*application*/ ctx[14]);
+    	}
+
+    	return {
+    		c() {
+    			div = element("div");
+    			button0 = element("button");
+    			button0.textContent = "Ablehnen";
+    			t1 = space();
+    			button1 = element("button");
+    			button1.textContent = "Akzeptieren";
+    			attr(button0, "class", "decline svelte-lq3tca");
+    			attr(button1, "class", "approve svelte-lq3tca");
+    			attr(div, "class", "actions svelte-lq3tca");
+    		},
+    		m(target, anchor) {
+    			insert(target, div, anchor);
+    			append(div, button0);
+    			append(div, t1);
+    			append(div, button1);
+
+    			if (!mounted) {
+    				dispose = [
+    					listen(button0, "click", click_handler),
+    					listen(button1, "click", click_handler_1)
+    				];
+
+    				mounted = true;
+    			}
+    		},
+    		p(new_ctx, dirty) {
+    			ctx = new_ctx;
+    		},
+    		d(detaching) {
+    			if (detaching) detach(div);
+    			mounted = false;
+    			run_all(dispose);
+    		}
+    	};
+    }
+
+    // (75:10) {#each applications as application}
+    function create_each_block_1$2(ctx) {
+    	let div8;
+    	let div2;
+    	let div0;
+    	let show_if = /*$profiles*/ ctx[1].has(/*application*/ ctx[14].pubkey);
+    	let t0;
+    	let div1;
+    	let t1;
+    	let div3;
+    	let p;
+    	let t2_value = /*application*/ ctx[14].content + "";
+    	let t2;
+    	let t3;
+    	let div7;
+    	let div4;
+    	let span0;
+    	let t5;
+    	let span1;
+    	let t6_value = /*application*/ ctx[14].bid + "";
+    	let t6;
+    	let t7;
+    	let t8;
+    	let div5;
+    	let span2;
+    	let t10;
+    	let span3;
+    	let t11_value = /*application*/ ctx[14].duration + "";
+    	let t11;
+    	let t12;
+    	let t13;
+    	let div6;
+    	let span4;
+    	let t15;
+    	let span5;
+    	let t16_value = new Date(/*application*/ ctx[14].startDate).toLocaleDateString() + "";
+    	let t16;
+    	let t17;
+    	let t18;
+    	let t19;
+    	let div8_class_value;
+    	let current;
+    	let if_block0 = show_if && create_if_block_6$1(ctx);
+
+    	function select_block_type_1(ctx, dirty) {
+    		if (/*application*/ ctx[14].status === 'pending') return create_if_block_3$2;
+    		if (/*application*/ ctx[14].status === 'approved') return create_if_block_4$2;
+    		if (/*application*/ ctx[14].status === 'declined') return create_if_block_5$1;
+    	}
+
+    	let current_block_type = select_block_type_1(ctx);
+    	let if_block1 = current_block_type && current_block_type(ctx);
+    	let if_block2 = /*application*/ ctx[14].previousOffer && create_if_block_2$2();
+    	let if_block3 = /*application*/ ctx[14].status === 'pending' && create_if_block_1$8(ctx);
+
+    	return {
+    		c() {
+    			div8 = element("div");
+    			div2 = element("div");
+    			div0 = element("div");
+    			if (if_block0) if_block0.c();
+    			t0 = space();
+    			div1 = element("div");
+    			if (if_block1) if_block1.c();
+    			t1 = space();
+    			div3 = element("div");
+    			p = element("p");
+    			t2 = text(t2_value);
+    			t3 = space();
+    			div7 = element("div");
+    			div4 = element("div");
+    			span0 = element("span");
+    			span0.textContent = "Preisvorstellung";
+    			t5 = space();
+    			span1 = element("span");
+    			t6 = text(t6_value);
+    			t7 = text(" Sats");
+    			t8 = space();
+    			div5 = element("div");
+    			span2 = element("span");
+    			span2.textContent = "Dauer";
+    			t10 = space();
+    			span3 = element("span");
+    			t11 = text(t11_value);
+    			t12 = text(" Tage");
+    			t13 = space();
+    			div6 = element("div");
+    			span4 = element("span");
+    			span4.textContent = "Startdatum";
+    			t15 = space();
+    			span5 = element("span");
+    			t16 = text(t16_value);
+    			t17 = space();
+    			if (if_block2) if_block2.c();
+    			t18 = space();
+    			if (if_block3) if_block3.c();
+    			t19 = space();
+    			attr(div0, "class", "developer svelte-lq3tca");
+    			attr(div1, "class", "status");
+    			attr(div2, "class", "header svelte-lq3tca");
+    			attr(div3, "class", "content svelte-lq3tca");
+    			attr(span0, "class", "label svelte-lq3tca");
+    			attr(span1, "class", "value svelte-lq3tca");
+    			attr(div4, "class", "detail svelte-lq3tca");
+    			attr(span2, "class", "label svelte-lq3tca");
+    			attr(span3, "class", "value svelte-lq3tca");
+    			attr(div5, "class", "detail svelte-lq3tca");
+    			attr(span4, "class", "label svelte-lq3tca");
+    			attr(span5, "class", "value svelte-lq3tca");
+    			attr(div6, "class", "detail svelte-lq3tca");
+    			attr(div7, "class", "details svelte-lq3tca");
+
+    			attr(div8, "class", div8_class_value = "application " + (/*application*/ ctx[14].status === 'declined'
+    			? 'declined'
+    			: '') + " svelte-lq3tca");
+    		},
+    		m(target, anchor) {
+    			insert(target, div8, anchor);
+    			append(div8, div2);
+    			append(div2, div0);
+    			if (if_block0) if_block0.m(div0, null);
+    			append(div2, t0);
+    			append(div2, div1);
+    			if (if_block1) if_block1.m(div1, null);
+    			append(div8, t1);
+    			append(div8, div3);
+    			append(div3, p);
+    			append(p, t2);
+    			append(div8, t3);
+    			append(div8, div7);
+    			append(div7, div4);
+    			append(div4, span0);
+    			append(div4, t5);
+    			append(div4, span1);
+    			append(span1, t6);
+    			append(span1, t7);
+    			append(div7, t8);
+    			append(div7, div5);
+    			append(div5, span2);
+    			append(div5, t10);
+    			append(div5, span3);
+    			append(span3, t11);
+    			append(span3, t12);
+    			append(div7, t13);
+    			append(div7, div6);
+    			append(div6, span4);
+    			append(div6, t15);
+    			append(div6, span5);
+    			append(span5, t16);
+    			append(div8, t17);
+    			if (if_block2) if_block2.m(div8, null);
+    			append(div8, t18);
+    			if (if_block3) if_block3.m(div8, null);
+    			append(div8, t19);
+    			current = true;
+    		},
+    		p(ctx, dirty) {
+    			if (dirty & /*$profiles, jobApplications*/ 3) show_if = /*$profiles*/ ctx[1].has(/*application*/ ctx[14].pubkey);
+
+    			if (show_if) {
+    				if (if_block0) {
+    					if_block0.p(ctx, dirty);
+
+    					if (dirty & /*$profiles, jobApplications*/ 3) {
+    						transition_in(if_block0, 1);
+    					}
+    				} else {
+    					if_block0 = create_if_block_6$1(ctx);
+    					if_block0.c();
+    					transition_in(if_block0, 1);
+    					if_block0.m(div0, null);
+    				}
+    			} else if (if_block0) {
+    				group_outros();
+
+    				transition_out(if_block0, 1, 1, () => {
+    					if_block0 = null;
+    				});
+
+    				check_outros();
+    			}
+
+    			if (current_block_type !== (current_block_type = select_block_type_1(ctx))) {
+    				if (if_block1) if_block1.d(1);
+    				if_block1 = current_block_type && current_block_type(ctx);
+
+    				if (if_block1) {
+    					if_block1.c();
+    					if_block1.m(div1, null);
+    				}
+    			}
+
+    			if ((!current || dirty & /*jobApplications*/ 1) && t2_value !== (t2_value = /*application*/ ctx[14].content + "")) set_data(t2, t2_value);
+    			if ((!current || dirty & /*jobApplications*/ 1) && t6_value !== (t6_value = /*application*/ ctx[14].bid + "")) set_data(t6, t6_value);
+    			if ((!current || dirty & /*jobApplications*/ 1) && t11_value !== (t11_value = /*application*/ ctx[14].duration + "")) set_data(t11, t11_value);
+    			if ((!current || dirty & /*jobApplications*/ 1) && t16_value !== (t16_value = new Date(/*application*/ ctx[14].startDate).toLocaleDateString() + "")) set_data(t16, t16_value);
+
+    			if (/*application*/ ctx[14].previousOffer) {
+    				if (if_block2) ; else {
+    					if_block2 = create_if_block_2$2();
+    					if_block2.c();
+    					if_block2.m(div8, t18);
+    				}
+    			} else if (if_block2) {
+    				if_block2.d(1);
+    				if_block2 = null;
+    			}
+
+    			if (/*application*/ ctx[14].status === 'pending') {
+    				if (if_block3) {
+    					if_block3.p(ctx, dirty);
+    				} else {
+    					if_block3 = create_if_block_1$8(ctx);
+    					if_block3.c();
+    					if_block3.m(div8, t19);
+    				}
+    			} else if (if_block3) {
+    				if_block3.d(1);
+    				if_block3 = null;
+    			}
+
+    			if (!current || dirty & /*jobApplications*/ 1 && div8_class_value !== (div8_class_value = "application " + (/*application*/ ctx[14].status === 'declined'
+    			? 'declined'
+    			: '') + " svelte-lq3tca")) {
+    				attr(div8, "class", div8_class_value);
+    			}
+    		},
+    		i(local) {
+    			if (current) return;
+    			transition_in(if_block0);
+    			current = true;
+    		},
+    		o(local) {
+    			transition_out(if_block0);
+    			current = false;
+    		},
+    		d(detaching) {
+    			if (detaching) detach(div8);
+    			if (if_block0) if_block0.d();
+
+    			if (if_block1) {
+    				if_block1.d();
+    			}
+
+    			if (if_block2) if_block2.d();
+    			if (if_block3) if_block3.d();
+    		}
+    	};
+    }
+
+    // (70:4) {#each jobApplications as { job, applications }}
+    function create_each_block$8(ctx) {
+    	let div1;
+    	let h4;
+    	let t0_value = (/*job*/ ctx[10].tags.find(func)?.[1] || 'Unbenannter Job') + "";
+    	let t0;
+    	let t1;
+    	let div0;
+    	let t2;
+    	let current;
+    	let each_value_1 = /*applications*/ ctx[11];
+    	let each_blocks = [];
+
+    	for (let i = 0; i < each_value_1.length; i += 1) {
+    		each_blocks[i] = create_each_block_1$2(get_each_context_1$2(ctx, each_value_1, i));
+    	}
+
+    	const out = i => transition_out(each_blocks[i], 1, 1, () => {
+    		each_blocks[i] = null;
+    	});
+
+    	return {
+    		c() {
+    			div1 = element("div");
+    			h4 = element("h4");
+    			t0 = text(t0_value);
+    			t1 = space();
+    			div0 = element("div");
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].c();
+    			}
+
+    			t2 = space();
+    			attr(h4, "class", "svelte-lq3tca");
+    			attr(div0, "class", "applications svelte-lq3tca");
+    			attr(div1, "class", "job-section svelte-lq3tca");
+    		},
+    		m(target, anchor) {
+    			insert(target, div1, anchor);
+    			append(div1, h4);
+    			append(h4, t0);
+    			append(div1, t1);
+    			append(div1, div0);
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				if (each_blocks[i]) {
+    					each_blocks[i].m(div0, null);
+    				}
+    			}
+
+    			append(div1, t2);
+    			current = true;
+    		},
+    		p(ctx, dirty) {
+    			if ((!current || dirty & /*jobApplications*/ 1) && t0_value !== (t0_value = (/*job*/ ctx[10].tags.find(func)?.[1] || 'Unbenannter Job') + "")) set_data(t0, t0_value);
+
+    			if (dirty & /*jobApplications, handleApprove, handleDecline, Date, $profiles*/ 27) {
+    				each_value_1 = /*applications*/ ctx[11];
+    				let i;
+
+    				for (i = 0; i < each_value_1.length; i += 1) {
+    					const child_ctx = get_each_context_1$2(ctx, each_value_1, i);
+
+    					if (each_blocks[i]) {
+    						each_blocks[i].p(child_ctx, dirty);
+    						transition_in(each_blocks[i], 1);
+    					} else {
+    						each_blocks[i] = create_each_block_1$2(child_ctx);
+    						each_blocks[i].c();
+    						transition_in(each_blocks[i], 1);
+    						each_blocks[i].m(div0, null);
+    					}
+    				}
+
+    				group_outros();
+
+    				for (i = each_value_1.length; i < each_blocks.length; i += 1) {
+    					out(i);
+    				}
+
+    				check_outros();
+    			}
+    		},
+    		i(local) {
+    			if (current) return;
+
+    			for (let i = 0; i < each_value_1.length; i += 1) {
+    				transition_in(each_blocks[i]);
+    			}
+
+    			current = true;
+    		},
+    		o(local) {
+    			each_blocks = each_blocks.filter(Boolean);
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				transition_out(each_blocks[i]);
+    			}
+
+    			current = false;
+    		},
+    		d(detaching) {
+    			if (detaching) detach(div1);
+    			destroy_each(each_blocks, detaching);
+    		}
+    	};
+    }
+
+    function create_fragment$e(ctx) {
+    	let div1;
+    	let div0;
+    	let h3;
+    	let t1;
+    	let t2;
+    	let current_block_type_index;
+    	let if_block1;
+    	let current;
+    	let if_block0 = /*jobApplications*/ ctx[0].length > 0 && create_if_block_7$1(ctx);
+    	const if_block_creators = [create_if_block$a, create_else_block$7];
+    	const if_blocks = [];
+
+    	function select_block_type(ctx, dirty) {
+    		if (/*jobApplications*/ ctx[0].length > 0) return 0;
+    		return 1;
+    	}
+
+    	current_block_type_index = select_block_type(ctx);
+    	if_block1 = if_blocks[current_block_type_index] = if_block_creators[current_block_type_index](ctx);
+
+    	return {
+    		c() {
+    			div1 = element("div");
+    			div0 = element("div");
+    			h3 = element("h3");
+    			h3.textContent = "Eingehende Bewerbungen";
+    			t1 = space();
+    			if (if_block0) if_block0.c();
+    			t2 = space();
+    			if_block1.c();
+    			attr(h3, "class", "svelte-lq3tca");
+    			attr(div0, "class", "section-header svelte-lq3tca");
+    			attr(div1, "class", "single-card");
+    		},
+    		m(target, anchor) {
+    			insert(target, div1, anchor);
+    			append(div1, div0);
+    			append(div0, h3);
+    			append(div0, t1);
+    			if (if_block0) if_block0.m(div0, null);
+    			append(div1, t2);
+    			if_blocks[current_block_type_index].m(div1, null);
+    			current = true;
+    		},
+    		p(ctx, [dirty]) {
+    			if (/*jobApplications*/ ctx[0].length > 0) {
+    				if (if_block0) {
+    					if_block0.p(ctx, dirty);
+    				} else {
+    					if_block0 = create_if_block_7$1(ctx);
+    					if_block0.c();
+    					if_block0.m(div0, null);
+    				}
+    			} else if (if_block0) {
+    				if_block0.d(1);
+    				if_block0 = null;
+    			}
+
+    			let previous_block_index = current_block_type_index;
+    			current_block_type_index = select_block_type(ctx);
+
+    			if (current_block_type_index === previous_block_index) {
+    				if_blocks[current_block_type_index].p(ctx, dirty);
+    			} else {
+    				group_outros();
+
+    				transition_out(if_blocks[previous_block_index], 1, 1, () => {
+    					if_blocks[previous_block_index] = null;
+    				});
+
+    				check_outros();
+    				if_block1 = if_blocks[current_block_type_index];
+
+    				if (!if_block1) {
+    					if_block1 = if_blocks[current_block_type_index] = if_block_creators[current_block_type_index](ctx);
+    					if_block1.c();
+    				} else {
+    					if_block1.p(ctx, dirty);
+    				}
+
+    				transition_in(if_block1, 1);
+    				if_block1.m(div1, null);
+    			}
+    		},
+    		i(local) {
+    			if (current) return;
+    			transition_in(if_block1);
+    			current = true;
+    		},
+    		o(local) {
+    			transition_out(if_block1);
+    			current = false;
+    		},
+    		d(detaching) {
+    			if (detaching) detach(div1);
+    			if (if_block0) if_block0.d();
+    			if_blocks[current_block_type_index].d();
+    		}
+    	};
+    }
+
+    const func = t => t[0] === 'name';
+
+    function instance$d($$self, $$props, $$invalidate) {
+    	let $nostrCache;
+    	let $profiles;
+    	component_subscribe($$self, nostrCache, $$value => $$invalidate(5, $nostrCache = $$value));
+    	let jobApplications = [];
+    	let profiles = writable(new Map());
+    	component_subscribe($$self, profiles, value => $$invalidate(1, $profiles = value));
+
+    	async function fetchApplications() {
+    		$$invalidate(0, jobApplications = await communityJobManager.getMyJobApplications());
+
+    		// Profile für alle Developer laden
+    		const developers = jobApplications.flatMap(job => job.applications).map(app => app.pubkey);
+
+    		await fetchProfiles(developers);
+    	}
+
+    	async function fetchProfiles(pubkeys) {
+    		const profilePromises = pubkeys.map(async pubkey => {
+    			let profile = await socialMediaManager.getProfile(pubkey);
+    			return { pubkey, profile };
+    		});
+
+    		const results = await Promise.all(profilePromises);
+
+    		profiles.update(map => {
+    			results.forEach(({ pubkey, profile }) => {
+    				if (profile) {
+    					map.set(pubkey, profile);
+    				}
+    			});
+
+    			return map;
+    		});
+    	}
+
+    	async function handleApprove(application) {
+    		try {
+    			await communityJobManager.approveOffer('Angebot akzeptiert', application.id);
+    			await fetchApplications();
+    		} catch(error) {
+    			console.error('Error approving offer:', error);
+    		}
+    	}
+
+    	async function handleDecline(application) {
+    		try {
+    			await communityJobManager.declineOffer('Angebot abgelehnt', application.id);
+    			await fetchApplications();
+    		} catch(error) {
+    			console.error('Error declining offer:', error);
+    		}
+    	}
+
+    	const click_handler = application => handleDecline(application);
+    	const click_handler_1 = application => handleApprove(application);
+
+    	$$self.$$.update = () => {
+    		if ($$self.$$.dirty & /*$nostrCache*/ 32) {
+    			// Auf Cache-Änderungen reagieren
+    			(fetchApplications());
+    		}
+    	};
+
+    	return [
+    		jobApplications,
+    		$profiles,
+    		profiles,
+    		handleApprove,
+    		handleDecline,
+    		$nostrCache,
+    		click_handler,
+    		click_handler_1
+    	];
+    }
+
+    class ApplicationsWidget extends SvelteComponent {
     	constructor(options) {
     		super();
     		init(this, options, instance$d, create_fragment$e, safe_not_equal, {});
@@ -26885,7 +28510,10 @@ var app = (function () {
     	let toolbar;
     	let t2;
     	let div0;
+    	let applicationswidget;
     	let t3;
+    	let myjobswidget;
+    	let t4;
     	let footer;
     	let current;
     	menu = new Sidebar({});
@@ -26900,6 +28528,8 @@ var app = (function () {
     		});
 
     	toolbar = new Toolbar({});
+    	applicationswidget = new ApplicationsWidget({});
+    	myjobswidget = new MyJobsWidget({});
     	footer = new Footer({});
 
     	return {
@@ -26913,7 +28543,10 @@ var app = (function () {
     			create_component(toolbar.$$.fragment);
     			t2 = space();
     			div0 = element("div");
+    			create_component(applicationswidget.$$.fragment);
     			t3 = space();
+    			create_component(myjobswidget.$$.fragment);
+    			t4 = space();
     			create_component(footer.$$.fragment);
     			attr(div0, "class", /*$contentContainerClass*/ ctx[0]);
     			attr(div1, "class", "flex-grow");
@@ -26929,7 +28562,10 @@ var app = (function () {
     			mount_component(toolbar, div1, null);
     			append(div1, t2);
     			append(div1, div0);
-    			append(main, t3);
+    			mount_component(applicationswidget, div0, null);
+    			append(div0, t3);
+    			mount_component(myjobswidget, div0, null);
+    			append(main, t4);
     			mount_component(footer, main, null);
     			current = true;
     		},
@@ -26943,6 +28579,8 @@ var app = (function () {
     			transition_in(menu.$$.fragment, local);
     			transition_in(banner.$$.fragment, local);
     			transition_in(toolbar.$$.fragment, local);
+    			transition_in(applicationswidget.$$.fragment, local);
+    			transition_in(myjobswidget.$$.fragment, local);
     			transition_in(footer.$$.fragment, local);
     			current = true;
     		},
@@ -26950,6 +28588,8 @@ var app = (function () {
     			transition_out(menu.$$.fragment, local);
     			transition_out(banner.$$.fragment, local);
     			transition_out(toolbar.$$.fragment, local);
+    			transition_out(applicationswidget.$$.fragment, local);
+    			transition_out(myjobswidget.$$.fragment, local);
     			transition_out(footer.$$.fragment, local);
     			current = false;
     		},
@@ -26958,6 +28598,8 @@ var app = (function () {
     			destroy_component(menu);
     			destroy_component(banner);
     			destroy_component(toolbar);
+    			destroy_component(applicationswidget);
+    			destroy_component(myjobswidget);
     			destroy_component(footer);
     		}
     	};

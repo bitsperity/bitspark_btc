@@ -57,13 +57,14 @@ class NostrEventFactory {
     return this.createBaseEvent(NOSTR_KIND_JOB, abstract, tags);
   }
 
-  createOfferEvent(message, jobId, bid, duration, startDate, termsOfAgreement, previousOfferId = null) {
+  createOfferEvent(message, jobId, bid, duration, startDate, termsOfAgreement, recipientPubkey, previousOfferId = null) {
     const tags = [
       ["bid", bid.toString()],
       ["duration", duration.toString()],
       ["startDate", startDate],
       ["termsOfAgreement", termsOfAgreement],
-      ["e", jobId, "", "job"]  // job reference mit marker
+      ["e", jobId, "", "job"],  // job reference mit marker
+      ["p", recipientPubkey]    // Empfänger des Offers
     ];
 
     if (previousOfferId) {

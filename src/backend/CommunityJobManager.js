@@ -285,6 +285,7 @@ class CommunityJobManager {
       parseInt(duration),
       startDate,
       termsOfAgreement,
+      targetEvent.pubkey,  // Empfänger ist der Ersteller des vorherigen Events
       previousOfferId
     );
 
@@ -389,6 +390,169 @@ class CommunityJobManager {
       status,
       approvalEvent: latestApproval
     };
+  }
+
+  // === Job Ownership & Role Management ===
+
+  /**
+   * Prüft ob der aktuelle User der Developer eines Jobs ist
+   * @param {string} jobId - ID des Jobs
+   * @returns {Promise<boolean>} true wenn der User der Developer ist
+   */
+  async isJobDeveloper(jobId) {
+    if (!this.manager || !this.manager.publicKey) {
+      return false;
+    }
+
+    // Finde Contract für diesen Job
+    const contracts = await this.cache.getEventsByCriteria({
+      kinds: [NOSTR_KIND_CONTRACT],
+      tags: {
+        'e': { value: jobId, marker: 'job' }
+      }
+    });
+
+    // Sortiere nach Datum, nehme den neuesten
+    const latestContract = contracts.sort((a, b) => b.created_at - a.created_at)[0];
+    if (!latestContract) return false;
+
+    // Prüfe ob ich der Developer bin (p-tag zeigt auf mich)
+    const developerTag = latestContract.tags.find(tag => tag[0] === 'p');
+    return developerTag && developerTag[1] === this.manager.publicKey;
+  }
+
+  /**
+   * Findet den IdeaOwner eines Jobs
+   * @param {string} jobId - ID des Jobs
+   * @returns {Promise<string|null>} pubkey des IdeaOwners oder null
+   */
+  async getJobIdeaOwner(jobId) {
+    // Finde den Job
+    const job = await this.cache.getEventById(jobId);
+    if (!job) return null;
+
+    // Finde die Idea auf die der Job zeigt
+    const ideaTag = job.tags.find(tag => tag[0] === 'e');
+    if (!ideaTag) return null;
+
+    const idea = await this.cache.getEventById(ideaTag[1]);
+    if (!idea) return null;
+
+    // Der Ersteller der Idea ist der IdeaOwner
+    return idea.pubkey;
+  }
+
+  /**
+   * Findet alle Jobs bei denen ich der Developer bin
+   * @returns {Promise<Array>} Array von Job-Events
+   */
+  async getMyDeveloperJobs() {
+    if (!this.manager || !this.manager.publicKey) {
+      return [];
+    }
+
+    // Finde alle Contracts wo ich als Developer (p-tag) markiert bin
+    const contracts = await this.cache.getEventsByCriteria({
+      kinds: [NOSTR_KIND_CONTRACT],
+      tags: {
+        'p': { value: this.manager.publicKey }
+      }
+    });
+
+    // Für jeden Contract den zugehörigen Job finden
+    const jobs = await Promise.all(
+      contracts.map(async contract => {
+        const jobTag = contract.tags.find(tag => tag[0] === 'e' && tag[3] === 'job');
+        if (!jobTag) return null;
+
+        const job = await this.cache.getEventById(jobTag[1]);
+        if (!job) return null;
+
+        // Hole den IdeaOwner
+        const ideaOwner = await this.getJobIdeaOwner(job.id);
+        
+        return {
+          ...job,
+          contract,
+          ideaOwner
+        };
+      })
+    );
+
+    // Null-Werte filtern
+    return jobs.filter(Boolean);
+  }
+
+  // === Application Management ===
+
+  /**
+   * Findet alle Bewerbungen die an mich gerichtet sind
+   * @returns {Promise<Array>} Array von Application-Objekten gruppiert nach Job
+   */
+  async getMyJobApplications() {
+    if (!this.manager || !this.manager.publicKey || !this.cache) {
+      return [];
+    }
+
+    // Finde alle Offers die an mich gerichtet sind (p-tag)
+    const offers = await this.cache.getEventsByCriteria({
+      kinds: [NOSTR_KIND_OFFER, NOSTR_KIND_GIFT_WRAP],
+      tags: {
+        'p': { value: this.manager.publicKey }
+      }
+    });
+
+    // Gruppiere nach Jobs
+    const jobGroups = new Map();
+    
+    await Promise.all(offers.map(async offer => {
+      // Finde den Job auf den sich das Offer bezieht
+      const jobTag = offer.tags.find(t => t[0] === 'e' && t[3] === 'job');
+      if (!jobTag) return;
+
+      const job = await this.cache.getEventById(jobTag[1]);
+      if (!job) return;
+
+      // Status und weitere Details holen
+      const { status, approvalEvent } = await this.getOfferStatus(offer.id);
+      
+      // Finde vorheriges Offer falls es ein Counter ist
+      const prevOfferTag = offer.tags.find(t => t[0] === 'e' && t[3] === 'prev_offer');
+      const previousOffer = prevOfferTag ? 
+        await this.cache.getEventById(prevOfferTag[1]) : null;
+
+      const application = {
+        id: offer.id,
+        content: offer.content,
+        pubkey: offer.pubkey,
+        created_at: offer.created_at,
+        bid: parseInt(offer.tags.find(t => t[0] === 'bid')?.[1] || '0'),
+        duration: parseInt(offer.tags.find(t => t[0] === 'duration')?.[1] || '0'),
+        startDate: offer.tags.find(t => t[0] === 'startDate')?.[1],
+        termsOfAgreement: offer.tags.find(t => t[0] === 'termsOfAgreement')?.[1],
+        status,
+        approvalEvent,
+        previousOffer,
+        jobId: job.id
+      };
+
+      // Zum Job gruppieren
+      if (!jobGroups.has(job.id)) {
+        jobGroups.set(job.id, {
+          job,
+          applications: []
+        });
+      }
+      jobGroups.get(job.id).applications.push(application);
+    }));
+
+    // Nach Datum sortieren und nur Jobs mit Applications zurückgeben
+    return Array.from(jobGroups.values())
+      .map(group => ({
+        ...group,
+        applications: group.applications.sort((a, b) => b.created_at - a.created_at)
+      }))
+      .filter(group => group.applications.length > 0);
   }
 }
 
