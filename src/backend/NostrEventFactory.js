@@ -60,9 +60,9 @@ class NostrEventFactory {
   createOfferEvent(message, jobId, bid, duration, startDate, termsOfAgreement, previousOfferId = null) {
     const tags = [
       ["bid", bid.toString()],
-      ["duration", duration],
-      ["start", startDate],
-      ["terms", termsOfAgreement],
+      ["duration", duration.toString()],
+      ["startDate", startDate],
+      ["termsOfAgreement", termsOfAgreement],
       ["e", jobId, "", "job"]  // job reference mit marker
     ];
 
@@ -73,13 +73,32 @@ class NostrEventFactory {
     return this.createBaseEvent(NOSTR_KIND_OFFER, message, tags);
   }
 
-  createApprovalEvent(reason, eventId, status) {
+  /**
+   * Erstellt ein Approval Event
+   * @param {string} content - Nachricht
+   * @param {string} offerId - ID des Angebots
+   * @param {string} status - Status (approved/declined)
+   */
+  async createApprovalEvent(content, offerId, status) {
+    console.log('NostrEventFactory: Creating approval event:', {
+      content,
+      offerId,
+      status,
+      kind: NOSTR_KIND_APPROVAL
+    });
+
     const tags = [
-      ["e", eventId],  // reference to event being approved/declined
-      ["status", status]  // approved or declined
+      ['e', offerId, '', 'offer'],
+      ['status', status]
     ];
 
-    return this.createBaseEvent(NOSTR_KIND_APPROVAL, reason, tags);
+    console.log('Approval event tags:', tags);
+
+    return {
+      kind: NOSTR_KIND_APPROVAL,
+      content,
+      tags
+    };
   }
 
   createContractEvent(message, jobId, offerId, approvalId) {

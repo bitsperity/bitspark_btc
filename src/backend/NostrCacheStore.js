@@ -203,6 +203,18 @@ class NostrEventCache {
 
   // Fügt ein Event hinzu oder aktualisiert es
   async addOrUpdateEvent(event) {
+    console.log('NostrCacheStore: Adding/updating event:', {
+        id: event.id,
+        kind: event.kind,
+        pubkey: event.pubkey,
+        tags: event.tags
+    });
+    
+    if (!event || !event.id) {
+        console.error('NostrCacheStore: Invalid event:', event);
+        return;
+    }
+
     // Prüfen, ob das Event bereits existiert
     const existingEvent = this.events.get(event.id);
 
@@ -233,8 +245,18 @@ class NostrEventCache {
   }
 
   // Holt ein Event anhand seiner ID
-  getEventById(eventId) {
-    return this.events.get(eventId);
+  async getEventById(id) {
+    console.log('getEventById called with:', id);
+    
+    const event = this.events.get(id);
+    console.log('Cache lookup result:', {
+      requestedId: id,
+      found: !!event,
+      eventKind: event?.kind,
+      eventPubkey: event?.pubkey
+    });
+    
+    return event;
   }
 
   // Filtert Events basierend auf übergebenen Kriterien

@@ -1,5 +1,6 @@
 <!-- IdeaLabView.svelte -->
 <script>
+  import { onMount } from "svelte";
   import Menu from "../components/Sidebar/Sidebar.svelte";
   import Footer from "../components/Footers/Footer.svelte";
   import { contentContainerClass } from "../helperStore.js";
@@ -34,9 +35,26 @@
     }));
   }
 
-  $: if ($nostrCache && $nostrManager?.publicKey) {
-    fetchUserIdeas();
+  // Auf Cache-Änderungen reagieren
+  $: {
+    if ($nostrCache) {
+      console.log('Cache updated, fetching ideas...');
+      fetchUserIdeas();
+    }
   }
+
+  onMount(async () => {
+    if ($nostrManager) {
+      // Subscribe to encrypted events (1059)
+      await $nostrManager.subscribeToEvents({
+        kinds: [1059],
+        "#p": [$nostrManager.publicKey],
+      });
+      
+      // Initial fetch
+      await fetchUserIdeas();
+    }
+  });
 </script>
 
 <main class="overview-page">

@@ -5,7 +5,8 @@ import {
   NOSTR_KIND_JOB,
   NOSTR_KIND_OFFER,
   NOSTR_KIND_APPROVAL,
-  NOSTR_KIND_CONTRACT
+  NOSTR_KIND_CONTRACT,
+  NOSTR_KIND_GIFT_WRAP
 } from '../constants/nostrKinds.js';
 
 /**
@@ -144,6 +145,10 @@ class CommunityJobManager {
     if (!this.manager) {
       throw new Error('NostrManager not initialized');
     }
+    
+    console.log('Subscribing to job activity:', jobId);
+    
+    // Nur eine Subscription für Job-bezogene Events
     return this.manager.subscribeToEvents({
       kinds: [NOSTR_KIND_JOB, NOSTR_KIND_OFFER, NOSTR_KIND_APPROVAL, NOSTR_KIND_CONTRACT],
       "#e": [jobId, "", "job"]
@@ -160,8 +165,25 @@ class CommunityJobManager {
       throw new Error('NostrManager not initialized');
     }
     return this.manager.subscribeToEvents({
-      kinds: [NOSTR_KIND_JOB],
+      kinds: [NOSTR_KIND_JOB, NOSTR_KIND_GIFT_WRAP],
       "#e": [ideaId, "", "idea"]
+    });
+  }
+
+  /**
+   * Abonniert Approval Events für ein Angebot
+   * @param {string} offerId - ID des Angebots
+   */
+  async subscribeToOfferActivity(offerId) {
+    if (!this.manager) {
+      throw new Error('NostrManager not initialized');
+    }
+
+    console.log('Subscribing to offer activity:', offerId);
+
+    return this.manager.subscribeToEvents({
+      kinds: [NOSTR_KIND_APPROVAL],
+      "#e": [offerId]  // Approval Events referenzieren direkt die offerId
     });
   }
 
@@ -236,11 +258,22 @@ class CommunityJobManager {
       throw new Error('NostrCache not initialized');
     }
 
+    console.log('submitOffer called with:', {
+      content, jobId, bid, duration, startDate, termsOfAgreement, previousOfferId
+    });
+
     // Hole das Job-Event oder vorheriges Offer um den Empfänger zu bestimmen
     const targetEvent = previousOfferId 
       ? await this.cache.getEventById(previousOfferId)
       : await this.cache.getEventById(jobId);
       
+    console.log('Cache lookup result:', {
+      lookupId: previousOfferId || jobId,
+      found: !!targetEvent,
+      eventKind: targetEvent?.kind,
+      eventPubkey: targetEvent?.pubkey
+    });
+
     if (!targetEvent) {
       throw new Error(previousOfferId ? 'Previous offer not found' : 'Job not found');
     }
@@ -248,12 +281,16 @@ class CommunityJobManager {
     const event = await nostrEventFactory.createOfferEvent(
       content,
       jobId,
-      bid,
-      duration,
+      parseInt(bid),
+      parseInt(duration),
       startDate,
       termsOfAgreement,
       previousOfferId
     );
+
+    event.pubkey = this.manager.publicKey;
+
+    // Sende an den Empfänger des vorherigen Events
     return this.manager.sendPrivateEvent(event, targetEvent.pubkey);
   }
 
@@ -281,12 +318,24 @@ class CommunityJobManager {
     if (!this.manager) {
       throw new Error('NostrManager not initialized');
     }
+
+    console.log('CommunityJobManager: Declining offer:', {
+      content,
+      offerId
+    });
+
     const event = await nostrEventFactory.createApprovalEvent(
       content,
       offerId,
       'declined'
     );
-    return this.manager.sendEvent(event.kind, event.content, event.tags);
+
+    console.log('Created decline event:', event);
+
+    const result = await this.manager.sendEvent(event.kind, event.content, event.tags);
+    console.log('Decline event sent:', result);
+    
+    return result;
   }
 
   // === Contract Management ===
@@ -306,6 +355,40 @@ class CommunityJobManager {
       approvalId
     );
     return this.manager.sendEvent(event.kind, event.content, event.tags);
+  }
+
+  /**
+   * Ermittelt den Status einer Bewerbung anhand der Approval Events
+   * @param {string} offerId - ID des Angebots
+   * @returns {Promise<{status: string, approvalEvent: Object|null}>} Status und zugehöriges Approval Event
+   */
+  async getOfferStatus(offerId) {
+    if (!this.cache) {
+      throw new Error('NostrCache not initialized');
+    }
+
+    const approvals = await this.cache.getEventsByCriteria({
+      kinds: [NOSTR_KIND_APPROVAL],
+      tags: {
+        'e': { value: offerId }
+      }
+    });
+
+    // Neuestes Approval Event finden
+    const latestApproval = approvals.sort((a, b) => b.created_at - a.created_at)[0];
+    
+    if (!latestApproval) {
+      return { status: 'pending', approvalEvent: null };
+    }
+
+    // Status aus den Tags auslesen
+    const statusTag = latestApproval.tags.find(tag => tag[0] === 'status');
+    const status = statusTag ? statusTag[1] : 'pending';
+
+    return { 
+      status,
+      approvalEvent: latestApproval
+    };
   }
 }
 

@@ -1,18 +1,50 @@
 <script>
-  import { onMount } from "svelte";
-  import { ideaOwnerManager } from "../../backend/IdeaOwnerManager.js";
-  import { nostrCache } from "../../backend/NostrCacheStore.js";
-  import { NOSTR_KIND_OFFER, NOSTR_KIND_JOB } from "../../constants/nostrKinds.js";
-  import JobCard from "./JobCard.svelte";
+  import { writable } from 'svelte/store';
+  import { nostrCache } from '../../backend/NostrCacheStore.js';
+  import { developerManager } from '../../backend/DeveloperManager.js';
+  import ProfileImg from '../ProfileImg.svelte';
+  import ApplicationModal from '../Modals/ApplicationModal.svelte';
+  import {
+    NOSTR_KIND_JOB,
+    NOSTR_KIND_OFFER,
+    NOSTR_KIND_APPROVAL,
+    NOSTR_KIND_CONTRACT
+  } from '../../constants/nostrKinds.js';
+  import { communityJobManager } from '../../backend/CommunityJobManager.js';
+  import { socialMediaManager } from '../../backend/SocialMediaManager.js';
 
   export let ideaId;
   let applications = [];
+  let showApplicationModal = false;
+  let selectedApplication = null;
+  let profiles = writable(new Map()); // Als Svelte Store
+
+  async function fetchProfiles(pubkeys) {
+    console.log('Fetching profiles for:', pubkeys);
+    const profilePromises = pubkeys.map(async (pubkey) => {
+      let profile = await socialMediaManager.getProfile(pubkey);
+      if (!profile) {
+        socialMediaManager.subscribeProfile(pubkey);
+      }
+      return { pubkey, profile };
+    });
+
+    const results = await Promise.all(profilePromises);
+    profiles.update((map) => {
+      results.forEach(({ pubkey, profile }) => {
+        if (profile) {
+          map.set(pubkey, profile);
+        }
+      });
+      return map;
+    });
+  }
 
   async function fetchApplications() {
     if (!ideaId) return;
-
+    
     console.log('Fetching applications for ideaId:', ideaId);
-
+    
     // Zuerst alle Jobs dieser Idea finden
     const jobEvents = await $nostrCache.getEventsByCriteria({
       kinds: [NOSTR_KIND_JOB],
@@ -20,12 +52,12 @@
         'e': { value: ideaId }
       }
     });
-
     console.log('Found job events:', jobEvents);
 
     // Für jeden Job die zugehörigen Bewerbungen laden
     const allApplications = await Promise.all(
       jobEvents.map(async jobEvent => {
+        console.log('Searching applications for job:', jobEvent.id);
         const jobApplications = await $nostrCache.getEventsByCriteria({
           kinds: [NOSTR_KIND_OFFER],
           tags: {
@@ -37,9 +69,30 @@
 
         // Für jede Bewerbung die Details aufbereiten
         return Promise.all(
-          jobApplications.map(application => 
-            transformApplication(application, jobEvent)
-          )
+          jobApplications.map(async application => {
+            console.log('Processing application:', application);
+            
+            // Subscribe to approval events for this offer
+            await communityJobManager.subscribeToOfferActivity(application.id);
+            
+            // Status vom CommunityJobManager holen
+            const { status, approvalEvent } = await communityJobManager.getOfferStatus(application.id);
+
+            return {
+              id: application.id,
+              content: application.content,
+              bid: parseInt(application.tags.find(t => t[0] === 'bid')?.[1] || '0'),
+              duration: parseInt(application.tags.find(t => t[0] === 'duration')?.[1] || '0'),
+              startDate: application.tags.find(t => t[0] === 'startDate')?.[1],
+              termsOfAgreement: application.tags.find(t => t[0] === 'termsOfAgreement')?.[1],
+              created_at: application.created_at,
+              pubkey: application.pubkey,
+              jobId: jobEvent.id,
+              status,
+              approvalEvent,
+              hasApproval: status === 'approved'
+            };
+          })
         );
       })
     );
@@ -50,53 +103,88 @@
       .filter(Boolean);
 
     console.log('Final applications:', applications);
+
+    // Profile für alle Bewerber laden
+    await fetchProfiles(applications.map(app => app.pubkey));
   }
 
-  function transformApplication(applicationEvent, jobEvent) {
-    const jobTags = jobEvent.tags.reduce(
-      (tagObj, [key, value]) => ({ ...tagObj, [key]: value }),
-      {}
-    );
+  async function handleDecline(application) {
+    try {
+      console.log('Declining application:', {
+        id: application.id,
+        application
+      });
+      
+      // Nutze communityJobManager statt developerManager
+      await communityJobManager.declineOffer('Angebot abgelehnt', application.id);
+      console.log('Decline event published successfully');
+      
+      await fetchApplications();
+    } catch (error) {
+      console.error('Error declining offer:', error);
+    }
+  }
 
-    const applicationTags = applicationEvent.tags.reduce(
-      (tagObj, [key, value]) => ({ ...tagObj, [key]: value }),
-      {}
-    );
-
-    return {
-      id: applicationEvent.id,
-      jobId: jobEvent.id,
-      jobTitle: jobTags.name || "N/A",
-      developerPubkey: applicationEvent.pubkey,
-      content: applicationEvent.content,
-      bid: applicationTags.bid,
-      duration: applicationTags.duration,
-      startDate: applicationTags.startDate,
-      termsOfAgreement: applicationTags.termsOfAgreement,
-      createdAt: applicationEvent.created_at
+  async function handleCounterOffer(application) {
+    console.log('Creating counter offer for application:', {
+      id: application.id,
+      application
+    });
+    selectedApplication = {
+      ...application,
+      previousOfferId: application.id
     };
+    showApplicationModal = true;
   }
 
-  async function handleAccept(applicationId) {
-    try {
-      await ideaOwnerManager.acceptApplication(applicationId);
-      await fetchApplications(); // Liste aktualisieren
-    } catch (error) {
-      console.error('Error accepting application:', error);
-    }
+  function handleModalClose() {
+    showApplicationModal = false;
+    selectedApplication = null;
   }
 
-  async function handleReject(applicationId) {
-    try {
-      await ideaOwnerManager.rejectApplication(applicationId);
-      await fetchApplications(); // Liste aktualisieren
-    } catch (error) {
-      console.error('Error rejecting application:', error);
-    }
-  }
-
-  $: if ($nostrCache && ideaId) {
+  function handleModalSuccess() {
+    showApplicationModal = false;
+    selectedApplication = null;
     fetchApplications();
+  }
+
+  async function handleCreateContract(application) {
+    try {
+      // Hier müssen wir das letzte Approval finden
+      const approvals = await $nostrCache.getEventsByCriteria({
+        kinds: [NOSTR_KIND_APPROVAL],
+        tags: {
+          'e': { value: application.id }
+        }
+      });
+      
+      const latestApproval = approvals.sort((a, b) => b.created_at - a.created_at)[0];
+      
+      if (!latestApproval) {
+        console.error('No approval found for application');
+        return;
+      }
+
+      await developerManager.createContract(
+        'Vertrag erstellt',
+        application.jobId,
+        application.id,
+        latestApproval.id
+      );
+      
+      await fetchApplications();
+    } catch (error) {
+      console.error('Error creating contract:', error);
+    }
+  }
+
+  // Auf Cache-Änderungen reagieren
+  $: $nostrCache, fetchApplications();
+
+  $: {
+    if (ideaId) {
+      fetchApplications();
+    }
   }
 </script>
 
@@ -108,56 +196,90 @@
     {/if}
   </div>
 
-  {#if applications.length === 0}
-    <div class="empty-state">
-      <p>Keine neuen Bewerbungen.</p>
-    </div>
-  {:else}
-    <div class="applications-grid">
-      {#each applications as application (application.id)}
-        <div class="application-card">
-          <div class="application-header">
-            <h4>{application.jobTitle}</h4>
-            <span class="developer">von: {application.developerPubkey}</span>
-          </div>
-          
-          <div class="application-content">
-            <p class="description">{application.content}</p>
-            
-            <div class="details">
-              <div class="detail-item">
-                <span class="label">Preisvorstellung:</span>
-                <span class="value">{application.bid} Sats</span>
-              </div>
-              <div class="detail-item">
-                <span class="label">Dauer:</span>
-                <span class="value">{application.duration} Tage</span>
-              </div>
-              <div class="detail-item">
-                <span class="label">Startdatum:</span>
-                <span class="value">{new Date(application.startDate).toLocaleDateString()}</span>
+  {#if applications.length > 0}
+    <div class="applications">
+      <h3>Bewerbungen</h3>
+      {#each applications as application}
+        <div class="application {application.status === 'declined' ? 'declined-offer' : ''}">
+          <div class="header">
+            <div class="developer">
+              {#if $profiles.has(application.pubkey)}
+                <ProfileImg profile={$profiles.get(application.pubkey)} />
+              {/if}
+              <div class="developer-info">
+                <h4>{$profiles.get(application.pubkey)?.name || application.pubkey}</h4>
+                {#if $profiles.get(application.pubkey)?.about}
+                  <p class="about">{$profiles.get(application.pubkey).about}</p>
+                {/if}
               </div>
             </div>
-
-            <div class="terms">
-              <h5>Bedingungen:</h5>
-              <p>{application.termsOfAgreement}</p>
+            <div class="status">
+              {#if application.status === 'pending'}
+                <span class="badge pending">Ausstehend</span>
+              {:else if application.status === 'approved'}
+                <span class="badge approved">Akzeptiert</span>
+              {:else if application.status === 'declined'}
+                <span class="badge declined">Abgelehnt vom IO</span>
+              {/if}
             </div>
           </div>
 
-          <div class="application-actions">
-            <button class="reject-btn" on:click={() => handleReject(application.id)}>
-              Ablehnen
-            </button>
-            <button class="accept-btn" on:click={() => handleAccept(application.id)}>
-              Annehmen
-            </button>
+          <div class="content">
+            <p>{application.content}</p>
           </div>
+
+          <div class="details">
+            <div class="detail">
+              <span class="label">Preisvorstellung</span>
+              <span class="value">{application.bid} Sats</span>
+            </div>
+            <div class="detail">
+              <span class="label">Dauer</span>
+              <span class="value">{application.duration} Tage</span>
+            </div>
+            <div class="detail">
+              <span class="label">Startdatum</span>
+              <span class="value">{new Date(application.startDate).toLocaleDateString()}</span>
+            </div>
+          </div>
+
+          <div class="terms">
+            <span class="label">Bedingungen</span>
+            <p>{application.termsOfAgreement}</p>
+          </div>
+
+          {#if application.status === 'pending'}
+            <div class="actions">
+              <button class="decline" on:click={() => handleDecline(application)}>
+                Ablehnen
+              </button>
+              <button class="counter" on:click={() => handleCounterOffer(application)}>
+                Gegenangebot
+              </button>
+              {#if application.hasApproval}
+                <button class="accept" on:click={() => handleCreateContract(application)}>
+                  Vertrag erstellen
+                </button>
+              {/if}
+            </div>
+          {/if}
         </div>
       {/each}
     </div>
+  {:else}
+    <p class="no-applications">Keine Bewerbungen vorhanden</p>
   {/if}
 </section>
+
+{#if showApplicationModal && selectedApplication}
+  <ApplicationModal
+    jobId={selectedApplication.jobId}
+    mode="counter"
+    existingApplication={selectedApplication}
+    on:close={handleModalClose}
+    on:success={handleModalSuccess}
+  />
+{/if}
 
 <style>
   .section {
@@ -194,123 +316,107 @@
     color: #6b7280;
   }
 
-  .applications-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-    gap: 1.5rem;
+  .applications {
+    margin-top: 2rem;
   }
 
-  .application-card {
-    background: white;
-    border: 1px solid #e5e7eb;
-    border-radius: 0.5rem;
-    overflow: hidden;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  }
-
-  .application-header {
-    padding: 1rem;
-    border-bottom: 1px solid #e5e7eb;
-    background: #f9fafb;
-  }
-
-  .application-header h4 {
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: #1f2937;
-    margin: 0;
-  }
-
-  .developer {
-    font-size: 0.875rem;
-    color: #6b7280;
-  }
-
-  .application-content {
-    padding: 1rem;
-  }
-
-  .description {
+  .application {
+    background: var(--surface-2);
+    padding: 1.5rem;
+    border-radius: 8px;
     margin-bottom: 1rem;
-    color: #4b5563;
+    border: 2px solid transparent;
+    transition: all 0.2s ease;
+  }
+
+  .declined-offer {
+    border-color: #ef4444;
+    background: #fef2f2;
+  }
+
+  .developer-info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+
+  .developer-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    margin-right: 1rem;
+  }
+
+  .developer-details h4 {
+    margin: 0;
+    color: var(--text-1);
+  }
+
+  .about {
+    margin: 0.5rem 0;
+    color: var(--text-2);
+    font-size: 0.9rem;
+  }
+
+  .content {
+    margin: 1rem 0;
+    color: var(--text-1);
   }
 
   .details {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 1rem;
-    margin-bottom: 1rem;
-    padding: 1rem;
-    background: #f9fafb;
-    border-radius: 0.5rem;
+    margin: 1rem 0;
   }
 
-  .detail-item {
+  .detail {
     display: flex;
     flex-direction: column;
-    gap: 0.25rem;
   }
 
-  .label {
-    font-size: 0.875rem;
-    color: #6b7280;
+  .detail strong {
+    color: var(--text-2);
+    font-size: 0.9rem;
+    margin-bottom: 0.25rem;
   }
 
-  .value {
-    font-weight: 500;
-    color: #1f2937;
-  }
-
-  .terms {
+  .actions {
+    display: flex;
+    gap: 1rem;
     margin-top: 1rem;
   }
 
-  .terms h5 {
-    font-size: 1rem;
-    font-weight: 500;
-    color: #374151;
-    margin: 0 0 0.5rem 0;
-  }
-
-  .terms p {
-    color: #4b5563;
-    font-size: 0.875rem;
-  }
-
-  .application-actions {
-    display: flex;
-    gap: 1rem;
-    padding: 1rem;
-    border-top: 1px solid #e5e7eb;
-    background: #f9fafb;
-  }
-
   button {
-    flex: 1;
     padding: 0.5rem 1rem;
-    border-radius: 0.375rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-
-  .reject-btn {
-    background: white;
-    border: 1px solid #ef4444;
-    color: #ef4444;
-  }
-
-  .reject-btn:hover {
-    background: #fef2f2;
-  }
-
-  .accept-btn {
-    background: #2c5282;
     border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+  }
+
+  .decline {
+    background: var(--surface-3);
+    color: var(--text-1);
+  }
+
+  .accept {
+    background: var(--accent);
     color: white;
   }
 
-  .accept-btn:hover {
-    background: #1a365d;
+  .badge.pending {
+    background: #f3f4f6;
+    color: #6b7280;
+  }
+
+  .badge.approved {
+    background: #ecfdf5;
+    color: #059669;
+  }
+
+  .badge.declined {
+    background: #fef2f2;
+    color: #ef4444;
   }
 </style> 

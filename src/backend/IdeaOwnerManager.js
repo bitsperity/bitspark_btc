@@ -7,7 +7,8 @@ import {
   NOSTR_KIND_CONTRACT,
   NOSTR_KIND_APPROVAL,
   NOSTR_KIND_REVIEW,
-  NOSTR_KIND_PAYMENT
+  NOSTR_KIND_PAYMENT,
+  NOSTR_KIND_GIFT_WRAP
 } from '../constants/nostrKinds.js';
 import { communityJobManager } from './CommunityJobManager.js';
 
@@ -188,7 +189,10 @@ class IdeaOwnerManager {
     if (!this.manager) {
       throw new Error('NostrManager not initialized');
     }
-    return communityJobManager.subscribeToJobsByIdea(ideaId);
+    return this.manager.subscribeToEvents({
+      kinds: [NOSTR_KIND_JOB, NOSTR_KIND_GIFT_WRAP],
+      "#e": [ideaId]
+    });
   }
 
   /**

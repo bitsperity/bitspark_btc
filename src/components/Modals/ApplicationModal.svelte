@@ -1,75 +1,59 @@
 <script>
   import { createEventDispatcher } from 'svelte';
-  import { developerManager } from '../../backend/DeveloperManager.js';
+  import { communityJobManager } from '../../backend/CommunityJobManager.js';
 
   export let jobId;
-  console.log('ApplicationModal initialized with jobId:', jobId);
+  export let mode = 'apply'; // 'apply' oder 'counter'
+  export let existingApplication = null; // Für Gegenangebote
+
+  console.log('ApplicationModal initialized with:', { jobId, mode, existingApplication });
   
   const dispatch = createEventDispatcher();
   
-  let content = "";
-  let bid = "";
-  let duration = "";
-  let startDate = "";
-  let termsOfAgreement = "";
+  let content = existingApplication?.content || "";
+  let bid = existingApplication?.bid || "";
+  let duration = existingApplication?.duration || "";
+  let startDate = existingApplication?.startDate || "";
+  let termsOfAgreement = existingApplication?.termsOfAgreement || "";
+  let previousOfferId = existingApplication?.previousOfferId || null;
   let isSubmitting = false;
   let error = null;
 
   async function handleSubmit() {
-    if (!content.trim()) {
-      error = 'Bitte beschreiben Sie Ihre Erfahrung und Ihren Ansatz.';
+    if (!content || !bid || !duration || !startDate || !termsOfAgreement) {
+      error = 'Bitte fülle alle Felder aus.';
       return;
     }
-
-    if (!bid || isNaN(bid) || bid <= 0) {
-      error = 'Bitte geben Sie eine gültige Preisvorstellung ein.';
-      return;
-    }
-
-    if (!duration || isNaN(duration) || duration <= 0) {
-      error = 'Bitte geben Sie eine gültige Dauer in Tagen ein.';
-      return;
-    }
-
-    if (!startDate) {
-      error = 'Bitte wählen Sie ein Startdatum.';
-      return;
-    }
-
-    if (!termsOfAgreement.trim()) {
-      error = 'Bitte geben Sie Ihre Bedingungen an.';
-      return;
-    }
-
-    error = null;
-    isSubmitting = true;
 
     try {
-      console.log('Submitting application with data:', {
+      console.log('Submitting with data:', {
         content,
         jobId,
         bid,
         duration,
         startDate,
-        termsOfAgreement
+        termsOfAgreement,
+        previousOfferId
       });
 
-      await developerManager.submitJobApplication(
+      if (mode === 'counter') {
+        console.log('Creating counter offer for previous offer:', previousOfferId);
+      }
+
+      await communityJobManager.submitOffer(
         content,
         jobId,
-        parseInt(bid),
-        parseInt(duration),
+        bid,
+        duration,
         startDate,
-        termsOfAgreement
+        termsOfAgreement,
+        previousOfferId
       );
-      
-      console.log('Application submitted successfully');
+
       dispatch('success');
     } catch (err) {
+      console.error('Fehler beim Senden:', err);
       error = err.message;
-      console.error('Fehler beim Senden der Bewerbung:', err);
-    } finally {
-      isSubmitting = false;
     }
   }
 
@@ -86,7 +70,9 @@
 >
   <div class="modal-content">
     <div class="modal-header">
-      <h2 id="modal-title">Bewerbung einreichen</h2>
+      <h2 id="modal-title">
+        {mode === 'apply' ? 'Bewerbung einreichen' : 'Gegenangebot erstellen'}
+      </h2>
       <button class="close-btn" on:click={handleClose}>
         <i class="fas fa-times"></i>
       </button>
@@ -100,11 +86,16 @@
       {/if}
 
       <div class="form-group">
-        <label for="content">Beschreibung</label>
+        <label for="content">
+          {mode === 'apply' ? 'Beschreibung' : 'Gegenangebot'}
+        </label>
         <textarea
           id="content"
           bind:value={content}
-          placeholder="Beschreiben Sie Ihre relevante Erfahrung und wie Sie den Job angehen würden..."
+          placeholder={mode === 'apply' ? 
+            "Beschreiben Sie Ihre relevante Erfahrung und wie Sie den Job angehen würden..." :
+            "Beschreiben Sie Ihr Gegenangebot und die Gründe dafür..."
+          }
           rows="6"
         ></textarea>
       </div>

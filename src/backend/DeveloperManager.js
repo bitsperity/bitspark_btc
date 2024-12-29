@@ -59,17 +59,31 @@ class DeveloperManager {
       ['bid', bid.toString()],
       ['duration', duration.toString()],
       ['startDate', startDate],
-      ['termsOfAgreement', termsOfAgreement]
+      ['termsOfAgreement', termsOfAgreement],
+      ['s', 'bitspark']
     ];
 
     console.log('DeveloperManager: Tags for event:', tags);
     
     try {
-      const eventId = await this.manager.sendEvent(
-        NOSTR_KIND_OFFER,
+      // Get job event to find the receiver
+      const jobEvent = await this.cache.getEventById(jobId);
+      if (!jobEvent) {
+        throw new Error('Job not found');
+      }
+      console.log('DeveloperManager: Found job event:', jobEvent);
+
+      const event = nostrEventFactory.createOfferEvent(
         content,
-        tags
+        jobId,
+        bid,
+        duration,
+        startDate,
+        termsOfAgreement
       );
+      console.log('DeveloperManager: Created offer event:', event);
+
+      const eventId = await this.manager.sendPrivateEvent(event, jobEvent.pubkey);
       console.log('DeveloperManager: Event sent successfully, id:', eventId);
       return eventId;
     } catch (error) {
