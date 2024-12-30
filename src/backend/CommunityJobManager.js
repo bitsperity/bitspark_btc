@@ -29,28 +29,58 @@ class CommunityJobManager {
     });
   }
 
+  ensureInitialized() {
+    if (!this.cache || !this.manager) {
+      throw new Error('Manager oder Cache nicht initialisiert');
+    }
+  }
+
+  // === Job Queries ===
+
+  /**
+   * Basis-Methode zum Laden von Jobs
+   * @param {Object} criteria - Suchkriterien
+   * @returns {Array} Gefundene Jobs
+   */
+  async queryJobs(criteria = {}) {
+    this.ensureInitialized();
+    
+    const jobCriteria = {
+      kinds: [NOSTR_KIND_JOB],
+      ...criteria
+    };
+
+    return this.cache.getEventsByCriteria(jobCriteria);
+  }
+
+  /**
+   * Basis-Methode zum Laden von Job-bezogenen Events
+   * @param {string} jobId - ID des Jobs
+   * @param {Array} kinds - Event-Typen die geladen werden sollen
+   * @returns {Array} Gefundene Events
+   */
+  async queryJobEvents(jobId, kinds = [NOSTR_KIND_OFFER, NOSTR_KIND_APPROVAL, NOSTR_KIND_CONTRACT]) {
+    this.ensureInitialized();
+
+    return this.cache.getEventsByCriteria({
+      kinds,
+      tags: {
+        'e': [jobId]
+      }
+    });
+  }
+
   // === Job Status & History ===
   
   /**
    * Ermittelt den aktuellen Status eines Jobs
    * @param {string} jobId - ID des Jobs
    * @returns {string} Status: 'pending', 'approved', 'declined', 'signed'
-   * @throws {Error} Wenn NostrCache nicht initialisiert
    */
   async getJobStatus(jobId) {
-    if (!this.cache) {
-      throw new Error('NostrCache not initialized');
-    }
+    this.ensureInitialized();
 
-    const events = await this.cache.getEventsByCriteria({
-      kinds: [NOSTR_KIND_APPROVAL, NOSTR_KIND_CONTRACT],
-      tags: {
-        'e': { 
-          value: jobId,
-          marker: 'job'  // Nur Events mit Job-Marker
-        }
-      }
-    });
+    const events = await this.queryJobEvents(jobId, [NOSTR_KIND_APPROVAL, NOSTR_KIND_CONTRACT]);
 
     if (events.some(event => event.kind === NOSTR_KIND_CONTRACT)) {
       return 'signed';
@@ -69,61 +99,209 @@ class CommunityJobManager {
   }
 
   /**
+   * Lädt die komplette Offer-Kette für einen Job
+   * @private
+   */
+  async getOfferChain(initialOffer) {
+    const chain = [initialOffer];
+    let currentOffer = initialOffer;
+
+    while (true) {
+      // Suche nach Counter-Offers die auf das aktuelle Offer verweisen
+      const counterOffers = await this.cache.getEventsByCriteria({
+        kinds: [NOSTR_KIND_OFFER],
+        tags: {
+          'e': [currentOffer.id]  // Referenz zum vorherigen Offer
+        }
+      });
+
+      // Sortiere nach Zeitstempel und nimm das neueste
+      const nextOffer = counterOffers.sort((a, b) => b.created_at - a.created_at)[0];
+      if (!nextOffer) break;
+
+      chain.push(nextOffer);
+      currentOffer = nextOffer;
+    }
+
+    return chain;
+  }
+
+  /**
+   * Lädt alle Offer-Ketten für einen Job
+   * @private
+   */
+  async getOfferChains(jobId) {
+    // Finde alle initialen Offers (die, die nur auf den Job verweisen)
+    const initialOffers = await this.cache.getEventsByCriteria({
+      kinds: [NOSTR_KIND_OFFER],
+      tags: {
+        'e': [jobId]
+      }
+    });
+
+    // Filtere auf wirklich initiale Offers (die keine prev_offer Referenz haben)
+    const realInitialOffers = initialOffers.filter(offer => 
+      !offer.tags.some(t => t[0] === 'e' && t[3] === 'prev_offer')
+    );
+
+    // Für jedes initiale Offer die komplette Kette laden
+    const chains = await Promise.all(
+      realInitialOffers.map(offer => this.getOfferChain(offer))
+    );
+
+    return chains;
+  }
+
+  /**
    * Lädt die Historie eines Jobs oder mehrerer Jobs
    * @param {string} ideaId - Optional: Filtert nach Idea
    * @param {string} pubKey - Optional: Filtert nach Autor
    * @param {Object} scope - Filteroptionen
-   * @param {boolean} scope.getPending - Zeige offene Jobs
-   * @param {boolean} scope.getAdvertised - Zeige beworbene Jobs
-   * @param {boolean} scope.getSigned - Zeige Jobs mit Vertrag
    * @returns {Array} Jobs mit zugehöriger Event-Historie
-   * @throws {Error} Wenn NostrCache nicht initialisiert
    */
-  async getJobHistory(ideaId, pubKey, scope = {}) {
-    if (!this.cache) {
-      throw new Error('NostrCache not initialized');
-    }
+  async getJobHistory(ideaId, pubKey = null, options = {}) {
+    this.ensureInitialized();
 
+    console.log('=== Getting Job History ===');
+    console.log('IdeaID:', ideaId);
+    console.log('PubKey:', pubKey);
+    console.log('Options:', options);
+
+    // Hole alle Jobs für die Idea
     const jobs = await this.cache.getEventsByCriteria({
       kinds: [NOSTR_KIND_JOB],
-      authors: pubKey ? [pubKey] : undefined,
-      tags: ideaId ? {
-        'e': { value: ideaId }  // Referenz zur Idea
-      } : undefined
+      tags: {
+        'e': [ideaId]
+      }
     });
 
+    console.log('Found jobs:', jobs.length);
+
     // Für jeden Job die zugehörigen Events laden
-    const jobsWithHistory = await Promise.all(
-      jobs.map(async job => {
-        const relatedEvents = await this.cache.getEventsByCriteria({
-          kinds: [NOSTR_KIND_OFFER, NOSTR_KIND_APPROVAL, NOSTR_KIND_CONTRACT],
+    const jobsWithHistory = await Promise.all(jobs.map(async job => {
+      console.log('Processing job:', job.id);
+
+      // Hole alle Events die sich auf diesen Job beziehen
+      const history = await this.cache.getEventsByCriteria({
           tags: {
-            'e': { 
-              value: job.id,
-              marker: 'job'  // Nur Events mit Job-Marker
-            }
-          }
-        });
+          'e': [job.id]
+        }
+      });
+
+      console.log('Found history events:', history.length);
+
+      // Baue Angebotsketten auf
+      const offerChains = this.buildOfferChains(history);
+      console.log('Built offer chains:', offerChains.length);
 
         return {
           job,
-          history: relatedEvents.sort((a, b) => a.created_at - b.created_at)
-        };
-      })
-    );
+        history,
+        offerChains
+      };
+    }));
 
-    // Nach Scope filtern
-    const { 
-      getPending = true, 
-      getAdvertised = true, 
-      getSigned = true 
-    } = scope;
+    return jobsWithHistory;
+  }
 
-    return jobsWithHistory.filter(({ job, history }) => {
-      const hasContract = history.some(event => event.kind === NOSTR_KIND_CONTRACT);
-      const hasApproval = history.some(event => 
-        event.kind === NOSTR_KIND_APPROVAL && 
-        event.tags.some(tag => tag[0] === 'status' && tag[1] === 'approved')
+  /**
+   * Baut Angebotsketten aus den Events auf
+   */
+  buildOfferChains(events) {
+    console.log('=== Building Offer Chains ===');
+    
+    // Extrahiere alle Angebote
+    const offers = events.filter(e => e.kind === NOSTR_KIND_OFFER);
+    console.log('Total offers:', offers.length);
+
+    // Map für schnellen Zugriff auf Angebote
+    const offerMap = new Map(offers.map(o => [o.id, o]));
+
+    // Finde Root-Angebote (die keinen prev_offer tag haben)
+    const rootOffers = offers.filter(o => {
+      const eTags = o.tags.filter(t => t[0] === 'e');
+      return !eTags.some(t => t[3] === 'prev_offer');
+    });
+    console.log('Root offers:', rootOffers.length);
+
+    // Baue Ketten auf
+    const chains = rootOffers.map(root => {
+      const chain = {
+        id: root.id,
+        initialOffer: root,
+        counterOffers: [],
+        status: 'pending',
+        currentActor: root.pubkey === this.manager?.publicKey ? 'dev' : 'io'
+      };
+
+      let current = root;
+      
+      // Folge den Counter-Offers
+      while (true) {
+        // Suche nach Angeboten die das aktuelle als prev_offer referenzieren
+        const reply = offers.find(o => 
+          o.tags.some(t => t[0] === 'e' && t[1] === current.id && t[3] === 'prev_offer')
+        );
+        
+        if (!reply) break;
+        
+        console.log(`Found counter-offer: ${reply.id} for offer: ${current.id}`);
+        chain.counterOffers.push(reply);
+        current = reply;
+        
+        // Update chain status
+        const approval = events.find(e => 
+          e.kind === NOSTR_KIND_APPROVAL && 
+          e.tags.some(t => t[0] === 'e' && t[1] === current.id)
+        );
+        
+        if (approval) {
+          const status = approval.tags.find(t => t[0] === 'status')?.[1];
+          chain.status = status || 'pending';
+          console.log(`Found approval for ${current.id} with status: ${chain.status}`);
+        }
+        
+        // Update current actor
+        chain.currentActor = current.pubkey === this.manager?.publicKey ? 'dev' : 'io';
+      }
+
+      // Check for contract
+      const hasContract = events.some(e => 
+        e.kind === NOSTR_KIND_CONTRACT && 
+        e.tags.some(t => t[0] === 'e' && t[1] === chain.id)
+      );
+      
+      if (hasContract) {
+        chain.status = 'contracted';
+        console.log(`Found contract for chain: ${chain.id}`);
+      }
+
+      console.log(`Chain ${chain.id}:`, {
+        initialOffer: chain.initialOffer.id,
+        counterOffers: chain.counterOffers.map(o => o.id),
+        status: chain.status,
+        currentActor: chain.currentActor
+      });
+
+      return chain;
+    });
+
+    console.log('Built chains:', chains.length);
+    return chains;
+  }
+
+  /**
+   * Filtert Jobs nach ihrem Status
+   * @private
+   */
+  filterJobsByScope(jobsWithHistory, scope) {
+    const { getPending = true, getAdvertised = true, getSigned = true } = scope;
+
+    return jobsWithHistory.filter(({ history }) => {
+      const hasContract = history.some(e => e.kind === NOSTR_KIND_CONTRACT);
+      const hasApproval = history.some(e => 
+        e.kind === NOSTR_KIND_APPROVAL && 
+        e.tags.find(t => t[0] === 'status')?.[1] === 'approved'
       );
 
       return (
@@ -139,420 +317,27 @@ class CommunityJobManager {
   /**
    * Abonniert alle Events zu einem Job
    * @param {string} jobId - ID des Jobs
-   * @throws {Error} Wenn NostrManager nicht initialisiert
    */
   async subscribeToJobActivity(jobId) {
-    if (!this.manager) {
-      throw new Error('NostrManager not initialized');
-    }
+    this.ensureInitialized();
     
-    console.log('Subscribing to job activity:', jobId);
-    
-    // Nur eine Subscription für Job-bezogene Events
     return this.manager.subscribeToEvents({
       kinds: [NOSTR_KIND_JOB, NOSTR_KIND_OFFER, NOSTR_KIND_APPROVAL, NOSTR_KIND_CONTRACT],
-      "#e": [jobId, "", "job"]
+      "#e": [jobId]
     });
   }
 
   /**
    * Abonniert Jobs für eine bestimmte Idea
    * @param {string} ideaId - ID der Idea
-   * @throws {Error} Wenn NostrManager nicht initialisiert
    */
   async subscribeToJobsByIdea(ideaId) {
-    if (!this.manager) {
-      throw new Error('NostrManager not initialized');
-    }
-    return this.manager.subscribeToEvents({
-      kinds: [NOSTR_KIND_JOB, NOSTR_KIND_GIFT_WRAP],
-      "#e": [ideaId, "", "idea"]
-    });
-  }
-
-  /**
-   * Abonniert Approval Events für ein Angebot
-   * @param {string} offerId - ID des Angebots
-   */
-  async subscribeToOfferActivity(offerId) {
-    if (!this.manager) {
-      throw new Error('NostrManager not initialized');
-    }
-
-    console.log('Subscribing to offer activity:', offerId);
+    this.ensureInitialized();
 
     return this.manager.subscribeToEvents({
-      kinds: [NOSTR_KIND_APPROVAL],
-      "#e": [offerId]  // Approval Events referenzieren direkt die offerId
-    });
-  }
-
-  // === Job Search & Filtering ===
-
-  /**
-   * Sucht Jobs nach verschiedenen Kriterien
-   * @param {Object} criteria - Suchkriterien
-   * @param {string[]} criteria.categories - Kategorien
-   * @param {string[]} criteria.programmingLanguages - Programmiersprachen
-   * @param {string} criteria.searchTerm - Textsuche
-   * @returns {Array} Gefundene Jobs
-   * @throws {Error} Wenn NostrCache nicht initialisiert
-   */
-  async searchJobs(criteria) {
-    if (!this.cache) {
-      throw new Error('NostrCache not initialized');
-    }
-
-    const {
-      categories = [],
-      programmingLanguages = [],
-      searchTerm = ''
-    } = criteria;
-
-    const filter = {
       kinds: [NOSTR_KIND_JOB],
-      tags: {}
-    };
-
-    if (categories.length > 0) {
-      filter.tags.c = categories;
-    }
-    if (programmingLanguages.length > 0) {
-      filter.tags.l = programmingLanguages;
-    }
-
-    const jobs = await this.cache.getEventsByCriteria(filter);
-
-    // Text-basierte Filterung
-    if (searchTerm) {
-      return jobs.filter(job => 
-        job.content.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        job.tags.some(tag => 
-          (tag[0] === 'name' || tag[0] === 'requirements') && 
-          tag[1].toLowerCase().includes(searchTerm.toLowerCase())
-        )
-      );
-    }
-
-    return jobs;
-  }
-
-  // === Offer Management ===
-
-  /**
-   * Erstellt ein neues Angebot oder Gegenangebot
-   * @param {string} content - Beschreibung des Angebots
-   * @param {string} jobId - ID des Jobs
-   * @param {number} bid - Preisvorstellung
-   * @param {number} duration - Geschätzte Dauer in Tagen
-   * @param {string} startDate - Startdatum (ISO-String)
-   * @param {string} termsOfAgreement - Vereinbarte Bedingungen
-   * @param {string} [previousOfferId] - ID des vorherigen Angebots bei Gegenangeboten
-   * @throws {Error} Wenn Job/Angebot nicht gefunden oder Verschlüsselung fehlschlägt
-   */
-  async submitOffer(content, jobId, bid, duration, startDate, termsOfAgreement, previousOfferId = null) {
-    if (!this.manager) {
-      throw new Error('NostrManager not initialized');
-    }
-    if (!this.cache) {
-      throw new Error('NostrCache not initialized');
-    }
-
-    console.log('submitOffer called with:', {
-      content, jobId, bid, duration, startDate, termsOfAgreement, previousOfferId
+      "#e": [ideaId]
     });
-
-    // Hole das Job-Event oder vorheriges Offer um den Empfänger zu bestimmen
-    const targetEvent = previousOfferId 
-      ? await this.cache.getEventById(previousOfferId)
-      : await this.cache.getEventById(jobId);
-      
-    console.log('Cache lookup result:', {
-      lookupId: previousOfferId || jobId,
-      found: !!targetEvent,
-      eventKind: targetEvent?.kind,
-      eventPubkey: targetEvent?.pubkey
-    });
-
-    if (!targetEvent) {
-      throw new Error(previousOfferId ? 'Previous offer not found' : 'Job not found');
-    }
-
-    const event = await nostrEventFactory.createOfferEvent(
-      content,
-      jobId,
-      parseInt(bid),
-      parseInt(duration),
-      startDate,
-      termsOfAgreement,
-      targetEvent.pubkey,  // Empfänger ist der Ersteller des vorherigen Events
-      previousOfferId
-    );
-
-    event.pubkey = this.manager.publicKey;
-
-    // Sende an den Empfänger des vorherigen Events
-    return this.manager.sendPrivateEvent(event, targetEvent.pubkey);
-  }
-
-  /**
-   * Akzeptiert ein Angebot
-   * @throws {Error} Wenn Angebot nicht gefunden
-   */
-  async approveOffer(content, offerId) {
-    if (!this.manager) {
-      throw new Error('NostrManager not initialized');
-    }
-    const event = await nostrEventFactory.createApprovalEvent(
-      content,
-      offerId,
-      'approved'
-    );
-    return this.manager.sendEvent(event.kind, event.content, event.tags);
-  }
-
-  /**
-   * Lehnt ein Angebot ab
-   * @throws {Error} Wenn Angebot nicht gefunden
-   */
-  async declineOffer(content, offerId) {
-    if (!this.manager) {
-      throw new Error('NostrManager not initialized');
-    }
-
-    console.log('CommunityJobManager: Declining offer:', {
-      content,
-      offerId
-    });
-
-    const event = await nostrEventFactory.createApprovalEvent(
-      content,
-      offerId,
-      'declined'
-    );
-
-    console.log('Created decline event:', event);
-
-    const result = await this.manager.sendEvent(event.kind, event.content, event.tags);
-    console.log('Decline event sent:', result);
-    
-    return result;
-  }
-
-  // === Contract Management ===
-
-  /**
-   * Erstellt einen Vertrag nach Annahme eines Angebots
-   * @throws {Error} Wenn Job, Offer oder Approval nicht gefunden
-   */
-  async createContract(message, jobId, offerId, approvalId) {
-    if (!this.manager) {
-      throw new Error('NostrManager not initialized');
-    }
-    const event = await nostrEventFactory.createContractEvent(
-      message,
-      jobId,
-      offerId,
-      approvalId
-    );
-    return this.manager.sendEvent(event.kind, event.content, event.tags);
-  }
-
-  /**
-   * Ermittelt den Status einer Bewerbung anhand der Approval Events
-   * @param {string} offerId - ID des Angebots
-   * @returns {Promise<{status: string, approvalEvent: Object|null}>} Status und zugehöriges Approval Event
-   */
-  async getOfferStatus(offerId) {
-    if (!this.cache) {
-      throw new Error('NostrCache not initialized');
-    }
-
-    const approvals = await this.cache.getEventsByCriteria({
-      kinds: [NOSTR_KIND_APPROVAL],
-      tags: {
-        'e': { value: offerId }
-      }
-    });
-
-    // Neuestes Approval Event finden
-    const latestApproval = approvals.sort((a, b) => b.created_at - a.created_at)[0];
-    
-    if (!latestApproval) {
-      return { status: 'pending', approvalEvent: null };
-    }
-
-    // Status aus den Tags auslesen
-    const statusTag = latestApproval.tags.find(tag => tag[0] === 'status');
-    const status = statusTag ? statusTag[1] : 'pending';
-
-    return { 
-      status,
-      approvalEvent: latestApproval
-    };
-  }
-
-  // === Job Ownership & Role Management ===
-
-  /**
-   * Prüft ob der aktuelle User der Developer eines Jobs ist
-   * @param {string} jobId - ID des Jobs
-   * @returns {Promise<boolean>} true wenn der User der Developer ist
-   */
-  async isJobDeveloper(jobId) {
-    if (!this.manager || !this.manager.publicKey) {
-      return false;
-    }
-
-    // Finde Contract für diesen Job
-    const contracts = await this.cache.getEventsByCriteria({
-      kinds: [NOSTR_KIND_CONTRACT],
-      tags: {
-        'e': { value: jobId, marker: 'job' }
-      }
-    });
-
-    // Sortiere nach Datum, nehme den neuesten
-    const latestContract = contracts.sort((a, b) => b.created_at - a.created_at)[0];
-    if (!latestContract) return false;
-
-    // Prüfe ob ich der Developer bin (p-tag zeigt auf mich)
-    const developerTag = latestContract.tags.find(tag => tag[0] === 'p');
-    return developerTag && developerTag[1] === this.manager.publicKey;
-  }
-
-  /**
-   * Findet den IdeaOwner eines Jobs
-   * @param {string} jobId - ID des Jobs
-   * @returns {Promise<string|null>} pubkey des IdeaOwners oder null
-   */
-  async getJobIdeaOwner(jobId) {
-    // Finde den Job
-    const job = await this.cache.getEventById(jobId);
-    if (!job) return null;
-
-    // Finde die Idea auf die der Job zeigt
-    const ideaTag = job.tags.find(tag => tag[0] === 'e');
-    if (!ideaTag) return null;
-
-    const idea = await this.cache.getEventById(ideaTag[1]);
-    if (!idea) return null;
-
-    // Der Ersteller der Idea ist der IdeaOwner
-    return idea.pubkey;
-  }
-
-  /**
-   * Findet alle Jobs bei denen ich der Developer bin
-   * @returns {Promise<Array>} Array von Job-Events
-   */
-  async getMyDeveloperJobs() {
-    if (!this.manager || !this.manager.publicKey) {
-      return [];
-    }
-
-    // Finde alle Contracts wo ich als Developer (p-tag) markiert bin
-    const contracts = await this.cache.getEventsByCriteria({
-      kinds: [NOSTR_KIND_CONTRACT],
-      tags: {
-        'p': { value: this.manager.publicKey }
-      }
-    });
-
-    // Für jeden Contract den zugehörigen Job finden
-    const jobs = await Promise.all(
-      contracts.map(async contract => {
-        const jobTag = contract.tags.find(tag => tag[0] === 'e' && tag[3] === 'job');
-        if (!jobTag) return null;
-
-        const job = await this.cache.getEventById(jobTag[1]);
-        if (!job) return null;
-
-        // Hole den IdeaOwner
-        const ideaOwner = await this.getJobIdeaOwner(job.id);
-        
-        return {
-          ...job,
-          contract,
-          ideaOwner
-        };
-      })
-    );
-
-    // Null-Werte filtern
-    return jobs.filter(Boolean);
-  }
-
-  // === Application Management ===
-
-  /**
-   * Findet alle Bewerbungen die an mich gerichtet sind
-   * @returns {Promise<Array>} Array von Application-Objekten gruppiert nach Job
-   */
-  async getMyJobApplications() {
-    if (!this.manager || !this.manager.publicKey || !this.cache) {
-      return [];
-    }
-
-    // Finde alle Offers die an mich gerichtet sind (p-tag)
-    const offers = await this.cache.getEventsByCriteria({
-      kinds: [NOSTR_KIND_OFFER, NOSTR_KIND_GIFT_WRAP],
-      tags: {
-        'p': { value: this.manager.publicKey }
-      }
-    });
-
-    // Gruppiere nach Jobs
-    const jobGroups = new Map();
-    
-    await Promise.all(offers.map(async offer => {
-      // Finde den Job auf den sich das Offer bezieht
-      const jobTag = offer.tags.find(t => t[0] === 'e' && t[3] === 'job');
-      if (!jobTag) return;
-
-      const job = await this.cache.getEventById(jobTag[1]);
-      if (!job) return;
-
-      // Status und weitere Details holen
-      const { status, approvalEvent } = await this.getOfferStatus(offer.id);
-      
-      // Finde vorheriges Offer falls es ein Counter ist
-      const prevOfferTag = offer.tags.find(t => t[0] === 'e' && t[3] === 'prev_offer');
-      const previousOffer = prevOfferTag ? 
-        await this.cache.getEventById(prevOfferTag[1]) : null;
-
-      const application = {
-        id: offer.id,
-        content: offer.content,
-        pubkey: offer.pubkey,
-        created_at: offer.created_at,
-        bid: parseInt(offer.tags.find(t => t[0] === 'bid')?.[1] || '0'),
-        duration: parseInt(offer.tags.find(t => t[0] === 'duration')?.[1] || '0'),
-        startDate: offer.tags.find(t => t[0] === 'startDate')?.[1],
-        termsOfAgreement: offer.tags.find(t => t[0] === 'termsOfAgreement')?.[1],
-        status,
-        approvalEvent,
-        previousOffer,
-        jobId: job.id
-      };
-
-      // Zum Job gruppieren
-      if (!jobGroups.has(job.id)) {
-        jobGroups.set(job.id, {
-          job,
-          applications: []
-        });
-      }
-      jobGroups.get(job.id).applications.push(application);
-    }));
-
-    // Nach Datum sortieren und nur Jobs mit Applications zurückgeben
-    return Array.from(jobGroups.values())
-      .map(group => ({
-        ...group,
-        applications: group.applications.sort((a, b) => b.created_at - a.created_at)
-      }))
-      .filter(group => group.applications.length > 0);
   }
 }
 

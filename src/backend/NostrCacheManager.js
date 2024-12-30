@@ -158,9 +158,14 @@ export class NostrCacheManager {
         final_event = window.NostrTools.finalizeEvent(final_event, anonPrivateKey);
         
         console.log('NostrCacheManager: Publishing gift wrapped event:', final_event);
-        const pubs = this.pool.publish(this.relays, final_event);
-        console.log("NostrCacheManager: Published to relays:", this.relays);
-        return final_event.id;
+        try {
+            this.pool.publish(this.relays, final_event);
+            console.log("NostrCacheManager: Published to relays:", this.relays);
+            return final_event.id;
+        } catch (error) {
+            console.error("Failed to publish event:", error);
+            throw error;
+        }
     }
 
     // Methode zum Abonnieren von Events mit Fehlerbehandlung

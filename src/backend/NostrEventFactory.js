@@ -6,7 +6,7 @@ import {
   NOSTR_KIND_CONTRACT,
   NOSTR_KIND_PR,
   NOSTR_KIND_REVIEW,
-  NOSTR_KIND_PAYMENT,
+  NOSTR_KIND_GIFT_WRAP
 } from '../constants/nostrKinds.js';
 
 class NostrEventFactory {
@@ -57,21 +57,41 @@ class NostrEventFactory {
     return this.createBaseEvent(NOSTR_KIND_JOB, abstract, tags);
   }
 
-  createOfferEvent(message, jobId, bid, duration, startDate, termsOfAgreement, recipientPubkey, previousOfferId = null) {
+  async createOfferEvent(message, jobId, bid, duration, startDate, termsOfAgreement, recipientPubkey, previousOfferId = null) {
+    console.log('=== Creating Offer Event ===');
+    console.log('Previous Offer ID:', previousOfferId);
+    
+    // Basis-Tags für alle Angebote
     const tags = [
-      ["bid", bid.toString()],
-      ["duration", duration.toString()],
-      ["startDate", startDate],
-      ["termsOfAgreement", termsOfAgreement],
-      ["e", jobId, "", "job"],  // job reference mit marker
-      ["p", recipientPubkey]    // Empfänger des Offers
+      ['bid', bid.toString()],
+      ['duration', duration.toString()], 
+      ['startDate', startDate],
+      ['termsOfAgreement', termsOfAgreement],
+      ['e', jobId, '', 'job'],
+      ['s', 'bitspark'],
+      ['p', recipientPubkey]
     ];
 
+    // Bei Counter-Offer: Referenz zum vorherigen Angebot
     if (previousOfferId) {
-      tags.push(["e", previousOfferId, "", "prev_offer"]); // previous offer mit marker
+      console.log('Adding reference to previous offer:', previousOfferId);
+      tags.push(['e', previousOfferId, '', 'prev_offer']);
     }
 
-    return this.createBaseEvent(NOSTR_KIND_OFFER, message, tags);
+    const unsignedEvent = {
+      kind: NOSTR_KIND_OFFER,
+      created_at: Math.floor(Date.now() / 1000),
+      content: message,
+      tags: tags
+    };
+
+    console.log('Created unsigned event:', unsignedEvent);
+    
+    // Event signieren
+    const signedEvent = await window.nostr.signEvent(unsignedEvent);
+    console.log('Signed event:', signedEvent);
+    
+    return signedEvent;
   }
 
   /**
@@ -123,12 +143,7 @@ class NostrEventFactory {
   }
 
   createZapEvent(reason, eventId, status) {
-    const tags = [
-      ["e", eventId],  // reference to event being zapped
-      ["status", status]  // approved or declined
-    ];
-
-    return this.createBaseEvent(NOSTR_KIND_PAYMENT, reason, tags);
+   
   }
 
   createReviewEvent(reason, eventId, status, rating) {

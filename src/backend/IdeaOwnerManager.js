@@ -1,19 +1,11 @@
 import { nostrManager } from './NostrManagerStore.js';
 import { nostrEventFactory } from './NostrEventFactory.js';
 import { nostrCache } from './NostrCacheStore.js';
-import {
-  NOSTR_KIND_JOB,
-  NOSTR_KIND_OFFER,
-  NOSTR_KIND_CONTRACT,
-  NOSTR_KIND_APPROVAL,
-  NOSTR_KIND_REVIEW,
-  NOSTR_KIND_PAYMENT,
-  NOSTR_KIND_GIFT_WRAP
-} from '../constants/nostrKinds.js';
 import { communityJobManager } from './CommunityJobManager.js';
+import { NOSTR_KIND_IDEA, NOSTR_KIND_JOB, NOSTR_KIND_OFFER, NOSTR_KIND_GIFT_WRAP } from '../constants/nostrKinds.js';
 
 /**
- * Verwaltet Idea Owner spezifische Operationen wie Job-Erstellung und Vertragsmanagement
+ * Verwaltet die Idea Owner spezifischen Aktionen
  */
 class IdeaOwnerManager {
   constructor() {
@@ -31,24 +23,18 @@ class IdeaOwnerManager {
     });
   }
 
-  // === Idea Management ===
+  ensureInitialized() {
+    if (!this.cache || !this.manager) {
+      throw new Error('Manager oder Cache nicht initialisiert');
+    }
+  }
 
   /**
    * Erstellt eine neue Idea
-   * @param {string} name - Name der Idea
-   * @param {string} subtitle - Untertitel
-   * @param {string} abstract - Kurzbeschreibung
-   * @param {string} message - Detaillierte Beschreibung
-   * @param {string} bannerUrl - URL zum Banner-Bild
-   * @param {string} githubRepo - GitHub Repository URL
-   * @param {string} lightningAddress - Lightning Zahlungsadresse
-   * @param {string[]} categories - Kategorien der Idea
-   * @throws {Error} Wenn NostrManager nicht initialisiert
    */
   async createIdea(name, subtitle, abstract, message, bannerUrl, githubRepo, lightningAddress, categories) {
-    if (!this.manager) {
-      throw new Error('NostrManager not initialized');
-    }
+    this.ensureInitialized();
+
     const event = await nostrEventFactory.createIdeaEvent(
       name,
       subtitle,
@@ -59,19 +45,16 @@ class IdeaOwnerManager {
       lightningAddress,
       categories
     );
+
     return this.manager.sendEvent(event.kind, event.content, event.tags);
   }
 
-  // === Job Management ===
-
   /**
    * Erstellt einen neuen Job für eine Idea
-   * @throws {Error} Wenn NostrManager nicht initialisiert
    */
-  async postJob(name, requirements, imageUrl, page, programmingLanguage, categories, ideaId, abstract) {
-    if (!this.manager) {
-      throw new Error('NostrManager not initialized');
-    }
+  async postJob(name, requirements, imageUrl, page, programmingLanguage, categories, ideaId, abstract, previousJobId = null, contributorPubkeys = [], thoughts = "") {
+    this.ensureInitialized();
+
     const event = await nostrEventFactory.createJobEvent(
       name,
       requirements,
@@ -80,169 +63,139 @@ class IdeaOwnerManager {
       programmingLanguage,
       categories,
       ideaId,
-      abstract
+      abstract,
+      previousJobId,
+      contributorPubkeys,
+      thoughts
     );
+
     return this.manager.sendEvent(event.kind, event.content, event.tags);
   }
 
   /**
-   * Republiziert einen Community-Job mit Credit zum ursprünglichen Ersteller
-   * @param {Object} jobEvent - Das originale Job-Event
-   * @throws {Error} Wenn Job nicht an eine Idea gelinkt oder IO nicht Besitzer
+   * Sendet ein Angebot
+   * @param {string} content - Nachricht
+   * @param {string} jobId - ID des Jobs
+   * @param {number} bid - Preisvorstellung
+   * @param {number} duration - Geschätzte Dauer in Tagen
+   * @param {string} startDate - Startdatum
+   * @param {string} termsOfAgreement - Vereinbarte Bedingungen
+   * @param {string} [previousOfferId] - Optional: ID des vorherigen Angebots bei Gegenangeboten
    */
-  async republishCommunityJob(jobEvent) {
-    if (!this.manager) {
-      throw new Error('NostrManager not initialized');
-    }
-    if (!this.cache) {
-      throw new Error('NostrCache not initialized');
+  async submitOffer(content, jobId, bid, duration, startDate, termsOfAgreement, prevOfferId = null, recipient = null) {
+    this.ensureInitialized();
+
+    // Bei initialem Angebot: Hole den Job-Ersteller als Empfänger
+    if (!recipient) {
+      const job = await this.cache.getEventById(jobId);
+      if (!job) {
+        throw new Error('Job nicht gefunden');
+      }
+      recipient = job.pubkey;
+      console.log('Using job creator as recipient:', recipient);
     }
 
-    // Prüfe ob der Job an eine unserer Ideas gelinkt ist
-    const ideaId = jobEvent.tags.find(t => t[0] === 'e')?.[1];
-    if (!ideaId) {
-      throw new Error('Job is not linked to an idea');
-    }
+    try {
+      // Erstelle das Event über den Factory
+      const event = await nostrEventFactory.createOfferEvent(
+        content,
+        jobId,
+        bid,
+        duration,
+        startDate,
+        termsOfAgreement,
+        recipient,
+        prevOfferId
+      );
 
-    const ideaEvent = await this.cache.getEventById(ideaId);
-    if (!ideaEvent || ideaEvent.pubkey !== this.manager.publicKey) {
-      throw new Error('Not the owner of the linked idea');
-    }
+      // Debug: Event vor dem Publishing
+      console.log('=== Event vor dem Publishing ===');
+      console.log(JSON.stringify(event, null, 2));
+      console.log('==============================');
 
-    // Republish mit Credit zum ursprünglichen Ersteller
-    const event = await nostrEventFactory.createJobEvent(
-      jobEvent.tags.find(t => t[0] === 'name')?.[1] || '',
-      jobEvent.tags.find(t => t[0] === 'requirements')?.[1] || '',
-      jobEvent.tags.find(t => t[0] === 'image')?.[1] || '',
-      jobEvent.tags.find(t => t[0] === 'page')?.[1] || '',
-      jobEvent.tags.filter(t => t[0] === 'l').map(t => t[1]),
-      jobEvent.tags.filter(t => t[0] === 'c').map(t => t[1]),
-      ideaId,
-      jobEvent.content,  // abstract
-      jobEvent.id,  // previousJobId
-      [jobEvent.pubkey]  // Credit zum ursprünglichen Ersteller
-    );
-    return this.manager.sendEvent(event.kind, event.content, event.tags);
+      // Sende das Event verschlüsselt an beide Empfänger
+      console.log('Sending encrypted event to recipient:', recipient);
+      const recipientEventId = await this.manager.sendPrivateEvent(event, recipient);
+      
+      console.log('Sending encrypted event to self:', this.manager.publicKey);
+      const selfEventId = await this.manager.sendPrivateEvent(event, this.manager.publicKey);
+
+      return recipientEventId;
+    } catch (error) {
+      console.error('Error sending event:', error);
+      throw error;
+    }
   }
 
-  // === Offer Management ===
-
   /**
-   * Sendet ein Gegenangebot zu einem bestehenden Angebot
-   * @throws {Error} Wenn vorheriges Angebot nicht gefunden
+   * Akzeptiert ein Angebot
    */
-  async submitCounterOffer(content, jobId, previousOfferId, bid, duration, startDate, termsOfAgreement) {
-    if (!this.manager) {
-      throw new Error('NostrManager not initialized');
-    }
-    return communityJobManager.submitOffer(content, jobId, bid, duration, startDate, termsOfAgreement, previousOfferId);
+  async acceptOffer(content, offerId) {
+    this.ensureInitialized();
+    return communityJobManager.approveOffer(content, offerId);
   }
 
   /**
    * Lehnt ein Angebot ab
-   * @throws {Error} Wenn Angebot nicht gefunden
    */
   async declineOffer(content, offerId) {
-    if (!this.manager) {
-      throw new Error('NostrManager not initialized');
-    }
+    this.ensureInitialized();
     return communityJobManager.declineOffer(content, offerId);
   }
 
-  // === Contract & Review Management ===
-
   /**
-   * Erstellt einen Vertrag nach Annahme eines Angebots
-   * @throws {Error} Wenn Job, Offer oder Approval nicht gefunden
+   * Erstellt einen Vertrag
    */
   async createContract(message, jobId, offerId, approvalId) {
-    if (!this.manager) {
-      throw new Error('NostrManager not initialized');
-    }
+    this.ensureInitialized();
     return communityJobManager.createContract(message, jobId, offerId, approvalId);
   }
 
   /**
-   * Erstellt ein Review für einen abgeschlossenen Job
-   * @throws {Error} Wenn Event nicht gefunden
+   * Lädt alle meine Ideas
    */
-  async createReview(reason, eventId, status, rating) {
-    if (!this.manager) {
-      throw new Error('NostrManager not initialized');
-    }
-    const event = await nostrEventFactory.createReviewEvent(
-      reason,
-      eventId,
-      status,
-      rating
+  async getMyIdeas() {
+    this.ensureInitialized();
+
+    const ideas = await this.cache.getEventsByCriteria({
+      kinds: [NOSTR_KIND_IDEA],
+      authors: [this.manager.publicKey]
+    });
+
+    // Für jede Idea die zugehörigen Jobs laden
+    const ideasWithJobs = await Promise.all(
+      ideas.map(async idea => {
+        const jobs = await this.cache.getEventsByCriteria({
+          kinds: [NOSTR_KIND_JOB],
+          tags: {
+            'e': [idea.id]
+          }
+        });
+
+        return {
+          idea,
+          jobs
+        };
+      })
     );
-    return this.manager.sendEvent(event.kind, event.content, event.tags);
+
+    return ideasWithJobs;
   }
 
-  // === IO Subscriptions ===
+  /**
+   * Lädt alle Jobs einer Idea
+   */
+  async getIdeaJobs(ideaId) {
+    this.ensureInitialized();
+    return communityJobManager.getJobHistory(ideaId);
+  }
 
   /**
-   * Abonniert Jobs für eine bestimmte Idea
-   * @param {string} ideaId - ID der Idea
+   * Abonniert Jobs für eine Idea
    */
   async subscribeToJobsByIdea(ideaId) {
-    if (!this.manager) {
-      throw new Error('NostrManager not initialized');
-    }
-    return this.manager.subscribeToEvents({
-      kinds: [NOSTR_KIND_JOB, NOSTR_KIND_GIFT_WRAP],
-      "#e": [ideaId]
-    });
-  }
-
-  /**
-   * Abonniert Angebote für einen bestimmten Job
-   * @param {string} jobId - ID des Jobs
-   */
-  async subscribeToOffersByJob(jobId) {
-    if (!this.manager) {
-      throw new Error('NostrManager not initialized');
-    }
-    return this.manager.subscribeToEvents({
-      kinds: [NOSTR_KIND_OFFER],
-      "#e": [jobId, "", "job"]
-    });
-  }
-
-  /**
-   * Abonniert Verträge für einen bestimmten Job
-   * @param {string} jobId - ID des Jobs
-   */
-  async subscribeToContractsByJob(jobId) {
-    if (!this.manager) {
-      throw new Error('NostrManager not initialized');
-    }
-    return this.manager.subscribeToEvents({
-      kinds: [NOSTR_KIND_CONTRACT],
-      "#e": [jobId, "", "job"]
-    });
-  }
-
-  /**
-   * Abonniert Community-Jobs für eine Idea
-   * @param {string} ideaId - ID der Idea
-   * @note Filterung nach nicht-IO Jobs erfolgt im Frontend/Cache
-   */
-  async subscribeToCommunityJobs(ideaId) {
-    if (!this.manager) {
-      throw new Error('NostrManager not initialized');
-    }
+    this.ensureInitialized();
     return communityJobManager.subscribeToJobsByIdea(ideaId);
-  }
-
-  // === Payment (via Lightning) ===
-
-  /**
-   * Bezahlt einen Developer via Lightning
-   * @throws {Error} Funktionalität wird durch Lightning SDK bereitgestellt
-   */
-  async payDeveloper(content, eventId, amount, pubKey) {
-    throw new Error('Payment handling is done via Lightning SDK');
   }
 }
 

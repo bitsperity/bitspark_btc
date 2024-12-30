@@ -99,7 +99,10 @@
     const isNotCreator = job?.pubkey !== $nostrManager?.publicKey;
     const isNotOriginalCreator = job?.originalCreator !== $nostrManager?.publicKey;
     
-    console.log('Apply button conditions:', {
+    console.log('=== Apply Button Debug ===');
+    console.log('NostrManager:', $nostrManager);
+    console.log('Job:', job);
+    console.log('Conditions:', {
       isLoggedIn,
       isNotCreator,
       isNotOriginalCreator,
@@ -107,6 +110,8 @@
       jobPubkey: job?.pubkey,
       originalCreator: job?.originalCreator
     });
+    console.log('canApply:', isLoggedIn && isNotCreator && isNotOriginalCreator);
+    console.log('========================');
 
     canApply = isLoggedIn && isNotCreator && isNotOriginalCreator;
   }

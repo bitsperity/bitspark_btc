@@ -2,13 +2,12 @@
 
 // Core event kinds for BitSpark platform
 export const NOSTR_KIND_IDEA = 1341;        // For posting new ideas/projects
-export const NOSTR_KIND_JOB = 1342;         // For job postings within ideas
-export const NOSTR_KIND_OFFER = 1343;       // For job applications/offers (encrypted)
-export const NOSTR_KIND_APPROVAL = 1344;     // For approving/declining applications
-export const NOSTR_KIND_CONTRACT = 1345;     // For finalizing agreements
-export const NOSTR_KIND_PR = 1346;          // For pull request submissions
-export const NOSTR_KIND_REVIEW = 1347;      // For reviewing work/contributions
-export const NOSTR_KIND_PAYMENT = 1348;     // For payment-related events
+export const NOSTR_KIND_JOB = 2542;         // For job postings within ideas
+export const NOSTR_KIND_OFFER = 2543;       // For job applications/offers (encrypted)
+export const NOSTR_KIND_APPROVAL = 2544;     // For approving/declining applications
+export const NOSTR_KIND_CONTRACT = 2545;     // For finalizing agreements
+export const NOSTR_KIND_PR = 2546;          // For pull request submissions
+export const NOSTR_KIND_REVIEW = 2547;      // For reviewing work/contributions
 
 // Standard Nostr events
 export const NOSTR_KIND_PROFILE = 0;        // Profile metadata

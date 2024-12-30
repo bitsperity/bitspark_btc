@@ -1,59 +1,91 @@
 <script>
   import { createEventDispatcher } from 'svelte';
-  import { communityJobManager } from '../../backend/CommunityJobManager.js';
+  import { fade } from 'svelte/transition';
+  import { nostrManager } from '../../backend/NostrManagerStore.js';
+  import { developerManager } from '../../backend/DeveloperManager.js';
+  import { ideaOwnerManager } from '../../backend/IdeaOwnerManager.js';
 
   export let jobId;
-  export let mode = 'apply'; // 'apply' oder 'counter'
-  export let existingApplication = null; // Für Gegenangebote
+  export let mode = 'initial'; // 'initial' oder 'counter'
+  export let existingApplication = null;
+  export let role = 'dev'; // 'dev' oder 'io'
 
-  console.log('ApplicationModal initialized with:', { jobId, mode, existingApplication });
-  
   const dispatch = createEventDispatcher();
-  
-  let content = existingApplication?.content || "";
-  let bid = existingApplication?.bid || "";
-  let duration = existingApplication?.duration || "";
-  let startDate = existingApplication?.startDate || "";
-  let termsOfAgreement = existingApplication?.termsOfAgreement || "";
-  let previousOfferId = existingApplication?.previousOfferId || null;
-  let isSubmitting = false;
-  let error = null;
+
+  // Debug: Zeige existingApplication
+  $: if (existingApplication) {
+    console.log('=== Existing Application ===');
+    console.log('ID:', existingApplication.id);
+    console.log('Content:', existingApplication.content);
+    console.log('PubKey:', existingApplication.pubkey);
+    console.log('Original PubKey:', existingApplication.originalEvent?.pubkey);
+    console.log('Tags:', existingApplication.tags);
+    console.log('========================');
+  }
+
+  // Default Werte aus existingApplication übernehmen
+  let bid = existingApplication?.tags.find(t => t[0] === 'bid')?.[1] || '';
+  let duration = existingApplication?.tags.find(t => t[0] === 'duration')?.[1] || '';
+  let startDate = existingApplication?.tags.find(t => t[0] === 'startDate')?.[1] || '';
+  let termsOfAgreement = existingApplication?.tags.find(t => t[0] === 'termsOfAgreement')?.[1] || '';
+  let description = existingApplication?.content || '';
 
   async function handleSubmit() {
-    if (!content || !bid || !duration || !startDate || !termsOfAgreement) {
-      error = 'Bitte fülle alle Felder aus.';
-      return;
-    }
+    if (!$nostrManager) return;
 
     try {
-      console.log('Submitting with data:', {
-        content,
-        jobId,
-        bid,
-        duration,
-        startDate,
-        termsOfAgreement,
-        previousOfferId
-      });
+      // Debug: Zeige die Werte die gesendet werden
+      console.log('=== Submitting Counter Offer ===');
+      console.log('Mode:', mode);
+      console.log('Role:', role);
+      console.log('JobID:', jobId);
+      console.log('Description:', description);
+      console.log('Bid:', bid);
+      console.log('Duration:', duration);
+      console.log('StartDate:', startDate);
+      console.log('Terms:', termsOfAgreement);
+      console.log('PrevOffer:', existingApplication?.id);
+      console.log('Recipient:', existingApplication?.pubkey);
+      console.log('========================');
 
-      if (mode === 'counter') {
-        console.log('Creating counter offer for previous offer:', previousOfferId);
+      // Konvertiere bid und duration zu Zahlen
+      const numericBid = parseInt(bid, 10);
+      const numericDuration = parseInt(duration, 10);
+
+      if (role === 'dev') {
+        // Für Dev: Immer submitOffer verwenden, nur die Parameter unterscheiden sich
+        console.log('Creating Dev Offer...');
+        const offer = await developerManager.submitOffer(
+          description,
+          jobId,
+          numericBid,
+          numericDuration,
+          startDate,
+          termsOfAgreement,
+          mode === 'counter' ? existingApplication?.id : null, // prev_offer nur bei counter
+          mode === 'counter' ? existingApplication?.pubkey : null // recipient nur bei counter
+        );
+        console.log('Created Dev Offer:', offer);
+      } else {
+        // Counter Offer vom IO
+        console.log('Creating IO Counter Offer...');
+        const offer = await ideaOwnerManager.submitOffer(
+          description,
+          jobId,
+          numericBid,
+          numericDuration,
+          startDate,
+          termsOfAgreement,
+          existingApplication.id,
+          existingApplication.pubkey
+        );
+        console.log('Created IO Counter Offer:', offer);
       }
 
-      await communityJobManager.submitOffer(
-        content,
-        jobId,
-        bid,
-        duration,
-        startDate,
-        termsOfAgreement,
-        previousOfferId
-      );
-
       dispatch('success');
-    } catch (err) {
-      console.error('Fehler beim Senden:', err);
-      error = err.message;
+    } catch (error) {
+      console.error('Fehler beim Erstellen des Angebots:', error);
+      console.error('Error Stack:', error.stack);
     }
   }
 
@@ -62,247 +94,114 @@
   }
 </script>
 
-<div 
-  class="modal-overlay" 
-  on:click|self={handleClose}
-  role="dialog"
-  aria-labelledby="modal-title"
->
-  <div class="modal-content">
-    <div class="modal-header">
-      <h2 id="modal-title">
-        {mode === 'apply' ? 'Bewerbung einreichen' : 'Gegenangebot erstellen'}
+<div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4" transition:fade>
+  <div class="bg-white rounded-lg shadow-xl max-w-2xl w-full">
+    <!-- Header -->
+    <div class="p-6 border-b">
+      <h2 class="text-2xl font-semibold">
+        {#if mode === 'initial'}
+          Bewerbung einreichen
+        {:else}
+          Gegenangebot erstellen
+        {/if}
       </h2>
-      <button class="close-btn" on:click={handleClose}>
-        <i class="fas fa-times"></i>
-      </button>
     </div>
 
-    <div class="modal-body">
-      {#if error}
-        <div class="error-message">
-          {error}
+    <!-- Content -->
+    <div class="p-6">
+      <form on:submit|preventDefault={handleSubmit} class="space-y-6">
+        <!-- Beschreibung -->
+        <div>
+          <label for="description" class="block text-sm font-medium text-gray-700 mb-1">
+            Beschreibung
+          </label>
+          <textarea
+            id="description"
+            bind:value={description}
+            rows="4"
+            class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+            placeholder="Beschreiben Sie Ihr Angebot..."
+            required
+          ></textarea>
         </div>
-      {/if}
 
-      <div class="form-group">
-        <label for="content">
-          {mode === 'apply' ? 'Beschreibung' : 'Gegenangebot'}
-        </label>
-        <textarea
-          id="content"
-          bind:value={content}
-          placeholder={mode === 'apply' ? 
-            "Beschreiben Sie Ihre relevante Erfahrung und wie Sie den Job angehen würden..." :
-            "Beschreiben Sie Ihr Gegenangebot und die Gründe dafür..."
-          }
-          rows="6"
-        ></textarea>
-      </div>
+        <!-- Preis und Dauer -->
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label for="bid" class="block text-sm font-medium text-gray-700 mb-1">
+              Preis (in sats)
+            </label>
+            <input
+              type="number"
+              id="bid"
+              bind:value={bid}
+              min="0"
+              class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              required
+            />
+          </div>
 
-      <div class="form-row">
-        <div class="form-group">
-          <label for="bid">Preisvorstellung (Sats)</label>
+          <div>
+            <label for="duration" class="block text-sm font-medium text-gray-700 mb-1">
+              Dauer (in Tagen)
+            </label>
+            <input
+              type="number"
+              id="duration"
+              bind:value={duration}
+              min="1"
+              class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              required
+            />
+          </div>
+        </div>
+
+        <!-- Startdatum -->
+        <div>
+          <label for="startDate" class="block text-sm font-medium text-gray-700 mb-1">
+            Startdatum
+          </label>
           <input
-            id="bid"
-            type="number"
-            bind:value={bid}
-            min="1"
-            placeholder="z.B. 100000"
+            type="date"
+            id="startDate"
+            bind:value={startDate}
+            class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+            required
           />
         </div>
 
-        <div class="form-group">
-          <label for="duration">Geschätzte Dauer (Tage)</label>
-          <input
-            id="duration"
-            type="number"
-            bind:value={duration}
-            min="1"
-            placeholder="z.B. 14"
-          />
+        <!-- Vertragsbedingungen -->
+        <div>
+          <label for="terms" class="block text-sm font-medium text-gray-700 mb-1">
+            Vertragsbedingungen
+          </label>
+          <textarea
+            id="terms"
+            bind:value={termsOfAgreement}
+            rows="3"
+            class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+            placeholder="Spezielle Bedingungen oder Vereinbarungen..."
+          ></textarea>
         </div>
-      </div>
-
-      <div class="form-group">
-        <label for="startDate">Mögliches Startdatum</label>
-        <input
-          id="startDate"
-          type="date"
-          bind:value={startDate}
-          min={new Date().toISOString().split('T')[0]}
-        />
-      </div>
-
-      <div class="form-group">
-        <label for="terms">Bedingungen</label>
-        <textarea
-          id="terms"
-          bind:value={termsOfAgreement}
-          placeholder="Beschreiben Sie Ihre Bedingungen für die Zusammenarbeit..."
-          rows="4"
-        ></textarea>
-      </div>
+      </form>
     </div>
 
-    <div class="modal-footer">
-      <button class="cancel-btn" on:click={handleClose} disabled={isSubmitting}>
+    <!-- Footer -->
+    <div class="p-6 border-t bg-gray-50 flex justify-end gap-4">
+      <button
+        type="button"
+        class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
+        on:click={handleClose}
+      >
         Abbrechen
       </button>
-      <button class="submit-btn" on:click={handleSubmit} disabled={isSubmitting}>
-        {isSubmitting ? 'Wird gesendet...' : 'Bewerbung absenden'}
+      <button
+        type="submit"
+        class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700"
+        on:click={handleSubmit}
+      >
+        {mode === 'initial' ? 'Bewerbung senden' : 'Gegenangebot senden'}
       </button>
     </div>
   </div>
-</div>
-
-<style>
-  .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.75);
-    backdrop-filter: blur(4px);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9998;
-  }
-
-  .modal-content {
-    background: white;
-    width: 90%;
-    max-width: 800px;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-    display: flex;
-    flex-direction: column;
-    max-height: 85vh;
-    z-index: 9999;
-  }
-
-  .modal-header {
-    padding: 1.5rem 2rem;
-    border-bottom: 1px solid #e5e7eb;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .modal-header h2 {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: #1f2937;
-    margin: 0;
-  }
-
-  .close-btn {
-    background: none;
-    border: none;
-    font-size: 1.25rem;
-    color: #6b7280;
-    cursor: pointer;
-    padding: 0.5rem;
-  }
-
-  .modal-body {
-    padding: 2rem;
-    overflow-y: auto;
-  }
-
-  .error-message {
-    background: #fff5f5;
-    color: #c53030;
-    padding: 1rem;
-    border-radius: 0.5rem;
-    margin-bottom: 1.5rem;
-    font-size: 0.875rem;
-  }
-
-  .form-group {
-    margin-bottom: 1.5rem;
-  }
-
-  .form-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-  }
-
-  label {
-    display: block;
-    font-weight: 500;
-    color: #374151;
-    margin-bottom: 0.5rem;
-  }
-
-  input, textarea {
-    width: 100%;
-    padding: 0.75rem;
-    border: 1px solid #d1d5db;
-    border-radius: 6px;
-    font-size: 1rem;
-    transition: border-color 0.2s;
-  }
-
-  textarea {
-    resize: vertical;
-  }
-
-  input:focus, textarea:focus {
-    outline: none;
-    border-color: #2c5282;
-    box-shadow: 0 0 0 3px rgba(44, 82, 130, 0.1);
-  }
-
-  .modal-footer {
-    padding: 1.5rem 2rem;
-    border-top: 1px solid #e5e7eb;
-    display: flex;
-    justify-content: flex-end;
-    gap: 1rem;
-  }
-
-  button {
-    padding: 0.75rem 1.5rem;
-    border-radius: 6px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-
-  button:disabled {
-    opacity: 0.7;
-    cursor: not-allowed;
-  }
-
-  .cancel-btn {
-    background: white;
-    border: 1px solid #d1d5db;
-    color: #374151;
-  }
-
-  .cancel-btn:hover:not(:disabled) {
-    background: #f3f4f6;
-  }
-
-  .submit-btn {
-    background: #2c5282;
-    border: none;
-    color: white;
-  }
-
-  .submit-btn:hover:not(:disabled) {
-    background: #1a365d;
-  }
-
-  @media (max-width: 768px) {
-    .modal-content {
-      width: 95%;
-      max-height: 90vh;
-    }
-  }
-</style> 
+</div> 
