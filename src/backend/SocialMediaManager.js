@@ -205,7 +205,7 @@ class SocialMediaManager {
       profileEvents.sort((a, b) => b.created_at - a.created_at);
       return profileEvents[0].profileData; // Gibt das neueste Profil-Event zurück
     } else {
-      console.log("No profile found for the provided public key. Attempting to subscribe for updates.");
+      console.log("No profile found for the provided public key. Attempting to subscribe for updates.", pubkey);
       this.subscribeProfile(pubkey);
       return null;
     }

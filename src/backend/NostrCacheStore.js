@@ -203,6 +203,18 @@ class NostrEventCache {
 
   // Fügt ein Event hinzu oder aktualisiert es
   async addOrUpdateEvent(event) {
+    console.log('NostrCacheStore: Adding/updating event:', {
+        id: event.id,
+        kind: event.kind,
+        pubkey: event.pubkey,
+        tags: event.tags
+    });
+    
+    if (!event || !event.id) {
+        console.error('NostrCacheStore: Invalid event:', event);
+        return;
+    }
+
     // Prüfen, ob das Event bereits existiert
     const existingEvent = this.events.get(event.id);
 
@@ -233,8 +245,18 @@ class NostrEventCache {
   }
 
   // Holt ein Event anhand seiner ID
-  getEventById(eventId) {
-    return this.events.get(eventId);
+  async getEventById(id) {
+    console.log('getEventById called with:', id);
+    
+    const event = this.events.get(id);
+    console.log('Cache lookup result:', {
+      requestedId: id,
+      found: !!event,
+      eventKind: event?.kind,
+      eventPubkey: event?.pubkey
+    });
+    
+    return event;
   }
 
   // Filtert Events basierend auf übergebenen Kriterien
@@ -277,10 +299,28 @@ class NostrEventCache {
 
       if (criteria.tags) {
         for (let tagKey in criteria.tags) {
-          const tagValues = event.tags.filter(tag => tag[0] === tagKey).map(tag => tag[1]);
-          // Überprüft, ob jeder Wert im Filter auch in der Tag-Liste ist
-          if (!criteria.tags[tagKey].some(value => tagValues.includes(value))) {
-            return false;
+          // Erweiterte Tag-Filterung
+          if (typeof criteria.tags[tagKey] === 'object' && !Array.isArray(criteria.tags[tagKey])) {
+            // Suche nach spezifischen Tag-Eigenschaften
+            // Alle Felder sind optional: { value?, marker?, relay? }
+            const tagCriteria = criteria.tags[tagKey];
+            const matchingTags = event.tags.filter(tag => {
+              const [type, value, relay, marker] = tag;
+              return type === tagKey && 
+                     // Prüfe nur die angegebenen Felder
+                     ('value' in tagCriteria ? value === tagCriteria.value : true) &&
+                     ('marker' in tagCriteria ? marker === tagCriteria.marker : true) &&
+                     ('relay' in tagCriteria ? relay === tagCriteria.relay : true);
+            });
+            if (matchingTags.length === 0) {
+              return false;
+            }
+          } else {
+            // Bisherige einfache Tag-Filterung
+            const tagValues = event.tags.filter(tag => tag[0] === tagKey).map(tag => tag[1]);
+            if (!criteria.tags[tagKey].some(value => tagValues.includes(value))) {
+              return false;
+            }
           }
         }
       }

@@ -86,7 +86,7 @@ export class NostrCacheManager {
         return uniqueTags;
     }
 
-    async sendEvent(kind, content, tags, options = {}) {
+    async sendEvent(kind, content, tags) {
         if (!this.write_mode) return;
         if (!this.extensionAvailable()) return;
         let event = {
@@ -143,6 +143,7 @@ export class NostrCacheManager {
 
     async sendPrivateEvent(event, receiverPubKey) {
         const tags = [["p", receiverPubKey]];
+        console.log('NostrCacheManager: Creating private event for receiver:', receiverPubKey, event);
         const { content, anonPrivateKey, anonPublicKey } = await this.wrapMessage(event, receiverPubKey);
 
         let final_event = {
@@ -156,9 +157,15 @@ export class NostrCacheManager {
         final_event.tags = this.uniqueTags(final_event.tags);
         final_event = window.NostrTools.finalizeEvent(final_event, anonPrivateKey);
         
-        const pubs = this.pool.publish(this.relays, final_event);
-        console.log("send anon event:", final_event);
-        return final_event.id;
+        console.log('NostrCacheManager: Publishing gift wrapped event:', final_event);
+        try {
+            this.pool.publish(this.relays, final_event);
+            console.log("NostrCacheManager: Published to relays:", this.relays);
+            return final_event.id;
+        } catch (error) {
+            console.error("Failed to publish event:", error);
+            throw error;
+        }
     }
 
     // Methode zum Abonnieren von Events mit Fehlerbehandlung

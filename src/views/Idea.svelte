@@ -30,8 +30,8 @@
     }
   }
 
-  function fetchIdea() {
-    const fetchedIdea = $nostrCache.getEventById(id);
+  async function fetchIdea() {
+    const fetchedIdea = await $nostrCache.getEventById(id);
     if (fetchedIdea) {
       idea = transformIdea(fetchedIdea);
       fetchCreatorProfile();
