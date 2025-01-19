@@ -5,7 +5,7 @@
   import { contentContainerClass } from "../helperStore.js";
   import Banner from "../components/Banner.svelte";
   import ToolBar from "../components/Toolbar/Toolbar.svelte";
-  import MyJobsOverview from "../components/JobManagement/MyJobsView/MyJobsOverview.svelte";
+  import MyJobsOverview from "../components/JobManagement/DeveloperView/MyJobsOverview.svelte";
 
   let bannerImage = "../../img/Banner1u.png";
   let title = "BitSpark";
@@ -18,7 +18,11 @@
     <Banner {bannerImage} {title} {subtitle} show_right_text={false} />
     <ToolBar />
     <div class={$contentContainerClass}>
-      <MyJobsOverview />
+      <div class="single-card">
+        <div class="single-card-content">
+          <MyJobsOverview />
+        </div>
+      </div>
     </div>
   </div>
   <Footer />
