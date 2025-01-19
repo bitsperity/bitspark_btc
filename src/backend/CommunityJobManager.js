@@ -290,28 +290,6 @@ class CommunityJobManager {
     return chains;
   }
 
-  /**
-   * Filtert Jobs nach ihrem Status
-   * @private
-   */
-  filterJobsByScope(jobsWithHistory, scope) {
-    const { getPending = true, getAdvertised = true, getSigned = true } = scope;
-
-    return jobsWithHistory.filter(({ history }) => {
-      const hasContract = history.some(e => e.kind === NOSTR_KIND_CONTRACT);
-      const hasApproval = history.some(e => 
-        e.kind === NOSTR_KIND_APPROVAL && 
-        e.tags.find(t => t[0] === 'status')?.[1] === 'approved'
-      );
-
-      return (
-        (getPending && !hasApproval && !hasContract) ||
-        (getAdvertised && hasApproval && !hasContract) ||
-        (getSigned && hasContract)
-      );
-    });
-  }
-
   // === Job Subscriptions ===
 
   /**
