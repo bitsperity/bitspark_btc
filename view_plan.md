@@ -10,7 +10,7 @@
 3. Developer can:
    - Accept (creates approval event)
    - Decline (creates approval event)
-   - Create counter offer
+   - Create counter (new) offer
 4. When Dev accepts IO's counter offer:
    - IO gets option to create contract
    - Process completes
