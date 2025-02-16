@@ -16,6 +16,7 @@
   import JobExplorerView from "./views/JobExplorerView.svelte";
   import MyJobsView_old from "./views/MyJobsView_old.svelte";
   import IdeaLabView_old from "./views/IdeaLabView_old.svelte";
+  import IdeaLabView from "./views/IdeaLabView.svelte";
   import DMView from "./views/DMView.svelte";
   import './styles/card.css'; 
 </script>
@@ -52,6 +53,7 @@
       <Route path="/jobexplorer" component={JobExplorerView} />
       <Route path="/myjobs_old" component={MyJobsView_old} />
       <Route path="/idealab_old" component={IdeaLabView_old} />
+      <Route path="/idealab" component={IdeaLabView} />
       <!-- <Route path="/dm" component={DMView} /> -->
       <Route path="/dm/:pubkey" let:params>
         <DMView {params} />

@@ -408,3 +408,121 @@ footer {
     justify-content: space-between;
     background: #f4f4f4;
 }
+
+/* Button Container */
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin: 1rem 0;
+}
+
+/* Button Styles */
+.btn-toggle {
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    transition: background-color 0.2s;
+    cursor: pointer;
+    border: none;
+}
+
+.btn-toggle-active {
+    background-color: #223d6d;  /* bs-blue */
+    color: white;
+}
+
+.btn-toggle-active:hover {
+    background-color: #1a2f53;
+}
+
+.btn-toggle-inactive {
+    background-color: rgb(238, 238, 238);
+    color: #1f2937;
+}
+
+.btn-toggle-inactive:hover {
+    background-color: #d1d5db;
+}
+
+/* Horizontal Scroll Selector */
+.scroll-selector-container {
+    width: 100%;
+    padding: 1rem;
+}
+
+.scroll-selector-content {
+    display: flex;
+    overflow-x: auto;
+    gap: 1rem;
+    padding-bottom: 0.5rem;
+    scrollbar-width: thin;
+    scrollbar-color: #4b5563 #e5e7eb;
+}
+
+.scroll-selector-content::-webkit-scrollbar {
+    height: 6px;
+}
+
+.scroll-selector-content::-webkit-scrollbar-track {
+    background: #e5e7eb;
+    border-radius: 3px;
+}
+
+.scroll-selector-content::-webkit-scrollbar-thumb {
+    background-color: #4b5563;
+    border-radius: 3px;
+}
+
+/* Card with Image and Overlay */
+.image-card {
+    position: relative;
+    flex: 0 0 180px;
+    height: 120px;
+    cursor: pointer;
+    transition: transform 0.2s;
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+.image-card:hover {
+    transform: translateY(-2px);
+}
+
+.image-card-active {
+    box-shadow: 0 0 0 2px #223d6d;
+}
+
+.image-card-selected {
+    box-shadow: 0 0 0 2px rgb(249 115 22); /* bs-orange from global.css */
+}
+
+.image-card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.image-card-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+}
+
+.image-card-title {
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+    text-align: center;
+    text-shadow: 
+        -1px -1px 0 #000,
+         1px -1px 0 #000,
+        -1px  1px 0 #000,
+         1px  1px 0 #000;
+}

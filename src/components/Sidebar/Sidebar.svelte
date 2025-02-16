@@ -256,6 +256,19 @@
                 <li>
                     <button
                         class={linkStyle}
+                        on:click={() => navigate("/idealab")}
+                    >
+                        <i
+                            class="fas fa-briefcase"
+                            style="color: #223d6d; margin-right: 10px;"
+                        ></i>
+                        Idea Lab
+                    </button>
+                </li>
+                
+                <li>
+                    <button
+                        class={linkStyle}
                         on:click={() => navigate("/idealab_old")}
                     >
                         <i
