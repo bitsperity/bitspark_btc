@@ -20,6 +20,8 @@
   import DMView from "./views/DMView.svelte";
   import './styles/card.css'; 
 
+  import { NOSTR_KIND_GIFT_WRAP, NOSTR_KIND_IDEA } from "./constants/nostrKinds.js";
+
   import { nostrManager } from "./backend/NostrManagerStore.js";
 
 
@@ -30,12 +32,19 @@
       console.error("NostrManager is not initialized.");
       return;
     }
-
     $nostrManager.subscribeToEvents({
-      kinds: [1059],
-      "#p": [$nostrManager.publicKey],
+      kinds: [NOSTR_KIND_IDEA],
+      "#s": ["bitspark"], 
     });
+
+    if ($nostrManager.publicKey) {
+      $nostrManager.subscribeToEvents({
+        kinds: [NOSTR_KIND_GIFT_WRAP],
+        "#p": [$nostrManager.publicKey],
+      });
+    }
   }
+
   $: subscribeToMessages(), $nostrManager;
 </script>
 
