@@ -19,6 +19,24 @@
   import IdeaLabView from "./views/IdeaLabView.svelte";
   import DMView from "./views/DMView.svelte";
   import './styles/card.css'; 
+
+  import { nostrManager } from "./backend/NostrManagerStore.js";
+
+
+  
+
+  function subscribeToMessages() {
+    if (!$nostrManager) {
+      console.error("NostrManager is not initialized.");
+      return;
+    }
+
+    $nostrManager.subscribeToEvents({
+      kinds: [1059],
+      "#p": [$nostrManager.publicKey],
+    });
+  }
+  $: subscribeToMessages(), $nostrManager;
 </script>
 
 <svelte:head>
