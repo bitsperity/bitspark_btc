@@ -1,10 +1,16 @@
 <script>
     import { negotiationManager } from '../../../backend/NegotiationManager.js';
-    import { selectedOffer } from './negotiationStore';
     import ApplicationModal from '../../Modals/ApplicationModal.svelte';
+    import { nostrManager } from '../../../backend/NostrManagerStore.js';
+    import { selectedOffer } from './negotiationStore';
+    import { onMount } from 'svelte';
 
     export let offer;
     export let approval;
+
+    onMount(async () => {
+        console.log("approval", approval);
+    });
 
     let showCounterModal = false;
 
@@ -14,7 +20,7 @@
 
     async function handleDecline() {
         if (!offer) return;
-        await negotiationManager.declineOffer("Offer declined", offer.id);
+        await negotiationManager.declineOffer("Offer declined", $selectedOffer.id);
     }
 
     async function handleCreateContract() {
@@ -28,6 +34,9 @@
 
     // Determine if the offer is already declined
     $: isDeclined = approval?.tags.find(t => t[0] === 'status')?.[1] === 'declined';
+
+    // Determine if we can make a counter offer (latest offer is not from us)
+    $: canMakeCounterOffer = offer && $nostrManager?.publicKey !== offer.pubkey;
 </script>
 
 {#if showCounterModal}
@@ -42,18 +51,22 @@
 {/if}
 
 <div class="interaction-bar">
-    {#if !isDeclined && !canCreateContract}
-        <button class="counter-btn" on:click={handleCounterOffer}>
-            Counter offer
-        </button>
-        <button class="decline-btn" on:click={handleDecline}>
-            Decline
-        </button>
-    {:else if canCreateContract}
-        <button class="contract-btn" on:click={handleCreateContract}>
-            Create contract
-        </button>
+    {#if !isDeclined}
+        {#if !canCreateContract}
+            {#if canMakeCounterOffer}
+                <button class="counter-btn" on:click={handleCounterOffer}>
+                    Counter offer
+                </button>
+            {/if}
+        {:else }
+            <button class="contract-btn" on:click={handleCreateContract}>
+                Create contract
+            </button>
+        {/if}
     {/if}
+    <button class="decline-btn" on:click={handleDecline}>
+        Decline
+    </button>
 </div>
 
 <style>

@@ -1,10 +1,10 @@
 <script>
-    import { selectedIdeas, toggleIdea, clearSelectedIdeas } from '../../../stores/common/ideaStore';
+    import { currentIdea, setIdea, clearSelectedIdea } from '../../../stores/common/ideaStore';
     import { onMount } from 'svelte';
     import { nostrCache } from '../../../backend/NostrCacheStore';
     import { nostrManager } from "../../../backend/NostrManagerStore.js";
     import { NOSTR_KIND_IDEA } from '../../../constants/nostrKinds';
-
+    import { clearCurrentJob } from '../../../stores/common/jobStore';
     let ideas = [];
 
     async function loadIdeas() {
@@ -18,35 +18,29 @@
     }
 
     function handleIdeaSelect(idea) {
-        toggleIdea(idea);
-    }
-
-    function initialize() {
-        if ($nostrManager && $nostrManager.publicKey) {
-            $nostrManager.subscribeToEvents({
-                kinds: [NOSTR_KIND_IDEA],
-                authors: [$nostrManager.publicKey],
-                "#s": ["bitspark"], 
-            });
+        if ($currentIdea?.id === idea.id) {
+            clearSelectedIdea();
+        } else {
+            setIdea(idea);
         }
     }
 
     onMount(async () => {
-        initialize();
         await loadIdeas();
-        // Clear any previous selections
-        clearSelectedIdeas();
+        // Clear any previous selection
+        clearSelectedIdea();
     });
 
-    $: initialize(), $nostrManager;
     $: loadIdeas(), $nostrCache;
+
+    $: clearCurrentJob(), $currentIdea;
 </script>
 
 <div class="scroll-selector-container">
     <div class="scroll-selector-content">
         {#each ideas as idea}
             <div 
-                class="image-card {$selectedIdeas.some(i => i.id === idea.id) ? 'image-card-selected' : ''}"
+                class="image-card {$currentIdea?.id === idea.id ? 'image-card-selected' : ''}"
                 on:click={() => handleIdeaSelect(idea)}
             >
                 <img 

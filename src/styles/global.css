@@ -526,3 +526,134 @@ footer {
         -1px  1px 0 #000,
          1px  1px 0 #000;
 }
+
+/* Scrollable Container Styles */
+.scrollable-container {
+    height: 100%;
+    background-color: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.scrollable-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 #f1f5f9;
+}
+
+/* Custom Scrollbar Styles */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: #f1f5f9;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: #cbd5e1;
+    border-radius: 3px;
+}
+
+/* Offer List Styles */
+.offer-item {
+    padding: 1rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.offer-item:hover {
+    background-color: #f8fafc;
+    transform: translateX(4px);
+}
+
+.offer-item.selected {
+    border-color: #223d6d;
+    background-color: #f1f5f9;
+    transform: translateX(4px);
+}
+
+.offer-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.offer-bid {
+    color: #223d6d;
+}
+
+.offer-duration {
+    color: #64748b;
+}
+
+.offer-preview {
+    font-size: 0.875rem;
+    color: #4a5568;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Negotiation Bubbles Container */
+.bubbles-container {
+    gap: 1rem !important; /* Override the default gap from scrollable-content */
+}
+
+/* Loading and Empty States */
+.centered-message {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #64748b;
+    font-style: italic;
+    padding: 1rem;
+    text-align: center;
+}
+
+/* Negotiation Layout Styles */
+.negotiation-layout {
+    padding: 1.5rem;
+    height: calc(100vh - 300px);
+    max-height: 500px;
+    display: flex;
+    flex-direction: column;
+}
+
+.negotiation-layout-title {
+    margin-bottom: 1rem;
+    color: #4a5568; /* text-color-df */
+}
+
+.negotiation-layout-content {
+    flex: 1;
+    display: flex;
+    gap: 1rem;
+    height: 100%;
+    min-height: 0; /* Important for nested flex scrolling */
+}
+
+.negotiation-layout-left {
+    width: 33%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.negotiation-layout-right {
+    width: 67%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}

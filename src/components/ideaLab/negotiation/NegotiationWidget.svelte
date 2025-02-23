@@ -42,27 +42,21 @@
 </script>
 
 <div class="single-card container">
-    <div class="mt-6 px-6" style="position: relative">
-        <h2 class="text-color-df">
+    <div class="negotiation-layout">
+        <h2 class="negotiation-layout-title">
             {title}
         </h2>
 
-        <div class="flex">
+        <div class="negotiation-layout-content">
             <!-- Left side: Offer selector -->
-            <div class="w-1/3 pr-4">
+            <div class="negotiation-layout-left">
                 <OfferSelector />
             </div>
 
             <!-- Right side: Negotiation window -->
-            <div class="w-2/3">
+            <div class="negotiation-layout-right">
                 <NegotiationWindow />
             </div>
         </div>
     </div>
 </div>
-
-<style>
-    .single-card {
-        position: relative;
-    }
-</style>

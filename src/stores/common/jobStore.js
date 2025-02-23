@@ -7,3 +7,7 @@ export const currentJob = writable(null);
 export const setJob = (job) => {
     currentJob.set(job);
 };
+
+export const clearCurrentJob = () => {
+    currentJob.set(null);
+};

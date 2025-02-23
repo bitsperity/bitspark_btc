@@ -62,7 +62,7 @@
     <div class="scroll-selector-content">
         {#each jobs as job}
             <div
-                class="image-card {$currentJob === job ? 'image-card-active' : ''}"
+                class="image-card {$currentJob === job ? 'image-card-selected' : ''}"
                 on:click={() => handleJobSelect(job)}
             >
                 <img
