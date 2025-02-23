@@ -215,17 +215,13 @@ class NostrEventCache {
         return;
     }
 
-    // Prüfen, ob das Event bereits existiert
-    const existingEvent = this.events.get(event.id);
 
-    if (!existingEvent) {
-      await this.processProfileEvent(event);
-      await this.processEncryptedMessage(event);
+    await this.processProfileEvent(event);
+    await this.processEncryptedMessage(event);
 
-      // Add new event if it does not exist
-      if (event) {
-        this.events.set(event.id, event);
-      }
+    // Add new event if it does not exist
+    if (event && !this.events.get(event.id)) {
+      this.events.set(event.id, event);
       console.log('added event', event);
 
       // Aktualisieren der kindIndex Map
@@ -233,14 +229,16 @@ class NostrEventCache {
         this.kindIndex.set(event.kind, new Set());
       }
       this.kindIndex.get(event.kind).add(event);
-
+  
       // Aktualisieren der authorIndex Map
       if (!this.authorIndex.has(event.pubkey)) {
         this.authorIndex.set(event.pubkey, new Set());
       }
       this.authorIndex.get(event.pubkey).add(event);
-
+  
       sendSignal();
+    } else {
+      console.log('event already exists', event);
     }
   }
 
