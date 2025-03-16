@@ -9,6 +9,7 @@
     let latestOffer = null;
     let approval = null;
     let bubblesContainer;
+    let lastCacheUpdate = 0;
 
     // When selected offer changes, load the negotiation chain
     $: if ($selectedOffer) {
@@ -20,11 +21,23 @@
     // Update latest offer when chain changes
     $: if ($currentNegotiationChain.length > 0) {
         latestOffer = $currentNegotiationChain[$currentNegotiationChain.length - 1];
-        loadApproval($selectedOffer.id);
+        if ($selectedOffer) {
+            loadApproval($selectedOffer.id);
+        }
         scrollToBottom();
     } else {
         latestOffer = null;
         approval = null;
+    }
+
+    // React to changes in the nostrCache
+    $: if ($nostrCache && $selectedOffer) {
+        // Check if there are new events related to the current negotiation
+        const currentTimestamp = Date.now();
+        if (currentTimestamp - lastCacheUpdate > 500) { // Debounce updates
+            lastCacheUpdate = currentTimestamp;
+            loadNegotiationChain($selectedOffer.id);
+        }
     }
 
     async function scrollToBottom() {
@@ -35,6 +48,8 @@
     }
 
     async function loadNegotiationChain(offerId) {
+        if (!offerId) return;
+        
         try {
             const chain = await negotiationManager.getNegotiationChain(offerId);
             currentNegotiationChain.set(chain);
@@ -45,6 +60,8 @@
     }
 
     async function loadApproval(offerId) {
+        if (!offerId) return;
+        
         try {
             approval = await negotiationManager.getOfferApproval(offerId);
         } catch (error) {
@@ -57,7 +74,10 @@
         scrollToBottom();
     });
 
-    $: loadApproval($selectedOffer?.id), $nostrCache;
+    // Nur loadApproval aufrufen, wenn $selectedOffer existiert
+    $: if ($selectedOffer) {
+        loadApproval($selectedOffer.id);
+    }
 </script>
 
 <div class="scrollable-container">

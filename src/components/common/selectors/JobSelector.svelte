@@ -9,6 +9,7 @@
     export let ideaIds = [];
 
     let jobs = [];
+    let initialJobSelection = true;
 
     async function fetchJobs() {
         console.log("fetchJobs", ideaIds);
@@ -25,10 +26,27 @@
 
             const events = await $nostrCache.getEventsByCriteria(criteria);
 
-            jobs = events.filter(event => 
+            const newJobs = events.filter(event => 
                 event.pubkey === $nostrManager.publicKey ||
                 event.tags.some(t => t[0] === "p")
             );
+            
+            // Sort jobs by created_at in descending order (newest first)
+            const sortedJobs = newJobs.sort((a, b) => b.created_at - a.created_at);
+            
+            // Check if the currently selected job is still in the new job list
+            const currentJobStillExists = $currentJob && sortedJobs.some(job => job.id === $currentJob.id);
+            
+            // Only update jobs if there are changes to avoid unnecessary re-renders
+            if (JSON.stringify(jobs.map(j => j.id)) !== JSON.stringify(sortedJobs.map(j => j.id))) {
+                jobs = sortedJobs;
+                
+                // Only select the first job if no job is selected or the current job no longer exists
+                if ((initialJobSelection || !currentJobStillExists) && jobs.length > 0) {
+                    setJob(jobs[0]);
+                    initialJobSelection = false;
+                }
+            }
         }
     }
 
@@ -49,9 +67,6 @@
     onMount(async () => {
         initialize();
         await fetchJobs();
-        if (jobs.length > 0 && !$currentJob) {
-            setJob(jobs[0]);
-        }
     });
 
     $: initialize(), $nostrManager;
