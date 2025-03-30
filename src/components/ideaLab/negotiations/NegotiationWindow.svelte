@@ -33,11 +33,7 @@
     // React to changes in the nostrCache
     $: if ($nostrCache && $selectedOffer) {
         // Check if there are new events related to the current negotiation
-        const currentTimestamp = Date.now();
-        if (currentTimestamp - lastCacheUpdate > 500) { // Debounce updates
-            lastCacheUpdate = currentTimestamp;
-            loadNegotiationChain($selectedOffer.id);
-        }
+        loadNegotiationChain($selectedOffer.id);
     }
 
     async function scrollToBottom() {

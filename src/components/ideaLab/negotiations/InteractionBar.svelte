@@ -2,7 +2,7 @@
     import { negotiationManager } from '../../../backend/NegotiationManager.js';
     import ApplicationModal from '../../Modals/ApplicationModal.svelte';
     import { nostrManager } from '../../../backend/NostrManagerStore.js';
-    import { selectedOffer } from './negotiationStore';
+    import { selectedOffer, clearSelectedOffer } from './negotiationStore';
     import { onMount } from 'svelte';
 
     export let offer;
@@ -20,7 +20,15 @@
 
     async function handleDecline() {
         if (!offer) return;
-        await negotiationManager.declineOffer("Offer declined", $selectedOffer.id);
+        try {
+            console.log("Declining offer:", $selectedOffer.id);
+            await negotiationManager.declineOffer("Offer declined", $selectedOffer.id);
+            // Clear the selected offer after declining to reset the negotiation window
+            console.log("Offer declined, clearing selection");
+            clearSelectedOffer();
+        } catch (error) {
+            console.error("Error declining offer:", error);
+        }
     }
 
     async function handleCreateContract() {

@@ -9,6 +9,8 @@
     import ManageContainer from "../components/ideaLab/ManageContainer.svelte";
     import ArchiveContainer from "../components/ideaLab/ArchiveContainer.svelte";
     import StatisticsContainer from "../components/ideaLab/StatisticsContainer.svelte";
+    import { nostrManager } from "../backend/NostrManagerStore.js";
+    import { NOSTR_KIND_IDEA, NOSTR_KIND_GIFT_WRAP, NOSTR_KIND_JOB, NOSTR_KIND_APPROVAL } from "../constants/nostrKinds.js";
 
     let bannerImage = "../../img/tutorial/nostr_banner.png";
     let title = "Idea Lab";
@@ -21,6 +23,34 @@
     };
 
     const ideaLabModes = Object.keys(modeContainers);
+
+    function subscribeToEvents() {
+        $nostrManager.subscribeToEvents({
+        kinds: [NOSTR_KIND_IDEA],
+        "#s": ["bitspark"], 
+        });
+
+        $nostrManager.subscribeToEvents({
+        kinds: [NOSTR_KIND_JOB],
+        "#s": ["bitspark"], 
+        });
+
+        $nostrManager.subscribeToEvents({
+            kinds: [NOSTR_KIND_APPROVAL],
+            "#s": ["bitspark"], 
+        });
+
+        if ($nostrManager.publicKey) {
+            $nostrManager.subscribeToEvents({
+                kinds: [NOSTR_KIND_GIFT_WRAP],
+                "#p": [$nostrManager.publicKey],
+            });
+        }
+    }
+
+    $: if ($nostrManager) {
+        subscribeToEvents();
+    }
 </script>
 
 <main class="overview-page">

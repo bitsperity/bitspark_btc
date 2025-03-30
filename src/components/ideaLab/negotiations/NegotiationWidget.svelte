@@ -21,7 +21,26 @@
         isLoading.set(true);
         try {
             const offers = await negotiationManager.getInitialOffers(jobId);
-            initialOffers.set(offers);
+            console.log("All initial offers:", offers);
+            
+            // Filter out declined offers
+            const nonDeclinedOffers = await Promise.all(
+                offers.map(async (offer) => {
+                    // Get the approval status for this offer
+                    const approval = await negotiationManager.getOfferApproval(offer.id);
+                    // If there's an approval with status 'declined', filter it out
+                    const isDeclined = approval?.tags.find(t => t[0] === 'status')?.[1] === 'declined';
+                    return { offer, isDeclined };
+                })
+            );
+            
+            // Keep only non-declined offers
+            const filteredOffers = nonDeclinedOffers
+                .filter(item => !item.isDeclined)
+                .map(item => item.offer);
+            
+            console.log("Filtered offers (excluding declined):", filteredOffers);
+            initialOffers.set(filteredOffers);
         } catch (error) {
             console.error('Error loading initial offers:', error);
         } finally {
