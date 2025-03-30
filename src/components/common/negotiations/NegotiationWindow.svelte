@@ -7,7 +7,7 @@
     import { nostrCache } from '../../../backend/NostrCacheStore';
 
     let latestOffer = null;
-    let approval = null;
+    let approvals = null;
     let bubblesContainer;
     let lastCacheUpdate = 0;
 
@@ -22,12 +22,12 @@
     $: if ($currentNegotiationChain.length > 0) {
         latestOffer = $currentNegotiationChain[$currentNegotiationChain.length - 1];
         if ($selectedOffer) {
-            loadApproval($selectedOffer.id);
+            loadApprovals($selectedOffer.id);
         }
         scrollToBottom();
     } else {
         latestOffer = null;
-        approval = null;
+        approvals = null;
     }
 
     // React to changes in the nostrCache
@@ -55,14 +55,14 @@
         }
     }
 
-    async function loadApproval(offerId) {
+    async function loadApprovals(offerId) {
         if (!offerId) return;
         
         try {
-            approval = await negotiationManager.getOfferApproval(offerId);
+            approvals = await negotiationManager.getOfferApproval(offerId);
         } catch (error) {
             console.error('Error loading approval:', error);
-            approval = null;
+            approvals = null;
         }
     }
 
@@ -72,7 +72,7 @@
 
     // Nur loadApproval aufrufen, wenn $selectedOffer existiert
     $: if ($selectedOffer) {
-        loadApproval($selectedOffer.id);
+        loadApprovals($selectedOffer.id);
     }
 </script>
 
@@ -99,7 +99,7 @@
         {#if latestOffer}
             <InteractionBar 
                 offer={latestOffer}
-                {approval}
+                {approvals}
             />
         {/if}
     {/if}

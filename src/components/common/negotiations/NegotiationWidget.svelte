@@ -7,6 +7,7 @@
     import { initialOffers, isLoading } from './negotiationStore';
     import OfferSelector from './OfferSelector.svelte';
     import NegotiationWindow from './NegotiationWindow.svelte';
+    import { nostrManager } from '../../../backend/NostrManagerStore.js';
 
     let title = "Negotiations";
 
@@ -23,23 +24,28 @@
             const offers = await negotiationManager.getInitialOffers(jobId);
             console.log("All initial offers:", offers);
             
-            // Filter out declined offers
+            // Filter out only offers that were declined by the current user
             const nonDeclinedOffers = await Promise.all(
                 offers.map(async (offer) => {
                     // Get the approval status for this offer
-                    const approval = await negotiationManager.getOfferApproval(offer.id);
-                    // If there's an approval with status 'declined', filter it out
-                    const isDeclined = approval?.tags.find(t => t[0] === 'status')?.[1] === 'declined';
-                    return { offer, isDeclined };
+                    const approvals = await negotiationManager.getOfferApproval(offer.id);
+
+                    // approvals is an array of approval events or null
+                    // we need to check if any of the approvals are declined by the current user
+                    const isDeclinedByMe = approvals?.some(approval => 
+                        approval.tags.find(t => t[0] === 'status')?.[1] === 'declined' && 
+                        approval.pubkey === $nostrManager?.publicKey
+                    );
+                    return { offer, isDeclinedByMe };
                 })
             );
             
-            // Keep only non-declined offers
+            // Keep offers that weren't declined by the current user
             const filteredOffers = nonDeclinedOffers
-                .filter(item => !item.isDeclined)
+                .filter(item => !item.isDeclinedByMe)
                 .map(item => item.offer);
             
-            console.log("Filtered offers (excluding declined):", filteredOffers);
+            console.log("Filtered offers (excluding those declined by me):", filteredOffers);
             initialOffers.set(filteredOffers);
         } catch (error) {
             console.error('Error loading initial offers:', error);

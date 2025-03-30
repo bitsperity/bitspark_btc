@@ -1,8 +1,8 @@
 <script>
     import IdeaSelector from "../common/selectors/IdeaSelector.svelte";
-    import JobSelector from "../common/selectors/JobSelector.svelte";
+    import JobSelector from "./common/JobSelector.svelte";
     import { selectedIdeaIds } from "../../stores/common/ideaStore";
-    import NegotiationWidget from "./negotiations/NegotiationWidget.svelte";
+    import NegotiationWidget from "../common/negotiations/NegotiationWidget.svelte";
 </script>
 
 <!-- Idea Selector -->

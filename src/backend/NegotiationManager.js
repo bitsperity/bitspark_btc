@@ -199,7 +199,7 @@ class NegotiationManager {
    */
   async getOfferApproval(offerId) {
     this.ensureInitialized();
-
+    // TODO: get only approval events that belong to the idea owner and the developer
     const approvals = await this.cache.getEventsByCriteria({
       kinds: [NOSTR_KIND_APPROVAL],
       tags: {
@@ -207,7 +207,7 @@ class NegotiationManager {
       }
     });
 
-    return approvals.length > 0 ? approvals[0] : null;
+    return approvals.length > 0 ? approvals : null;
   }
 }
 

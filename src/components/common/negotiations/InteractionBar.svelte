@@ -2,14 +2,14 @@
     import { negotiationManager } from '../../../backend/NegotiationManager.js';
     import ApplicationModal from '../../Modals/ApplicationModal.svelte';
     import { nostrManager } from '../../../backend/NostrManagerStore.js';
-    import { selectedOffer, clearSelectedOffer } from './negotiationStore';
+    import { selectedOffer, clearSelectedOffer } from './negotiationStore.js';
     import { onMount } from 'svelte';
 
     export let offer;
-    export let approval;
+    export let approvals;
 
     onMount(async () => {
-        console.log("approval", approval);
+        console.log("approvals", approvals);
     });
 
     let showCounterModal = false;
@@ -38,10 +38,10 @@
     }
 
     // Determine if we can create a contract (offer is approved)
-    $: canCreateContract = approval?.tags.find(t => t[0] === 'status')?.[1] === 'approved';
+    $: canCreateContract = approvals?.some(approval => approval.tags.find(t => t[0] === 'status')?.[1] === 'approved');
 
     // Determine if the offer is already declined
-    $: isDeclined = approval?.tags.find(t => t[0] === 'status')?.[1] === 'declined';
+    $: isDeclined = approvals?.some(approval => approval.tags.find(t => t[0] === 'status')?.[1] === 'declined');
 
     // Determine if we can make a counter offer (latest offer is not from us)
     $: canMakeCounterOffer = offer && $nostrManager?.publicKey !== offer.pubkey;
