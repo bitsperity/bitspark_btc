@@ -27,6 +27,7 @@
             });
             
             console.log("Found my offers:", myOffers.length);
+            console.log("My offers:", myOffers);
             
             // 2. Extract job IDs from all the offers
             const jobIds = new Set();
