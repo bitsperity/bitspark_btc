@@ -14,10 +14,39 @@
 
   import Job from "./views/Job.svelte";
   import JobExplorerView from "./views/JobExplorerView.svelte";
-  import MyJobsView from "./views/MyJobsView.svelte";
+  import MyJobsView_old from "./views/MyJobsView_old.svelte";
+  import IdeaLabView_old from "./views/IdeaLabView_old.svelte";
   import IdeaLabView from "./views/IdeaLabView.svelte";
+  import WorkspaceView from "./views/WorkspaceView.svelte";
   import DMView from "./views/DMView.svelte";
   import './styles/card.css'; 
+
+  import { NOSTR_KIND_GIFT_WRAP, NOSTR_KIND_IDEA } from "./constants/nostrKinds.js";
+
+  import { nostrManager } from "./backend/NostrManagerStore.js";
+
+
+  
+
+  function subscribeToMessages() {
+    if (!$nostrManager) {
+      console.error("NostrManager is not initialized.");
+      return;
+    }
+    $nostrManager.subscribeToEvents({
+      kinds: [NOSTR_KIND_IDEA],
+      "#s": ["bitspark"], 
+    });
+
+    if ($nostrManager.publicKey) {
+      $nostrManager.subscribeToEvents({
+        kinds: [NOSTR_KIND_GIFT_WRAP],
+        "#p": [$nostrManager.publicKey],
+      });
+    }
+  }
+
+  $: subscribeToMessages(), $nostrManager;
 </script>
 
 <svelte:head>
@@ -50,8 +79,10 @@
 
       <Route path="/job/:id" component={Job} />
       <Route path="/jobexplorer" component={JobExplorerView} />
-      <Route path="/myjobs" component={MyJobsView} />
+      <Route path="/myjobs_old" component={MyJobsView_old} />
+      <Route path="/idealab_old" component={IdeaLabView_old} />
       <Route path="/idealab" component={IdeaLabView} />
+      <Route path="/workspace" component={WorkspaceView} />
       <!-- <Route path="/dm" component={DMView} /> -->
       <Route path="/dm/:pubkey" let:params>
         <DMView {params} />

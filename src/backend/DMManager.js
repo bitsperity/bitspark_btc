@@ -128,30 +128,6 @@ class DMManager {
     return messageWithSubject?.created_at || 0;
   }
 
-  subscribeToMessages() {
-    if (!this.manager) {
-      console.error("NostrManager is not initialized.");
-      return;
-    }
-
-    this.manager.subscribeToEvents({
-      kinds: [1059],
-      "#p": [this.manager.publicKey],
-    });
-  }
-
-  unsubscribeFromMessages() {
-    if (!this.manager) {
-      console.error("NostrManager is not initialized.");
-      return;
-    }
-
-    this.manager.unsubscribeEvent({
-      kinds: [1059],
-      "#p": [this.manager.publicKey],
-    });
-  }
-
   cleanup() {
     this.cacheSubscription();
     this.managerSubscription();

@@ -244,13 +244,25 @@
                 <li>
                     <button
                         class={linkStyle}
-                        on:click={() => navigate("/myjobs")}
+                        on:click={() => navigate("/myjobs_old")}
                     >
                         <i
                             class="fas fa-briefcase"
                             style="color: #223d6d; margin-right: 10px;"
                         ></i>
-                        My Jobs
+                        My Jobs (old)
+                    </button>
+                </li>
+                <li>
+                    <button
+                        class={linkStyle}
+                        on:click={() => navigate("/workspace")}
+                    >
+                        <i
+                            class="fas fa-briefcase"
+                            style="color: #223d6d; margin-right: 10px;"
+                        ></i>
+                        Workspace
                     </button>
                 </li>
                 <li>
@@ -263,6 +275,19 @@
                             style="color: #223d6d; margin-right: 10px;"
                         ></i>
                         Idea Lab
+                    </button>
+                </li>
+                
+                <li>
+                    <button
+                        class={linkStyle}
+                        on:click={() => navigate("/idealab_old")}
+                    >
+                        <i
+                            class="fas fa-briefcase"
+                            style="color: #223d6d; margin-right: 10px;"
+                        ></i>
+                        Idea Lab (old)
                     </button>
                 </li>
             {/if}

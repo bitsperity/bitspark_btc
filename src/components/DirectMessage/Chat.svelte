@@ -18,13 +18,11 @@
 
     $: if (loggedIn && $nostrCache) {
         dmManager.init();
-        dmManager.subscribeToMessages();
     }
 
     onMount(async () => {
         if (loggedIn) {
             await dmManager.init();
-            dmManager.subscribeToMessages();
         }
     });
 </script>

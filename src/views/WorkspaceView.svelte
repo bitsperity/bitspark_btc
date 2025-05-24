@@ -6,15 +6,15 @@
     import Banner from "../components/Banner.svelte";
     import ModeSelector from "../components/common/selectors/SimpleModeSelector.svelte";
     import { currentMode } from "../stores/common/modeStore";
-    import ManageContainer from "../components/ideaLab/ManageContainer.svelte";
-    import ArchiveContainer from "../components/ideaLab/ArchiveContainer.svelte";
-    import StatisticsContainer from "../components/ideaLab/StatisticsContainer.svelte";
+    import ManageContainer from "../components/workspace/ManageContainer.svelte";
+    import ArchiveContainer from "../components/workspace/ArchiveContainer.svelte";
+    import StatisticsContainer from "../components/workspace/StatisticsContainer.svelte";
     import { nostrManager } from "../backend/NostrManagerStore.js";
-    import { NOSTR_KIND_IDEA, NOSTR_KIND_GIFT_WRAP, NOSTR_KIND_JOB, NOSTR_KIND_APPROVAL } from "../constants/nostrKinds.js";
+    import { NOSTR_KIND_JOB, NOSTR_KIND_APPROVAL, NOSTR_KIND_GIFT_WRAP } from "../constants/nostrKinds.js";
 
     let bannerImage = "../../img/tutorial/nostr_banner.png";
-    let title = "Idea Lab";
-    let subtitle = "bring your ideas to life";
+    let title = "Workspace";
+    let subtitle = "manage your workspace";
 
     const modeContainers = {
         'Manage': ManageContainer,
@@ -22,14 +22,9 @@
         'Statistics': StatisticsContainer
     };
 
-    const ideaLabModes = Object.keys(modeContainers);
+    const workspaceModes = Object.keys(modeContainers);
 
     function subscribeToEvents() {
-        $nostrManager.subscribeToEvents({
-        kinds: [NOSTR_KIND_IDEA],
-        "#s": ["bitspark"], 
-        });
-
         $nostrManager.subscribeToEvents({
         kinds: [NOSTR_KIND_JOB],
         "#s": ["bitspark"], 
@@ -66,7 +61,7 @@
         <ToolBar />
 
         <!-- Mode Selector -->
-        <ModeSelector modes={ideaLabModes} />
+        <ModeSelector modes={workspaceModes} />
 
         <div class={$contentContainerClass}>
             {#if $currentMode}
