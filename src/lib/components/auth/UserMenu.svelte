@@ -1,12 +1,12 @@
 <!--
   UserMenu - Dropdown menu for logged in user
   
-  Shows avatar, name, and menu options (Profile, Settings, Logout).
+  Shows avatar, name, and menu options (Profile, Edit, Settings, Logout).
 -->
 <script lang="ts">
 	import { authService } from '$lib/services';
-	import { Avatar, Button } from '$lib/components';
-	import { User, Settings, LogOut, ChevronDown } from 'lucide-svelte';
+	import { Avatar } from '$lib/components';
+	import { User, Settings, LogOut, ChevronDown, Edit } from 'lucide-svelte';
 
 	let menuOpen = $state(false);
 
@@ -56,7 +56,11 @@
 			<div class="user-menu-dropdown">
 				<a href="/profile/{authService.user?.npub}" class="menu-item" onclick={closeMenu}>
 					<User size={16} />
-					<span>Profile</span>
+					<span>View Profile</span>
+				</a>
+				<a href="/profile/edit" class="menu-item" onclick={closeMenu}>
+					<Edit size={16} />
+					<span>Edit Profile</span>
 				</a>
 				<a href="/settings" class="menu-item" onclick={closeMenu}>
 					<Settings size={16} />

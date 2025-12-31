@@ -1,13 +1,13 @@
 <!--
   ProfileCard - Displays user profile information
   
-  Uses NDKSvelte reactive subscription for auto-updating profile data.
+  Uses NDK getUser and fetchProfile for profile data.
 -->
 <script lang="ts">
-	import { profileService } from '$lib/services';
+	import { ndk } from '$lib/nostr';
 	import { Card, Avatar, Badge, Skeleton, Stack, Row, Button } from '$lib/components';
-	import { Github, Zap, ExternalLink } from 'lucide-svelte';
-	import { onDestroy } from 'svelte';
+	import { Zap, ExternalLink } from 'lucide-svelte';
+	import type { NDKUserProfile } from '@nostr-dev-kit/ndk';
 
 	interface Props {
 		pubkey: string;
@@ -16,56 +16,84 @@
 
 	let { pubkey, showActions = true }: Props = $props();
 
-	// Reactive subscription using NDK-Svelte
-	const profileEvents = profileService.subscribeToProfile(pubkey);
+	let profile = $state<NDKUserProfile | undefined>(undefined);
+	let npub = $state<string>('');
+	let isLoading = $state(true);
 
-	// Get the NDKUser for npub
-	const ndkUser = $derived(profileService.getUser(pubkey));
+	// Fetch profile when pubkey changes
+	$effect(() => {
+		if (pubkey) {
+			loadProfile(pubkey);
+		}
+	});
 
-	// Extract profile from first event
-	const profile = $derived($profileEvents[0] as { profile?: Record<string, string> } | undefined);
-	const profileData = $derived(profile?.profile);
-
-	// Cleanup subscription on destroy
-	onDestroy(() => profileEvents.unsubscribe());
+	async function loadProfile(pk: string) {
+		isLoading = true;
+		try {
+			const user = ndk.getUser({ pubkey: pk });
+			npub = user.npub;
+			await user.fetchProfile();
+			profile = user.profile;
+		} catch (error) {
+			console.error('[ProfileCard] Failed to load profile:', error);
+		} finally {
+			isLoading = false;
+		}
+	}
 </script>
 
 <Card variant="glow">
-	{#if profileData}
+	{#if isLoading}
+		<!-- Skeleton loading state -->
+		<Stack gap={4}>
+			<Row gap={4}>
+				<Skeleton circle size="64px" />
+				<Stack gap={2}>
+					<Skeleton width="150px" height="1.5rem" />
+					<Skeleton width="100px" height="1rem" />
+				</Stack>
+			</Row>
+			<Skeleton width="100%" height="3rem" />
+			<Row gap={3}>
+				<Skeleton width="80px" height="2.5rem" />
+				<Skeleton width="80px" height="2.5rem" />
+			</Row>
+		</Stack>
+	{:else if profile}
 		<Stack gap={4}>
 			<!-- Header with avatar and name -->
 			<Row gap={4}>
 				<Avatar 
-					src={profileData.image ?? profileData.picture} 
-					fallback={profileData.name?.[0] ?? '?'} 
+					src={profile.image ?? profile.picture} 
+					fallback={profile.name?.[0] ?? '?'} 
 					size="xl" 
 				/>
 				<Stack gap={1}>
-					<h2 class="text-heading">{profileData.name ?? profileData.displayName ?? 'Anonymous'}</h2>
-					{#if profileData.nip05}
-						<Badge variant="success">{profileData.nip05}</Badge>
+					<h2 class="text-heading">{profile.name ?? profile.displayName ?? 'Anonymous'}</h2>
+					{#if profile.nip05}
+						<Badge variant="success">{profile.nip05}</Badge>
 					{/if}
-					<span class="npub">{ndkUser.npub.slice(0, 12)}...{ndkUser.npub.slice(-8)}</span>
+					<span class="npub">{npub.slice(0, 12)}...{npub.slice(-8)}</span>
 				</Stack>
 			</Row>
 
 			<!-- Bio -->
-			{#if profileData.about}
-				<p class="text-body bio">{profileData.about}</p>
+			{#if profile.about}
+				<p class="text-body bio">{profile.about}</p>
 			{/if}
 
 			<!-- Links -->
 			<Row gap={3} wrap>
-				{#if profileData.website}
-					<a href={profileData.website} target="_blank" rel="noopener" class="profile-link">
+				{#if profile.website}
+					<a href={profile.website} target="_blank" rel="noopener" class="profile-link">
 						<ExternalLink size={14} />
 						<span>Website</span>
 					</a>
 				{/if}
-				{#if profileData.lud16}
+				{#if profile.lud16}
 					<span class="profile-link">
 						<Zap size={14} />
-						<span>{profileData.lud16}</span>
+						<span>{profile.lud16}</span>
 					</span>
 				{/if}
 			</Row>
@@ -84,20 +112,8 @@
 			{/if}
 		</Stack>
 	{:else}
-		<!-- Skeleton loading state -->
 		<Stack gap={4}>
-			<Row gap={4}>
-				<Skeleton circle size="64px" />
-				<Stack gap={2}>
-					<Skeleton width="150px" height="1.5rem" />
-					<Skeleton width="100px" height="1rem" />
-				</Stack>
-			</Row>
-			<Skeleton width="100%" height="3rem" />
-			<Row gap={3}>
-				<Skeleton width="80px" height="2.5rem" />
-				<Skeleton width="80px" height="2.5rem" />
-			</Row>
+			<p class="text-muted">Profile not found</p>
 		</Stack>
 	{/if}
 </Card>
