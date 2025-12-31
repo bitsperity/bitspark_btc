@@ -17,6 +17,7 @@
 		"@sveltejs/kit": "^2.49.1",
 		"@sveltejs/vite-plugin-svelte": "^6.2.1",
 		"@tailwindcss/vite": "^4.1.17",
+		"@types/dompurify": "^3.0.5",
 		"svelte": "^5.45.6",
 		"svelte-check": "^4.3.4",
 		"tailwindcss": "^4.1.17",
@@ -26,6 +27,9 @@
 	"dependencies": {
 		"@nostr-dev-kit/ndk": "^2.18.1",
 		"@nostr-dev-kit/ndk-svelte": "^2.4.48",
-		"lucide-svelte": "^0.562.0"
+		"dompurify": "^3.3.1",
+		"lucide-svelte": "^0.562.0",
+		"marked": "^17.0.1",
+		"nanoid": "^5.1.6"
 	}
 }

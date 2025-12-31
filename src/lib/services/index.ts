@@ -7,3 +7,4 @@
 
 export { authService } from './auth.svelte';
 export { profileService } from './profiles';
+export { ideaService } from './ideas';

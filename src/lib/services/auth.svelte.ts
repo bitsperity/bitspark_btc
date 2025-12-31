@@ -1,33 +1,37 @@
 /**
  * AuthService - Handles NIP-07 authentication
  * 
- * Single Responsibility: User authentication lifecycle only.
- * Uses Svelte 5 $state for reactive state management.
+ * Uses a reactive signal (_authVersion) to trigger UI updates.
+ * ndk.activeUser is source of truth, signal triggers reactivity.
  * 
  * Usage:
  *   import { authService } from '$lib/services';
  *   
  *   await authService.login();
- *   authService.user  // Current user
- *   authService.isLoggedIn  // Boolean
+ *   authService.user  // Current user (reactive)
+ *   authService.isLoggedIn  // Boolean (reactive)
  */
 
 import { NDKNip07Signer, type NDKUser } from '@nostr-dev-kit/ndk';
 import { ndk } from '$lib/nostr';
 
 class AuthService {
-    // Svelte 5 reactive state
-    private _user = $state<NDKUser | undefined>(undefined);
+    // Reactive signal - increment to trigger UI updates
+    private _authVersion = $state(0);
     private _isLoading = $state(false);
     private _error = $state<string | undefined>(undefined);
 
-    // Getters for reactive access
+    // Reading _authVersion makes these getters reactive
     get user(): NDKUser | undefined {
-        return this._user;
+        // Touch version to make this getter reactive
+        void this._authVersion;
+        return ndk.activeUser;
     }
 
     get isLoggedIn(): boolean {
-        return this._user !== undefined;
+        // Touch version to make this getter reactive
+        void this._authVersion;
+        return ndk.activeUser !== undefined;
     }
 
     get isLoading(): boolean {
@@ -61,7 +65,9 @@ class AuthService {
             await user.fetchProfile();
 
             ndk.activeUser = user;
-            this._user = user;
+
+            // Trigger reactive update
+            this._authVersion++;
 
             console.log('[Auth] Logged in as:', user.npub);
             return user;
@@ -81,8 +87,11 @@ class AuthService {
     logout(): void {
         ndk.signer = undefined;
         ndk.activeUser = undefined;
-        this._user = undefined;
         this._error = undefined;
+
+        // Trigger reactive update
+        this._authVersion++;
+
         console.log('[Auth] Logged out');
     }
 

@@ -1,12 +1,9 @@
 <!--
-  Edit Profile Page
-  
-  Protected route - redirects if not logged in.
-  Pure composition of ProfileForm component.
+  Create Idea Page
 -->
 <script lang="ts">
 	import { Container, Stack, AuroraBackground, Button } from '$lib/components';
-	import { ProfileForm } from '$lib/components/profile';
+	import { IdeaForm } from '$lib/components/ideas';
 	import { authService } from '$lib/services';
 	import { goto } from '$app/navigation';
 	import { ArrowLeft } from 'lucide-svelte';
@@ -18,16 +15,16 @@
 	<Container>
 		{#if authService.isLoggedIn}
 			<Stack gap={6}>
-				<a href="/profile/{authService.user?.npub}" class="back-link">
+				<a href="/ideas" class="back-link">
 					<ArrowLeft size={16} />
-					<span>Back to Profile</span>
+					<span>Back to Ideas</span>
 				</a>
-				<ProfileForm />
+				<IdeaForm />
 			</Stack>
 		{:else}
 			<Stack gap={4} class="not-logged-in">
-				<h1 class="text-display-md">Not Logged In</h1>
-				<p class="text-body">Please connect your wallet to edit your profile.</p>
+				<h1 class="text-display-md">Login Required</h1>
+				<p class="text-body">Please connect your wallet to create an idea.</p>
 				<Button variant="primary" onclick={() => goto('/')}>
 					Go Home
 				</Button>
