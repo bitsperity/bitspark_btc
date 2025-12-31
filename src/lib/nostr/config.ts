@@ -5,12 +5,9 @@
  */
 
 // Default relays for BitSpark
+// Using local Umbrel relay for development
 export const DEFAULT_RELAYS = [
-    'wss://relay.damus.io',
-    'wss://relay.nostr.band',
-    'wss://nos.lol',
-    'wss://relay.snort.social',
-    'wss://nostr.wine'
+    'ws://umbrel.local:4848'
 ];
 
 // BitSpark custom event kinds

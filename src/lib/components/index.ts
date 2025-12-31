@@ -42,3 +42,8 @@ export { default as AuroraBackground } from './AuroraBackground.svelte';
 // Providers
 export { default as NostrProvider } from './NostrProvider.svelte';
 
+// Auth Components
+export * from './auth';
+
+// Profile Components
+export * from './profile';

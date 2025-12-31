@@ -8,7 +8,7 @@
 -->
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { ndkStore } from '$lib/nostr';
+	import { connectNdk } from '$lib/nostr';
 	import type { Snippet } from 'svelte';
 
 	interface Props {
@@ -24,7 +24,7 @@
 	onMount(async () => {
 		if (autoConnect) {
 			try {
-				await ndkStore.connect();
+				await connectNdk();
 			} catch (error) {
 				console.error('Failed to connect to Nostr relays:', error);
 			}
