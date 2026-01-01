@@ -2,20 +2,22 @@
   Idea Detail Page
 -->
 <script lang="ts">
-	import { Container, Stack, Row, AuroraBackground, Badge, Avatar, Button, Skeleton } from '$lib/components';
+	import { Container, Stack, Row, AuroraBackground, Badge, Avatar, Button, Skeleton, Card } from '$lib/components';
 	import { MarkdownRenderer } from '$lib/components';
-	import { ideaService, profileService } from '$lib/services';
+	import { JobList, JobForm } from '$lib/components/jobs';
+	import { ideaService, profileService, authService } from '$lib/services';
 	import type { Idea } from '$lib/types/idea';
 	import type { NDKUserProfile } from '@nostr-dev-kit/ndk';
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
-	import { ArrowLeft, Github, Zap, ExternalLink } from 'lucide-svelte';
+	import { ArrowLeft, Github, Zap, Plus, Briefcase } from 'lucide-svelte';
 
 	const eventId = $derived($page.params.id);
 
 	let idea = $state<Idea | null>(null);
 	let authorProfile = $state<NDKUserProfile | undefined>(undefined);
 	let isLoading = $state(true);
+	let showJobForm = $state(false);
 
 	$effect(() => {
 		if (eventId) {
@@ -40,6 +42,13 @@
 	const authorName = $derived(authorProfile?.name ?? authorProfile?.displayName ?? 'Anonymous');
 	const authorAvatar = $derived(authorProfile?.image ?? authorProfile?.picture);
 	const formattedDate = $derived(idea ? new Date(idea.createdAt * 1000).toLocaleDateString() : '');
+	
+	// Check if current user is the owner
+	const isOwner = $derived(
+		authService.isLoggedIn && 
+		idea && 
+		authService.user?.pubkey === idea.pubkey
+	);
 </script>
 
 <AuroraBackground />
@@ -108,16 +117,41 @@
 					<MarkdownRenderer content={idea.content} />
 				</div>
 
-				<!-- Jobs Section (Phase 3) -->
+				<!-- Jobs Section -->
 				<div class="jobs-section">
-					<h2 class="section-title">Jobs</h2>
-					<p class="text-muted">No jobs yet. Check back later!</p>
+					<Row justify="between">
+						<Row gap={2}>
+							<Briefcase size={20} class="text-muted" />
+							<h2 class="section-title">Jobs</h2>
+						</Row>
+						{#if isOwner}
+							<Button 
+								variant="secondary" 
+								size="sm"
+								onclick={() => showJobForm = !showJobForm}
+							>
+								<Plus size={14} />
+								<span>{showJobForm ? 'Cancel' : 'Create Job'}</span>
+							</Button>
+						{/if}
+					</Row>
+
+					{#if showJobForm && isOwner}
+						<div class="job-form-wrapper">
+							<JobForm 
+								ideaId={idea.id} 
+								oncancel={() => showJobForm = false}
+							/>
+						</div>
+					{/if}
+
+					<JobList ideaId={idea.id} />
 				</div>
 			{:else}
 				<Stack gap={4} class="not-found">
 					<h1 class="text-display-md">Idea Not Found</h1>
 					<p class="text-body">This idea may have been deleted or doesn't exist.</p>
-						<Button variant="primary" onclick={() => goto('/ideas')}>
+					<Button variant="primary" onclick={() => goto('/ideas')}>
 						Browse Ideas
 					</Button>
 				</Stack>
@@ -221,13 +255,20 @@
 		padding: var(--space-6);
 		background: var(--bg-glass);
 		border-radius: var(--radius-lg);
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-4);
 	}
 
 	.section-title {
-		font-size: 1.5rem;
+		font-size: 1.25rem;
 		font-weight: 600;
 		color: var(--text-primary);
-		margin-bottom: var(--space-4);
+		margin: 0;
+	}
+
+	.job-form-wrapper {
+		margin-top: var(--space-4);
 	}
 
 	:global(.not-found) {
