@@ -3,22 +3,36 @@
 -->
 <script lang="ts">
 	import { Container, Stack, Row, AuroraBackground, Skeleton, Card, Badge, Button } from '$lib/components';
-	import { OfferActions, OfferChain, OfferForm } from '$lib/components/offers';
+	import { OfferChain, OfferForm } from '$lib/components/offers';
 	import { useOfferDetail } from '$lib/composables';
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
-	import { ArrowLeft, Coins, Clock, Briefcase } from 'lucide-svelte';
+	import { ArrowLeft, Coins, Clock, Briefcase, FileCheck } from 'lucide-svelte';
 
 	const offerId = $derived($page.params.id);
 	
 	// Use composable for all business logic
 	const {
 		offer, job, isLoading,
-		isForMe, canIOCreateContract,
+		isForMe, canIOCreateContract, acceptedOfferFromDev,
 		handleDevAccept, handleCreateContract
 	} = useOfferDetail(() => offerId);
 
 	let showCounterForm = $state(false);
+
+	// Derive the effective status - if chain has accepted, show that
+	const effectiveStatus = $derived(() => {
+		const accepted = acceptedOfferFromDev();
+		if (accepted) return 'accepted';
+		return offer()?.status ?? 'pending';
+	});
+
+	// Can show counter/decline only if pending AND no accepted offer in chain
+	const canTakeAction = $derived(
+		isForMe() && 
+		offer()?.status === 'pending' && 
+		!acceptedOfferFromDev()
+	);
 </script>
 
 <AuroraBackground />
@@ -42,6 +56,7 @@
 		{:else}
 			{@const o = offer()}
 			{@const j = job()}
+			{@const status = effectiveStatus()}
 			<Stack gap={6}>
 				<a href="/dashboard/offers" class="back-link">
 					<ArrowLeft size={16} />
@@ -68,8 +83,8 @@
 					<Stack gap={5}>
 						<Row justify="between">
 							<h1 class="text-display-md">Offer Details</h1>
-							<Badge variant={o?.status === 'accepted' ? 'success' : o?.status === 'declined' ? 'error' : 'warning'}>
-								{o?.status}
+							<Badge variant={status === 'accepted' ? 'success' : status === 'declined' ? 'error' : 'warning'}>
+								{status}
 							</Badge>
 						</Row>
 
@@ -91,34 +106,49 @@
 						</div>
 
 						{#if o?.terms}
-							<div class="section">
+							<div class="content-section">
 								<h3>Terms</h3>
 								<p>{o.terms}</p>
 							</div>
 						{/if}
 
 						{#if o?.message}
-							<div class="section">
+							<div class="content-section">
 								<h3>Message</h3>
 								<p>{o.message}</p>
 							</div>
 						{/if}
 
-						<!-- Actions -->
-						{#if isForMe() && o?.status === 'pending' && j}
-							<OfferActions 
-								offer={o}
-								job={j}
-								onaccept={handleDevAccept}
-								ondecline={() => goto('/dashboard/offers')}
-								oncounter={() => showCounterForm = true}
-							/>
-						{/if}
-						
+						<!-- Actions Section -->
 						{#if canIOCreateContract()}
-							<div class="contract-prompt">
-								<p>Developer has accepted your counter-offer!</p>
-								<Button variant="primary" onclick={handleCreateContract}>Create Contract</Button>
+							<!-- IO can create contract -->
+							<div class="action-box success">
+								<FileCheck size={24} />
+								<div>
+									<p class="action-title">Developer accepted!</p>
+									<p class="action-desc">Ready to create the contract and start working.</p>
+								</div>
+								<Button variant="primary" onclick={handleCreateContract}>
+									Create Contract
+								</Button>
+							</div>
+						{:else if canTakeAction && j}
+							<!-- Can still negotiate -->
+							<Row gap={3}>
+								<Button variant="ghost" onclick={() => goto('/dashboard/offers')}>
+									Decline
+								</Button>
+								<Button variant="secondary" onclick={() => showCounterForm = true}>
+									Send Counter
+								</Button>
+								<Button variant="primary" onclick={handleDevAccept}>
+									Accept
+								</Button>
+							</Row>
+						{:else if status === 'accepted'}
+							<!-- Already accepted, waiting -->
+							<div class="action-box info">
+								<p>Waiting for contract creation...</p>
 							</div>
 						{/if}
 					</Stack>
@@ -148,11 +178,48 @@
 </main>
 
 <style>
-	/* Unique styles only - common styles are in pages.css */
+	/* Unique styles only - common styles in pages.css */
 	.content-section h3 {
 		font-size: 0.875rem;
 		font-weight: 600;
 		color: var(--text-muted);
 		margin-bottom: var(--space-2);
 	}
+
+	.action-box {
+		display: flex;
+		align-items: center;
+		gap: var(--space-4);
+		padding: var(--space-4);
+		border-radius: var(--radius-lg);
+	}
+
+	.action-box.success {
+		background: rgba(16, 185, 129, 0.1);
+		border: 1px solid rgba(16, 185, 129, 0.2);
+		color: var(--success);
+	}
+
+	.action-box.info {
+		background: rgba(255, 255, 255, 0.03);
+		border: 1px solid var(--border-subtle);
+		color: var(--text-muted);
+		justify-content: center;
+	}
+
+	.action-title {
+		font-weight: 600;
+		margin: 0;
+	}
+
+	.action-desc {
+		font-size: 0.875rem;
+		margin: 0;
+		opacity: 0.8;
+	}
+
+	.action-box :global(button) {
+		margin-left: auto;
+	}
 </style>
+
