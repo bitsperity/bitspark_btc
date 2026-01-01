@@ -8,3 +8,4 @@
 export { authService } from './auth.svelte';
 export { profileService } from './profiles';
 export { ideaService } from './ideas';
+export { relayService, type RelayInfo } from './relays';

@@ -51,5 +51,9 @@ export * from './profile';
 // Idea Components
 export * from './ideas';
 
+// Settings Components
+export * from './settings';
+
 // Utilities
 export { default as MarkdownRenderer } from './MarkdownRenderer.svelte';
+
