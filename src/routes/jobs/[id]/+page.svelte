@@ -197,90 +197,10 @@
 </main>
 
 <style>
-	.page {
-		padding: var(--space-8) 0;
-		min-height: 100vh;
-	}
-
-	.back-link {
-		display: inline-flex;
-		align-items: center;
-		gap: var(--space-2);
-		color: var(--text-muted);
-		text-decoration: none;
-		font-size: 0.875rem;
-		transition: color var(--duration-fast);
-	}
-
-	.back-link:hover {
-		color: var(--text-primary);
-	}
-
+	/* Unique job-specific styles - common styles are in pages.css */
 	.job-header {
 		padding-bottom: var(--space-4);
 		border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-	}
-
-	.job-banner {
-		aspect-ratio: 21/9;
-		border-radius: var(--radius-xl);
-		overflow: hidden;
-	}
-
-	.job-banner img {
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-	}
-
-	.requirements-preview {
-		color: var(--text-muted);
-		margin-top: var(--space-2);
-	}
-
-	:global(.not-found) {
-		align-items: center;
-		text-align: center;
-		padding: var(--space-16) 0;
-	}
-
-	.author-name {
-		display: block;
-		font-weight: 600;
-		color: var(--text-primary);
-	}
-
-	.author-label {
-		font-size: 0.75rem;
-		color: var(--text-muted);
-	}
-
-	.idea-link {
-		padding: var(--space-3);
-		background: rgba(255, 255, 255, 0.02);
-		border-radius: var(--radius-md);
-		text-decoration: none;
-		transition: background var(--duration-fast);
-	}
-
-	.idea-link:hover {
-		background: rgba(255, 255, 255, 0.05);
-	}
-
-	.idea-label {
-		font-size: 0.875rem;
-		color: var(--text-muted);
-	}
-
-	.idea-name {
-		font-weight: 500;
-		color: var(--orange-400);
-	}
-
-	.meta-label {
-		font-size: 0.875rem;
-		color: var(--text-muted);
-		margin-right: var(--space-2);
 	}
 
 	.languages {
@@ -290,10 +210,12 @@
 		gap: var(--space-2);
 	}
 
-	.section-title {
-		font-size: 1.25rem;
-		font-weight: 600;
-		margin-bottom: var(--space-4);
-		color: var(--text-primary);
+	.description-text {
+		color: var(--text-secondary);
+		line-height: 1.7;
+	}
+
+	.dod-content {
+		color: var(--text-secondary);
 	}
 </style>

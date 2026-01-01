@@ -161,37 +161,7 @@
 </main>
 
 <style>
-	.page {
-		padding: var(--space-8) 0;
-		min-height: 100vh;
-	}
-
-	.back-link {
-		display: inline-flex;
-		align-items: center;
-		gap: var(--space-2);
-		color: var(--text-muted);
-		text-decoration: none;
-		font-size: 0.875rem;
-		transition: color var(--duration-fast) var(--ease-out);
-	}
-
-	.back-link:hover {
-		color: var(--text-primary);
-	}
-
-	.idea-banner {
-		aspect-ratio: 21/9;
-		border-radius: var(--radius-xl);
-		overflow: hidden;
-	}
-
-	.idea-banner img {
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-	}
-
+	/* Unique idea-specific styles - common styles are in pages.css */
 	.idea-header {
 		display: flex;
 		flex-direction: column;
@@ -217,11 +187,6 @@
 		border-radius: var(--radius-lg);
 	}
 
-	.author-name {
-		font-weight: 500;
-		color: var(--text-secondary);
-	}
-
 	.date {
 		font-size: 0.75rem;
 		color: var(--text-muted);
@@ -237,7 +202,7 @@
 		color: var(--text-secondary);
 		text-decoration: none;
 		font-size: 0.875rem;
-		transition: all var(--duration-fast) var(--ease-out);
+		transition: all 0.2s ease;
 	}
 
 	.meta-link:hover {
@@ -260,20 +225,7 @@
 		gap: var(--space-4);
 	}
 
-	.section-title {
-		font-size: 1.25rem;
-		font-weight: 600;
-		color: var(--text-primary);
-		margin: 0;
-	}
-
 	.job-form-wrapper {
 		margin-top: var(--space-4);
-	}
-
-	:global(.not-found) {
-		align-items: center;
-		text-align: center;
-		padding: var(--space-16) 0;
 	}
 </style>

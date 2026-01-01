@@ -1,5 +1,6 @@
 <script lang="ts">
 	import '../lib/styles/design-system.css';
+	import '../lib/styles/pages.css';
 	import './layout.css';
 	import { NostrProvider, Container, Row } from '$lib/components';
 	import { LoginButton, UserMenu } from '$lib/components/auth';
