@@ -3,7 +3,7 @@
 -->
 <script lang="ts">
 	import { authService, ideaService } from '$lib/services';
-	import { IDEA_CATEGORIES, type CreateIdeaInput } from '$lib/types/idea';
+	import { IDEA_CATEGORIES, CATEGORY_LABELS, type CreateIdeaInput } from '$lib/types/idea';
 	import { Card, Stack, Row, Input, Textarea, Button, Badge, Spinner } from '$lib/components';
 	import MarkdownRenderer from '../MarkdownRenderer.svelte';
 	import { Save, Eye, EyeOff } from 'lucide-svelte';
@@ -69,15 +69,6 @@
 			isSubmitting = false;
 		}
 	}
-
-	const categoryLabels: Record<string, string> = {
-		defi: '💰 DeFi',
-		gaming: '🎮 Gaming',
-		social: '💬 Social',
-		tools: '🔧 Tools',
-		infrastructure: '🏗️ Infrastructure',
-		other: '📦 Other'
-	};
 </script>
 
 <Card>
@@ -169,7 +160,7 @@ Use **Markdown** for formatting!"
 								class:selected={selectedCategories.includes(category)}
 								onclick={() => toggleCategory(category)}
 							>
-								{categoryLabels[category]}
+								{CATEGORY_LABELS[category]}
 							</button>
 						{/each}
 					</div>

@@ -3,13 +3,12 @@
  */
 
 import type { NDKEvent } from '@nostr-dev-kit/ndk';
+import type { NostrEntity } from './nostr';
 
 /**
  * Parsed Idea from NDK Event
  */
-export interface Idea {
-    id: string;
-    pubkey: string;
+export interface Idea extends NostrEntity {
     title: string;
     summary: string;
     content: string;  // Markdown
@@ -17,8 +16,6 @@ export interface Idea {
     githubRepo?: string;
     lnAddress?: string;
     categories: string[];
-    createdAt: number;
-    event: NDKEvent;  // Original event for actions
 }
 
 /**
@@ -47,3 +44,15 @@ export const IDEA_CATEGORIES = [
 ] as const;
 
 export type IdeaCategory = typeof IDEA_CATEGORIES[number];
+
+/**
+ * Category display labels with emojis
+ */
+export const CATEGORY_LABELS: Record<IdeaCategory, string> = {
+    defi: '💰 DeFi',
+    gaming: '🎮 Gaming',
+    social: '💬 Social',
+    tools: '🔧 Tools',
+    infrastructure: '🏗️ Infrastructure',
+    other: '📦 Other'
+};

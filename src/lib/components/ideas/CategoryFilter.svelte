@@ -2,8 +2,7 @@
   CategoryFilter - Horizontal category chip filter
 -->
 <script lang="ts">
-	import { IDEA_CATEGORIES, type IdeaCategory } from '$lib/types/idea';
-	import { Badge } from '$lib/components';
+	import { IDEA_CATEGORIES, CATEGORY_LABELS } from '$lib/types/idea';
 
 	interface Props {
 		selected?: string;
@@ -15,15 +14,6 @@
 	function handleClick(category: string | undefined) {
 		onchange?.(category);
 	}
-
-	const categoryLabels: Record<string, string> = {
-		defi: '💰 DeFi',
-		gaming: '🎮 Gaming',
-		social: '💬 Social',
-		tools: '🔧 Tools',
-		infrastructure: '🏗️ Infrastructure',
-		other: '📦 Other'
-	};
 </script>
 
 <div class="category-filter">
@@ -40,7 +30,7 @@
 			class:active={selected === category}
 			onclick={() => handleClick(category)}
 		>
-			{categoryLabels[category] ?? category}
+			{CATEGORY_LABELS[category]}
 		</button>
 	{/each}
 </div>

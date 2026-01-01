@@ -10,6 +10,9 @@ export const DEFAULT_RELAYS = [
     'ws://umbrel.local:4848'
 ];
 
+// App identifier tag - used in all BitSpark events
+export const APP_TAG: [string, string] = ['s', 'bitspark'];
+
 // BitSpark custom event kinds
 export const NOSTR_KINDS = {
     // Standard kinds

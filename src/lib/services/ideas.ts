@@ -6,8 +6,9 @@
 
 import { NDKEvent, type NDKFilter } from '@nostr-dev-kit/ndk';
 import { ndk } from '$lib/nostr';
-import { NOSTR_KINDS } from '$lib/nostr/config';
+import { NOSTR_KINDS, APP_TAG } from '$lib/nostr/config';
 import type { Idea, CreateIdeaInput } from '$lib/types/idea';
+import { createTagAccessors, parseBaseEvent } from '$lib/utils';
 
 class IdeaService {
     /**
@@ -43,7 +44,7 @@ class IdeaService {
     async getIdea(eventId: string): Promise<Idea | null> {
         const event = await ndk.fetchEvent(eventId);
         if (!event) return null;
-        return this.parseIdeaEvent(event as NDKEvent);
+        return this.parseIdeaEvent(event as unknown as NDKEvent);
     }
 
     /**
@@ -61,7 +62,7 @@ class IdeaService {
             ['d', dTag],
             ['title', input.title],
             ['summary', input.summary],
-            ['s', 'bitspark']
+            APP_TAG  // Using centralized constant
         ];
 
         // Optional tags
@@ -88,14 +89,14 @@ class IdeaService {
 
     /**
      * Parse NDKEvent to Idea interface
+     * Uses shared EventParser utility
      */
     parseIdeaEvent(event: NDKEvent): Idea {
-        const getTag = (name: string) => event.tags.find(t => t[0] === name)?.[1];
-        const getTags = (name: string) => event.tags.filter(t => t[0] === name).map(t => t[1]);
+        const { getTag, getTags } = createTagAccessors(event);
+        const base = parseBaseEvent(event);
 
         return {
-            id: event.id,
-            pubkey: event.pubkey,
+            ...base,
             title: getTag('title') ?? 'Untitled',
             summary: getTag('summary') ?? '',
             content: event.content,
@@ -103,7 +104,6 @@ class IdeaService {
             githubRepo: getTag('github'),
             lnAddress: getTag('lnaddress'),
             categories: getTags('c'),
-            createdAt: event.created_at ?? 0,
             event
         };
     }
