@@ -12,6 +12,7 @@ export { default as Button } from './Button.svelte';
 export { default as Card } from './Card.svelte';
 export { default as Badge } from './Badge.svelte';
 export { default as Avatar } from './Avatar.svelte';
+export { default as UserAvatar } from './UserAvatar.svelte';
 
 // Form Components
 export { default as Input } from './Input.svelte';
@@ -56,6 +57,9 @@ export * from './settings';
 
 // Job Components
 export * from './jobs';
+
+// Offer & Contract Components
+export * from './offers';
 
 // Utilities
 export { default as MarkdownRenderer } from './MarkdownRenderer.svelte';

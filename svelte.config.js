@@ -15,6 +15,10 @@ const config = {
 		}),
 		paths: {
 			base: ''
+		},
+		prerender: {
+			// Ignore dynamic routes that can't be prerendered
+			handleUnseenRoutes: 'ignore'
 		}
 	}
 };

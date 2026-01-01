@@ -14,6 +14,7 @@
 
 import { NDKNip07Signer, type NDKUser } from '@nostr-dev-kit/ndk';
 import { ndk } from '$lib/nostr';
+import { giftWrapService } from './giftwrap';
 
 class AuthService {
     // Reactive signal - increment to trigger UI updates
@@ -69,6 +70,9 @@ class AuthService {
             // Trigger reactive update
             this._authVersion++;
 
+            // Start encrypted event subscription
+            giftWrapService.start();
+
             console.log('[Auth] Logged in as:', user.npub);
             return user;
         } catch (error) {
@@ -85,6 +89,9 @@ class AuthService {
      * Logout - clear current user
      */
     logout(): void {
+        // Stop encrypted event subscription
+        giftWrapService.stop();
+
         ndk.signer = undefined;
         ndk.activeUser = undefined;
         this._error = undefined;

@@ -6,7 +6,7 @@
 <script lang="ts">
 	import { authService } from '$lib/services';
 	import { Avatar } from '$lib/components';
-	import { User, Settings, LogOut, ChevronDown, Edit, Lightbulb, Briefcase } from 'lucide-svelte';
+	import { User, Settings, LogOut, ChevronDown, Edit, Lightbulb, Briefcase, Send, FileCheck } from 'lucide-svelte';
 
 	let menuOpen = $state(false);
 
@@ -69,6 +69,14 @@
 				<a href="/dashboard/jobs" class="menu-item" onclick={closeMenu}>
 					<Briefcase size={16} />
 					<span>My Jobs</span>
+				</a>
+				<a href="/dashboard/offers" class="menu-item" onclick={closeMenu}>
+					<Send size={16} />
+					<span>My Offers</span>
+				</a>
+				<a href="/dashboard/contracts" class="menu-item" onclick={closeMenu}>
+					<FileCheck size={16} />
+					<span>My Contracts</span>
 				</a>
 				<a href="/settings" class="menu-item" onclick={closeMenu}>
 					<Settings size={16} />

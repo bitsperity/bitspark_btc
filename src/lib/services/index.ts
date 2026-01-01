@@ -9,4 +9,7 @@ export { authService } from './auth.svelte';
 export { profileService } from './profiles';
 export { ideaService } from './ideas';
 export { jobService } from './jobs';
+export { offerService } from './offers';
+export { contractService } from './contracts';
+export { giftWrapService, offerEvents, dmEvents, contractEvents } from './giftwrap';
 export { relayService, type RelayInfo } from './relays';

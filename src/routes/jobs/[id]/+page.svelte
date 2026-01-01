@@ -5,14 +5,15 @@
 	import { Container, Stack, Row, AuroraBackground, Badge, Avatar, Button, Skeleton, Card } from '$lib/components';
 	import { MarkdownRenderer } from '$lib/components';
 	import { JobStatusBadge } from '$lib/components/jobs';
-	import { jobService, ideaService, profileService } from '$lib/services';
+	import { OfferForm } from '$lib/components/offers';
+	import { jobService, ideaService, profileService, authService } from '$lib/services';
 	import type { Job } from '$lib/types/job';
 	import type { Idea } from '$lib/types/idea';
 	import { LANGUAGE_LABELS, type ProgrammingLanguage } from '$lib/types/job';
 	import type { NDKUserProfile } from '@nostr-dev-kit/ndk';
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
-	import { ArrowLeft, Briefcase, ExternalLink } from 'lucide-svelte';
+	import { ArrowLeft, Briefcase, ExternalLink, Send } from 'lucide-svelte';
 
 	const jobId = $derived($page.params.id);
 
@@ -21,6 +22,15 @@
 	let authorProfile = $state<NDKUserProfile | null>(null);
 	let isLoading = $state(true);
 	let notFound = $state(false);
+	let showApplyForm = $state(false);
+
+	// Check if user can apply
+	const canApply = $derived(
+		authService.isLoggedIn && 
+		job && 
+		job.status === 'open' &&
+		authService.user?.pubkey !== job.pubkey  // Can't apply to own job
+	);
 
 	$effect(() => {
 		loadJob();
@@ -157,12 +167,30 @@
 					</Card>
 				{/if}
 
-				<!-- Apply button (Phase 4) -->
-				<Row justify="center">
-					<Button variant="primary" size="lg" disabled>
-						Apply for Job (Coming Soon)
-					</Button>
-				</Row>
+				<!-- Apply Section -->
+				{#if showApplyForm && job}
+					<OfferForm 
+						jobId={job.id}
+						recipientPubkey={job.pubkey}
+						oncancel={() => showApplyForm = false}
+						onsent={() => goto('/dashboard/offers')}
+					/>
+				{:else}
+					<Row justify="center">
+						{#if canApply}
+							<Button variant="primary" size="lg" onclick={() => showApplyForm = true}>
+								<Send size={18} />
+								<span>Apply for this Job</span>
+							</Button>
+						{:else if !authService.isLoggedIn}
+							<Button variant="secondary" size="lg" disabled>
+								Login to Apply
+							</Button>
+						{:else if job?.status !== 'open'}
+							<Badge variant="muted">Job is not open for applications</Badge>
+						{/if}
+					</Row>
+				{/if}
 			</Stack>
 		{/if}
 	</Container>

@@ -64,6 +64,17 @@ class JobService {
      * Create a new job for an idea
      */
     async createJob(input: CreateJobInput): Promise<NDKEvent> {
+        // Assert: Only Idea owner can create Jobs
+        const idea = await ndk.fetchEvent(input.ideaId);
+        if (!idea) {
+            throw new Error('Idea not found');
+        }
+
+        const user = ndk.activeUser;
+        if (!user || idea.pubkey !== user.pubkey) {
+            throw new Error('Only the Idea owner can create Jobs for this Idea');
+        }
+
         const event = new NDKEvent(ndk as unknown as ConstructorParameters<typeof NDKEvent>[0]);
         event.kind = NOSTR_KINDS.JOB;
         event.content = input.content;
