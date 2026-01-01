@@ -5,7 +5,7 @@
 import { NDKEvent, type NDKFilter } from '@nostr-dev-kit/ndk';
 import { ndk } from '$lib/nostr';
 import { NOSTR_KINDS, APP_TAG } from '$lib/nostr/config';
-import type { Contract, CreateContractInput, SignedEventProof } from '$lib/types/offer';
+import type { Contract, CreateContractInput, SignedEventProof, PullRequest, SubmitPRInput, PRStatus } from '$lib/types/offer';
 import { createTagAccessors, parseBaseEvent } from '$lib/utils';
 
 class ContractService {
@@ -167,6 +167,140 @@ class ContractService {
             event
         };
     }
+
+    // ========================================
+    // PULL REQUEST METHODS
+    // ========================================
+
+    /**
+     * Submit a PR (Dev action)
+     */
+    async submitPR(input: SubmitPRInput): Promise<NDKEvent> {
+        const event = new NDKEvent(ndk as unknown as ConstructorParameters<typeof NDKEvent>[0]);
+        event.kind = NOSTR_KINDS.PULL_REQUEST;
+        event.content = input.message;
+
+        const dTag = `pr-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+
+        event.tags = [
+            ['d', dTag],
+            ['e', input.contractId, '', 'contract'],
+            ['e', input.jobId, '', 'job'],
+            ['p', input.ioPubkey],
+            ['pr_url', input.prUrl],
+            ['status', 'submitted'],
+            APP_TAG
+        ];
+
+        await event.publish();
+        console.log('[ContractService] Submitted PR:', event.id);
+
+        return event;
+    }
+
+    /**
+     * Approve PR (IO action) - triggers payment
+     */
+    async approvePR(pr: PullRequest, message: string): Promise<NDKEvent> {
+        const event = new NDKEvent(ndk as unknown as ConstructorParameters<typeof NDKEvent>[0]);
+        event.kind = NOSTR_KINDS.PULL_REQUEST;
+        event.content = message;
+
+        event.tags = [
+            ['d', pr.id],  // Same d-tag to update
+            ['e', pr.contractId, '', 'contract'],
+            ['e', pr.jobId, '', 'job'],
+            ['p', pr.developerPubkey],
+            ['pr_url', pr.prUrl],
+            ['status', 'approved'],
+            APP_TAG
+        ];
+
+        await event.publish();
+        console.log('[ContractService] Approved PR:', event.id);
+
+        return event;
+    }
+
+    /**
+     * Request changes on PR (IO action)
+     */
+    async requestChanges(pr: PullRequest, message: string): Promise<NDKEvent> {
+        const event = new NDKEvent(ndk as unknown as ConstructorParameters<typeof NDKEvent>[0]);
+        event.kind = NOSTR_KINDS.PULL_REQUEST;
+        event.content = message;
+
+        event.tags = [
+            ['d', pr.id],
+            ['e', pr.contractId, '', 'contract'],
+            ['e', pr.jobId, '', 'job'],
+            ['p', pr.developerPubkey],
+            ['pr_url', pr.prUrl],
+            ['status', 'changes_requested'],
+            APP_TAG
+        ];
+
+        await event.publish();
+        console.log('[ContractService] Requested changes:', event.id);
+
+        return event;
+    }
+
+    /**
+     * Subscribe to PRs for a contract
+     */
+    subscribeToPRs(contractId: string) {
+        return ndk.storeSubscribe({
+            kinds: [NOSTR_KINDS.PULL_REQUEST as number],
+            '#e': [contractId],
+            '#s': ['bitspark']
+        } as NDKFilter);
+    }
+
+    /**
+     * Get latest PR for a contract
+     */
+    async getLatestPR(contractId: string): Promise<PullRequest | null> {
+        const events = await ndk.fetchEvents({
+            kinds: [NOSTR_KINDS.PULL_REQUEST as number],
+            '#e': [contractId],
+            '#s': ['bitspark']
+        } as NDKFilter);
+
+        if (events.size === 0) return null;
+
+        // Get latest by created_at
+        const sorted = Array.from(events).sort((a, b) =>
+            (b.created_at ?? 0) - (a.created_at ?? 0)
+        );
+
+        return this.parsePREvent(sorted[0] as unknown as NDKEvent);
+    }
+
+    /**
+     * Parse NDKEvent to PullRequest
+     */
+    parsePREvent(event: NDKEvent): PullRequest {
+        const { getTag, getTags } = createTagAccessors(event);
+        const base = parseBaseEvent(event);
+
+        const contractTag = event.tags.find(t => t[0] === 'e' && t[3] === 'contract');
+        const jobTag = event.tags.find(t => t[0] === 'e' && t[3] === 'job');
+        const pTags = getTags('p');
+
+        return {
+            ...base,
+            contractId: contractTag?.[1] ?? '',
+            jobId: jobTag?.[1] ?? '',
+            prUrl: getTag('pr_url') ?? '',
+            message: event.content,
+            status: (getTag('status') ?? 'submitted') as PRStatus,
+            developerPubkey: event.pubkey,
+            ioPubkey: pTags[0] ?? '',
+            event
+        };
+    }
 }
 
 export const contractService = new ContractService();
+

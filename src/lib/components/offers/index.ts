@@ -11,3 +11,5 @@ export { default as OffersIdeaGroup } from './OffersIdeaGroup.svelte';
 export { default as OffersJobCard } from './OffersJobCard.svelte';
 export { default as ContractCard } from './ContractCard.svelte';
 export { default as ContractProofViewer } from './ContractProofViewer.svelte';
+export { default as PRSubmitForm } from './PRSubmitForm.svelte';
+export { default as PRCard } from './PRCard.svelte';

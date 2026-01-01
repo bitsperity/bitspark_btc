@@ -3,14 +3,14 @@
 -->
 <script lang="ts">
 	import { Container, Stack, Row, AuroraBackground, Skeleton, Card, Badge, Button } from '$lib/components';
-	import { ContractProofViewer } from '$lib/components/offers';
+	import { ContractProofViewer, PRSubmitForm, PRCard } from '$lib/components/offers';
 	import { contractService, jobService, profileService, authService } from '$lib/services';
-	import type { Contract } from '$lib/types/offer';
+	import type { Contract, PullRequest } from '$lib/types/offer';
 	import type { Job } from '$lib/types/job';
 	import type { NDKUserProfile } from '@nostr-dev-kit/ndk';
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
-	import { ArrowLeft, FileCheck, Coins, Briefcase, Users, RefreshCw, Shield } from 'lucide-svelte';
+	import { ArrowLeft, FileCheck, Coins, Briefcase, Users, RefreshCw, Shield, Send } from 'lucide-svelte';
 
 	const contractId = $derived($page.params.id);
 
@@ -18,8 +18,10 @@
 	let job = $state<Job | null>(null);
 	let devProfile = $state<NDKUserProfile | null>(null);
 	let ioProfile = $state<NDKUserProfile | null>(null);
+	let pr = $state<PullRequest | null>(null);
 	let isLoading = $state(true);
 	let isRepublishing = $state(false);
+	let showPRForm = $state(false);
 
 	$effect(() => {
 		loadContract();
@@ -33,6 +35,7 @@
 				job = await jobService.getJob(contract.jobId);
 				devProfile = await profileService.getProfile(contract.developerPubkey);
 				ioProfile = await profileService.getProfile(contract.ioPubkey);
+				pr = await contractService.getLatestPR(contract.id);
 			}
 		} catch (e) {
 			console.error('[ContractDetail] Load error:', e);
@@ -43,19 +46,24 @@
 
 	const isDev = $derived(contract && authService.user?.pubkey === contract.developerPubkey);
 	const isIO = $derived(contract && authService.user?.pubkey === contract.ioPubkey);
+	const canSubmitPR = $derived(isDev && (!pr || pr.status === 'changes_requested'));
 
 	async function handleRepublish() {
 		if (!contract) return;
 		isRepublishing = true;
 		try {
 			await contractService.republishContract(contract);
-			// Reload to show updated state
 			await loadContract();
 		} catch (e) {
 			console.error('[ContractDetail] Republish error:', e);
 		} finally {
 			isRepublishing = false;
 		}
+	}
+
+	function handlePRSubmitted() {
+		showPRForm = false;
+		loadContract();
 	}
 </script>
 
@@ -94,7 +102,9 @@
 								<FileCheck size={28} class="contract-icon" />
 								<h1 class="text-display-md">Contract</h1>
 							</Row>
-							<Badge variant="success">Active</Badge>
+							<Badge variant={pr?.status === 'approved' ? 'success' : 'warning'}>
+								{pr?.status === 'approved' ? 'Completed' : 'Active'}
+							</Badge>
 						</Row>
 
 						<!-- Job Reference -->
@@ -152,6 +162,37 @@
 									{/if}
 									<span>Confirm & Republish</span>
 								</Button>
+							</div>
+						{/if}
+					</Stack>
+				</Card>
+
+				<!-- PR Section -->
+				<Card>
+					<Stack gap={4}>
+						<h2 class="section-title">Pull Request</h2>
+						
+						{#if pr}
+							<PRCard {pr} {contract} onupdate={loadContract} />
+						{:else if canSubmitPR}
+							{#if showPRForm}
+								<PRSubmitForm 
+									{contract} 
+									onsubmit={handlePRSubmitted}
+									oncancel={() => showPRForm = false}
+								/>
+							{:else}
+								<div class="empty-pr">
+									<p>Submit your pull request when ready for review.</p>
+									<Button variant="primary" onclick={() => showPRForm = true}>
+										<Send size={16} />
+										<span>Submit PR</span>
+									</Button>
+								</div>
+							{/if}
+						{:else if isIO}
+							<div class="empty-pr">
+								<p class="text-muted">Waiting for developer to submit a pull request...</p>
 							</div>
 						{/if}
 					</Stack>
