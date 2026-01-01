@@ -11,19 +11,47 @@
 	import { goto } from '$app/navigation';
 	import { FileCheck } from 'lucide-svelte';
 
-	// Subscribe to contracts
-	const contractsStore = contractService.subscribeToMyContracts();
+	let contracts = $state<Contract[]>([]);
+	let isLoading = $state(true);
+	let unsub: (() => void) | undefined;
 
-	// Parse contracts
-	const contracts = $derived(
-		contractsStore ? ($contractsStore as NDKEvent[]).map(e => contractService.parseContractEvent(e)) : []
-	);
-
-	const isLoading = $derived(contractsStore ? $contractsStore.length === 0 : true);
-
-	onDestroy(() => {
-		contractsStore?.unsubscribe();
+	// React to login state
+	$effect(() => {
+		const loggedIn = authService.isLoggedIn;
+		
+		if (loggedIn) {
+			// Small delay to let services initialize
+			setTimeout(() => startSubscription(), 500);
+		} else {
+			cleanup();
+		}
 	});
+
+	function startSubscription() {
+		cleanup();
+		isLoading = true;
+
+		const store = contractService.subscribeToMyContracts();
+		if (!store) {
+			isLoading = false;
+			return;
+		}
+
+		unsub = store.subscribe(events => {
+			contracts = (events as NDKEvent[]).map(e => contractService.parseContractEvent(e));
+			isLoading = false;
+		});
+
+		// Timeout for loading state
+		setTimeout(() => { isLoading = false; }, 5000);
+	}
+
+	function cleanup() {
+		unsub?.();
+		contracts = [];
+	}
+
+	onDestroy(cleanup);
 
 	function handleContractClick(contract: Contract) {
 		goto(`/contracts/${contract.id}`);
