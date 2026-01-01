@@ -16,6 +16,7 @@ export function useOfferDetail(offerId: () => string) {
     let offer = $state<Offer | null>(null);
     let job = $state<Job | null>(null);
     let senderProfile = $state<NDKUserProfile | undefined>(undefined);
+    let offerChain = $state<Offer[]>([]);
     let isLoading = $state(true);
 
     // Load offer and related data
@@ -28,6 +29,8 @@ export function useOfferDetail(offerId: () => string) {
             if (offer) {
                 job = await jobService.getJob(offer.jobId);
                 senderProfile = await profileService.getProfile(offer.pubkey);
+                // Load the full chain to find accepted offers
+                offerChain = await offerService.getOfferChain(offer.id);
             }
         } catch (e) {
             console.error('[OfferDetail] Load error:', e);
@@ -51,10 +54,18 @@ export function useOfferDetail(offerId: () => string) {
     const isFromMe = $derived(offer && authService.user?.pubkey === offer.pubkey);
     const isIO = $derived(job && authService.user?.pubkey === job.pubkey);
 
+    // Find an accepted offer from Dev in the chain (Dev accepted IO's counter-offer)
+    const acceptedOfferFromDev = $derived(() => {
+        if (!job) return null;
+        return offerChain.find(o =>
+            o.status === 'accepted' &&
+            o.pubkey !== job.pubkey  // Offer/accept was made by Dev
+        );
+    });
+
+    // IO can create contract if there's an accepted offer from Dev in the chain
     const canIOCreateContract = $derived(
-        isIO &&
-        offer?.status === 'accepted' &&
-        offer?.pubkey !== job?.pubkey
+        isIO && job && acceptedOfferFromDev() !== null
     );
 
     // Dev accepts offer (doesn't create contract)
@@ -73,19 +84,22 @@ export function useOfferDetail(offerId: () => string) {
 
     // IO creates contract after seeing Dev's accept
     async function handleCreateContract() {
-        if (!offer || !job) return;
+        if (!job) return;
 
-        const chain = await offerService.getOfferChain(offer.id);
-        const ioCounter = chain.find(o => o.pubkey === job.pubkey);
+        const acceptedOffer = acceptedOfferFromDev();
+        if (!acceptedOffer) return;
 
-        if (ioCounter?.event && offer.event) {
+        // Find IO's counter-offer that Dev accepted
+        const ioCounter = offerChain.find(o => o.pubkey === job.pubkey);
+
+        if (ioCounter?.event && acceptedOffer.event) {
             await contractService.createContract({
-                jobId: offer.jobId,
-                acceptedOfferId: offer.id,
-                developerPubkey: offer.pubkey,
+                jobId: acceptedOffer.jobId,
+                acceptedOfferId: acceptedOffer.id,
+                developerPubkey: acceptedOffer.pubkey,
                 counterOffer: ioCounter.event,
-                acceptOffer: offer.event,
-                agreedBid: offer.bid,
+                acceptOffer: acceptedOffer.event,
+                agreedBid: acceptedOffer.bid,
                 message: `Contract for job: ${job?.title ?? 'Unknown'}`
             });
         }
@@ -102,8 +116,10 @@ export function useOfferDetail(offerId: () => string) {
         isFromMe: () => isFromMe,
         isIO: () => isIO,
         canIOCreateContract: () => canIOCreateContract,
+        acceptedOfferFromDev,
         handleDevAccept,
         handleDecline,
         handleCreateContract
     };
 }
+
