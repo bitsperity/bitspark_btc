@@ -280,13 +280,21 @@ class ContractService {
         event.tags = [
             ['d', dTag],
             ['e', input.contractId, '', 'contract'],
-            ['e', input.confirmationId, '', 'confirmation'],  // Dev's signed confirmation
+            ['e', input.confirmationId, '', 'confirmation'],
             ['e', input.jobId, '', 'job'],
             ['p', input.ioPubkey],
             ['pr_url', input.prUrl],
             ['status', 'submitted'],
             APP_TAG
         ];
+
+        console.log('[ContractService] submitPR creating event:', {
+            kind: event.kind,
+            dTag,
+            contractId: input.contractId?.slice(0, 8),
+            confirmationId: input.confirmationId?.slice(0, 8),
+            message: input.message?.slice(0, 20)
+        });
 
         await event.publish();
         console.log('[ContractService] Submitted PR:', event.id);
