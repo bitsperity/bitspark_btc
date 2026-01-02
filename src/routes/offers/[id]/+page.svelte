@@ -1,65 +1,61 @@
 <!--
   Offer Detail Page
   
-  Actions:
-  - Decline: Always at top (ends entire negotiation)
-  - Accept/Counter: On each pending offer in chain
+  Clean role-based structure:
+  - userRole === 'io' → IOActionPanel
+  - userRole === 'dev' → DevActionPanel
 -->
 <script lang="ts">
 	import { Container, Stack, Row, AuroraBackground, Skeleton, Card, Badge, Button } from '$lib/components';
-	import { OfferChain, OfferForm } from '$lib/components/offers';
+	import { OfferChain, IOActionPanel, DevActionPanel, CounterOfferModal } from '$lib/components/offers';
 	import { useOfferDetail } from '$lib/composables';
-	import { offerService } from '$lib/services';
 	import type { Offer } from '$lib/types/offer';
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
-	import { ArrowLeft, Coins, Clock, Briefcase, FileCheck, XCircle } from 'lucide-svelte';
+	import { ArrowLeft, Coins, Clock, Briefcase } from 'lucide-svelte';
 
 	const offerId = $derived($page.params.id);
 	
 	const {
 		offer, job, isLoading,
-		isIO, isDev, canIOCreateContract, acceptedOfferFromDev,
-		latestPendingOfferForMe,
-		handleCreateContract
+		userRole, effectiveStatus, canCreateContract, pendingOffersForMe,
+		acceptOffer, declineOffer, createContract
 	} = useOfferDetail(() => offerId);
 
-	let showCounterForm = $state(false);
-	let counterForOffer = $state<Offer | null>(null);
+	// Modal state
+	let showCounterModal = $state(false);
+	let counterTargetOffer = $state<Offer | null>(null);
 
-	// Derive the effective status
-	const effectiveStatus = $derived(() => {
-		const accepted = acceptedOfferFromDev();
-		if (accepted) return 'accepted';
-		return offer()?.status ?? 'pending';
-	});
+	// ========== HANDLERS ==========
 
-	// Can decline the entire chain if there's a pending offer for me
-	const canDecline = $derived(latestPendingOfferForMe() !== null && !acceptedOfferFromDev());
+	function handleCounter(targetOffer: Offer) {
+		counterTargetOffer = targetOffer;
+		showCounterModal = true;
+	}
 
-	// Handle decline - ends entire negotiation
-	async function handleDecline() {
-		const confirmed = confirm('Decline this negotiation? This will end the entire offer chain.');
-		if (!confirmed) return;
-		
-		const pendingOffer = latestPendingOfferForMe();
-		if (pendingOffer) {
-			await offerService.declineOffer(pendingOffer);
-		}
+	function handleCloseModal() {
+		showCounterModal = false;
+		counterTargetOffer = null;
+	}
+
+	function handleCounterSent() {
+		handleCloseModal();
 		goto('/dashboard/offers');
 	}
 
-	// Handle accept - Dev accepts a specific counter-offer
-	async function handleAccept(targetOffer: Offer) {
-		await offerService.acceptOffer(targetOffer);
-		// Reload to show updated status
-		window.location.reload();
+	async function handleDecline(targetOffer: Offer) {
+		const confirmed = confirm('Decline this negotiation? This ends the entire offer chain.');
+		if (confirmed) {
+			await declineOffer(targetOffer);
+		}
 	}
 
-	// Handle counter - show form for specific offer
-	function handleCounter(targetOffer: Offer) {
-		counterForOffer = targetOffer;
-		showCounterForm = true;
+	async function handleAccept(targetOffer: Offer) {
+		await acceptOffer(targetOffer);
+	}
+
+	function handleCreateContract() {
+		createContract();
 	}
 </script>
 
@@ -75,7 +71,7 @@
 			</Stack>
 		{:else if !offer()}
 			<Card>
-				<Stack gap={4} class="not-found">
+				<Stack gap={4}>
 					<h1>Offer Not Found</h1>
 					<p class="text-muted">This offer may have been deleted or doesn't exist.</p>
 					<Button variant="primary" onclick={() => goto('/dashboard/offers')}>Back to Offers</Button>
@@ -84,8 +80,11 @@
 		{:else}
 			{@const o = offer()}
 			{@const j = job()}
+			{@const role = userRole()}
 			{@const status = effectiveStatus()}
+			
 			<Stack gap={6}>
+				<!-- Back link -->
 				<a href="/dashboard/offers" class="back-link">
 					<ArrowLeft size={16} />
 					<span>Back to Offers</span>
@@ -106,9 +105,9 @@
 					</a>
 				{/if}
 
-				<!-- Main Actions Card -->
+				<!-- Offer Summary -->
 				<Card>
-					<Stack gap={5}>
+					<Stack gap={4}>
 						<Row justify="between">
 							<h1 class="text-display-md">Offer Details</h1>
 							<Badge variant={status === 'accepted' ? 'success' : status === 'declined' ? 'error' : 'warning'}>
@@ -132,60 +131,32 @@
 								</div>
 							</div>
 						</div>
-
-						<!-- Top Actions -->
-						{#if canIOCreateContract()}
-							<div class="action-box success">
-								<FileCheck size={24} />
-								<div>
-									<p class="action-title">Developer accepted!</p>
-									<p class="action-desc">Ready to create the contract.</p>
-								</div>
-								<Button variant="primary" onclick={handleCreateContract}>
-									Create Contract
-								</Button>
-							</div>
-						{:else if status === 'accepted'}
-							<div class="action-box info">
-								<p>Waiting for contract creation...</p>
-							</div>
-						{:else if status === 'declined'}
-							<div class="action-box error">
-								<p>This negotiation has been declined.</p>
-							</div>
-						{/if}
 					</Stack>
 				</Card>
 
-				<!-- Counter Form -->
-				{#if showCounterForm && counterForOffer && j}
-					<OfferForm 
-						jobId={counterForOffer.jobId}
-						recipientPubkey={counterForOffer.pubkey}
-						prevOffer={counterForOffer}
-						oncancel={() => { showCounterForm = false; counterForOffer = null; }}
-						onsent={() => goto('/dashboard/offers')}
+				<!-- Role-Based Action Panel -->
+				{#if role === 'io'}
+					<IOActionPanel
+						pendingOffersForMe={pendingOffersForMe()}
+						canCreateContract={canCreateContract()}
+						oncounter={handleCounter}
+						ondecline={handleDecline}
+						oncreatecontract={handleCreateContract}
+					/>
+				{:else if role === 'dev'}
+					<DevActionPanel
+						pendingOffersForMe={pendingOffersForMe()}
+						onaccept={handleAccept}
+						oncounter={handleCounter}
+						ondecline={handleDecline}
 					/>
 				{/if}
 
-				<!-- Negotiation History with inline actions -->
+				<!-- Negotiation History -->
 				<Card>
 					<Stack gap={4}>
 						<h2>Negotiation History</h2>
-						<p class="chain-hint">Accept or counter offers below:</p>
-						<OfferChain 
-							{offerId} 
-							showActions={true}
-							onaccept={isDev() ? handleAccept : undefined}
-							oncounter={handleCounter}
-						/>
-
-						<!-- Simple decline button -->
-						{#if canDecline}
-							<Button variant="ghost" onclick={handleDecline}>
-								Decline
-							</Button>
-						{/if}
+						<OfferChain {offerId} />
 					</Stack>
 				</Card>
 			</Stack>
@@ -193,74 +164,43 @@
 	</Container>
 </main>
 
+<!-- Counter Offer Modal -->
+{#if showCounterModal && counterTargetOffer}
+	<CounterOfferModal
+		targetOffer={counterTargetOffer}
+		onclose={handleCloseModal}
+		onsent={handleCounterSent}
+	/>
+{/if}
+
 <style>
-	.content-section h3 {
-		font-size: 0.875rem;
-		font-weight: 600;
-		color: var(--text-muted);
-		margin-bottom: var(--space-2);
-	}
-
-	.action-box {
-		display: flex;
-		align-items: center;
+	.details-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
 		gap: var(--space-4);
-		padding: var(--space-4);
-		border-radius: var(--radius-lg);
 	}
 
-	.action-box.success {
-		background: rgba(16, 185, 129, 0.1);
-		border: 1px solid rgba(16, 185, 129, 0.2);
-		color: var(--success);
-	}
-
-	.action-box.info {
-		background: rgba(255, 255, 255, 0.03);
-		border: 1px solid var(--border-subtle);
-		color: var(--text-muted);
-		justify-content: center;
-	}
-
-	.action-box.error {
-		background: rgba(239, 68, 68, 0.1);
-		border: 1px solid rgba(239, 68, 68, 0.2);
-		color: var(--error);
-		justify-content: center;
-	}
-
-	.action-title {
-		font-weight: 600;
-		margin: 0;
-	}
-
-	.action-desc {
-		font-size: 0.875rem;
-		margin: 0;
-		opacity: 0.8;
-	}
-
-	.action-box :global(button) {
-		margin-left: auto;
-	}
-
-	.decline-section {
+	.detail-item {
 		display: flex;
 		align-items: center;
 		gap: var(--space-3);
-		padding: var(--space-3);
-		background: rgba(239, 68, 68, 0.05);
-		border-radius: var(--radius-md);
+		color: var(--text-muted);
 	}
 
-	.decline-hint {
+	.detail-item div {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.detail-label {
 		font-size: 0.75rem;
-		color: var(--text-muted);
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
 	}
 
-	.chain-hint {
-		font-size: 0.875rem;
-		color: var(--text-muted);
-		margin: 0;
+	.detail-value {
+		font-size: 1.25rem;
+		font-weight: 600;
+		color: var(--text-primary);
 	}
 </style>

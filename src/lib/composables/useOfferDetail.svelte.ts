@@ -2,7 +2,7 @@
  * useOfferDetail Composable
  * 
  * Centralized business logic for offer detail page.
- * Handles loading, role checks, and contract creation.
+ * Provides userRole determination ('io' | 'dev' | null) for clean component delegation.
  */
 
 import { offerService, jobService, profileService, authService, contractService } from '$lib/services';
@@ -10,6 +10,8 @@ import type { Offer } from '$lib/types/offer';
 import type { Job } from '$lib/types/job';
 import type { NDKUserProfile } from '@nostr-dev-kit/ndk';
 import { goto } from '$app/navigation';
+
+export type UserRole = 'io' | 'dev' | null;
 
 export function useOfferDetail(offerId: () => string) {
     // State
@@ -29,7 +31,6 @@ export function useOfferDetail(offerId: () => string) {
             if (offer) {
                 job = await jobService.getJob(offer.jobId);
                 senderProfile = await profileService.getProfile(offer.pubkey);
-                // Load the full chain to find accepted offers
                 offerChain = await offerService.getOfferChain(offer.id);
             }
         } catch (e) {
@@ -49,54 +50,91 @@ export function useOfferDetail(offerId: () => string) {
         }
     });
 
-    // Computed role checks
-    const isForMe = $derived(offer && authService.user?.pubkey === offer.recipientPubkey);
-    const isFromMe = $derived(offer && authService.user?.pubkey === offer.pubkey);
-    const isIO = $derived(job && authService.user?.pubkey === job.pubkey);
-    // isDev = has a pending offer for me AND I'm NOT the job owner
-    const isDev = $derived(job && authService.user?.pubkey !== job.pubkey);
+    // ========== ROLE DETERMINATION ==========
 
-    // Find an ACCEPTED offer from Dev in the chain
-    // This means: status='accepted', from Dev (not IO), and must have a prevOfferId (it's a response)
-    const acceptedOfferFromDev = $derived(() => {
-        if (!job) return null;
-
-        const found = offerChain.find(o =>
-            o.status === 'accepted' &&           // Explicitly accepted
-            o.pubkey !== job.pubkey &&           // From Dev (not IO)
-            o.prevOfferId                        // Must be responding to something (not initial offer)
-        );
-
-        return found ?? null;
+    /**
+     * Determine user's role for this offer chain:
+     * - 'io': User is the job owner (Issue Owner)
+     * - 'dev': User is a developer (not job owner)
+     * - null: Unknown (job not loaded or not logged in)
+     */
+    const userRole = $derived<UserRole>(() => {
+        if (!job || !authService.user?.pubkey) return null;
+        return authService.user.pubkey === job.pubkey ? 'io' : 'dev';
     });
 
-    // IO can create contract if there's a proper accepted offer from Dev in the chain
-    const canIOCreateContract = $derived(
-        isIO && job && acceptedOfferFromDev() !== null
+    // ========== OFFER CHAIN ANALYSIS ==========
+
+    /**
+     * Find accepted offer from Dev in chain (Dev accepted IO's counter)
+     */
+    const acceptedOfferFromDev = $derived(() => {
+        if (!job) return null;
+        return offerChain.find(o =>
+            o.status === 'accepted' &&
+            o.pubkey !== job.pubkey &&
+            o.prevOfferId
+        ) ?? null;
+    });
+
+    /**
+     * Find latest pending offer addressed to current user
+     */
+    const latestPendingOfferForMe = $derived(() => {
+        const myPubkey = authService.user?.pubkey;
+        if (!myPubkey) return null;
+
+        const pendingForMe = offerChain
+            .filter(o => o.recipientPubkey === myPubkey && o.status === 'pending')
+            .sort((a, b) => (b.createdAt ?? 0) - (a.createdAt ?? 0));
+
+        return pendingForMe[0] ?? null;
+    });
+
+    /**
+     * Get all pending offers addressed to current user (for action buttons)
+     */
+    const pendingOffersForMe = $derived(() => {
+        const myPubkey = authService.user?.pubkey;
+        if (!myPubkey) return [];
+        return offerChain.filter(o => o.recipientPubkey === myPubkey && o.status === 'pending');
+    });
+
+    // ========== DERIVED STATUS ==========
+
+    const canCreateContract = $derived(
+        userRole() === 'io' && acceptedOfferFromDev() !== null
     );
 
-    // Dev accepts offer (doesn't create contract)
-    async function handleDevAccept() {
-        if (!offer) return;
-        await offerService.acceptOffer(offer);
+    const canTakeActions = $derived(
+        latestPendingOfferForMe() !== null && !acceptedOfferFromDev()
+    );
+
+    const effectiveStatus = $derived(() => {
+        if (acceptedOfferFromDev()) return 'accepted';
+        const declined = offerChain.find(o => o.status === 'declined');
+        if (declined) return 'declined';
+        return offer?.status ?? 'pending';
+    });
+
+    // ========== ACTIONS ==========
+
+    async function acceptOffer(targetOffer: Offer) {
+        await offerService.acceptOffer(targetOffer);
+        window.location.reload();
+    }
+
+    async function declineOffer(targetOffer: Offer) {
+        await offerService.declineOffer(targetOffer);
         goto('/dashboard/offers');
     }
 
-    // Dev declines offer
-    async function handleDecline() {
-        if (!offer) return;
-        await offerService.declineOffer(offer);
-        goto('/dashboard/offers');
-    }
-
-    // IO creates contract after seeing Dev's accept
-    async function handleCreateContract() {
+    async function createContract() {
         if (!job) return;
 
         const acceptedOffer = acceptedOfferFromDev();
         if (!acceptedOffer) return;
 
-        // Find IO's counter-offer that Dev accepted
         const ioCounter = offerChain.find(o => o.pubkey === job.pubkey);
 
         if (ioCounter?.event && acceptedOffer.event) {
@@ -107,42 +145,37 @@ export function useOfferDetail(offerId: () => string) {
                 counterOffer: ioCounter.event,
                 acceptOffer: acceptedOffer.event,
                 agreedBid: acceptedOffer.bid,
-                message: `Contract for job: ${job?.title ?? 'Unknown'}`
+                message: `Contract for job: ${job.title ?? 'Unknown'}`
             });
         }
 
         goto('/dashboard/contracts');
     }
 
-    // Find the latest pending offer addressed to current user in the chain
-    const latestPendingOfferForMe = $derived(() => {
-        const myPubkey = authService.user?.pubkey;
-        if (!myPubkey) return null;
-
-        // Find pending offers addressed to me, sorted by created_at desc
-        const pendingForMe = offerChain
-            .filter(o => o.recipientPubkey === myPubkey && o.status === 'pending')
-            .sort((a, b) => (b.createdAt ?? 0) - (a.createdAt ?? 0));
-
-        return pendingForMe[0] ?? null;
-    });
+    // ========== PUBLIC API ==========
 
     return {
+        // Data
         offer: () => offer,
         job: () => job,
-        senderProfile: () => senderProfile,
         offerChain: () => offerChain,
+        senderProfile: () => senderProfile,
         isLoading: () => isLoading,
-        isForMe: () => isForMe,
-        isFromMe: () => isFromMe,
-        isIO: () => isIO,
-        isDev: () => isDev,
-        canIOCreateContract: () => canIOCreateContract,
+
+        // Role & Status
+        userRole,
+        effectiveStatus,
+        canCreateContract: () => canCreateContract,
+        canTakeActions: () => canTakeActions,
+
+        // Offer Chain Helpers
         acceptedOfferFromDev,
         latestPendingOfferForMe,
-        handleDevAccept,
-        handleDecline,
-        handleCreateContract
+        pendingOffersForMe,
+
+        // Actions
+        acceptOffer,
+        declineOffer,
+        createContract
     };
 }
-
