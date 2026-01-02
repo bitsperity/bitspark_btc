@@ -69,13 +69,29 @@
 			</div>
 
 		{:else if phase === 'PR_UNDER_REVIEW'}
-			<div class="status-box waiting">
-				<Clock size={24} />
-				<div>
-					<strong>PR Under Review</strong>
-					<p>Waiting for Idea Owner to review your submission...</p>
+			{#if pr?.status === 'changes_requested'}
+				<div class="action-section">
+					<div class="status-box error">
+						<RefreshCw size={20} />
+						<span>Changes were requested</span>
+					</div>
+					<p class="description">
+						The Idea Owner has requested changes. Please update your code and resubmit.
+					</p>
+					<Button variant="primary" onclick={onsubmitpr} disabled={isActioning}>
+						<Send size={16} />
+						<span>Resubmit PR</span>
+					</Button>
 				</div>
-			</div>
+			{:else}
+				<div class="status-box waiting">
+					<Clock size={24} />
+					<div>
+						<strong>PR Under Review</strong>
+						<p>Waiting for Idea Owner to review your submission...</p>
+					</div>
+				</div>
+			{/if}
 
 		{:else if phase === 'COMPLETED'}
 			<div class="status-box success">
@@ -126,6 +142,11 @@
 	.status-box.success {
 		background: rgba(16, 185, 129, 0.1);
 		color: var(--success);
+	}
+
+	.status-box.error {
+		background: rgba(239, 68, 68, 0.1);
+		color: var(--error);
 	}
 
 	.status-box div {
