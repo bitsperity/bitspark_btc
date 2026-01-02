@@ -13,8 +13,9 @@
 	
 	// Use composable for all business logic
 	const {
-		offer, job, isLoading,
+		offer, job, isLoading, offerChain,
 		isForMe, isIO, canIOCreateContract, acceptedOfferFromDev,
+		latestPendingOfferForMe,
 		handleDevAccept, handleCreateContract
 	} = useOfferDetail(() => offerId);
 
@@ -27,23 +28,26 @@
 		return offer()?.status ?? 'pending';
 	});
 
-	// Can show counter/decline only if pending AND no accepted offer in chain
+	// Can take action if there's a pending offer addressed to me in the chain
+	// This allows seeing actions even when viewing a different offer in the chain
 	const canTakeAction = $derived(
-		isForMe() && 
-		offer()?.status === 'pending' && 
+		latestPendingOfferForMe() !== null && 
 		!acceptedOfferFromDev()
 	);
+
+	// The offer to act on (might be different from currently viewed offer)
+	const actionableOffer = $derived(latestPendingOfferForMe() ?? offer());
 
 	// Debug logging
 	$effect(() => {
 		const o = offer();
+		const pending = latestPendingOfferForMe();
 		if (o) {
 			console.log('[OfferDetail DEBUG]', {
-				myPubkey: o.recipientPubkey?.slice(0, 16),
-				offerStatus: o.status,
-				isForMe: isForMe(),
-				isIO: isIO(),
+				viewedOffer: o.id?.slice(0, 8),
+				latestPendingForMe: pending?.id?.slice(0, 8) ?? 'none',
 				canTakeAction,
+				isIO: isIO(),
 				acceptedExists: !!acceptedOfferFromDev()
 			});
 		}

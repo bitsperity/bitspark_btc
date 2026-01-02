@@ -112,16 +112,31 @@ export function useOfferDetail(offerId: () => string) {
         goto('/dashboard/contracts');
     }
 
+    // Find the latest pending offer addressed to current user in the chain
+    const latestPendingOfferForMe = $derived(() => {
+        const myPubkey = authService.user?.pubkey;
+        if (!myPubkey) return null;
+
+        // Find pending offers addressed to me, sorted by created_at desc
+        const pendingForMe = offerChain
+            .filter(o => o.recipientPubkey === myPubkey && o.status === 'pending')
+            .sort((a, b) => (b.createdAt ?? 0) - (a.createdAt ?? 0));
+
+        return pendingForMe[0] ?? null;
+    });
+
     return {
         offer: () => offer,
         job: () => job,
         senderProfile: () => senderProfile,
+        offerChain: () => offerChain,
         isLoading: () => isLoading,
         isForMe: () => isForMe,
         isFromMe: () => isFromMe,
         isIO: () => isIO,
         canIOCreateContract: () => canIOCreateContract,
         acceptedOfferFromDev,
+        latestPendingOfferForMe,
         handleDevAccept,
         handleDecline,
         handleCreateContract
