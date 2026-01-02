@@ -175,8 +175,8 @@
 						<p class="chain-hint">Accept or counter offers below:</p>
 						<OfferChain 
 							{offerId} 
-							showActions={!isIO()}
-							onaccept={handleAccept}
+							showActions={true}
+							onaccept={isIO() ? undefined : handleAccept}
 							oncounter={handleCounter}
 						/>
 
