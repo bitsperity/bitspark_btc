@@ -121,7 +121,7 @@
 
 						<!-- Actions Section -->
 						{#if canIOCreateContract()}
-							<!-- IO can create contract -->
+							<!-- IO can create contract after Dev accepted -->
 							<div class="action-box success">
 								<FileCheck size={24} />
 								<div>
@@ -133,18 +133,31 @@
 								</Button>
 							</div>
 						{:else if canTakeAction && j}
-							<!-- Can still negotiate -->
-							<Row gap={3}>
-								<Button variant="ghost" onclick={() => goto('/dashboard/offers')}>
-									Decline
-								</Button>
-								<Button variant="secondary" onclick={() => showCounterForm = true}>
-									Send Counter
-								</Button>
-								<Button variant="primary" onclick={handleDevAccept}>
-									Accept
-								</Button>
-							</Row>
+							<!-- Different actions based on role -->
+							{#if isIO()}
+								<!-- IO can only Decline or Counter -->
+								<Row gap={3}>
+									<Button variant="ghost" onclick={() => goto('/dashboard/offers')}>
+										Decline
+									</Button>
+									<Button variant="primary" onclick={() => showCounterForm = true}>
+										Send Counter
+									</Button>
+								</Row>
+							{:else}
+								<!-- Dev can Accept, Decline, or Counter -->
+								<Row gap={3}>
+									<Button variant="ghost" onclick={() => goto('/dashboard/offers')}>
+										Decline
+									</Button>
+									<Button variant="secondary" onclick={() => showCounterForm = true}>
+										Send Counter
+									</Button>
+									<Button variant="primary" onclick={handleDevAccept}>
+										Accept
+									</Button>
+								</Row>
+							{/if}
 						{:else if status === 'accepted'}
 							<!-- Already accepted, waiting -->
 							<div class="action-box info">

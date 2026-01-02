@@ -58,11 +58,14 @@ export function useOfferDetail(offerId: () => string) {
     // This means: status='accepted', from Dev (not IO), and must have a prevOfferId (it's a response)
     const acceptedOfferFromDev = $derived(() => {
         if (!job) return null;
-        return offerChain.find(o =>
+
+        const found = offerChain.find(o =>
             o.status === 'accepted' &&           // Explicitly accepted
             o.pubkey !== job.pubkey &&           // From Dev (not IO)
             o.prevOfferId                        // Must be responding to something (not initial offer)
         );
+
+        return found ?? null;
     });
 
     // IO can create contract if there's a proper accepted offer from Dev in the chain
