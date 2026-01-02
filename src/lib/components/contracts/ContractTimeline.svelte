@@ -1,6 +1,6 @@
 <!--
-  ContractTimeline - Shows chronological history of ALL contract events with messages
-  Properly separates Dev submissions from IO reviews
+  ContractTimeline - Shows chronological history of ALL contract events
+  Uses STATUS field to identify event type (simple and reliable)
 -->
 <script lang="ts">
 	import { Stack, Row, Card } from '$lib/components';
@@ -57,18 +57,8 @@
 			return items;
 		}
 
-		// 3. Separate events by author
-		// Dev submissions: author is the developer
-		// IO reviews: author is NOT the developer
-		const devEvents = allPRs.filter(pr => pr.pubkey === pr.developerPubkey);
-		const ioReviews = allPRs.filter(pr => pr.pubkey !== pr.developerPubkey);
-		
-		// Sort each group chronologically
-		devEvents.sort((a, b) => a.createdAt - b.createdAt);
-		ioReviews.sort((a, b) => a.createdAt - b.createdAt);
-
 		// No PRs yet
-		if (devEvents.length === 0) {
+		if (allPRs.length === 0) {
 			items.push({
 				icon: Send,
 				label: 'Awaiting Pull Request',
@@ -79,62 +69,56 @@
 			return items;
 		}
 
-		// 4. Build timeline by interleaving dev submissions and IO reviews
-		let devIdx = 0;
-		let ioIdx = 0;
+		// 3. Process PRs by STATUS (simple and reliable)
+		// Sort by timestamp
+		const sortedPRs = [...allPRs].sort((a, b) => a.createdAt - b.createdAt);
 		
-		while (devIdx < devEvents.length || ioIdx < ioReviews.length) {
-			const nextDev = devEvents[devIdx];
-			const nextIO = ioReviews[ioIdx];
-			
-			// Decide which event comes next chronologically
-			if (nextDev && (!nextIO || nextDev.createdAt <= nextIO.createdAt)) {
+		let submissionCount = 0;
+		
+		for (let i = 0; i < sortedPRs.length; i++) {
+			const pr = sortedPRs[i];
+			const isLast = i === sortedPRs.length - 1;
+
+			if (pr.status === 'submitted') {
 				// Dev submission
-				const isFirst = devIdx === 0;
+				submissionCount++;
 				items.push({
-					icon: isFirst ? Send : RefreshCw,
-					label: isFirst ? 'Pull Request submitted' : 'PR resubmitted',
-					message: nextDev.message || undefined,
-					timestamp: nextDev.createdAt,
+					icon: submissionCount === 1 ? Send : RefreshCw,
+					label: submissionCount === 1 ? 'Pull Request submitted' : 'PR resubmitted',
+					message: pr.message || undefined,
+					timestamp: pr.createdAt,
 					status: 'completed',
 					actor: 'dev'
 				});
-				devIdx++;
-			} else if (nextIO) {
-				// IO review
-				if (nextIO.status === 'changes_requested') {
+				
+				// If this is the last event and it's submitted, add waiting status
+				if (isLast) {
 					items.push({
-						icon: MessageCircle,
-						label: 'Changes requested',
-						message: nextIO.reviewMessage || undefined,
-						timestamp: nextIO.createdAt,
-						status: ioIdx === ioReviews.length - 1 && devIdx >= devEvents.length ? 'current' : 'completed',
-						actor: 'io'
-					});
-				} else if (nextIO.status === 'approved') {
-					items.push({
-						icon: Check,
-						label: 'PR approved',
-						message: nextIO.reviewMessage || undefined,
-						timestamp: nextIO.createdAt,
-						status: 'completed',
+						icon: Clock,
+						label: 'Awaiting review',
+						timestamp: 0,
+						status: 'current',
 						actor: 'io'
 					});
 				}
-				ioIdx++;
-			}
-		}
-		
-		// If last action was dev submission without review yet
-		const lastEvent = items[items.length - 1];
-		if (lastEvent && lastEvent.actor === 'dev' && lastEvent.label !== 'Awaiting Pull Request') {
-			// Check if there's no corresponding review
-			if (ioReviews.length < devEvents.length) {
+			} else if (pr.status === 'changes_requested') {
+				// IO review - changes requested
 				items.push({
-					icon: Clock,
-					label: 'Awaiting review',
-					timestamp: 0,
-					status: 'current',
+					icon: MessageCircle,
+					label: 'Changes requested',
+					message: pr.reviewMessage || undefined,
+					timestamp: pr.createdAt,
+					status: isLast ? 'current' : 'completed',
+					actor: 'io'
+				});
+			} else if (pr.status === 'approved') {
+				// IO review - approved
+				items.push({
+					icon: Check,
+					label: 'PR approved',
+					message: pr.reviewMessage || undefined,
+					timestamp: pr.createdAt,
+					status: 'completed',
 					actor: 'io'
 				});
 			}

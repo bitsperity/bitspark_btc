@@ -297,18 +297,19 @@ class ContractService {
     /**
      * Approve PR (IO action) - triggers payment
      */
-    async approvePR(pr: PullRequest, message: string): Promise<NDKEvent> {
+    async approvePR(pr: PullRequest, feedback: string): Promise<NDKEvent> {
         const event = new NDKEvent(ndk as unknown as ConstructorParameters<typeof NDKEvent>[0]);
         event.kind = NOSTR_KINDS.PULL_REQUEST;
-        event.content = message;
+        event.content = pr.message;  // Preserve original PR message
 
         event.tags = [
-            ['d', pr.id],  // Same d-tag to update
+            ['d', pr.id],
             ['e', pr.contractId, '', 'contract'],
             ['e', pr.jobId, '', 'job'],
             ['p', pr.developerPubkey],
             ['pr_url', pr.prUrl],
             ['status', 'approved'],
+            ['review_message', feedback],  // IO's feedback
             APP_TAG
         ];
 
