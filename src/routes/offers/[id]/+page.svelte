@@ -33,6 +33,21 @@
 		offer()?.status === 'pending' && 
 		!acceptedOfferFromDev()
 	);
+
+	// Debug logging
+	$effect(() => {
+		const o = offer();
+		if (o) {
+			console.log('[OfferDetail DEBUG]', {
+				myPubkey: o.recipientPubkey?.slice(0, 16),
+				offerStatus: o.status,
+				isForMe: isForMe(),
+				isIO: isIO(),
+				canTakeAction,
+				acceptedExists: !!acceptedOfferFromDev()
+			});
+		}
+	});
 </script>
 
 <AuroraBackground />
