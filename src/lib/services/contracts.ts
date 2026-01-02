@@ -123,8 +123,18 @@ class ContractService {
 
     /**
      * Convert NDKEvent to SignedEventProof
+     * Reads signature from 'orig_sig' tag if event.sig is empty (GiftWrap unwrapped)
      */
     private eventToProof(event: NDKEvent): SignedEventProof {
+        // Try to get signature from event.sig first, then from orig_sig tag
+        let sig = event.sig ?? '';
+        if (!sig) {
+            const origSigTag = event.tags.find(t => t[0] === 'orig_sig');
+            if (origSigTag) {
+                sig = origSigTag[1];
+            }
+        }
+
         return {
             id: event.id,
             pubkey: event.pubkey,
@@ -132,7 +142,7 @@ class ContractService {
             kind: event.kind ?? 0,
             tags: event.tags,
             content: event.content,
-            sig: event.sig ?? ''
+            sig
         };
     }
 

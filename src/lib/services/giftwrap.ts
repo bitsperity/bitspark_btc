@@ -204,11 +204,16 @@ class GiftWrapService {
         if (!rumor.pubkey) rumor.pubkey = user.pubkey;
         if (!rumor.created_at) rumor.created_at = Math.floor(Date.now() / 1000);
 
-        // Sign the rumor if requested (for contract proofs)
-        // Note: Standard NIP-59 uses unsigned rumors, but we need signatures for proofs
+        // Sign the rumor and store signature in a custom tag for contract proofs
+        // NIP-59 rumors are unsigned by design, but we need cryptographic proofs
+        // So we sign it, capture the signature, and store it in a tag
         if (signRumor) {
             await rumor.sign(signer as any);
-            console.log('[GiftWrapService] Signed rumor:', rumor.id?.slice(0, 16) + '...', 'sig:', rumor.sig?.slice(0, 16) + '...');
+            if (rumor.sig) {
+                // Store the signature in a custom tag before NDK strips it
+                rumor.tags.push(['orig_sig', rumor.sig]);
+                console.log('[GiftWrapService] Stored sig in tag:', rumor.sig.slice(0, 16) + '...');
+            }
         }
 
         // Wrap for recipient
