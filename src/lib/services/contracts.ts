@@ -374,6 +374,26 @@ class ContractService {
     }
 
     /**
+     * Get ALL PRs for a contract (for timeline history)
+     */
+    async getAllPRs(contractId: string): Promise<PullRequest[]> {
+        const events = await ndk.fetchEvents({
+            kinds: [NOSTR_KINDS.PULL_REQUEST as number],
+            '#e': [contractId],
+            '#s': ['bitspark']
+        } as NDKFilter);
+
+        if (events.size === 0) return [];
+
+        // Sort by created_at ascending (oldest first)
+        const sorted = Array.from(events).sort((a, b) =>
+            (a.created_at ?? 0) - (b.created_at ?? 0)
+        );
+
+        return sorted.map(e => this.parsePREvent(e as unknown as NDKEvent));
+    }
+
+    /**
      * Parse NDKEvent to PullRequest
      */
     parsePREvent(event: NDKEvent): PullRequest {

@@ -38,6 +38,7 @@ export function useContractDetail(contractId: () => string) {
     let contract = $state<Contract | null>(null);
     let confirmation = $state<ContractConfirmation | null>(null);
     let pr = $state<PullRequest | null>(null);
+    let allPRs = $state<PullRequest[]>([]);  // All PR events for timeline
     let job = $state<Job | null>(null);
     let ioProfile = $state<NDKUserProfile | null>(null);
     let devProfile = $state<NDKUserProfile | null>(null);
@@ -70,9 +71,10 @@ export function useContractDetail(contractId: () => string) {
                 ioProfile = ioResult ?? null;
                 devProfile = devResult ?? null;
 
-                // Load confirmation and PR
+                // Load confirmation and PRs
                 confirmation = await contractService.getConfirmation(contract.id);
                 pr = await contractService.getLatestPR(contract.id);
+                allPRs = await contractService.getAllPRs(contract.id);
             }
         } catch (e) {
             console.error('[ContractDetail] Load error:', e);
@@ -222,6 +224,7 @@ export function useContractDetail(contractId: () => string) {
         contract: () => contract,
         confirmation: () => confirmation,
         pr: () => pr,
+        allPRs: () => allPRs,  // All PRs for timeline
         job: () => job,
         ioProfile: () => ioProfile,
         devProfile: () => devProfile,

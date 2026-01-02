@@ -169,7 +169,7 @@
 				<ContractTimeline 
 					{contract}
 					confirmation={detail.confirmation()}
-					pr={detail.pr()}
+					allPRs={detail.allPRs()}
 				/>
 
 				<!-- Proofs -->

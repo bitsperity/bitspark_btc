@@ -1,18 +1,18 @@
 <!--
-  ContractTimeline - Shows chronological history of contract events
+  ContractTimeline - Shows chronological history of ALL contract events
 -->
 <script lang="ts">
 	import { Stack, Row, Card } from '$lib/components';
 	import type { Contract, ContractConfirmation, PullRequest } from '$lib/types/offer';
-	import { FileCheck, Shield, Send, MessageCircle, Check, Clock } from 'lucide-svelte';
+	import { FileCheck, Shield, Send, MessageCircle, Check, Clock, RefreshCw } from 'lucide-svelte';
 
 	interface Props {
 		contract: Contract;
 		confirmation: ContractConfirmation | null;
-		pr: PullRequest | null;
+		allPRs: PullRequest[];  // All PR events for full history
 	}
 
-	let { contract, confirmation, pr }: Props = $props();
+	let { contract, confirmation, allPRs }: Props = $props();
 
 	interface TimelineEvent {
 		icon: typeof FileCheck;
@@ -54,23 +54,36 @@
 			return items; // Stop here if not confirmed
 		}
 
-		// 3. PR submitted
-		if (pr) {
+		// 3. All PR events (full history)
+		if (allPRs.length === 0) {
 			items.push({
 				icon: Send,
-				label: 'Pull Request submitted',
+				label: 'Awaiting Pull Request',
+				timestamp: 0,
+				status: 'current',
+				actor: 'dev'
+			});
+			return items;
+		}
+
+		// Process each PR in chronological order
+		for (const pr of allPRs) {
+			// PR submitted
+			items.push({
+				icon: pr === allPRs[0] ? Send : RefreshCw,
+				label: pr === allPRs[0] ? 'Pull Request submitted' : 'PR resubmitted',
 				timestamp: pr.createdAt,
 				status: 'completed',
 				actor: 'dev'
 			});
 
-			// 4. Review status
+			// Review action (if not the last PR or if last has final status)
 			if (pr.status === 'changes_requested') {
 				items.push({
 					icon: MessageCircle,
 					label: 'Changes requested',
-					timestamp: pr.createdAt + 1, // Slightly after
-					status: 'current',
+					timestamp: pr.createdAt + 1,
+					status: pr === allPRs[allPRs.length - 1] ? 'current' : 'completed',
 					actor: 'io'
 				});
 			} else if (pr.status === 'approved') {
@@ -81,7 +94,8 @@
 					status: 'completed',
 					actor: 'io'
 				});
-			} else {
+			} else if (pr.status === 'submitted' && pr === allPRs[allPRs.length - 1]) {
+				// Only show waiting for the latest PR
 				items.push({
 					icon: Clock,
 					label: 'Awaiting review',
@@ -90,14 +104,6 @@
 					actor: 'io'
 				});
 			}
-		} else {
-			items.push({
-				icon: Send,
-				label: 'Awaiting Pull Request',
-				timestamp: 0,
-				status: 'current',
-				actor: 'dev'
-			});
 		}
 
 		return items;
