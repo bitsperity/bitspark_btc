@@ -386,6 +386,16 @@ class ContractService {
             '#s': ['bitspark']
         } as NDKFilter);
 
+        console.log('[ContractService] getAllPRs raw event count:', events.size);
+        console.log('[ContractService] getAllPRs events:', Array.from(events).map(e => ({
+            id: e.id?.slice(0, 8),
+            pubkey: e.pubkey?.slice(0, 8),
+            dTag: e.tags.find(t => t[0] === 'd')?.[1]?.slice(0, 8),
+            status: e.tags.find(t => t[0] === 'status')?.[1],
+            content: e.content?.slice(0, 20),
+            created_at: new Date((e.created_at ?? 0) * 1000).toLocaleTimeString()
+        })));
+
         if (events.size === 0) return [];
 
         // Sort by created_at ascending (oldest first)
