@@ -364,23 +364,44 @@ class ContractService {
     }
 
     /**
-     * Get latest PR for a contract
+     * Get latest PR for a contract (includes review status)
      */
     async getLatestPR(contractId: string): Promise<PullRequest | null> {
+        // Fetch both PR submissions and reviews to get current state
         const events = await ndk.fetchEvents({
-            kinds: [NOSTR_KINDS.PULL_REQUEST as number],
+            kinds: [NOSTR_KINDS.PULL_REQUEST as number, NOSTR_KINDS.REVIEW as number],
             '#e': [contractId],
             '#s': ['bitspark']
         } as NDKFilter);
 
         if (events.size === 0) return null;
 
-        // Get latest by created_at
+        // Get all events sorted by time (newest first)
         const sorted = Array.from(events).sort((a, b) =>
             (b.created_at ?? 0) - (a.created_at ?? 0)
         );
 
-        return this.parsePREvent(sorted[0] as unknown as NDKEvent);
+        // Find the latest PR submission (Kind 30105)
+        const latestSubmission = sorted.find(e => e.kind === NOSTR_KINDS.PULL_REQUEST);
+        if (!latestSubmission) return null;
+
+        // Parse the PR
+        const pr = this.parsePREvent(latestSubmission as unknown as NDKEvent);
+
+        // Check if there's a newer review event that updates the status
+        const latestEvent = sorted[0];
+        if (latestEvent.kind === NOSTR_KINDS.REVIEW) {
+            const statusTag = latestEvent.tags.find(t => t[0] === 'status');
+            const reviewMessageTag = latestEvent.tags.find(t => t[0] === 'review_message');
+            if (statusTag) {
+                pr.status = statusTag[1] as PRStatus;
+            }
+            if (reviewMessageTag) {
+                pr.reviewMessage = reviewMessageTag[1];
+            }
+        }
+
+        return pr;
     }
 
     /**
