@@ -142,14 +142,6 @@
 									Create Contract
 								</Button>
 							</div>
-						{:else if canDecline}
-							<div class="decline-section">
-								<Button variant="ghost" onclick={handleDecline}>
-									<XCircle size={16} />
-									Decline Negotiation
-								</Button>
-								<span class="decline-hint">Ends the entire negotiation</span>
-							</div>
 						{:else if status === 'accepted'}
 							<div class="action-box info">
 								<p>Waiting for contract creation...</p>
@@ -184,6 +176,17 @@
 							onaccept={handleAccept}
 							oncounter={handleCounter}
 						/>
+
+						<!-- Decline button at bottom -->
+						{#if canDecline}
+							<div class="decline-section">
+								<Button variant="ghost" onclick={handleDecline}>
+									<XCircle size={16} />
+									Decline Negotiation
+								</Button>
+								<span class="decline-hint">Ends the entire negotiation</span>
+							</div>
+						{/if}
 					</Stack>
 				</Card>
 			</Stack>
