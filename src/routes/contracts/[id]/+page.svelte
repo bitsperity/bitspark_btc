@@ -1,77 +1,48 @@
 <!--
   Contract Detail Page
+  
+  Clean architecture using:
+  - useContractDetail composable (state machine)
+  - ContractPhaseCard (phase-based rendering)
+  - ContractHeader & ContractParties (shared UI)
 -->
 <script lang="ts">
-	import { Container, Stack, Row, AuroraBackground, Skeleton, Card, Badge, Button } from '$lib/components';
-	import { ContractProofViewer, PRSubmitForm, PRCard } from '$lib/components/offers';
-	import { contractService, jobService, profileService, authService } from '$lib/services';
-	import type { Contract, ContractConfirmation, PullRequest } from '$lib/types/offer';
-	import type { Job } from '$lib/types/job';
-	import type { NDKUserProfile } from '@nostr-dev-kit/ndk';
+	import { Container, Stack, AuroraBackground, Skeleton, Card, Button } from '$lib/components';
+	import { ContractHeader, ContractParties, ContractPhaseCard } from '$lib/components/contracts';
+	import { ContractProofViewer, PRCard, PRSubmitForm } from '$lib/components/offers';
+	import { useContractDetail } from '$lib/composables';
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
-	import { ArrowLeft, FileCheck, Coins, Briefcase, Users, RefreshCw, Shield, Send } from 'lucide-svelte';
+	import { ArrowLeft } from 'lucide-svelte';
 
 	const contractId = $derived($page.params.id);
+	
+	const detail = useContractDetail(() => contractId);
 
-	let contract = $state<Contract | null>(null);
-	let job = $state<Job | null>(null);
-	let devProfile = $state<NDKUserProfile | null>(null);
-	let ioProfile = $state<NDKUserProfile | null>(null);
-	let pr = $state<PullRequest | null>(null);
-	let confirmation = $state<ContractConfirmation | null>(null);
-	let isLoading = $state(true);
-	let isConfirming = $state(false);
+	// Local UI state
 	let showPRForm = $state(false);
+	let showFeedbackForm = $state(false);
+	let feedbackText = $state('');
 
-	$effect(() => {
-		loadContract();
-	});
-
-	async function loadContract() {
-		isLoading = true;
-		try {
-			contract = await contractService.getContract(contractId);
-			if (contract) {
-				job = await jobService.getJob(contract.jobId);
-				devProfile = await profileService.getProfile(contract.developerPubkey);
-				ioProfile = await profileService.getProfile(contract.ioPubkey);
-				pr = await contractService.getLatestPR(contract.id);
-				// Check if contract has been confirmed by Dev
-				confirmation = await contractService.getConfirmation(contract.id);
-			}
-		} catch (e) {
-			console.error('[ContractDetail] Load error:', e);
-		} finally {
-			isLoading = false;
-		}
+	// Action handlers
+	function handleSubmitPR() {
+		showPRForm = true;
 	}
 
-	const isDev = $derived(contract && authService.user?.pubkey === contract.developerPubkey);
-	const isIO = $derived(contract && authService.user?.pubkey === contract.ioPubkey);
-	const hasConfirmed = $derived(confirmation !== null);
-	// Dev can submit PR only after confirming the contract
-	const canSubmitPR = $derived(isDev && hasConfirmed && (!pr || pr.status === 'changes_requested'));
-	// Show confirm button if Dev hasn't confirmed yet
-	const needsConfirmation = $derived(isDev && !hasConfirmed);
-
-	async function handleConfirm() {
-		if (!contract) return;
-		isConfirming = true;
-		try {
-			const confirmEvent = await contractService.confirmContract(contract);
-			confirmation = await contractService.getConfirmation(contract.id);
-			console.log('[ContractDetail] Contract confirmed:', confirmEvent.id);
-		} catch (e) {
-			console.error('[ContractDetail] Confirm error:', e);
-		} finally {
-			isConfirming = false;
-		}
-	}
-
-	function handlePRSubmitted() {
+	async function handlePRSubmitted() {
 		showPRForm = false;
-		loadContract();
+		await detail.refresh();
+	}
+
+	function handleRequestChanges() {
+		showFeedbackForm = true;
+	}
+
+	async function submitFeedback() {
+		if (!feedbackText.trim()) return;
+		await detail.requestChanges(feedbackText);
+		feedbackText = '';
+		showFeedbackForm = false;
 	}
 </script>
 
@@ -79,15 +50,15 @@
 
 <main class="page">
 	<Container size="md">
-		{#if isLoading}
+		{#if detail.isLoading()}
 			<Stack gap={6}>
 				<Skeleton width="100px" height="1rem" />
 				<Skeleton width="80%" height="2rem" />
 				<Skeleton width="100%" height="300px" />
 			</Stack>
-		{:else if !contract}
+		{:else if !detail.contract()}
 			<Card>
-				<Stack gap={4} class="not-found">
+				<Stack gap={4}>
 					<h1>Contract Not Found</h1>
 					<p class="text-muted">This contract may have been deleted or doesn't exist.</p>
 					<Button variant="primary" onclick={() => goto('/dashboard/contracts')}>
@@ -96,128 +67,94 @@
 				</Stack>
 			</Card>
 		{:else}
-			<Stack gap={6}>
+			{@const contract = detail.contract()!}
+			{@const phase = detail.phase()}
+			{@const userRole = detail.userRole()}
+
+			<Stack gap={5}>
+				<!-- Back link -->
 				<a href="/dashboard/contracts" class="back-link">
 					<ArrowLeft size={16} />
 					<span>Back to Contracts</span>
 				</a>
 
-				<!-- Header -->
+				<!-- Header Card -->
 				<Card>
 					<Stack gap={5}>
-						<Row justify="between">
-							<Row gap={3}>
-								<FileCheck size={28} class="contract-icon" />
-								<h1 class="text-display-md">Contract</h1>
-							</Row>
-							<Badge variant={pr?.status === 'approved' ? 'success' : 'warning'}>
-								{pr?.status === 'approved' ? 'Completed' : 'Active'}
-							</Badge>
-						</Row>
+						<ContractHeader 
+							{contract} 
+							job={detail.job()} 
+							{phase} 
+						/>
+						
+						<ContractParties
+							ioProfile={detail.ioProfile()}
+							devProfile={detail.devProfile()}
+							{userRole}
+							agreedBid={contract.agreedBid}
+						/>
+					</Stack>
+				</Card>
 
-						<!-- Job Reference -->
-						{#if job}
-							<a href="/jobs/{job.id}" class="job-link">
-								<Row gap={2}>
-									<Briefcase size={16} />
-									<span>{job.title}</span>
-								</Row>
-							</a>
-						{/if}
+				<!-- Phase Card (main action area) -->
+				<ContractPhaseCard
+					{phase}
+					{userRole}
+					confirmation={detail.confirmation()}
+					pr={detail.pr()}
+					isActioning={detail.isActioning()}
+					onconfirm={detail.confirmContract}
+					onsubmitpr={handleSubmitPR}
+					onapprovepr={detail.approvePR}
+					onrequestchanges={handleRequestChanges}
+				/>
 
-						<!-- Parties -->
-						<div class="parties-section">
-							<h3>
-								<Users size={16} />
-								Parties
-							</h3>
-							<div class="parties-grid">
-								<div class="party-card">
-									<span class="party-role">Idea Owner</span>
-									<span class="party-name">{ioProfile?.name ?? 'Anonymous'}</span>
-									{#if isIO}
-										<Badge variant="secondary" size="sm">You</Badge>
-									{/if}
-								</div>
-								<div class="party-card">
-									<span class="party-role">Developer</span>
-									<span class="party-name">{devProfile?.name ?? 'Anonymous'}</span>
-									{#if isDev}
-										<Badge variant="secondary" size="sm">You</Badge>
-									{/if}
-								</div>
-							</div>
-						</div>
+				<!-- PR Form (shown when submitting) -->
+				{#if showPRForm && detail.contract()}
+					<Card>
+						<PRSubmitForm 
+							contract={detail.contract()!}
+							onsubmit={handlePRSubmitted}
+							oncancel={() => showPRForm = false}
+						/>
+					</Card>
+				{/if}
 
-						<!-- Agreed Bid -->
-						<div class="bid-section">
-							<Row gap={2}>
-								<Coins size={20} />
-								<span class="bid-label">Agreed Payment</span>
-							</Row>
-							<span class="bid-value">{contract.agreedBid.toLocaleString()} sats</span>
-						</div>
+				<!-- PR Card (shown when PR exists) -->
+				{#if detail.pr() && !showPRForm}
+					<Card>
+						<Stack gap={4}>
+							<h2 class="section-title">Pull Request</h2>
+							<PRCard 
+								pr={detail.pr()!} 
+								contract={detail.contract()!}
+								onupdate={detail.refresh}
+							/>
+						</Stack>
+					</Card>
+				{/if}
 
-						<!-- Dev Actions -->
-						{#if needsConfirmation}
-							<div class="action-section">
-								<p class="action-hint">Sign this contract to confirm you accept it:</p>
-								<Button variant="primary" onclick={handleConfirm} disabled={isConfirming}>
-									{#if isConfirming}
-										<RefreshCw size={16} class="spinning" />
-									{:else}
-										<Shield size={16} />
-									{/if}
-									<span>Confirm & Sign</span>
+				<!-- Feedback Form (shown when requesting changes) -->
+				{#if showFeedbackForm}
+					<Card>
+						<Stack gap={3}>
+							<h3>Request Changes</h3>
+							<textarea
+								bind:value={feedbackText}
+								placeholder="Describe the changes needed..."
+								class="feedback-input"
+							></textarea>
+							<div class="feedback-actions">
+								<Button variant="ghost" onclick={() => showFeedbackForm = false}>
+									Cancel
+								</Button>
+								<Button variant="primary" onclick={submitFeedback}>
+									Submit Feedback
 								</Button>
 							</div>
-						{:else if hasConfirmed && isDev}
-							<div class="confirmed-section">
-								<Badge variant="success">Confirmed</Badge>
-								<span class="confirmed-text">You have signed this contract</span>
-							</div>
-						{/if}
-					</Stack>
-				</Card>
-
-				<!-- PR Section -->
-				<Card>
-					<Stack gap={4}>
-						<h2 class="section-title">Pull Request</h2>
-						
-						{#if pr}
-							<PRCard {pr} {contract} onupdate={loadContract} />
-						{:else if canSubmitPR}
-							{#if showPRForm}
-								<PRSubmitForm 
-									{contract} 
-									onsubmit={handlePRSubmitted}
-									oncancel={() => showPRForm = false}
-								/>
-							{:else}
-								<div class="empty-pr">
-									<p>Submit your pull request when ready for review.</p>
-									<Button variant="primary" onclick={() => showPRForm = true}>
-										<Send size={16} />
-										<span>Submit PR</span>
-									</Button>
-								</div>
-							{/if}
-						{:else if isDev && !hasConfirmed}
-							<div class="empty-pr">
-								<p class="text-muted">Sign the contract above before submitting a PR.</p>
-							</div>
-						{:else if isIO && !hasConfirmed}
-							<div class="empty-pr">
-								<p class="text-muted">⏳ Waiting for developer to sign the contract...</p>
-							</div>
-						{:else if isIO && hasConfirmed}
-							<div class="empty-pr">
-								<p class="text-muted">✓ Contract signed. Waiting for developer to submit a pull request...</p>
-							</div>
-						{/if}
-					</Stack>
-				</Card>
+						</Stack>
+					</Card>
+				{/if}
 
 				<!-- Proofs -->
 				<ContractProofViewer {contract} />
@@ -245,105 +182,27 @@
 		color: var(--text-primary);
 	}
 
-	:global(.contract-icon) {
-		color: var(--orange-500);
-	}
-
-	.job-link {
-		display: inline-flex;
-		padding: var(--space-3) var(--space-4);
-		background: rgba(255, 255, 255, 0.02);
-		border-radius: var(--radius-md);
-		text-decoration: none;
-		color: var(--orange-400);
-		font-weight: 500;
-	}
-
-	.job-link:hover {
-		background: rgba(255, 255, 255, 0.05);
-	}
-
-	.parties-section h3 {
-		display: flex;
-		align-items: center;
-		gap: var(--space-2);
-		font-size: 0.875rem;
-		color: var(--text-muted);
-		margin-bottom: var(--space-3);
-	}
-
-	.parties-grid {
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-		gap: var(--space-4);
-	}
-
-	.party-card {
-		padding: var(--space-4);
-		background: rgba(255, 255, 255, 0.02);
-		border-radius: var(--radius-md);
-		display: flex;
-		flex-direction: column;
-		gap: var(--space-1);
-	}
-
-	.party-role {
-		font-size: 0.625rem;
-		color: var(--text-muted);
-		text-transform: uppercase;
-		letter-spacing: 0.05em;
-	}
-
-	.party-name {
+	.section-title {
+		font-size: 1rem;
 		font-weight: 600;
 		color: var(--text-primary);
+		margin: 0;
 	}
 
-	.bid-section {
-		padding: var(--space-4);
-		background: linear-gradient(135deg, rgba(249, 115, 22, 0.1), rgba(234, 88, 12, 0.05));
-		border-radius: var(--radius-lg);
-		border: 1px solid rgba(249, 115, 22, 0.2);
-	}
-
-	.bid-label {
-		font-size: 0.875rem;
-		color: var(--text-muted);
-	}
-
-	.bid-value {
-		display: block;
-		font-size: 2rem;
-		font-weight: 700;
-		color: var(--orange-500);
-		margin-top: var(--space-2);
-	}
-
-	.action-section {
-		padding: var(--space-4);
-		background: rgba(34, 197, 94, 0.1);
+	.feedback-input {
+		width: 100%;
+		min-height: 100px;
+		padding: var(--space-3);
+		background: var(--bg-subtle);
+		border: 1px solid var(--border-subtle);
 		border-radius: var(--radius-md);
-		border: 1px solid rgba(34, 197, 94, 0.2);
+		color: var(--text-primary);
+		resize: vertical;
 	}
 
-	.action-hint {
-		font-size: 0.875rem;
-		color: var(--text-secondary);
-		margin-bottom: var(--space-3);
-	}
-
-	:global(.not-found) {
-		align-items: center;
-		text-align: center;
-		padding: var(--space-8);
-	}
-
-	:global(.spinning) {
-		animation: spin 1s linear infinite;
-	}
-
-	@keyframes spin {
-		from { transform: rotate(0deg); }
-		to { transform: rotate(360deg); }
+	.feedback-actions {
+		display: flex;
+		justify-content: flex-end;
+		gap: var(--space-2);
 	}
 </style>

@@ -61,6 +61,9 @@ export * from './jobs';
 // Offer & Contract Components
 export * from './offers';
 
+// Contract Detail Components
+export * from './contracts';
+
 // Utilities
 export { default as MarkdownRenderer } from './MarkdownRenderer.svelte';
 
