@@ -32,7 +32,8 @@ export const NOSTR_KINDS = {
     CONTRACT: 30104,
     PULL_REQUEST: 30105,
     REVIEW: 30106,
-    PAYMENT: 30107
+    PAYMENT: 30107,
+    CONTRACT_CONFIRMATION: 30108  // Dev's signed confirmation of contract
 } as const;
 
 // Event tag types

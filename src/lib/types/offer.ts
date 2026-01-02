@@ -63,7 +63,25 @@ export interface Contract extends NostrEntity {
     agreedBid: number;
     message: string;
     proofs: SignedEventProof[];
-    isRepublished: boolean;  // True if dev republished
+}
+
+/**
+ * Contract Confirmation - Dev's signed acknowledgment
+ * Contains FULL original contract with IO's signature for proof
+ */
+export interface ContractConfirmation extends NostrEntity {
+    contractId: string;        // Reference to original contract
+    developerPubkey: string;   // Dev who confirmed
+    confirmedAt: number;       // Timestamp
+    originalContract: {        // Full contract data with IO's signature
+        id: string;
+        pubkey: string;        // IO's pubkey
+        sig: string;           // IO's signature (PROOF!)
+        created_at: number;
+        kind: number;
+        tags: string[][];
+        content: string;
+    };
 }
 
 /**

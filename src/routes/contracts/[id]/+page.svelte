@@ -5,7 +5,7 @@
 	import { Container, Stack, Row, AuroraBackground, Skeleton, Card, Badge, Button } from '$lib/components';
 	import { ContractProofViewer, PRSubmitForm, PRCard } from '$lib/components/offers';
 	import { contractService, jobService, profileService, authService } from '$lib/services';
-	import type { Contract, PullRequest } from '$lib/types/offer';
+	import type { Contract, ContractConfirmation, PullRequest } from '$lib/types/offer';
 	import type { Job } from '$lib/types/job';
 	import type { NDKUserProfile } from '@nostr-dev-kit/ndk';
 	import { page } from '$app/stores';
@@ -19,9 +19,9 @@
 	let devProfile = $state<NDKUserProfile | null>(null);
 	let ioProfile = $state<NDKUserProfile | null>(null);
 	let pr = $state<PullRequest | null>(null);
+	let confirmation = $state<ContractConfirmation | null>(null);
 	let isLoading = $state(true);
-	let isRepublishing = $state(false);
-	let hasRepublished = $state(false);
+	let isConfirming = $state(false);
 	let showPRForm = $state(false);
 
 	$effect(() => {
@@ -37,8 +37,8 @@
 				devProfile = await profileService.getProfile(contract.developerPubkey);
 				ioProfile = await profileService.getProfile(contract.ioPubkey);
 				pr = await contractService.getLatestPR(contract.id);
-				// Check if this contract was already republished
-				hasRepublished = localStorage.getItem(`contract_republished_${contract.id}`) === 'true';
+				// Check if contract has been confirmed by Dev
+				confirmation = await contractService.getConfirmation(contract.id);
 			}
 		} catch (e) {
 			console.error('[ContractDetail] Load error:', e);
@@ -49,24 +49,23 @@
 
 	const isDev = $derived(contract && authService.user?.pubkey === contract.developerPubkey);
 	const isIO = $derived(contract && authService.user?.pubkey === contract.ioPubkey);
-	// Dev can submit PR only after confirming/republishing the contract
-	const canSubmitPR = $derived(isDev && hasRepublished && (!pr || pr.status === 'changes_requested'));
-	// Show republish button if Dev hasn't republished yet
-	const needsRepublish = $derived(isDev && !hasRepublished);
+	const hasConfirmed = $derived(confirmation !== null);
+	// Dev can submit PR only after confirming the contract
+	const canSubmitPR = $derived(isDev && hasConfirmed && (!pr || pr.status === 'changes_requested'));
+	// Show confirm button if Dev hasn't confirmed yet
+	const needsConfirmation = $derived(isDev && !hasConfirmed);
 
-	async function handleRepublish() {
+	async function handleConfirm() {
 		if (!contract) return;
-		isRepublishing = true;
+		isConfirming = true;
 		try {
-			await contractService.republishContract(contract);
-			hasRepublished = true;
-			// Store in localStorage so it persists
-			localStorage.setItem(`contract_republished_${contract.id}`, 'true');
-			console.log('[ContractDetail] Contract republished successfully');
+			const confirmEvent = await contractService.confirmContract(contract);
+			confirmation = await contractService.getConfirmation(contract.id);
+			console.log('[ContractDetail] Contract confirmed:', confirmEvent.id);
 		} catch (e) {
-			console.error('[ContractDetail] Republish error:', e);
+			console.error('[ContractDetail] Confirm error:', e);
 		} finally {
-			isRepublishing = false;
+			isConfirming = false;
 		}
 	}
 
@@ -160,17 +159,22 @@
 						</div>
 
 						<!-- Dev Actions -->
-						{#if needsRepublish}
+						{#if needsConfirmation}
 							<div class="action-section">
-								<p class="action-hint">Republish this contract to confirm you received it:</p>
-								<Button variant="primary" onclick={handleRepublish} disabled={isRepublishing}>
-									{#if isRepublishing}
+								<p class="action-hint">Sign this contract to confirm you accept it:</p>
+								<Button variant="primary" onclick={handleConfirm} disabled={isConfirming}>
+									{#if isConfirming}
 										<RefreshCw size={16} class="spinning" />
 									{:else}
 										<Shield size={16} />
 									{/if}
-									<span>Confirm & Republish</span>
+									<span>Confirm & Sign</span>
 								</Button>
+							</div>
+						{:else if hasConfirmed && isDev}
+							<div class="confirmed-section">
+								<Badge variant="success">Confirmed</Badge>
+								<span class="confirmed-text">You have signed this contract</span>
 							</div>
 						{/if}
 					</Stack>

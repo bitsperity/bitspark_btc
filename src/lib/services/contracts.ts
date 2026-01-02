@@ -5,7 +5,7 @@
 import { NDKEvent, type NDKFilter } from '@nostr-dev-kit/ndk';
 import { ndk } from '$lib/nostr';
 import { NOSTR_KINDS, APP_TAG } from '$lib/nostr/config';
-import type { Contract, CreateContractInput, SignedEventProof, PullRequest, SubmitPRInput, PRStatus } from '$lib/types/offer';
+import type { Contract, ContractConfirmation, CreateContractInput, SignedEventProof, PullRequest, SubmitPRInput, PRStatus } from '$lib/types/offer';
 import { createTagAccessors, parseBaseEvent } from '$lib/utils';
 
 class ContractService {
@@ -43,12 +43,75 @@ class ContractService {
     }
 
     /**
-     * Republish a contract (Dev confirmation)
+     * Confirm a contract (Dev signs confirmation with full contract payload)
+     * Creates a CONTRACT_CONFIRMATION event signed by Dev containing the full original contract
      */
-    async republishContract(contract: Contract): Promise<void> {
-        // Simply republish the same event
-        await contract.event.publish();
-        console.log('[ContractService] Republished contract:', contract.id);
+    async confirmContract(contract: Contract): Promise<NDKEvent> {
+        const event = new NDKEvent(ndk);
+        event.kind = NOSTR_KINDS.CONTRACT_CONFIRMATION;
+
+        // Content is the full original contract with IO's signature
+        event.content = JSON.stringify({
+            originalContract: {
+                id: contract.event.id,
+                pubkey: contract.event.pubkey,
+                sig: contract.event.sig,
+                created_at: contract.event.created_at,
+                kind: contract.event.kind,
+                tags: contract.event.tags,
+                content: contract.event.content
+            },
+            confirmedAt: Math.floor(Date.now() / 1000)
+        });
+
+        // Tags reference the contract and parties
+        event.tags = [
+            ['e', contract.id, '', 'contract'],      // Reference to original contract
+            ['e', contract.jobId, '', 'job'],         // Reference to job
+            ['p', contract.ioPubkey],                 // IO pubkey
+            ['s', 'bitspark']                         // App tag
+        ];
+
+        // Dev signs this event - Alby will prompt!
+        await event.publish();
+        console.log('[ContractService] Contract confirmation created:', event.id);
+
+        return event;
+    }
+
+    /**
+     * Get confirmation for a contract (if exists)
+     */
+    async getConfirmation(contractId: string): Promise<ContractConfirmation | null> {
+        const events = await ndk.fetchEvents({
+            kinds: [NOSTR_KINDS.CONTRACT_CONFIRMATION as number],
+            '#e': [contractId],
+            '#s': ['bitspark']
+        } as NDKFilter);
+
+        if (!events || events.size === 0) return null;
+
+        const event = Array.from(events)[0];
+        return this.parseConfirmationEvent(event as unknown as NDKEvent);
+    }
+
+    /**
+     * Parse confirmation event
+     */
+    private parseConfirmationEvent(event: NDKEvent): ContractConfirmation {
+        const parsed = JSON.parse(event.content);
+        const contractTag = event.tags.find(t => t[0] === 'e' && t[3] === 'contract');
+
+        return {
+            id: event.id ?? '',
+            pubkey: event.pubkey,
+            createdAt: event.created_at ?? 0,
+            event,
+            contractId: contractTag?.[1] ?? '',
+            developerPubkey: event.pubkey,
+            confirmedAt: parsed.confirmedAt ?? event.created_at ?? 0,
+            originalContract: parsed.originalContract
+        };
     }
 
     /**
@@ -195,7 +258,6 @@ class ContractService {
             agreedBid: parseInt(getTag('bid') ?? '0', 10),
             message: event.content,
             proofs,
-            isRepublished: false,  // Would need to check relay responses
             event
         };
     }
