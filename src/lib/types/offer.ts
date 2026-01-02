@@ -128,6 +128,7 @@ export interface PullRequest extends NostrEntity {
     developerPubkey: string;
     ioPubkey: string;
     reviewMessage?: string;
+    confirmationId?: string;  // Reference to Dev's confirmation event
 }
 
 /**
@@ -135,6 +136,7 @@ export interface PullRequest extends NostrEntity {
  */
 export interface SubmitPRInput {
     contractId: string;
+    confirmationId: string;  // Required - Dev's signed confirmation
     jobId: string;
     prUrl: string;
     message: string;

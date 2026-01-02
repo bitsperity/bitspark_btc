@@ -172,6 +172,7 @@ export function useContractDetail(contractId: () => string) {
         try {
             await contractService.submitPR({
                 contractId: contract.id,
+                confirmationId: confirmation.id,  // Reference to Dev's confirmation
                 jobId: contract.jobId,
                 ioPubkey: contract.ioPubkey,
                 prUrl,

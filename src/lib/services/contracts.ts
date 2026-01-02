@@ -268,6 +268,7 @@ class ContractService {
 
     /**
      * Submit a PR (Dev action)
+     * Requires confirmation event for complete proof chain
      */
     async submitPR(input: SubmitPRInput): Promise<NDKEvent> {
         const event = new NDKEvent(ndk as unknown as ConstructorParameters<typeof NDKEvent>[0]);
@@ -279,6 +280,7 @@ class ContractService {
         event.tags = [
             ['d', dTag],
             ['e', input.contractId, '', 'contract'],
+            ['e', input.confirmationId, '', 'confirmation'],  // Dev's signed confirmation
             ['e', input.jobId, '', 'job'],
             ['p', input.ioPubkey],
             ['pr_url', input.prUrl],
