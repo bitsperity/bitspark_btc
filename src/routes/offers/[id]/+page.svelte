@@ -19,7 +19,7 @@
 	
 	const {
 		offer, job, isLoading,
-		isIO, canIOCreateContract, acceptedOfferFromDev,
+		isIO, isDev, canIOCreateContract, acceptedOfferFromDev,
 		latestPendingOfferForMe,
 		handleCreateContract
 	} = useOfferDetail(() => offerId);
@@ -176,7 +176,7 @@
 						<OfferChain 
 							{offerId} 
 							showActions={true}
-							onaccept={isIO() ? undefined : handleAccept}
+							onaccept={isDev() ? handleAccept : undefined}
 							oncounter={handleCounter}
 						/>
 

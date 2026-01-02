@@ -53,6 +53,8 @@ export function useOfferDetail(offerId: () => string) {
     const isForMe = $derived(offer && authService.user?.pubkey === offer.recipientPubkey);
     const isFromMe = $derived(offer && authService.user?.pubkey === offer.pubkey);
     const isIO = $derived(job && authService.user?.pubkey === job.pubkey);
+    // isDev = has a pending offer for me AND I'm NOT the job owner
+    const isDev = $derived(job && authService.user?.pubkey !== job.pubkey);
 
     // Find an ACCEPTED offer from Dev in the chain
     // This means: status='accepted', from Dev (not IO), and must have a prevOfferId (it's a response)
@@ -134,6 +136,7 @@ export function useOfferDetail(offerId: () => string) {
         isForMe: () => isForMe,
         isFromMe: () => isFromMe,
         isIO: () => isIO,
+        isDev: () => isDev,
         canIOCreateContract: () => canIOCreateContract,
         acceptedOfferFromDev,
         latestPendingOfferForMe,
