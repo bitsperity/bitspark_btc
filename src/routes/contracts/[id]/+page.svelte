@@ -203,9 +203,17 @@
 									</Button>
 								</div>
 							{/if}
-						{:else if isIO}
+						{:else if isDev && !hasConfirmed}
 							<div class="empty-pr">
-								<p class="text-muted">Waiting for developer to submit a pull request...</p>
+								<p class="text-muted">Sign the contract above before submitting a PR.</p>
+							</div>
+						{:else if isIO && !hasConfirmed}
+							<div class="empty-pr">
+								<p class="text-muted">⏳ Waiting for developer to sign the contract...</p>
+							</div>
+						{:else if isIO && hasConfirmed}
+							<div class="empty-pr">
+								<p class="text-muted">✓ Contract signed. Waiting for developer to submit a pull request...</p>
 							</div>
 						{/if}
 					</Stack>
