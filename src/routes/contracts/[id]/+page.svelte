@@ -29,7 +29,8 @@
 		showPRForm = true;
 	}
 
-	async function handlePRSubmitted() {
+	async function handlePRSubmitted(prUrl: string, message: string) {
+		await detail.submitPR(prUrl, message);
 		showPRForm = false;
 		await detail.refresh();
 	}

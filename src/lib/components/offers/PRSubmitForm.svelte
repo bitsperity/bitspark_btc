@@ -1,15 +1,15 @@
 <!--
-  PRSubmitForm - Simple form for submitting a PR URL
+  PRSubmitForm - Form for submitting a PR URL
+  Uses callback pattern - parent handles actual submission
 -->
 <script lang="ts">
     import { Button, Input, Textarea, Stack } from '$lib/components';
-    import { contractService } from '$lib/services';
     import type { Contract } from '$lib/types/offer';
-    import { ExternalLink, Send } from 'lucide-svelte';
+    import { Send } from 'lucide-svelte';
 
     interface Props {
         contract: Contract;
-        onsubmit?: () => void;
+        onsubmit: (prUrl: string, message: string) => Promise<void>;
         oncancel?: () => void;
     }
 
@@ -36,15 +36,7 @@
         error = '';
 
         try {
-            await contractService.submitPR({
-                contractId: contract.id,
-                jobId: contract.jobId,
-                prUrl: prUrl.trim(),
-                message: message.trim(),
-                ioPubkey: contract.ioPubkey
-            });
-
-            onsubmit?.();
+            await onsubmit(prUrl.trim(), message.trim());
         } catch (e) {
             console.error('[PRSubmitForm] Error:', e);
             error = 'Failed to submit PR. Please try again.';
