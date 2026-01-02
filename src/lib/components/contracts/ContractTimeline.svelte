@@ -84,19 +84,20 @@
 				actor: 'dev'
 			});
 
-			// If this PR has reviewMessage, show the review action
-			if (pr.reviewMessage || pr.status === 'changes_requested' || pr.status === 'approved') {
-				if (pr.status === 'changes_requested' || hasNextPR) {
-					// Changes were requested (either current status or implied by having next PR)
-					items.push({
-						icon: MessageCircle,
-						label: 'Changes requested',
-						message: pr.reviewMessage || undefined,
-						timestamp: pr.createdAt + 1,
-						status: isLast ? 'current' : 'completed',
-						actor: 'io'
-					});
-				} else if (pr.status === 'approved') {
+			// After the PR, what happened?
+			if (hasNextPR) {
+				// If there's another PR after this, changes MUST have been requested
+				items.push({
+					icon: MessageCircle,
+					label: 'Changes requested',
+					message: pr.reviewMessage || undefined,
+					timestamp: pr.createdAt + 1,
+					status: 'completed',
+					actor: 'io'
+				});
+			} else if (isLast) {
+				// This is the last/only PR - check its current status
+				if (pr.status === 'approved') {
 					items.push({
 						icon: Check,
 						label: 'PR approved',
@@ -105,7 +106,17 @@
 						status: 'completed',
 						actor: 'io'
 					});
-				} else if (pr.status === 'submitted' && isLast) {
+				} else if (pr.status === 'changes_requested') {
+					items.push({
+						icon: MessageCircle,
+						label: 'Changes requested',
+						message: pr.reviewMessage || undefined,
+						timestamp: pr.createdAt + 1,
+						status: 'current',
+						actor: 'io'
+					});
+				} else {
+					// Still under review
 					items.push({
 						icon: Clock,
 						label: 'Awaiting review',
