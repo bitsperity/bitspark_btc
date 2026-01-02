@@ -39,6 +39,9 @@
 
 	// Handle decline - ends entire negotiation
 	async function handleDecline() {
+		const confirmed = confirm('Decline this negotiation? This will end the entire offer chain.');
+		if (!confirmed) return;
+		
 		const pendingOffer = latestPendingOfferForMe();
 		if (pendingOffer) {
 			await offerService.declineOffer(pendingOffer);
@@ -177,15 +180,11 @@
 							oncounter={handleCounter}
 						/>
 
-						<!-- Decline button at bottom -->
+						<!-- Simple decline button -->
 						{#if canDecline}
-							<div class="decline-section">
-								<Button variant="ghost" onclick={handleDecline}>
-									<XCircle size={16} />
-									Decline Negotiation
-								</Button>
-								<span class="decline-hint">Ends the entire negotiation</span>
-							</div>
+							<Button variant="ghost" onclick={handleDecline}>
+								Decline
+							</Button>
 						{/if}
 					</Stack>
 				</Card>
