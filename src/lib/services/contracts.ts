@@ -296,20 +296,24 @@ class ContractService {
 
     /**
      * Approve PR (IO action) - triggers payment
+     * Uses unique d-tag to avoid replacing other IO actions
      */
     async approvePR(pr: PullRequest, feedback: string): Promise<NDKEvent> {
+        const dTag = `review-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+
         const event = new NDKEvent(ndk as unknown as ConstructorParameters<typeof NDKEvent>[0]);
         event.kind = NOSTR_KINDS.PULL_REQUEST;
         event.content = pr.message;  // Preserve original PR message
 
         event.tags = [
-            ['d', pr.id],
+            ['d', dTag],  // Unique d-tag!
             ['e', pr.contractId, '', 'contract'],
             ['e', pr.jobId, '', 'job'],
+            ['e', pr.id, '', 'pr'],  // Reference to the PR being reviewed
             ['p', pr.developerPubkey],
             ['pr_url', pr.prUrl],
             ['status', 'approved'],
-            ['review_message', feedback],  // IO's feedback
+            ['review_message', feedback],
             APP_TAG
         ];
 
@@ -321,21 +325,24 @@ class ContractService {
 
     /**
      * Request changes on PR (IO action)
-     * Creates new event with original message preserved + review_message tag
+     * Uses unique d-tag to preserve event history
      */
     async requestChanges(pr: PullRequest, feedback: string): Promise<NDKEvent> {
+        const dTag = `review-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+
         const event = new NDKEvent(ndk as unknown as ConstructorParameters<typeof NDKEvent>[0]);
         event.kind = NOSTR_KINDS.PULL_REQUEST;
         event.content = pr.message;  // Preserve original message
 
         event.tags = [
-            ['d', pr.id],
+            ['d', dTag],  // Unique d-tag!
             ['e', pr.contractId, '', 'contract'],
             ['e', pr.jobId, '', 'job'],
+            ['e', pr.id, '', 'pr'],  // Reference to the PR being reviewed
             ['p', pr.developerPubkey],
             ['pr_url', pr.prUrl],
             ['status', 'changes_requested'],
-            ['review_message', feedback],  // Store feedback as tag
+            ['review_message', feedback],
             APP_TAG
         ];
 
