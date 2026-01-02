@@ -8,7 +8,7 @@
 -->
 <script lang="ts">
 	import { Container, Stack, AuroraBackground, Skeleton, Card, Button, Modal, Textarea } from '$lib/components';
-	import { ContractHeader, ContractParties, IOContractActions, DevContractActions } from '$lib/components/contracts';
+	import { ContractHeader, ContractParties, IOContractActions, DevContractActions, ContractTimeline } from '$lib/components/contracts';
 	import { ContractProofViewer, PRCard, PRSubmitForm } from '$lib/components/offers';
 	import { useContractDetail } from '$lib/composables';
 	import { page } from '$app/stores';
@@ -164,6 +164,13 @@
 						</Button>
 					{/snippet}
 				</Modal>
+
+				<!-- Timeline -->
+				<ContractTimeline 
+					{contract}
+					confirmation={detail.confirmation()}
+					pr={detail.pr()}
+				/>
 
 				<!-- Proofs -->
 				<ContractProofViewer {contract} />
