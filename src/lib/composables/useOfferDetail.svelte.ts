@@ -54,16 +54,18 @@ export function useOfferDetail(offerId: () => string) {
     const isFromMe = $derived(offer && authService.user?.pubkey === offer.pubkey);
     const isIO = $derived(job && authService.user?.pubkey === job.pubkey);
 
-    // Find an accepted offer from Dev in the chain (Dev accepted IO's counter-offer)
+    // Find an ACCEPTED offer from Dev in the chain
+    // This means: status='accepted', from Dev (not IO), and must have a prevOfferId (it's a response)
     const acceptedOfferFromDev = $derived(() => {
         if (!job) return null;
         return offerChain.find(o =>
-            o.status === 'accepted' &&
-            o.pubkey !== job.pubkey  // Offer/accept was made by Dev
+            o.status === 'accepted' &&           // Explicitly accepted
+            o.pubkey !== job.pubkey &&           // From Dev (not IO)
+            o.prevOfferId                        // Must be responding to something (not initial offer)
         );
     });
 
-    // IO can create contract if there's an accepted offer from Dev in the chain
+    // IO can create contract if there's a proper accepted offer from Dev in the chain
     const canIOCreateContract = $derived(
         isIO && job && acceptedOfferFromDev() !== null
     );
