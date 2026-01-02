@@ -24,16 +24,18 @@ export const NOSTR_KINDS = {
     ZAP_REQUEST: 9734,
     ZAP_RECEIPT: 9735,
 
-    // BitSpark custom kinds (30000+ range for parameterized replaceable)
-    IDEA: 30100,
-    JOB: 30101,
-    OFFER: 30102,
-    OFFER_RESPONSE: 30103,
-    CONTRACT: 30104,
-    PULL_REQUEST: 30105,
-    REVIEW: 1106,  // NON-replaceable! For immutable PR review history
+    // BitSpark custom kinds
+    // 1xxx = non-replaceable (immutable)
+    // 30xxx = replaceable
+    IDEA: 30100,           // Replaceable - can update idea details
+    JOB: 30101,            // Replaceable - can update job details
+    OFFER: 30102,          // Replaceable - can update offer
+    OFFER_RESPONSE: 30103, // Replaceable - can update response
+    CONTRACT: 30104,       // Replaceable - can update contract status
+    PULL_REQUEST: 1105,    // IMMUTABLE - PR chain must be permanent
+    REVIEW: 1106,          // IMMUTABLE - Review chain must be permanent
     PAYMENT: 30107,
-    CONTRACT_CONFIRMATION: 30108  // Dev's signed confirmation of contract
+    CONTRACT_CONFIRMATION: 30108
 } as const;
 
 // Event tag types
