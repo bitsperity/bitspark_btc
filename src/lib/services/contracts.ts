@@ -304,24 +304,22 @@ class ContractService {
 
     /**
      * Approve PR (IO action) - triggers payment
-     * Uses unique d-tag to avoid replacing other IO actions
      */
-    async approvePR(pr: PullRequest, feedback: string): Promise<NDKEvent> {
+    async approvePR(pr: PullRequest, message: string): Promise<NDKEvent> {
         const dTag = `review-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
 
         const event = new NDKEvent(ndk as unknown as ConstructorParameters<typeof NDKEvent>[0]);
-        event.kind = NOSTR_KINDS.REVIEW;  // Use REVIEW kind, not PULL_REQUEST!
-        event.content = pr.message;
+        event.kind = NOSTR_KINDS.REVIEW;
+        event.content = message;  // IO's message
 
         event.tags = [
-            ['d', dTag],  // Unique d-tag!
+            ['d', dTag],
             ['e', pr.contractId, '', 'contract'],
             ['e', pr.jobId, '', 'job'],
-            ['e', pr.id, '', 'pr'],  // Reference to the PR being reviewed
+            ['e', pr.id, '', 'pr'],
             ['p', pr.developerPubkey],
             ['pr_url', pr.prUrl],
             ['status', 'approved'],
-            ['review_message', feedback],
             APP_TAG
         ];
 
@@ -333,24 +331,22 @@ class ContractService {
 
     /**
      * Request changes on PR (IO action)
-     * Uses unique d-tag to preserve event history
      */
-    async requestChanges(pr: PullRequest, feedback: string): Promise<NDKEvent> {
+    async requestChanges(pr: PullRequest, message: string): Promise<NDKEvent> {
         const dTag = `review-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
 
         const event = new NDKEvent(ndk as unknown as ConstructorParameters<typeof NDKEvent>[0]);
-        event.kind = NOSTR_KINDS.REVIEW;  // Use REVIEW kind, not PULL_REQUEST!
-        event.content = pr.message;
+        event.kind = NOSTR_KINDS.REVIEW;
+        event.content = message;  // IO's message
 
         event.tags = [
-            ['d', dTag],  // Unique d-tag!
+            ['d', dTag],
             ['e', pr.contractId, '', 'contract'],
             ['e', pr.jobId, '', 'job'],
-            ['e', pr.id, '', 'pr'],  // Reference to the PR being reviewed
+            ['e', pr.id, '', 'pr'],
             ['p', pr.developerPubkey],
             ['pr_url', pr.prUrl],
             ['status', 'changes_requested'],
-            ['review_message', feedback],
             APP_TAG
         ];
 
@@ -400,12 +396,8 @@ class ContractService {
         const latestEvent = sorted[0];
         if (latestEvent.kind === NOSTR_KINDS.REVIEW) {
             const statusTag = latestEvent.tags.find(t => t[0] === 'status');
-            const reviewMessageTag = latestEvent.tags.find(t => t[0] === 'review_message');
             if (statusTag) {
                 pr.status = statusTag[1] as PRStatus;
-            }
-            if (reviewMessageTag) {
-                pr.reviewMessage = reviewMessageTag[1];
             }
         }
 
@@ -462,10 +454,9 @@ class ContractService {
             prUrl: getTag('pr_url') ?? '',
             message: event.content,
             status: (getTag('status') ?? 'submitted') as PRStatus,
-            developerPubkey: pTags[0] ?? event.pubkey,  // Dev from p-tag, or author if dev submission
+            developerPubkey: pTags[0] ?? event.pubkey,
             ioPubkey: pTags[1] ?? '',
-            reviewMessage: getTag('review_message') || undefined,
-            pubkey: event.pubkey,  // Event author
+            pubkey: event.pubkey,
             event
         };
     }

@@ -52,15 +52,7 @@
         {#if pr.message}
             <div class="message">
                 <p>{pr.message}</p>
-            </div>
-        {/if}
-
-        <!-- Review response (if any) -->
-        {#if pr.reviewMessage}
-            <div class="review-response">
-                <span class="review-label">Review Feedback:</span>
-                <p>{pr.reviewMessage}</p>
-            </div>
+        </div>
         {/if}
 
         <!-- Status messages -->

@@ -118,18 +118,18 @@ export type PRStatus = 'submitted' | 'approved' | 'changes_requested';
 
 /**
  * Pull Request entity
+ * Simple: each event has its own message, no duplication
  */
 export interface PullRequest extends NostrEntity {
     contractId: string;
     jobId: string;
     prUrl: string;
-    message: string;
+    message: string;           // Event's own content
     status: PRStatus;
-    developerPubkey: string;  // The developer's pubkey (from p-tag)
+    developerPubkey: string;
     ioPubkey: string;
-    reviewMessage?: string;
     confirmationId?: string;
-    pubkey: string;           // Event author's pubkey
+    pubkey: string;            // Event author
 }
 
 /**

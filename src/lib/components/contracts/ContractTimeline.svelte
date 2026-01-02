@@ -106,7 +106,7 @@
 				items.push({
 					icon: MessageCircle,
 					label: 'Changes requested',
-					message: pr.reviewMessage || undefined,
+					message: pr.message || undefined,
 					timestamp: pr.createdAt,
 					status: isLast ? 'current' : 'completed',
 					actor: 'io'
@@ -116,7 +116,7 @@
 				items.push({
 					icon: Check,
 					label: 'PR approved',
-					message: pr.reviewMessage || undefined,
+					message: pr.message || undefined,
 					timestamp: pr.createdAt,
 					status: 'completed',
 					actor: 'io'
