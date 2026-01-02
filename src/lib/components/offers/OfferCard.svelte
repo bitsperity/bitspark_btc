@@ -88,27 +88,27 @@
 						<span>{isFromMe ? 'Sent' : 'Received'}</span>
 					</Row>
 				{/if}
+
+				<!-- Action buttons for pending offers to me (inside card) -->
+				{#if canShowActions}
+					<div class="offer-actions">
+						{#if oncounter}
+							<Button variant="secondary" size="sm" onclick={() => oncounter(offer)}>
+								<Send size={14} />
+								Counter
+							</Button>
+						{/if}
+						{#if onaccept}
+							<Button variant="primary" size="sm" onclick={() => onaccept(offer)}>
+								<Check size={14} />
+								Accept
+							</Button>
+						{/if}
+					</div>
+				{/if}
 			</Stack>
 		</Card>
 	</button>
-
-	<!-- Action buttons for pending offers to me -->
-	{#if canShowActions}
-		<div class="offer-actions">
-			{#if oncounter}
-				<Button variant="secondary" size="sm" onclick={() => oncounter(offer)}>
-					<Send size={14} />
-					Counter
-				</Button>
-			{/if}
-			{#if onaccept}
-				<Button variant="primary" size="sm" onclick={() => onaccept(offer)}>
-					<Check size={14} />
-					Accept
-				</Button>
-			{/if}
-		</div>
-	{/if}
 </div>
 
 <style>
