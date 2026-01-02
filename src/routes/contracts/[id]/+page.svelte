@@ -8,7 +8,7 @@
 -->
 <script lang="ts">
 	import { Container, Stack, AuroraBackground, Skeleton, Card, Button } from '$lib/components';
-	import { ContractHeader, ContractParties, ContractPhaseCard } from '$lib/components/contracts';
+	import { ContractHeader, ContractParties, IOContractActions, DevContractActions } from '$lib/components/contracts';
 	import { ContractProofViewer, PRCard, PRSubmitForm } from '$lib/components/offers';
 	import { useContractDetail } from '$lib/composables';
 	import { page } from '$app/stores';
@@ -96,18 +96,26 @@
 					</Stack>
 				</Card>
 
-				<!-- Phase Card (main action area) -->
-				<ContractPhaseCard
-					{phase}
-					{userRole}
-					confirmation={detail.confirmation()}
-					pr={detail.pr()}
-					isActioning={detail.isActioning()}
-					onconfirm={detail.confirmContract}
-					onsubmitpr={handleSubmitPR}
-					onapprovepr={detail.approvePR}
-					onrequestchanges={handleRequestChanges}
-				/>
+				<!-- Role-Based Action Card -->
+				{#if userRole === 'io'}
+					<IOContractActions
+						{phase}
+						confirmation={detail.confirmation()}
+						pr={detail.pr()}
+						isActioning={detail.isActioning()}
+						onapprovepr={detail.approvePR}
+						onrequestchanges={handleRequestChanges}
+					/>
+				{:else if userRole === 'dev'}
+					<DevContractActions
+						{phase}
+						confirmation={detail.confirmation()}
+						pr={detail.pr()}
+						isActioning={detail.isActioning()}
+						onconfirm={detail.confirmContract}
+						onsubmitpr={handleSubmitPR}
+					/>
+				{/if}
 
 				<!-- PR Form (shown when submitting) -->
 				{#if showPRForm && detail.contract()}
