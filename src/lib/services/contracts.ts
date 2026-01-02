@@ -320,11 +320,12 @@ class ContractService {
 
     /**
      * Request changes on PR (IO action)
+     * Creates new event with original message preserved + review_message tag
      */
-    async requestChanges(pr: PullRequest, message: string): Promise<NDKEvent> {
+    async requestChanges(pr: PullRequest, feedback: string): Promise<NDKEvent> {
         const event = new NDKEvent(ndk as unknown as ConstructorParameters<typeof NDKEvent>[0]);
         event.kind = NOSTR_KINDS.PULL_REQUEST;
-        event.content = message;
+        event.content = pr.message;  // Preserve original message
 
         event.tags = [
             ['d', pr.id],
@@ -333,6 +334,7 @@ class ContractService {
             ['p', pr.developerPubkey],
             ['pr_url', pr.prUrl],
             ['status', 'changes_requested'],
+            ['review_message', feedback],  // Store feedback as tag
             APP_TAG
         ];
 
@@ -413,6 +415,7 @@ class ContractService {
             status: (getTag('status') ?? 'submitted') as PRStatus,
             developerPubkey: event.pubkey,
             ioPubkey: pTags[0] ?? '',
+            reviewMessage: getTag('review_message') || undefined,
             event
         };
     }
