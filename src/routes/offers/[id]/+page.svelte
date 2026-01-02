@@ -1,57 +1,63 @@
 <!--
-  Offer Detail Page - Clean version using composable
+  Offer Detail Page
+  
+  Actions:
+  - Decline: Always at top (ends entire negotiation)
+  - Accept/Counter: On each pending offer in chain
 -->
 <script lang="ts">
 	import { Container, Stack, Row, AuroraBackground, Skeleton, Card, Badge, Button } from '$lib/components';
 	import { OfferChain, OfferForm } from '$lib/components/offers';
 	import { useOfferDetail } from '$lib/composables';
+	import { offerService } from '$lib/services';
+	import type { Offer } from '$lib/types/offer';
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
-	import { ArrowLeft, Coins, Clock, Briefcase, FileCheck } from 'lucide-svelte';
+	import { ArrowLeft, Coins, Clock, Briefcase, FileCheck, XCircle } from 'lucide-svelte';
 
 	const offerId = $derived($page.params.id);
 	
-	// Use composable for all business logic
 	const {
-		offer, job, isLoading, offerChain,
-		isForMe, isIO, canIOCreateContract, acceptedOfferFromDev,
+		offer, job, isLoading,
+		isIO, canIOCreateContract, acceptedOfferFromDev,
 		latestPendingOfferForMe,
-		handleDevAccept, handleCreateContract
+		handleCreateContract
 	} = useOfferDetail(() => offerId);
 
 	let showCounterForm = $state(false);
+	let counterForOffer = $state<Offer | null>(null);
 
-	// Derive the effective status - if chain has accepted, show that
+	// Derive the effective status
 	const effectiveStatus = $derived(() => {
 		const accepted = acceptedOfferFromDev();
 		if (accepted) return 'accepted';
 		return offer()?.status ?? 'pending';
 	});
 
-	// Can take action if there's a pending offer addressed to me in the chain
-	// This allows seeing actions even when viewing a different offer in the chain
-	const canTakeAction = $derived(
-		latestPendingOfferForMe() !== null && 
-		!acceptedOfferFromDev()
-	);
+	// Can decline the entire chain if there's a pending offer for me
+	const canDecline = $derived(latestPendingOfferForMe() !== null && !acceptedOfferFromDev());
 
-	// The offer to act on (might be different from currently viewed offer)
-	const actionableOffer = $derived(latestPendingOfferForMe() ?? offer());
-
-	// Debug logging
-	$effect(() => {
-		const o = offer();
-		const pending = latestPendingOfferForMe();
-		if (o) {
-			console.log('[OfferDetail DEBUG]', {
-				viewedOffer: o.id?.slice(0, 8),
-				latestPendingForMe: pending?.id?.slice(0, 8) ?? 'none',
-				canTakeAction,
-				isIO: isIO(),
-				acceptedExists: !!acceptedOfferFromDev()
-			});
+	// Handle decline - ends entire negotiation
+	async function handleDecline() {
+		const pendingOffer = latestPendingOfferForMe();
+		if (pendingOffer) {
+			await offerService.declineOffer(pendingOffer);
 		}
-	});
+		goto('/dashboard/offers');
+	}
+
+	// Handle accept - Dev accepts a specific counter-offer
+	async function handleAccept(targetOffer: Offer) {
+		await offerService.acceptOffer(targetOffer);
+		// Reload to show updated status
+		window.location.reload();
+	}
+
+	// Handle counter - show form for specific offer
+	function handleCounter(targetOffer: Offer) {
+		counterForOffer = targetOffer;
+		showCounterForm = true;
+	}
 </script>
 
 <AuroraBackground />
@@ -97,7 +103,7 @@
 					</a>
 				{/if}
 
-				<!-- Main Offer Details -->
+				<!-- Main Actions Card -->
 				<Card>
 					<Stack gap={5}>
 						<Row justify="between">
@@ -124,84 +130,60 @@
 							</div>
 						</div>
 
-						{#if o?.terms}
-							<div class="content-section">
-								<h3>Terms</h3>
-								<p>{o.terms}</p>
-							</div>
-						{/if}
-
-						{#if o?.message}
-							<div class="content-section">
-								<h3>Message</h3>
-								<p>{o.message}</p>
-							</div>
-						{/if}
-
-						<!-- Actions Section -->
+						<!-- Top Actions -->
 						{#if canIOCreateContract()}
-							<!-- IO can create contract after Dev accepted -->
 							<div class="action-box success">
 								<FileCheck size={24} />
 								<div>
 									<p class="action-title">Developer accepted!</p>
-									<p class="action-desc">Ready to create the contract and start working.</p>
+									<p class="action-desc">Ready to create the contract.</p>
 								</div>
 								<Button variant="primary" onclick={handleCreateContract}>
 									Create Contract
 								</Button>
 							</div>
-						{:else if canTakeAction && j}
-							<!-- Different actions based on role -->
-							{#if isIO()}
-								<!-- IO can only Decline or Counter -->
-								<Row gap={3}>
-									<Button variant="ghost" onclick={() => goto('/dashboard/offers')}>
-										Decline
-									</Button>
-									<Button variant="primary" onclick={() => showCounterForm = true}>
-										Send Counter
-									</Button>
-								</Row>
-							{:else}
-								<!-- Dev can Accept, Decline, or Counter -->
-								<Row gap={3}>
-									<Button variant="ghost" onclick={() => goto('/dashboard/offers')}>
-										Decline
-									</Button>
-									<Button variant="secondary" onclick={() => showCounterForm = true}>
-										Send Counter
-									</Button>
-									<Button variant="primary" onclick={handleDevAccept}>
-										Accept
-									</Button>
-								</Row>
-							{/if}
+						{:else if canDecline}
+							<div class="decline-section">
+								<Button variant="ghost" onclick={handleDecline}>
+									<XCircle size={16} />
+									Decline Negotiation
+								</Button>
+								<span class="decline-hint">Ends the entire negotiation</span>
+							</div>
 						{:else if status === 'accepted'}
-							<!-- Already accepted, waiting -->
 							<div class="action-box info">
 								<p>Waiting for contract creation...</p>
+							</div>
+						{:else if status === 'declined'}
+							<div class="action-box error">
+								<p>This negotiation has been declined.</p>
 							</div>
 						{/if}
 					</Stack>
 				</Card>
 
 				<!-- Counter Form -->
-				{#if showCounterForm && o && j}
+				{#if showCounterForm && counterForOffer && j}
 					<OfferForm 
-						jobId={o.jobId}
-						recipientPubkey={o.pubkey}
-						prevOffer={o}
-						oncancel={() => showCounterForm = false}
+						jobId={counterForOffer.jobId}
+						recipientPubkey={counterForOffer.pubkey}
+						prevOffer={counterForOffer}
+						oncancel={() => { showCounterForm = false; counterForOffer = null; }}
 						onsent={() => goto('/dashboard/offers')}
 					/>
 				{/if}
 
-				<!-- Offer Chain -->
+				<!-- Negotiation History with inline actions -->
 				<Card>
 					<Stack gap={4}>
 						<h2>Negotiation History</h2>
-						<OfferChain {offerId} />
+						<p class="chain-hint">Accept or counter offers below:</p>
+						<OfferChain 
+							{offerId} 
+							showActions={!isIO()}
+							onaccept={handleAccept}
+							oncounter={handleCounter}
+						/>
 					</Stack>
 				</Card>
 			</Stack>
@@ -210,7 +192,6 @@
 </main>
 
 <style>
-	/* Unique styles only - common styles in pages.css */
 	.content-section h3 {
 		font-size: 0.875rem;
 		font-weight: 600;
@@ -239,6 +220,13 @@
 		justify-content: center;
 	}
 
+	.action-box.error {
+		background: rgba(239, 68, 68, 0.1);
+		border: 1px solid rgba(239, 68, 68, 0.2);
+		color: var(--error);
+		justify-content: center;
+	}
+
 	.action-title {
 		font-weight: 600;
 		margin: 0;
@@ -253,5 +241,24 @@
 	.action-box :global(button) {
 		margin-left: auto;
 	}
-</style>
 
+	.decline-section {
+		display: flex;
+		align-items: center;
+		gap: var(--space-3);
+		padding: var(--space-3);
+		background: rgba(239, 68, 68, 0.05);
+		border-radius: var(--radius-md);
+	}
+
+	.decline-hint {
+		font-size: 0.75rem;
+		color: var(--text-muted);
+	}
+
+	.chain-hint {
+		font-size: 0.875rem;
+		color: var(--text-muted);
+		margin: 0;
+	}
+</style>

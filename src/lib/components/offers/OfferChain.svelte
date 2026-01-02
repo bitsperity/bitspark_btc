@@ -1,5 +1,5 @@
 <!--
-  OfferChain - Show negotiation history
+  OfferChain - Show negotiation history with inline action buttons
 -->
 <script lang="ts">
 	import { offerService } from '$lib/services';
@@ -10,9 +10,13 @@
 	interface Props {
 		offerId: string;
 		onselect?: (offer: Offer) => void;
+		// Action callbacks - passed to OfferCards
+		onaccept?: (offer: Offer) => void;
+		oncounter?: (offer: Offer) => void;
+		showActions?: boolean;
 	}
 
-	let { offerId, onselect }: Props = $props();
+	let { offerId, onselect, onaccept, oncounter, showActions = true }: Props = $props();
 
 	let chain = $state<Offer[]>([]);
 	let isLoading = $state(true);
@@ -49,7 +53,13 @@
 			{#each chain as offer, i (offer.id)}
 				<div class="chain-item">
 					<div class="chain-line" class:first={i === 0} class:last={i === chain.length - 1}></div>
-					<OfferCard {offer} onclick={() => onselect?.(offer)} />
+					<OfferCard 
+						{offer} 
+						onclick={() => onselect?.(offer)} 
+						{showActions}
+						{onaccept}
+						{oncounter}
+					/>
 				</div>
 			{/each}
 		</Stack>
