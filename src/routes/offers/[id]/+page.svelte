@@ -14,7 +14,7 @@
 	// Use composable for all business logic
 	const {
 		offer, job, isLoading,
-		isForMe, canIOCreateContract, acceptedOfferFromDev,
+		isForMe, isIO, canIOCreateContract, acceptedOfferFromDev,
 		handleDevAccept, handleCreateContract
 	} = useOfferDetail(() => offerId);
 
