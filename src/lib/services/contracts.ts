@@ -418,8 +418,9 @@ class ContractService {
         console.log('[ContractService] getAllPRs raw event count:', events.size);
         console.log('[ContractService] getAllPRs events:', Array.from(events).map(e => ({
             id: e.id?.slice(0, 8),
+            kind: e.kind,
             pubkey: e.pubkey?.slice(0, 8),
-            dTag: e.tags.find(t => t[0] === 'd')?.[1]?.slice(0, 8),
+            dTag: e.tags.find(t => t[0] === 'd')?.[1]?.slice(0, 12),
             status: e.tags.find(t => t[0] === 'status')?.[1],
             content: e.content?.slice(0, 20),
             created_at: new Date((e.created_at ?? 0) * 1000).toLocaleTimeString()
