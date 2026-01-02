@@ -87,18 +87,15 @@ class ContractService {
 
     /**
      * Verify contract proofs
-     * Note: Proofs from encrypted offers (GiftWrap) may not have signatures
-     * as the signature is on the wrapper event, not the inner content.
+     * Proofs must be signed events to be cryptographically valid
      */
-    verifyProofs(contract: Contract): { valid: boolean; errors: string[]; warnings: string[] } {
+    verifyProofs(contract: Contract): { valid: boolean; errors: string[] } {
         const errors: string[] = [];
-        const warnings: string[] = [];
 
         for (const proof of contract.proofs) {
-            // Signature might be missing for decrypted GiftWrap content
-            // This is expected behavior, not an error
+            // Signature is required for proof validity
             if (!proof.sig) {
-                warnings.push(`Proof ${proof.id.slice(0, 8)}... from encrypted negotiation`);
+                errors.push(`Proof ${proof.id.slice(0, 8)}... missing signature`);
             }
 
             // Check the bid matches
@@ -120,8 +117,7 @@ class ContractService {
 
         return {
             valid: errors.length === 0,
-            errors,
-            warnings
+            errors
         };
     }
 

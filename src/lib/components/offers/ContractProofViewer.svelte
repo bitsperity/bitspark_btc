@@ -5,7 +5,7 @@
 	import type { Contract, SignedEventProof } from '$lib/types/offer';
 	import { contractService } from '$lib/services';
 	import { Card, Stack, Row, Badge, Button } from '$lib/components';
-	import { Shield, ShieldCheck, ShieldAlert, ChevronDown, ChevronUp, Lock } from 'lucide-svelte';
+	import { Shield, ShieldCheck, ShieldX, ChevronDown, ChevronUp, Check } from 'lucide-svelte';
 
 	interface Props {
 		contract: Contract;
@@ -40,7 +40,7 @@
 					<ShieldCheck size={20} class="icon-success" />
 					<span class="title">Proofs Verified</span>
 				{:else}
-					<ShieldAlert size={20} class="icon-error" />
+					<ShieldX size={20} class="icon-error" />
 					<span class="title">Proof Errors</span>
 				{/if}
 			</Row>
@@ -49,22 +49,12 @@
 			</Badge>
 		</Row>
 
-		<!-- Errors (actual problems) -->
+		<!-- Errors -->
 		{#if verification.errors.length > 0}
 			<div class="errors">
 				{#each verification.errors as error}
 					<p class="error-item">⚠️ {error}</p>
 				{/each}
-			</div>
-		{/if}
-
-		<!-- Info note about encrypted negotiations -->
-		{#if verification.warnings.length > 0}
-			<div class="info-box">
-				<Row gap={2}>
-					<Lock size={14} />
-					<span>Proofs from encrypted negotiation (signatures on wrapper events)</span>
-				</Row>
 			</div>
 		{/if}
 
@@ -74,7 +64,11 @@
 					<button class="proof-header" onclick={() => toggleProof(i)}>
 						<Row justify="between" gap={2}>
 							<Row gap={2}>
-								<Shield size={14} />
+								{#if proof.sig}
+									<Check size={14} class="icon-success" />
+								{:else}
+									<Shield size={14} />
+								{/if}
 								<span class="proof-label">Proof {i + 1}</span>
 								<span class="proof-id">{shortenId(proof.id)}</span>
 							</Row>
@@ -106,20 +100,16 @@
 									<td>Kind</td>
 									<td>{proof.kind}</td>
 								</tr>
-								{#if proof.sig}
-									<tr>
-										<td>Signature</td>
-										<td><code>{shortenId(proof.sig)}</code></td>
-									</tr>
-								{:else}
-									<tr>
-										<td>Signature</td>
-										<td class="encrypted-note">
-											<Lock size={10} />
-											<span>Encrypted (on wrapper)</span>
-										</td>
-									</tr>
-								{/if}
+								<tr>
+									<td>Signature</td>
+									<td>
+										{#if proof.sig}
+											<code>{shortenId(proof.sig)}</code>
+										{:else}
+											<span class="missing">Missing</span>
+										{/if}
+									</td>
+								</tr>
 							</tbody>
 						</table>
 						</div>
@@ -154,14 +144,6 @@
 		font-size: 0.875rem;
 		color: var(--error);
 		margin: 0;
-	}
-
-	.info-box {
-		padding: var(--space-3);
-		background: rgba(255, 255, 255, 0.03);
-		border-radius: var(--radius-md);
-		font-size: 0.75rem;
-		color: var(--text-muted);
 	}
 
 	.proof-item {
@@ -222,11 +204,8 @@
 		word-break: break-all;
 	}
 
-	.encrypted-note {
-		display: flex;
-		align-items: center;
-		gap: var(--space-1);
-		color: var(--text-muted);
+	.missing {
+		color: var(--error);
 		font-size: 0.75rem;
 	}
 </style>

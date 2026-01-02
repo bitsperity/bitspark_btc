@@ -182,11 +182,16 @@ class GiftWrapService {
 
     /**
      * Send a gift-wrapped event to a recipient (and optionally self)
+     * @param rumor The event to wrap
+     * @param recipientPubkey Recipient's public key
+     * @param sendCopyToSelf Whether to send a copy to yourself
+     * @param signRumor Whether to sign the inner event (for proofs). Default true for BitSpark.
      */
     async sendGiftWrap(
         rumor: NDKEvent,
         recipientPubkey: string,
-        sendCopyToSelf = true
+        sendCopyToSelf = true,
+        signRumor = true  // Sign by default for proof capability
     ): Promise<{ toRecipient: NDKEvent; toSelf?: NDKEvent }> {
         const { giftWrap } = await import('@nostr-dev-kit/ndk');
 
@@ -198,6 +203,13 @@ class GiftWrapService {
         // Ensure rumor has required fields
         if (!rumor.pubkey) rumor.pubkey = user.pubkey;
         if (!rumor.created_at) rumor.created_at = Math.floor(Date.now() / 1000);
+
+        // Sign the rumor if requested (for contract proofs)
+        // Note: Standard NIP-59 uses unsigned rumors, but we need signatures for proofs
+        if (signRumor) {
+            await rumor.sign(signer as any);
+            console.log('[GiftWrapService] Signed rumor:', rumor.id?.slice(0, 16) + '...', 'sig:', rumor.sig?.slice(0, 16) + '...');
+        }
 
         // Wrap for recipient
         const recipient = ndk.getUser({ pubkey: recipientPubkey });
