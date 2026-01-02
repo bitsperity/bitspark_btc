@@ -215,10 +215,16 @@ export function useContractDetail(contractId: () => string) {
     }
 
     async function requestChangesAction(feedback: string) {
-        if (!contract || !pr) return;
+        console.log('[ContractDetail] requestChanges called with:', feedback);
+        if (!contract || !pr) {
+            console.log('[ContractDetail] requestChanges aborted: no contract or pr', { contract: !!contract, pr: !!pr });
+            return;
+        }
         isActioning = true;
         try {
+            console.log('[ContractDetail] calling contractService.requestChanges...');
             await contractService.requestChanges(pr, feedback);
+            console.log('[ContractDetail] requestChanges completed, refreshing PR...');
             pr = await contractService.getLatestPR(contract.id);
         } catch (e) {
             console.error('[ContractDetail] Request changes error:', e);
