@@ -1,5 +1,5 @@
 <!--
-  ContractTimeline - Shows chronological history of ALL contract events
+  ContractTimeline - Shows chronological history of ALL contract events with messages
 -->
 <script lang="ts">
 	import { Stack, Row, Card } from '$lib/components';
@@ -9,7 +9,7 @@
 	interface Props {
 		contract: Contract;
 		confirmation: ContractConfirmation | null;
-		allPRs: PullRequest[];  // All PR events for full history
+		allPRs: PullRequest[];
 	}
 
 	let { contract, confirmation, allPRs }: Props = $props();
@@ -17,6 +17,7 @@
 	interface TimelineEvent {
 		icon: typeof FileCheck;
 		label: string;
+		message?: string;
 		timestamp: number;
 		status: 'completed' | 'current' | 'pending';
 		actor?: 'io' | 'dev';
@@ -29,6 +30,7 @@
 		items.push({
 			icon: FileCheck,
 			label: 'Contract created',
+			message: contract.message || undefined,
 			timestamp: contract.createdAt,
 			status: 'completed',
 			actor: 'io'
@@ -51,10 +53,10 @@
 				status: 'current',
 				actor: 'dev'
 			});
-			return items; // Stop here if not confirmed
+			return items;
 		}
 
-		// 3. All PR events (full history)
+		// 3. No PRs yet
 		if (allPRs.length === 0) {
 			items.push({
 				icon: Send,
@@ -66,43 +68,52 @@
 			return items;
 		}
 
-		// Process each PR in chronological order
-		for (const pr of allPRs) {
-			// PR submitted
+		// 4. Process each PR
+		for (let i = 0; i < allPRs.length; i++) {
+			const pr = allPRs[i];
+			const isLast = i === allPRs.length - 1;
+			const hasNextPR = i < allPRs.length - 1;
+
+			// PR submitted/resubmitted
 			items.push({
-				icon: pr === allPRs[0] ? Send : RefreshCw,
-				label: pr === allPRs[0] ? 'Pull Request submitted' : 'PR resubmitted',
+				icon: i === 0 ? Send : RefreshCw,
+				label: i === 0 ? 'Pull Request submitted' : 'PR resubmitted',
+				message: pr.message || undefined,
 				timestamp: pr.createdAt,
 				status: 'completed',
 				actor: 'dev'
 			});
 
-			// Review action (if not the last PR or if last has final status)
-			if (pr.status === 'changes_requested') {
-				items.push({
-					icon: MessageCircle,
-					label: 'Changes requested',
-					timestamp: pr.createdAt + 1,
-					status: pr === allPRs[allPRs.length - 1] ? 'current' : 'completed',
-					actor: 'io'
-				});
-			} else if (pr.status === 'approved') {
-				items.push({
-					icon: Check,
-					label: 'PR approved',
-					timestamp: pr.createdAt + 1,
-					status: 'completed',
-					actor: 'io'
-				});
-			} else if (pr.status === 'submitted' && pr === allPRs[allPRs.length - 1]) {
-				// Only show waiting for the latest PR
-				items.push({
-					icon: Clock,
-					label: 'Awaiting review',
-					timestamp: 0,
-					status: 'current',
-					actor: 'io'
-				});
+			// If this PR has reviewMessage, show the review action
+			if (pr.reviewMessage || pr.status === 'changes_requested' || pr.status === 'approved') {
+				if (pr.status === 'changes_requested' || hasNextPR) {
+					// Changes were requested (either current status or implied by having next PR)
+					items.push({
+						icon: MessageCircle,
+						label: 'Changes requested',
+						message: pr.reviewMessage || undefined,
+						timestamp: pr.createdAt + 1,
+						status: isLast ? 'current' : 'completed',
+						actor: 'io'
+					});
+				} else if (pr.status === 'approved') {
+					items.push({
+						icon: Check,
+						label: 'PR approved',
+						message: pr.reviewMessage || undefined,
+						timestamp: pr.createdAt + 1,
+						status: 'completed',
+						actor: 'io'
+					});
+				} else if (pr.status === 'submitted' && isLast) {
+					items.push({
+						icon: Clock,
+						label: 'Awaiting review',
+						timestamp: 0,
+						status: 'current',
+						actor: 'io'
+					});
+				}
 			}
 		}
 
@@ -145,6 +156,9 @@
 								<span class="timeline-actor">{event.actor === 'io' ? 'IO' : 'Dev'}</span>
 							{/if}
 						</Row>
+						{#if event.message}
+							<p class="timeline-message">"{event.message}"</p>
+						{/if}
 					</div>
 				</div>
 			{/each}
@@ -233,5 +247,16 @@
 		background: rgba(255, 255, 255, 0.05);
 		color: var(--text-muted);
 		text-transform: uppercase;
+	}
+
+	.timeline-message {
+		margin: var(--space-2) 0 0 0;
+		padding: var(--space-2) var(--space-3);
+		background: rgba(255, 255, 255, 0.03);
+		border-radius: var(--radius-sm);
+		border-left: 2px solid var(--border-subtle);
+		font-size: 0.8rem;
+		font-style: italic;
+		color: var(--text-muted);
 	}
 </style>
