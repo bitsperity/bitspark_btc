@@ -75,6 +75,17 @@ export function useContractDetail(contractId: () => string) {
                 confirmation = await contractService.getConfirmation(contract.id);
                 pr = await contractService.getLatestPR(contract.id);
                 allPRs = await contractService.getAllPRs(contract.id);
+
+                // DEBUG: Log all PRs to understand the data
+                console.log('[ContractDetail] AllPRs:', allPRs.map(p => ({
+                    id: p.id.slice(0, 8),
+                    pubkey: p.pubkey.slice(0, 8),
+                    developerPubkey: p.developerPubkey.slice(0, 8),
+                    status: p.status,
+                    message: p.message?.slice(0, 20),
+                    reviewMessage: p.reviewMessage,
+                    createdAt: new Date(p.createdAt * 1000).toLocaleTimeString()
+                })));
             }
         } catch (e) {
             console.error('[ContractDetail] Load error:', e);
