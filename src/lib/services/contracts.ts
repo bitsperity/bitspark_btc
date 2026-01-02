@@ -413,9 +413,10 @@ class ContractService {
             prUrl: getTag('pr_url') ?? '',
             message: event.content,
             status: (getTag('status') ?? 'submitted') as PRStatus,
-            developerPubkey: event.pubkey,
-            ioPubkey: pTags[0] ?? '',
+            developerPubkey: pTags[0] ?? event.pubkey,  // Dev from p-tag, or author if dev submission
+            ioPubkey: pTags[1] ?? '',
             reviewMessage: getTag('review_message') || undefined,
+            pubkey: event.pubkey,  // Event author
             event
         };
     }

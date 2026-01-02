@@ -125,10 +125,11 @@ export interface PullRequest extends NostrEntity {
     prUrl: string;
     message: string;
     status: PRStatus;
-    developerPubkey: string;
+    developerPubkey: string;  // The developer's pubkey (from p-tag)
     ioPubkey: string;
     reviewMessage?: string;
-    confirmationId?: string;  // Reference to Dev's confirmation event
+    confirmationId?: string;
+    pubkey: string;           // Event author's pubkey
 }
 
 /**

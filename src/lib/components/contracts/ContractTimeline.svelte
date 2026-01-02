@@ -1,5 +1,6 @@
 <!--
   ContractTimeline - Shows chronological history of ALL contract events with messages
+  Properly separates Dev submissions from IO reviews
 -->
 <script lang="ts">
 	import { Stack, Row, Card } from '$lib/components';
@@ -56,8 +57,18 @@
 			return items;
 		}
 
-		// 3. No PRs yet
-		if (allPRs.length === 0) {
+		// 3. Separate events by author
+		// Dev submissions: author is the developer
+		// IO reviews: author is NOT the developer
+		const devEvents = allPRs.filter(pr => pr.pubkey === pr.developerPubkey);
+		const ioReviews = allPRs.filter(pr => pr.pubkey !== pr.developerPubkey);
+		
+		// Sort each group chronologically
+		devEvents.sort((a, b) => a.createdAt - b.createdAt);
+		ioReviews.sort((a, b) => a.createdAt - b.createdAt);
+
+		// No PRs yet
+		if (devEvents.length === 0) {
 			items.push({
 				icon: Send,
 				label: 'Awaiting Pull Request',
@@ -68,63 +79,64 @@
 			return items;
 		}
 
-		// 4. Process each PR
-		for (let i = 0; i < allPRs.length; i++) {
-			const pr = allPRs[i];
-			const isLast = i === allPRs.length - 1;
-			const hasNextPR = i < allPRs.length - 1;
-
-			// PR submitted/resubmitted
-			items.push({
-				icon: i === 0 ? Send : RefreshCw,
-				label: i === 0 ? 'Pull Request submitted' : 'PR resubmitted',
-				message: pr.message || undefined,
-				timestamp: pr.createdAt,
-				status: 'completed',
-				actor: 'dev'
-			});
-
-			// After the PR, what happened?
-			if (hasNextPR) {
-				// If there's another PR after this, changes MUST have been requested
+		// 4. Build timeline by interleaving dev submissions and IO reviews
+		let devIdx = 0;
+		let ioIdx = 0;
+		
+		while (devIdx < devEvents.length || ioIdx < ioReviews.length) {
+			const nextDev = devEvents[devIdx];
+			const nextIO = ioReviews[ioIdx];
+			
+			// Decide which event comes next chronologically
+			if (nextDev && (!nextIO || nextDev.createdAt <= nextIO.createdAt)) {
+				// Dev submission
+				const isFirst = devIdx === 0;
 				items.push({
-					icon: MessageCircle,
-					label: 'Changes requested',
-					message: pr.reviewMessage || undefined,
-					timestamp: pr.createdAt + 1,
+					icon: isFirst ? Send : RefreshCw,
+					label: isFirst ? 'Pull Request submitted' : 'PR resubmitted',
+					message: nextDev.message || undefined,
+					timestamp: nextDev.createdAt,
 					status: 'completed',
-					actor: 'io'
+					actor: 'dev'
 				});
-			} else if (isLast) {
-				// This is the last/only PR - check its current status
-				if (pr.status === 'approved') {
-					items.push({
-						icon: Check,
-						label: 'PR approved',
-						message: pr.reviewMessage || undefined,
-						timestamp: pr.createdAt + 1,
-						status: 'completed',
-						actor: 'io'
-					});
-				} else if (pr.status === 'changes_requested') {
+				devIdx++;
+			} else if (nextIO) {
+				// IO review
+				if (nextIO.status === 'changes_requested') {
 					items.push({
 						icon: MessageCircle,
 						label: 'Changes requested',
-						message: pr.reviewMessage || undefined,
-						timestamp: pr.createdAt + 1,
-						status: 'current',
+						message: nextIO.reviewMessage || undefined,
+						timestamp: nextIO.createdAt,
+						status: ioIdx === ioReviews.length - 1 && devIdx >= devEvents.length ? 'current' : 'completed',
 						actor: 'io'
 					});
-				} else {
-					// Still under review
+				} else if (nextIO.status === 'approved') {
 					items.push({
-						icon: Clock,
-						label: 'Awaiting review',
-						timestamp: 0,
-						status: 'current',
+						icon: Check,
+						label: 'PR approved',
+						message: nextIO.reviewMessage || undefined,
+						timestamp: nextIO.createdAt,
+						status: 'completed',
 						actor: 'io'
 					});
 				}
+				ioIdx++;
+			}
+		}
+		
+		// If last action was dev submission without review yet
+		const lastEvent = items[items.length - 1];
+		if (lastEvent && lastEvent.actor === 'dev' && lastEvent.label !== 'Awaiting Pull Request') {
+			// Check if there's no corresponding review
+			if (ioReviews.length < devEvents.length) {
+				items.push({
+					icon: Clock,
+					label: 'Awaiting review',
+					timestamp: 0,
+					status: 'current',
+					actor: 'io'
+				});
 			}
 		}
 
