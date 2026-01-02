@@ -21,6 +21,7 @@
 	let pr = $state<PullRequest | null>(null);
 	let isLoading = $state(true);
 	let isRepublishing = $state(false);
+	let hasRepublished = $state(false);
 	let showPRForm = $state(false);
 
 	$effect(() => {
@@ -36,6 +37,8 @@
 				devProfile = await profileService.getProfile(contract.developerPubkey);
 				ioProfile = await profileService.getProfile(contract.ioPubkey);
 				pr = await contractService.getLatestPR(contract.id);
+				// Check if this contract was already republished
+				hasRepublished = localStorage.getItem(`contract_republished_${contract.id}`) === 'true';
 			}
 		} catch (e) {
 			console.error('[ContractDetail] Load error:', e);
@@ -46,14 +49,20 @@
 
 	const isDev = $derived(contract && authService.user?.pubkey === contract.developerPubkey);
 	const isIO = $derived(contract && authService.user?.pubkey === contract.ioPubkey);
-	const canSubmitPR = $derived(isDev && (!pr || pr.status === 'changes_requested'));
+	// Dev can submit PR only after confirming/republishing the contract
+	const canSubmitPR = $derived(isDev && hasRepublished && (!pr || pr.status === 'changes_requested'));
+	// Show republish button if Dev hasn't republished yet
+	const needsRepublish = $derived(isDev && !hasRepublished);
 
 	async function handleRepublish() {
 		if (!contract) return;
 		isRepublishing = true;
 		try {
 			await contractService.republishContract(contract);
-			await loadContract();
+			hasRepublished = true;
+			// Store in localStorage so it persists
+			localStorage.setItem(`contract_republished_${contract.id}`, 'true');
+			console.log('[ContractDetail] Contract republished successfully');
 		} catch (e) {
 			console.error('[ContractDetail] Republish error:', e);
 		} finally {
@@ -151,7 +160,7 @@
 						</div>
 
 						<!-- Dev Actions -->
-						{#if isDev && !contract.isRepublished}
+						{#if needsRepublish}
 							<div class="action-section">
 								<p class="action-hint">Republish this contract to confirm you received it:</p>
 								<Button variant="primary" onclick={handleRepublish} disabled={isRepublishing}>
