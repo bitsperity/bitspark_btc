@@ -5,7 +5,7 @@
 	import type { Contract, SignedEventProof } from '$lib/types/offer';
 	import { contractService } from '$lib/services';
 	import { Card, Stack, Row, Badge, Button } from '$lib/components';
-	import { Shield, ShieldCheck, ShieldX, ChevronDown, ChevronUp } from 'lucide-svelte';
+	import { Shield, ShieldCheck, ShieldAlert, ChevronDown, ChevronUp, Lock } from 'lucide-svelte';
 
 	interface Props {
 		contract: Contract;
@@ -27,6 +27,7 @@
 	}
 
 	function shortenId(id: string): string {
+		if (!id) return '—';
 		return `${id.slice(0, 8)}...${id.slice(-8)}`;
 	}
 </script>
@@ -39,7 +40,7 @@
 					<ShieldCheck size={20} class="icon-success" />
 					<span class="title">Proofs Verified</span>
 				{:else}
-					<ShieldX size={20} class="icon-error" />
+					<ShieldAlert size={20} class="icon-error" />
 					<span class="title">Proof Errors</span>
 				{/if}
 			</Row>
@@ -48,11 +49,22 @@
 			</Badge>
 		</Row>
 
-		{#if !verification.valid}
+		<!-- Errors (actual problems) -->
+		{#if verification.errors.length > 0}
 			<div class="errors">
 				{#each verification.errors as error}
 					<p class="error-item">⚠️ {error}</p>
 				{/each}
+			</div>
+		{/if}
+
+		<!-- Info note about encrypted negotiations -->
+		{#if verification.warnings.length > 0}
+			<div class="info-box">
+				<Row gap={2}>
+					<Lock size={14} />
+					<span>Proofs from encrypted negotiation (signatures on wrapper events)</span>
+				</Row>
 			</div>
 		{/if}
 
@@ -94,10 +106,20 @@
 									<td>Kind</td>
 									<td>{proof.kind}</td>
 								</tr>
-								<tr>
-									<td>Signature</td>
-									<td><code>{shortenId(proof.sig)}</code></td>
-								</tr>
+								{#if proof.sig}
+									<tr>
+										<td>Signature</td>
+										<td><code>{shortenId(proof.sig)}</code></td>
+									</tr>
+								{:else}
+									<tr>
+										<td>Signature</td>
+										<td class="encrypted-note">
+											<Lock size={10} />
+											<span>Encrypted (on wrapper)</span>
+										</td>
+									</tr>
+								{/if}
 							</tbody>
 						</table>
 						</div>
@@ -131,6 +153,15 @@
 	.error-item {
 		font-size: 0.875rem;
 		color: var(--error);
+		margin: 0;
+	}
+
+	.info-box {
+		padding: var(--space-3);
+		background: rgba(255, 255, 255, 0.03);
+		border-radius: var(--radius-md);
+		font-size: 0.75rem;
+		color: var(--text-muted);
 	}
 
 	.proof-item {
@@ -188,5 +219,14 @@
 		font-family: monospace;
 		font-size: 0.75rem;
 		color: var(--orange-400);
+		word-break: break-all;
+	}
+
+	.encrypted-note {
+		display: flex;
+		align-items: center;
+		gap: var(--space-1);
+		color: var(--text-muted);
+		font-size: 0.75rem;
 	}
 </style>

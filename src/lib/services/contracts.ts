@@ -87,20 +87,29 @@ class ContractService {
 
     /**
      * Verify contract proofs
+     * Note: Proofs from encrypted offers (GiftWrap) may not have signatures
+     * as the signature is on the wrapper event, not the inner content.
      */
-    verifyProofs(contract: Contract): { valid: boolean; errors: string[] } {
+    verifyProofs(contract: Contract): { valid: boolean; errors: string[]; warnings: string[] } {
         const errors: string[] = [];
+        const warnings: string[] = [];
 
         for (const proof of contract.proofs) {
-            // Check signature exists
+            // Signature might be missing for decrypted GiftWrap content
+            // This is expected behavior, not an error
             if (!proof.sig) {
-                errors.push(`Proof ${proof.id} missing signature`);
+                warnings.push(`Proof ${proof.id.slice(0, 8)}... from encrypted negotiation`);
             }
 
             // Check the bid matches
             const bidTag = proof.tags.find(t => t[0] === 'bid');
             if (bidTag && parseInt(bidTag[1], 10) !== contract.agreedBid) {
-                errors.push(`Proof ${proof.id} bid mismatch`);
+                errors.push(`Proof ${proof.id.slice(0, 8)}... bid mismatch`);
+            }
+
+            // Check pubkey exists
+            if (!proof.pubkey) {
+                errors.push(`Proof ${proof.id.slice(0, 8)}... missing pubkey`);
             }
         }
 
@@ -111,7 +120,8 @@ class ContractService {
 
         return {
             valid: errors.length === 0,
-            errors
+            errors,
+            warnings
         };
     }
 
