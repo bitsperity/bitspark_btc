@@ -90,6 +90,8 @@
 						<ContractParties
 							ioProfile={detail.ioProfile()}
 							devProfile={detail.devProfile()}
+							ioPubkey={contract.ioPubkey}
+							devPubkey={contract.developerPubkey}
 							{userRole}
 							agreedBid={contract.agreedBid}
 						/>

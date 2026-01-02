@@ -1,19 +1,21 @@
 <!--
-  ContractParties - Shows IO and Dev party cards with "You" badge
+  ContractParties - Shows IO and Dev party cards with profile pictures
 -->
 <script lang="ts">
-	import { Row, Badge } from '$lib/components';
+	import { Row, Badge, UserAvatar } from '$lib/components';
 	import type { NDKUserProfile } from '@nostr-dev-kit/ndk';
-	import { Users } from 'lucide-svelte';
+	import { Users, Coins } from 'lucide-svelte';
 
 	interface Props {
 		ioProfile: NDKUserProfile | null;
 		devProfile: NDKUserProfile | null;
+		ioPubkey: string;
+		devPubkey: string;
 		userRole: 'io' | 'dev' | null;
 		agreedBid: number;
 	}
 
-	let { ioProfile, devProfile, userRole, agreedBid }: Props = $props();
+	let { ioProfile, devProfile, ioPubkey, devPubkey, userRole, agreedBid }: Props = $props();
 </script>
 
 <div class="parties-section">
@@ -23,25 +25,34 @@
 	</Row>
 
 	<div class="parties-grid">
-		<div class="party-card">
+		<a href="/profile/{ioPubkey}" class="party-card">
 			<span class="party-role">Idea Owner</span>
-			<span class="party-name">{ioProfile?.name ?? 'Anonymous'}</span>
+			<div class="party-info">
+				<UserAvatar pubkey={ioPubkey} size="sm" />
+				<span class="party-name">{ioProfile?.name ?? 'Anonymous'}</span>
+			</div>
 			{#if userRole === 'io'}
 				<Badge variant="secondary" size="sm">You</Badge>
 			{/if}
-		</div>
+		</a>
 
-		<div class="party-card">
+		<a href="/profile/{devPubkey}" class="party-card">
 			<span class="party-role">Developer</span>
-			<span class="party-name">{devProfile?.name ?? 'Anonymous'}</span>
+			<div class="party-info">
+				<UserAvatar pubkey={devPubkey} size="sm" />
+				<span class="party-name">{devProfile?.name ?? 'Anonymous'}</span>
+			</div>
 			{#if userRole === 'dev'}
 				<Badge variant="secondary" size="sm">You</Badge>
 			{/if}
-		</div>
+		</a>
 	</div>
 
 	<div class="bid-section">
-		<span class="bid-label">Agreed Payment</span>
+		<Row gap={2}>
+			<Coins size={18} />
+			<span class="bid-label">Agreed Payment</span>
+		</Row>
 		<span class="bid-value">{agreedBid.toLocaleString()} sats</span>
 	</div>
 </div>
@@ -72,10 +83,23 @@
 	.party-card {
 		display: flex;
 		flex-direction: column;
-		gap: var(--space-1);
+		gap: var(--space-2);
 		padding: var(--space-3);
 		background: var(--bg-subtle);
 		border-radius: var(--radius-md);
+		text-decoration: none;
+		transition: all 0.2s ease;
+	}
+
+	.party-card:hover {
+		background: var(--bg-elevated);
+		transform: translateY(-1px);
+	}
+
+	.party-info {
+		display: flex;
+		align-items: center;
+		gap: var(--space-2);
 	}
 
 	.party-role {
