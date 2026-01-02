@@ -6,7 +6,7 @@
  */
 
 import { offerService, jobService, profileService, authService, contractService } from '$lib/services';
-import type { Offer } from '$lib/types/offer';
+import type { Offer, Contract } from '$lib/types/offer';
 import type { Job } from '$lib/types/job';
 import type { NDKUserProfile } from '@nostr-dev-kit/ndk';
 import { goto } from '$app/navigation';
@@ -17,6 +17,7 @@ export function useOfferDetail(offerId: () => string) {
     // State
     let offer = $state<Offer | null>(null);
     let job = $state<Job | null>(null);
+    let existingContract = $state<Contract | null>(null);
     let senderProfile = $state<NDKUserProfile | undefined>(undefined);
     let offerChain = $state<Offer[]>([]);
     let isLoading = $state(true);
@@ -32,6 +33,8 @@ export function useOfferDetail(offerId: () => string) {
                 job = await jobService.getJob(offer.jobId);
                 senderProfile = await profileService.getProfile(offer.pubkey);
                 offerChain = await offerService.getOfferChain(offer.id);
+                // Check if contract already exists
+                existingContract = await contractService.getContractByJobId(offer.jobId);
             }
         } catch (e) {
             console.error('[OfferDetail] Load error:', e);
@@ -158,6 +161,7 @@ export function useOfferDetail(offerId: () => string) {
         // Data
         offer: () => offer,
         job: () => job,
+        existingContract: () => existingContract,
         offerChain: () => offerChain,
         senderProfile: () => senderProfile,
         isLoading: () => isLoading,

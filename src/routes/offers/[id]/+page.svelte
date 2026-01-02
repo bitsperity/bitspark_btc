@@ -12,12 +12,12 @@
 	import type { Offer } from '$lib/types/offer';
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
-	import { ArrowLeft, Coins, Clock, Briefcase } from 'lucide-svelte';
+	import { ArrowLeft, Coins, Clock, Briefcase, FileCheck } from 'lucide-svelte';
 
 	const offerId = $derived($page.params.id);
 	
 	const {
-		offer, job, isLoading,
+		offer, job, isLoading, existingContract,
 		userRole, effectiveStatus, canCreateContract, pendingOffersForMe,
 		acceptOffer, declineOffer, createContract
 	} = useOfferDetail(() => offerId);
@@ -134,8 +134,23 @@
 					</Stack>
 				</Card>
 
-				<!-- Role-Based Action Panel -->
-				{#if role === 'io'}
+				<!-- Role-Based Action Panel (only if no contract exists) -->
+				{#if existingContract()}
+					<Card>
+						<Stack gap={3}>
+							<div class="contract-created">
+								<FileCheck size={24} />
+								<div>
+									<h3>Contract Created</h3>
+									<p>This negotiation has resulted in a contract.</p>
+								</div>
+							</div>
+							<Button variant="primary" onclick={() => goto(`/contracts/${existingContract()?.id}`)}>
+								View Contract
+							</Button>
+						</Stack>
+					</Card>
+				{:else if role === 'io'}
 					<IOActionPanel
 						pendingOffersForMe={pendingOffersForMe()}
 						canCreateContract={canCreateContract()}
@@ -202,5 +217,26 @@
 		font-size: 1.25rem;
 		font-weight: 600;
 		color: var(--text-primary);
+	}
+
+	.contract-created {
+		display: flex;
+		align-items: center;
+		gap: var(--space-3);
+		padding: var(--space-3);
+		background: rgba(16, 185, 129, 0.1);
+		border-radius: var(--radius-md);
+		color: var(--success);
+	}
+
+	.contract-created h3 {
+		margin: 0;
+		font-size: 1rem;
+	}
+
+	.contract-created p {
+		margin: 0;
+		font-size: 0.875rem;
+		opacity: 0.8;
 	}
 </style>

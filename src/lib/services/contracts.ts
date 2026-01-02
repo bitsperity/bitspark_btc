@@ -86,6 +86,22 @@ class ContractService {
     }
 
     /**
+     * Find contract for a specific job
+     */
+    async getContractByJobId(jobId: string): Promise<Contract | null> {
+        const events = await ndk.fetchEvents({
+            kinds: [NOSTR_KINDS.CONTRACT as number],
+            '#e': [jobId],
+            '#s': ['bitspark']
+        } as NDKFilter);
+
+        if (!events || events.size === 0) return null;
+
+        const firstEvent = Array.from(events)[0];
+        return this.parseContractEvent(firstEvent as unknown as NDKEvent);
+    }
+
+    /**
      * Verify contract proofs
      * Proofs must be signed events to be cryptographically valid
      */
