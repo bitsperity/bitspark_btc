@@ -73,50 +73,12 @@ export function useContractDetail(contractId: () => string) {
                 // Load confirmation and PR
                 confirmation = await contractService.getConfirmation(contract.id);
                 pr = await contractService.getLatestPR(contract.id);
-
-                // Setup real-time subscriptions
-                setupSubscriptions(contract.id);
             }
         } catch (e) {
             console.error('[ContractDetail] Load error:', e);
         } finally {
             isLoading = false;
         }
-    }
-
-    function setupSubscriptions(id: string) {
-        // Subscribe to confirmation events
-        const confirmSub = ndk.storeSubscribe({
-            kinds: [NOSTR_KINDS.CONTRACT_CONFIRMATION as number],
-            '#e': [id],
-            '#s': ['bitspark']
-        } as NDKFilter);
-
-        // Subscribe to PR events  
-        const prSub = ndk.storeSubscribe({
-            kinds: [NOSTR_KINDS.PULL_REQUEST as number],
-            '#e': [id],
-            '#s': ['bitspark']
-        } as NDKFilter);
-
-        // React to subscription updates
-        $effect(() => {
-            const events = confirmSub;
-            if (events && $state.snapshot(events).length > 0 && contract) {
-                contractService.getConfirmation(contract.id).then(c => {
-                    if (c) confirmation = c;
-                });
-            }
-        });
-
-        $effect(() => {
-            const events = prSub;
-            if (events && $state.snapshot(events).length > 0 && contract) {
-                contractService.getLatestPR(contract.id).then(p => {
-                    if (p) pr = p;
-                });
-            }
-        });
     }
 
     // Initial load
