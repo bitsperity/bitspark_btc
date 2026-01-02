@@ -31,7 +31,7 @@ export const NOSTR_KINDS = {
     OFFER_RESPONSE: 30103,
     CONTRACT: 30104,
     PULL_REQUEST: 30105,
-    REVIEW: 30106,
+    REVIEW: 1106,  // NON-replaceable! For immutable PR review history
     PAYMENT: 30107,
     CONTRACT_CONFIRMATION: 30108  // Dev's signed confirmation of contract
 } as const;

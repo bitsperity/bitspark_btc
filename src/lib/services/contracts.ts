@@ -302,8 +302,8 @@ class ContractService {
         const dTag = `review-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
 
         const event = new NDKEvent(ndk as unknown as ConstructorParameters<typeof NDKEvent>[0]);
-        event.kind = NOSTR_KINDS.PULL_REQUEST;
-        event.content = pr.message;  // Preserve original PR message
+        event.kind = NOSTR_KINDS.REVIEW;  // Use REVIEW kind, not PULL_REQUEST!
+        event.content = pr.message;
 
         event.tags = [
             ['d', dTag],  // Unique d-tag!
@@ -331,8 +331,8 @@ class ContractService {
         const dTag = `review-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
 
         const event = new NDKEvent(ndk as unknown as ConstructorParameters<typeof NDKEvent>[0]);
-        event.kind = NOSTR_KINDS.PULL_REQUEST;
-        event.content = pr.message;  // Preserve original message
+        event.kind = NOSTR_KINDS.REVIEW;  // Use REVIEW kind, not PULL_REQUEST!
+        event.content = pr.message;
 
         event.tags = [
             ['d', dTag],  // Unique d-tag!
@@ -387,8 +387,9 @@ class ContractService {
      * Get ALL PRs for a contract (for timeline history)
      */
     async getAllPRs(contractId: string): Promise<PullRequest[]> {
+        // Fetch both PR submissions (kind 30105) and Reviews (kind 1106)
         const events = await ndk.fetchEvents({
-            kinds: [NOSTR_KINDS.PULL_REQUEST as number],
+            kinds: [NOSTR_KINDS.PULL_REQUEST as number, NOSTR_KINDS.REVIEW as number],
             '#e': [contractId],
             '#s': ['bitspark']
         } as NDKFilter);
