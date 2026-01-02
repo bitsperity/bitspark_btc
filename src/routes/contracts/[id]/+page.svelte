@@ -7,7 +7,7 @@
   - ContractHeader & ContractParties (shared UI)
 -->
 <script lang="ts">
-	import { Container, Stack, AuroraBackground, Skeleton, Card, Button } from '$lib/components';
+	import { Container, Stack, AuroraBackground, Skeleton, Card, Button, Modal, Textarea } from '$lib/components';
 	import { ContractHeader, ContractParties, IOContractActions, DevContractActions } from '$lib/components/contracts';
 	import { ContractProofViewer, PRCard, PRSubmitForm } from '$lib/components/offers';
 	import { useContractDetail } from '$lib/composables';
@@ -145,27 +145,25 @@
 					</Card>
 				{/if}
 
-				<!-- Feedback Form (shown when requesting changes) -->
-				{#if showFeedbackForm}
-					<Card>
-						<Stack gap={3}>
-							<h3>Request Changes</h3>
-							<textarea
-								bind:value={feedbackText}
-								placeholder="Describe the changes needed..."
-								class="feedback-input"
-							></textarea>
-							<div class="feedback-actions">
-								<Button variant="ghost" onclick={() => showFeedbackForm = false}>
-									Cancel
-								</Button>
-								<Button variant="primary" onclick={submitFeedback}>
-									Submit Feedback
-								</Button>
-							</div>
-						</Stack>
-					</Card>
-				{/if}
+				<!-- Request Changes Modal -->
+				<Modal bind:open={showFeedbackForm} title="Request Changes">
+					<Stack gap={4}>
+						<p class="modal-description">Describe the changes needed for the developer to address.</p>
+						<Textarea
+							bind:value={feedbackText}
+							placeholder="Please update the error handling in..."
+							rows={4}
+						/>
+					</Stack>
+					{#snippet footer()}
+						<Button variant="ghost" onclick={() => showFeedbackForm = false}>
+							Cancel
+						</Button>
+						<Button variant="primary" onclick={submitFeedback}>
+							Submit Feedback
+						</Button>
+					{/snippet}
+				</Modal>
 
 				<!-- Proofs -->
 				<ContractProofViewer {contract} />
