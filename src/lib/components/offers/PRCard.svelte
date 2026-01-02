@@ -1,12 +1,12 @@
 <!--
-  PRCard - Display submitted PR with review actions
+  PRCard - Display submitted PR (read-only, no actions)
+  Actions are handled by IOContractActions/DevContractActions
 -->
 <script lang="ts">
-    import { Button, Badge, Stack, Row, Card, Textarea } from '$lib/components';
+    import { Badge, Stack, Row, Card } from '$lib/components';
     import { UserAvatar } from '$lib/components';
-    import { contractService, authService } from '$lib/services';
     import type { PullRequest, Contract } from '$lib/types/offer';
-    import { ExternalLink, Check, X, MessageSquare } from 'lucide-svelte';
+    import { ExternalLink } from 'lucide-svelte';
 
     interface Props {
         pr: PullRequest;
@@ -15,43 +15,6 @@
     }
 
     let { pr, contract, onupdate }: Props = $props();
-
-    let reviewMessage = $state('');
-    let showReviewForm = $state(false);
-    let isSubmitting = $state(false);
-
-    const isIO = $derived(authService.user?.pubkey === contract.ioPubkey);
-    const isDev = $derived(authService.user?.pubkey === contract.developerPubkey);
-    const canReview = $derived(isIO && pr.status === 'submitted');
-
-    async function handleApprove() {
-        isSubmitting = true;
-        try {
-            await contractService.approvePR(pr, reviewMessage.trim() || 'Approved! Great work.');
-            onupdate?.();
-        } catch (e) {
-            console.error('[PRCard] Approve error:', e);
-        } finally {
-            isSubmitting = false;
-        }
-    }
-
-    async function handleRequestChanges() {
-        if (!reviewMessage.trim()) {
-            showReviewForm = true;
-            return;
-        }
-        
-        isSubmitting = true;
-        try {
-            await contractService.requestChanges(pr, reviewMessage.trim());
-            onupdate?.();
-        } catch (e) {
-            console.error('[PRCard] Request changes error:', e);
-        } finally {
-            isSubmitting = false;
-        }
-    }
 
     function getStatusBadge() {
         switch (pr.status) {
@@ -95,80 +58,15 @@
         <!-- Review response (if any) -->
         {#if pr.reviewMessage}
             <div class="review-response">
-                <span class="review-label">Review Response:</span>
+                <span class="review-label">Review Feedback:</span>
                 <p>{pr.reviewMessage}</p>
-            </div>
-        {/if}
-
-        <!-- IO Review Actions -->
-        {#if canReview}
-            <div class="review-section">
-                {#if showReviewForm}
-                    <Stack gap={3}>
-                        <Textarea
-                            placeholder="Describe the changes needed..."
-                            rows={3}
-                            bind:value={reviewMessage}
-                        />
-                        <Row gap={2}>
-                            <Button 
-                                variant="ghost" 
-                                size="sm" 
-                                onclick={() => showReviewForm = false}
-                            >
-                                Cancel
-                            </Button>
-                            <Button 
-                                variant="secondary" 
-                                size="sm" 
-                                onclick={handleRequestChanges}
-                                disabled={isSubmitting || !reviewMessage.trim()}
-                            >
-                                <X size={14} />
-                                <span>Request Changes</span>
-                            </Button>
-                        </Row>
-                    </Stack>
-                {:else}
-                    <Row gap={2}>
-                        <Button 
-                            variant="ghost" 
-                            size="sm" 
-                            onclick={() => showReviewForm = true}
-                        >
-                            <MessageSquare size={14} />
-                            <span>Add Comment</span>
-                        </Button>
-                        <Button 
-                            variant="secondary" 
-                            size="sm" 
-                            onclick={() => showReviewForm = true}
-                        >
-                            <X size={14} />
-                            <span>Request Changes</span>
-                        </Button>
-                        <Button 
-                            variant="primary" 
-                            size="sm" 
-                            onclick={handleApprove}
-                            disabled={isSubmitting}
-                        >
-                            <Check size={14} />
-                            <span>Approve & Pay</span>
-                        </Button>
-                    </Row>
-                {/if}
             </div>
         {/if}
 
         <!-- Status messages -->
         {#if pr.status === 'approved'}
             <div class="status-message success">
-                ✓ PR approved! Payment should be processed.
-            </div>
-        {:else if pr.status === 'changes_requested' && isDev}
-            <div class="status-message warning">
-                Changes were requested. Please update your PR and resubmit.
+                ✓ PR approved! Payment will be processed.
             </div>
         {/if}
     </Stack>
@@ -226,11 +124,6 @@
         margin-bottom: var(--space-1);
     }
 
-    .review-section {
-        padding-top: var(--space-3);
-        border-top: 1px solid var(--border-subtle);
-    }
-
     .status-message {
         padding: var(--space-3);
         border-radius: var(--radius-md);
@@ -241,10 +134,5 @@
     .status-message.success {
         background: rgba(16, 185, 129, 0.1);
         color: var(--success);
-    }
-
-    .status-message.warning {
-        background: rgba(245, 158, 11, 0.1);
-        color: var(--warning);
     }
 </style>
