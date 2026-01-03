@@ -96,7 +96,7 @@ class ContractService {
     /**
      * Parse confirmation event
      */
-    private parseConfirmationEvent(event: NDKEvent): ContractConfirmation {
+    parseConfirmationEvent(event: NDKEvent): ContractConfirmation {
         const parsed = JSON.parse(event.content);
         const contractTag = event.tags.find(t => t[0] === 'e' && t[3] === 'contract');
 
