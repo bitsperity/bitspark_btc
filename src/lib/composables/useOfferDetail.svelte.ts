@@ -245,16 +245,16 @@ export function useOfferDetail(offerId: () => string) {
         senderProfile: () => senderProfile,
         isLoading: () => isLoading,
 
-        // Role & Status
-        userRole,
-        effectiveStatus,
+        // Role & Status (as getter functions)
+        userRole: () => userRole,
+        effectiveStatus: () => effectiveStatus,
         canCreateContract: () => canCreateContract,
         canTakeActions: () => canTakeActions,
 
-        // Offer Chain Helpers
-        acceptedOfferFromDev,
-        latestPendingOfferForMe,
-        pendingOffersForMe,
+        // Offer Chain Helpers (as getter functions)
+        acceptedOfferFromDev: () => acceptedOfferFromDev,
+        latestPendingOfferForMe: () => latestPendingOfferForMe,
+        pendingOffersForMe: () => pendingOffersForMe,
 
         // Actions
         acceptOffer,
