@@ -26,25 +26,29 @@
 
 	<div class="parties-grid">
 		<a href="/profile/{ioPubkey}" class="party-card">
-			<span class="party-role">Idea Owner</span>
+			<div class="party-header">
+				<span class="party-role">Idea Owner</span>
+				{#if userRole === 'io'}
+					<Badge variant="info" size="sm">You</Badge>
+				{/if}
+			</div>
 			<div class="party-info">
 				<UserAvatar pubkey={ioPubkey} size="sm" />
 				<span class="party-name">{ioProfile?.name ?? 'Anonymous'}</span>
 			</div>
-			{#if userRole === 'io'}
-				<Badge variant="secondary" size="sm">You</Badge>
-			{/if}
 		</a>
 
 		<a href="/profile/{devPubkey}" class="party-card">
-			<span class="party-role">Developer</span>
+			<div class="party-header">
+				<span class="party-role">Developer</span>
+				{#if userRole === 'dev'}
+					<Badge variant="info" size="sm">You</Badge>
+				{/if}
+			</div>
 			<div class="party-info">
 				<UserAvatar pubkey={devPubkey} size="sm" />
 				<span class="party-name">{devProfile?.name ?? 'Anonymous'}</span>
 			</div>
-			{#if userRole === 'dev'}
-				<Badge variant="secondary" size="sm">You</Badge>
-			{/if}
 		</a>
 	</div>
 
@@ -83,12 +87,13 @@
 	.party-card {
 		display: flex;
 		flex-direction: column;
-		gap: var(--space-2);
-		padding: var(--space-3);
+		gap: var(--space-3);
+		padding: var(--space-4);
 		background: var(--bg-subtle);
 		border-radius: var(--radius-md);
 		text-decoration: none;
 		transition: all 0.2s ease;
+		min-height: 100px;
 	}
 
 	.party-card:hover {
@@ -96,10 +101,17 @@
 		transform: translateY(-1px);
 	}
 
+	.party-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		gap: var(--space-2);
+	}
+
 	.party-info {
 		display: flex;
 		align-items: center;
-		gap: var(--space-2);
+		gap: var(--space-3);
 	}
 
 	.party-role {
@@ -110,7 +122,8 @@
 	}
 
 	.party-name {
-		font-weight: 500;
+		font-weight: 600;
+		font-size: 1rem;
 		color: var(--text-primary);
 	}
 
@@ -118,9 +131,10 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		padding: var(--space-3);
+		padding: var(--space-4);
 		background: linear-gradient(135deg, rgba(251, 146, 60, 0.15), rgba(245, 158, 11, 0.1));
 		border-radius: var(--radius-md);
+		border: 1px solid rgba(251, 146, 60, 0.2);
 	}
 
 	.bid-label {
@@ -130,7 +144,7 @@
 
 	.bid-value {
 		font-size: 1.25rem;
-		font-weight: 600;
+		font-weight: 700;
 		color: var(--orange-400);
 	}
 </style>
