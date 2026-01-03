@@ -1,5 +1,5 @@
 /**
- * Offer and Contract Component Exports
+ * Offer Component Exports (offer negotiation only)
  */
 
 // Forms
@@ -9,8 +9,6 @@ export { default as CounterOfferModal } from './CounterOfferModal.svelte';
 // Cards
 export { default as OfferCard } from './OfferCard.svelte';
 export { default as OfferChain } from './OfferChain.svelte';
-export { default as ContractCard } from './ContractCard.svelte';
-export { default as ContractListItem } from './ContractListItem.svelte';
 
 // Action Panels (role-based)
 export { default as IOActionPanel } from './IOActionPanel.svelte';
@@ -21,10 +19,6 @@ export { default as OffersTabs } from './OffersTabs.svelte';
 export { default as OffersIdeaGroup } from './OffersIdeaGroup.svelte';
 export { default as OffersJobCard } from './OffersJobCard.svelte';
 
-// Contract-related
-export { default as ContractProofViewer } from './ContractProofViewer.svelte';
+// PR-related (part of offer→contract flow)
 export { default as PRSubmitForm } from './PRSubmitForm.svelte';
 export { default as PRCard } from './PRCard.svelte';
-
-// Legacy (to be cleaned up)
-export { default as OfferActions } from './OfferActions.svelte';

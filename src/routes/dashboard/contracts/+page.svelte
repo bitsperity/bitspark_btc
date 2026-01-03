@@ -8,7 +8,7 @@
 -->
 <script lang="ts">
 	import { Container, Stack, Row, AuroraBackground, Skeleton, Card, Button } from '$lib/components';
-	import { ContractListItem } from '$lib/components/offers';
+	import { ContractListItem } from '$lib/components/contracts';
 	import { contractService, authService } from '$lib/services';
 	import type { Contract } from '$lib/types/offer';
 	import type { NDKEvent } from '@nostr-dev-kit/ndk';

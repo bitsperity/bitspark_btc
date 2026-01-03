@@ -9,7 +9,8 @@
 <script lang="ts">
 	import { Container, Stack, AuroraBackground, Skeleton, Card, Button, Modal, Textarea } from '$lib/components';
 	import { ContractHeader, ContractParties, IOContractActions, DevContractActions, ContractTimeline } from '$lib/components/contracts';
-	import { ContractProofViewer, PRCard, PRSubmitForm } from '$lib/components/offers';
+	import { ContractProofViewer } from '$lib/components/contracts';
+	import { PRCard, PRSubmitForm } from '$lib/components/offers';
 	import { useContractDetail } from '$lib/composables';
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
