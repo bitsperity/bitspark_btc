@@ -75,15 +75,6 @@ export function useContractDetail(contractId: () => string) {
                 confirmation = await contractService.getConfirmation(contract.id);
                 pr = await contractService.getLatestPR(contract.id);
                 allPRs = await contractService.getAllPRs(contract.id);
-
-                // DEBUG: Log all PRs to understand the data
-                console.log('[ContractDetail] AllPRs:', allPRs.map(p => ({
-                    id: p.id.slice(0, 8),
-                    pubkey: p.pubkey.slice(0, 8),
-                    status: p.status,
-                    message: p.message?.slice(0, 20),
-                    createdAt: new Date(p.createdAt * 1000).toLocaleTimeString()
-                })));
             }
         } catch (e) {
             console.error('[ContractDetail] Load error:', e);
@@ -213,16 +204,10 @@ export function useContractDetail(contractId: () => string) {
     }
 
     async function requestChangesAction(feedback: string) {
-        console.log('[ContractDetail] requestChanges called with:', feedback);
-        if (!contract || !pr) {
-            console.log('[ContractDetail] requestChanges aborted: no contract or pr', { contract: !!contract, pr: !!pr });
-            return;
-        }
+        if (!contract || !pr) return;
         isActioning = true;
         try {
-            console.log('[ContractDetail] calling contractService.requestChanges...');
             await contractService.requestChanges(pr, feedback);
-            console.log('[ContractDetail] requestChanges completed, refreshing PR...');
             pr = await contractService.getLatestPR(contract.id);
         } catch (e) {
             console.error('[ContractDetail] Request changes error:', e);

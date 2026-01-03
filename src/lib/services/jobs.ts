@@ -107,7 +107,6 @@ class JobService {
         }
 
         await event.publish();
-        console.log('[JobService] Created job:', event.id);
 
         return event;
     }
@@ -130,7 +129,6 @@ class JobService {
         );
 
         await event.publish();
-        console.log('[JobService] Updated job status:', job.id, '→', newStatus);
 
         return event;
     }

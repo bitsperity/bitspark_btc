@@ -37,7 +37,6 @@ class ContractService {
         ];
 
         await event.publish();
-        console.log('[ContractService] Created contract:', event.id);
 
         return event;
     }
@@ -74,7 +73,6 @@ class ContractService {
 
         // Dev signs this event - Alby will prompt!
         await event.publish();
-        console.log('[ContractService] Contract confirmation created:', event.id);
 
         return event;
     }
@@ -285,19 +283,9 @@ class ContractService {
             ['p', input.ioPubkey],
             ['pr_url', input.prUrl],
             ['status', 'submitted'],
-            APP_TAG
         ];
 
-        console.log('[ContractService] submitPR creating event:', {
-            kind: event.kind,
-            dTag,
-            contractId: input.contractId?.slice(0, 8),
-            confirmationId: input.confirmationId?.slice(0, 8),
-            message: input.message?.slice(0, 20)
-        });
-
         await event.publish();
-        console.log('[ContractService] Submitted PR:', event.id);
 
         return event;
     }
@@ -324,7 +312,6 @@ class ContractService {
         ];
 
         await event.publish();
-        console.log('[ContractService] Approved PR:', event.id);
 
         return event;
     }
@@ -351,7 +338,6 @@ class ContractService {
         ];
 
         await event.publish();
-        console.log('[ContractService] Requested changes:', event.id);
 
         return event;
     }
@@ -412,19 +398,7 @@ class ContractService {
         const events = await ndk.fetchEvents({
             kinds: [NOSTR_KINDS.PULL_REQUEST as number, NOSTR_KINDS.REVIEW as number],
             '#e': [contractId],
-            '#s': ['bitspark']
         } as NDKFilter);
-
-        console.log('[ContractService] getAllPRs raw event count:', events.size);
-        console.log('[ContractService] getAllPRs events:', Array.from(events).map(e => ({
-            id: e.id?.slice(0, 8),
-            kind: e.kind,
-            pubkey: e.pubkey?.slice(0, 8),
-            dTag: e.tags.find(t => t[0] === 'd')?.[1]?.slice(0, 12),
-            status: e.tags.find(t => t[0] === 'status')?.[1],
-            content: e.content?.slice(0, 20),
-            created_at: new Date((e.created_at ?? 0) * 1000).toLocaleTimeString()
-        })));
 
         if (events.size === 0) return [];
 

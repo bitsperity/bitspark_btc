@@ -78,7 +78,6 @@ class RelayService {
             }
 
             await ndk.pool.addRelay(ndk.pool.getRelay(normalizedUrl) ?? normalizedUrl);
-            console.log('[RelayService] Added relay:', normalizedUrl);
             return true;
         } catch (error) {
             console.error('[RelayService] Failed to add relay:', error);
@@ -91,7 +90,6 @@ class RelayService {
      */
     removeRelay(url: string): void {
         ndk.pool.relays.delete(url);
-        console.log('[RelayService] Removed relay:', url);
     }
 
     /**
@@ -112,7 +110,6 @@ class RelayService {
         });
 
         await event.publish();
-        console.log('[RelayService] Saved relay list');
     }
 }
 

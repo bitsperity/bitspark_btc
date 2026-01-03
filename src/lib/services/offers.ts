@@ -54,7 +54,6 @@ class OfferService {
         // Use central GiftWrapService to send
         const result = await giftWrapService.sendGiftWrap(rumor, input.recipientPubkey, true);
 
-        console.log('[OfferService] Sent offer:', rumor.id?.slice(0, 16) + '...');
         return result.toRecipient;
     }
 
@@ -97,7 +96,6 @@ class OfferService {
         ];
 
         const result = await giftWrapService.sendGiftWrap(rumor, offer.pubkey, true);
-        console.log('[OfferService] Accepted offer');
         return result.toRecipient;
     }
 
@@ -137,7 +135,6 @@ class OfferService {
         ];
 
         const result = await giftWrapService.sendGiftWrap(rumor, offer.pubkey, true);
-        console.log('[OfferService] Declined offer');
         return result.toRecipient;
     }
 

@@ -54,18 +54,12 @@ class GiftWrapService {
      * Call this after user logs in
      */
     start(): void {
-        if (isRunning) {
-            console.log('[GiftWrapService] Already running');
-            return;
-        }
+        if (isRunning) return;
 
         const user = ndk.activeUser;
         if (!user) {
             console.warn('[GiftWrapService] No active user, cannot start');
-            return;
         }
-
-        console.log('[GiftWrapService] Starting global subscription for:', user.pubkey.slice(0, 16) + '...');
 
         // Subscribe to all Gift Wraps addressed to me
         const filter: NDKFilter = {
@@ -95,7 +89,6 @@ class GiftWrapService {
         isRunning = false;
         eventCache.clear();
         allDecryptedEvents.set([]);
-        console.log('[GiftWrapService] Stopped and cleared cache');
     }
 
     /**
@@ -147,15 +140,8 @@ class GiftWrapService {
                 if (exists) return events;
                 return [...events, unwrapped];
             });
-
-            console.log('[GiftWrapService] Decrypted:', {
-                id: rumorId.slice(0, 16) + '...',
-                kind: unwrapped.kind,
-                from: unwrapped.pubkey.slice(0, 16) + '...'
-            });
         } catch (error) {
             // Silently ignore - could be a gift wrap for another app
-            console.debug('[GiftWrapService] Could not unwrap:', error);
         }
     }
 
@@ -210,9 +196,7 @@ class GiftWrapService {
         if (signRumor) {
             await rumor.sign(signer as any);
             if (rumor.sig) {
-                // Store the signature in a custom tag before NDK strips it
                 rumor.tags.push(['orig_sig', rumor.sig]);
-                console.log('[GiftWrapService] Stored sig in tag:', rumor.sig.slice(0, 16) + '...');
             }
         }
 
@@ -221,8 +205,6 @@ class GiftWrapService {
         const wrappedForRecipient = await giftWrap(rumor, recipient as any, signer as any);
         await wrappedForRecipient.publish();
 
-        console.log('[GiftWrapService] Sent to recipient:', recipientPubkey.slice(0, 16) + '...');
-
         let wrappedForSelf: NDKEvent | undefined;
 
         if (sendCopyToSelf) {
@@ -230,7 +212,6 @@ class GiftWrapService {
             const selfUser = ndk.getUser({ pubkey: user.pubkey });
             wrappedForSelf = await giftWrap(rumor, selfUser as any, signer as any);
             await wrappedForSelf.publish();
-            console.log('[GiftWrapService] Sent copy to self');
         }
 
         return { toRecipient: wrappedForRecipient, toSelf: wrappedForSelf };

@@ -60,7 +60,6 @@ class ProfileService {
 
         // Publish Kind 0 event
         await user.publish();
-        console.log('[Profile] Updated profile');
     }
 
     /**

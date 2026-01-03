@@ -73,7 +73,6 @@ class AuthService {
             // Start encrypted event subscription
             giftWrapService.start();
 
-            console.log('[Auth] Logged in as:', user.npub);
             return user;
         } catch (error) {
             const message = error instanceof Error ? error.message : 'Login failed';
@@ -99,7 +98,6 @@ class AuthService {
         // Trigger reactive update
         this._authVersion++;
 
-        console.log('[Auth] Logged out');
     }
 
     /**

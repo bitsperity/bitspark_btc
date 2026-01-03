@@ -84,7 +84,6 @@
 			await user.publish();
 			
 			saveSuccess = true;
-			console.log('[ProfileForm] Profile saved successfully');
 			setTimeout(() => saveSuccess = false, 3000);
 		} catch (error) {
 			saveError = error instanceof Error ? error.message : 'Failed to save profile';

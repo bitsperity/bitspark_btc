@@ -82,7 +82,6 @@ class IdeaService {
         }
 
         await event.publish();
-        console.log('[IdeaService] Created idea:', event.id);
 
         return event;
     }
