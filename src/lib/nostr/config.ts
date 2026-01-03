@@ -31,11 +31,11 @@ export const NOSTR_KINDS = {
     JOB: 30101,            // Replaceable - can update job details
     OFFER: 30102,          // Replaceable - can update offer
     OFFER_RESPONSE: 30103, // Replaceable - can update response
-    CONTRACT: 30104,       // Replaceable - can update contract status
+    CONTRACT: 1104,        // IMMUTABLE - contracts must be permanent
     PULL_REQUEST: 1105,    // IMMUTABLE - PR chain must be permanent
     REVIEW: 1106,          // IMMUTABLE - Review chain must be permanent
-    PAYMENT: 30107,
-    CONTRACT_CONFIRMATION: 30108
+    PAYMENT: 1107,         // IMMUTABLE - payment records must be permanent
+    CONTRACT_CONFIRMATION: 1108  // IMMUTABLE - confirmations must be permanent
 } as const;
 
 // Event tag types
