@@ -175,10 +175,17 @@ export function useOfferDetail(offerId: () => string) {
         return pendingForMe[0] ?? null;
     });
 
-    const pendingOffersForMe = $derived(() => {
+    const pendingOffersForMe = $derived.by(() => {
         const myPubkey = authService.user?.pubkey;
         if (!myPubkey) return [];
-        return offerChain.filter(o => o.recipientPubkey === myPubkey && o.status === 'pending');
+        const result = offerChain.filter(o => o.recipientPubkey === myPubkey && o.status === 'pending');
+        console.log('[useOfferDetail] pendingOffersForMe:', {
+            myPubkey: myPubkey?.slice(0, 8),
+            offerChainLength: offerChain.length,
+            pendingCount: result.length,
+            chain: offerChain.map(o => ({ id: o.id.slice(0, 8), recipient: o.recipientPubkey?.slice(0, 8), status: o.status }))
+        });
+        return result;
     });
 
     // ========== DERIVED STATUS ==========
