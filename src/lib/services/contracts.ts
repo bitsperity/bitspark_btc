@@ -360,8 +360,7 @@ class ContractService {
         // Fetch both PR submissions and reviews to get current state
         const events = await ndk.fetchEvents({
             kinds: [NOSTR_KINDS.PULL_REQUEST as number, NOSTR_KINDS.REVIEW as number],
-            '#e': [contractId],
-            '#s': ['bitspark']
+            '#e': [contractId]
         } as NDKFilter);
 
         console.log('[getLatestPR] contractId:', contractId?.slice(0, 8), 'events:', events.size);
