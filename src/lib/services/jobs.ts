@@ -154,6 +154,28 @@ class JobService {
             event
         };
     }
+
+    /**
+     * Derive job status from related contract/PR events
+     * This gives the ACTUAL status based on contract state
+     */
+    async deriveJobStatus(jobId: string): Promise<JobStatus> {
+        // Import here to avoid circular dependency
+        const { contractService } = await import('./contracts');
+
+        // Check if contract exists for this job
+        const contract = await contractService.getContractByJobId(jobId);
+        if (!contract) return 'open';
+
+        // Check for PR
+        const pr = await contractService.getLatestPR(contract.id);
+        if (!pr) return 'assigned';
+
+        // Check PR status
+        if (pr.status === 'approved') return 'completed';
+
+        return 'review';
+    }
 }
 
 export const jobService = new JobService();

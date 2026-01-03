@@ -6,8 +6,12 @@ import type { NostrEntity } from './nostr';
 
 /**
  * Job status values
+ * - open: No contract exists, devs can apply
+ * - assigned: Contract created, dev working
+ * - review: PR submitted, awaiting review
+ * - completed: PR approved, work done
  */
-export type JobStatus = 'open' | 'in_progress' | 'completed';
+export type JobStatus = 'open' | 'assigned' | 'review' | 'completed';
 
 /**
  * Parsed Job from NDK Event
@@ -33,7 +37,7 @@ export interface CreateJobInput {
     content: string;
     bannerUrl?: string;
     languages: string[];
-    categories: string[];
+    categories: string[]
     ideaId: string;
 }
 
@@ -80,6 +84,7 @@ export const LANGUAGE_LABELS: Record<ProgrammingLanguage, string> = {
  */
 export const JOB_STATUS_CONFIG: Record<JobStatus, { label: string; color: string }> = {
     open: { label: 'Open', color: 'success' },
-    in_progress: { label: 'In Progress', color: 'warning' },
+    assigned: { label: 'Assigned', color: 'warning' },
+    review: { label: 'In Review', color: 'info' },
     completed: { label: 'Completed', color: 'muted' }
 };

@@ -4,8 +4,8 @@
 <script lang="ts">
 	import { Card, Badge, Row, Stack, Avatar } from '$lib/components';
 	import JobStatusBadge from './JobStatusBadge.svelte';
-	import { LANGUAGE_LABELS, type Job, type ProgrammingLanguage } from '$lib/types/job';
-	import { profileService } from '$lib/services';
+	import { LANGUAGE_LABELS, type Job, type ProgrammingLanguage, type JobStatus } from '$lib/types/job';
+	import { profileService, jobService } from '$lib/services';
 	import type { NDKUserProfile } from '@nostr-dev-kit/ndk';
 	import { Briefcase } from 'lucide-svelte';
 
@@ -17,9 +17,12 @@
 
 	// Fetch author profile
 	let authorProfile = $state<NDKUserProfile | null>(null);
+	let derivedStatus = $state<JobStatus>(job.status);
 
 	$effect(() => {
 		profileService.getProfile(job.pubkey).then(p => authorProfile = p);
+		// Derive actual status from contract/PR state
+		jobService.deriveJobStatus(job.id).then(s => derivedStatus = s);
 	});
 
 	const displayLanguages = $derived(
@@ -43,7 +46,7 @@
 					<Briefcase size={16} class="text-muted" />
 					<span class="job-title">{job.title}</span>
 				</Row>
-				<JobStatusBadge status={job.status} size="sm" />
+				<JobStatusBadge status={derivedStatus} size="sm" />
 			</Row>
 
 			<!-- Description preview -->
