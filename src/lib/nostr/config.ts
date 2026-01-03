@@ -27,8 +27,8 @@ export const NOSTR_KINDS = {
     // BitSpark custom kinds
     // 1xxx = non-replaceable (immutable)
     // 30xxx = replaceable
-    IDEA: 30100,           // Replaceable - can update idea details
-    JOB: 30101,            // Replaceable - can update job details
+    IDEA: 1100,            // IMMUTABLE - ideas must be permanent
+    JOB: 1101,             // IMMUTABLE - jobs must be permanent  
     OFFER: 30102,          // Replaceable - can update offer
     OFFER_RESPONSE: 30103, // Replaceable - can update response
     CONTRACT: 1104,        // IMMUTABLE - contracts must be permanent

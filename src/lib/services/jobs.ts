@@ -26,8 +26,6 @@ class JobService {
             filter['#l'] = [language];
         }
 
-        console.log('[JobService] subscribeToJobs filter:', filter, 'kind:', NOSTR_KINDS.JOB);
-
         return ndk.storeSubscribe(filter);
     }
 
