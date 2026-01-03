@@ -132,9 +132,9 @@
 		justify-content: space-between;
 		align-items: center;
 		padding: var(--space-4);
-		background: linear-gradient(135deg, rgba(251, 146, 60, 0.15), rgba(245, 158, 11, 0.1));
+		background: var(--bg-subtle);
 		border-radius: var(--radius-md);
-		border: 1px solid rgba(251, 146, 60, 0.2);
+		border: 1px solid var(--border-subtle);
 	}
 
 	.bid-label {

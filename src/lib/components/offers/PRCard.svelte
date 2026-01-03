@@ -3,7 +3,7 @@
   Actions are handled by IOContractActions/DevContractActions
 -->
 <script lang="ts">
-    import { Badge, Stack, Row, Card } from '$lib/components';
+    import { Badge, Stack, Row } from '$lib/components';
     import { UserAvatar } from '$lib/components';
     import type { PullRequest, Contract } from '$lib/types/offer';
     import { ExternalLink } from 'lucide-svelte';
@@ -27,7 +27,7 @@
     const statusBadge = $derived(getStatusBadge());
 </script>
 
-<Card class="pr-card">
+<div class="pr-card">
     <Stack gap={4}>
         <Row justify="between">
             <Row gap={3}>
@@ -62,9 +62,16 @@
             </div>
         {/if}
     </Stack>
-</Card>
+</div>
 
 <style>
+    .pr-card {
+        padding: var(--space-4);
+        background: var(--bg-subtle);
+        border-radius: var(--radius-md);
+        border: 1px solid var(--border-subtle);
+    }
+
     .pr-label {
         font-weight: 500;
         color: var(--text-primary);
