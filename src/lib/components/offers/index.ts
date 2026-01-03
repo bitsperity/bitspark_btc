@@ -10,6 +10,7 @@ export { default as CounterOfferModal } from './CounterOfferModal.svelte';
 export { default as OfferCard } from './OfferCard.svelte';
 export { default as OfferChain } from './OfferChain.svelte';
 export { default as ContractCard } from './ContractCard.svelte';
+export { default as ContractListItem } from './ContractListItem.svelte';
 
 // Action Panels (role-based)
 export { default as IOActionPanel } from './IOActionPanel.svelte';
