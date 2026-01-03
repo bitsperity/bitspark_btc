@@ -5,7 +5,7 @@
  */
 
 import { NDKEvent, type NDKFilter } from '@nostr-dev-kit/ndk';
-import { ndk } from '$lib/nostr';
+import { ndk, createEvent } from '$lib/nostr';
 import { NOSTR_KINDS, APP_TAG } from '$lib/nostr/config';
 import type { Idea, CreateIdeaInput } from '$lib/types/idea';
 import { createTagAccessors, parseBaseEvent } from '$lib/utils';
@@ -51,7 +51,7 @@ class IdeaService {
      * Create a new idea
      */
     async createIdea(input: CreateIdeaInput): Promise<NDKEvent> {
-        const event = new NDKEvent(ndk as unknown as ConstructorParameters<typeof NDKEvent>[0]);
+        const event = createEvent();
         event.kind = NOSTR_KINDS.IDEA;
         event.content = input.content;
 

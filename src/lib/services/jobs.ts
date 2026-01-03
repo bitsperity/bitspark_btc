@@ -5,7 +5,7 @@
  */
 
 import { NDKEvent, type NDKFilter } from '@nostr-dev-kit/ndk';
-import { ndk } from '$lib/nostr';
+import { ndk, createEvent } from '$lib/nostr';
 import { NOSTR_KINDS, APP_TAG } from '$lib/nostr/config';
 import type { Job, CreateJobInput, JobStatus } from '$lib/types/job';
 import { createTagAccessors, parseBaseEvent } from '$lib/utils';
@@ -75,7 +75,7 @@ class JobService {
             throw new Error('Only the Idea owner can create Jobs for this Idea');
         }
 
-        const event = new NDKEvent(ndk as unknown as ConstructorParameters<typeof NDKEvent>[0]);
+        const event = createEvent();
         event.kind = NOSTR_KINDS.JOB;
         event.content = input.content;
 
@@ -115,7 +115,7 @@ class JobService {
      * Update job status (publishes new replaceable event)
      */
     async updateJobStatus(job: Job, newStatus: JobStatus): Promise<NDKEvent> {
-        const event = new NDKEvent(ndk as unknown as ConstructorParameters<typeof NDKEvent>[0]);
+        const event = createEvent();
         event.kind = NOSTR_KINDS.JOB;
         event.content = job.content;
 

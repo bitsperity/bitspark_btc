@@ -3,7 +3,7 @@
  */
 
 import { NDKEvent, type NDKFilter } from '@nostr-dev-kit/ndk';
-import { ndk } from '$lib/nostr';
+import { ndk, createEvent } from '$lib/nostr';
 import { NOSTR_KINDS, APP_TAG } from '$lib/nostr/config';
 import type { Contract, ContractConfirmation, CreateContractInput, SignedEventProof, PullRequest, SubmitPRInput, PRStatus } from '$lib/types/offer';
 import { createTagAccessors, parseBaseEvent } from '$lib/utils';
@@ -14,7 +14,7 @@ class ContractService {
      * Called by IO after dev accepts
      */
     async createContract(input: CreateContractInput): Promise<NDKEvent> {
-        const event = new NDKEvent(ndk as unknown as ConstructorParameters<typeof NDKEvent>[0]);
+        const event = createEvent();
         event.kind = NOSTR_KINDS.CONTRACT;
         event.content = input.message;
 
@@ -46,7 +46,7 @@ class ContractService {
      * Creates a CONTRACT_CONFIRMATION event signed by Dev containing the full original contract
      */
     async confirmContract(contract: Contract): Promise<NDKEvent> {
-        const event = new NDKEvent(ndk);
+        const event = createEvent();
         event.kind = NOSTR_KINDS.CONTRACT_CONFIRMATION;
 
         // Content is the full original contract with IO's signature
@@ -269,7 +269,7 @@ class ContractService {
      * Requires confirmation event for complete proof chain
      */
     async submitPR(input: SubmitPRInput): Promise<NDKEvent> {
-        const event = new NDKEvent(ndk as unknown as ConstructorParameters<typeof NDKEvent>[0]);
+        const event = createEvent();
         event.kind = NOSTR_KINDS.PULL_REQUEST;
         event.content = input.message;
 
@@ -296,7 +296,7 @@ class ContractService {
     async approvePR(pr: PullRequest, message: string): Promise<NDKEvent> {
         const dTag = `review-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
 
-        const event = new NDKEvent(ndk as unknown as ConstructorParameters<typeof NDKEvent>[0]);
+        const event = createEvent();
         event.kind = NOSTR_KINDS.REVIEW;
         event.content = message;  // IO's message
 
@@ -322,7 +322,7 @@ class ContractService {
     async requestChanges(pr: PullRequest, message: string): Promise<NDKEvent> {
         const dTag = `review-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
 
-        const event = new NDKEvent(ndk as unknown as ConstructorParameters<typeof NDKEvent>[0]);
+        const event = createEvent();
         event.kind = NOSTR_KINDS.REVIEW;
         event.content = message;  // IO's message
 

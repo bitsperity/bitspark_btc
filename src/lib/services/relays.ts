@@ -5,7 +5,7 @@
  */
 
 import { NDKEvent, type NDKFilter, NDKRelayList } from '@nostr-dev-kit/ndk';
-import { ndk } from '$lib/nostr';
+import { ndk, createEvent } from '$lib/nostr';
 import { DEFAULT_RELAYS } from '$lib/nostr/config';
 
 export interface RelayInfo {
@@ -96,7 +96,7 @@ class RelayService {
      * Save relay list to Nostr (NIP-65)
      */
     async saveRelayList(relays: RelayInfo[]): Promise<void> {
-        const event = new NDKEvent(ndk as unknown as ConstructorParameters<typeof NDKEvent>[0]);
+        const event = createEvent();
         event.kind = 10002;
         event.content = '';
         event.tags = relays.map(r => {

@@ -15,6 +15,7 @@
  */
 
 import NDKSvelte from '@nostr-dev-kit/ndk-svelte';
+import { NDKEvent } from '@nostr-dev-kit/ndk';
 import { DEFAULT_RELAYS } from './config';
 
 // NDKSvelte instance - singleton with reactive store support
@@ -78,4 +79,12 @@ function startHealthCheck(): void {
 export async function reconnect(): Promise<void> {
     await ndk.connect();
     isConnected = true;
+}
+
+/**
+ * Create a new NDKEvent with proper type handling
+ * Workaround for NDKSvelte type incompatibility
+ */
+export function createEvent(): NDKEvent {
+    return new NDKEvent(ndk as any);
 }

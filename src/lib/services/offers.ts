@@ -6,7 +6,7 @@
  */
 
 import { NDKEvent, type NDKFilter } from '@nostr-dev-kit/ndk';
-import { ndk } from '$lib/nostr';
+import { ndk, createEvent } from '$lib/nostr';
 import { NOSTR_KINDS, APP_TAG } from '$lib/nostr/config';
 import type { Offer, CreateOfferInput, OfferStatus } from '$lib/types/offer';
 import { createTagAccessors, parseBaseEvent } from '$lib/utils';
@@ -24,7 +24,7 @@ class OfferService {
         const user = await signer.user();
 
         // Create the rumor event (unsigned - will be wrapped)
-        const rumor = new NDKEvent(ndk as unknown as ConstructorParameters<typeof NDKEvent>[0]);
+        const rumor = createEvent();
         rumor.kind = NOSTR_KINDS.OFFER;
         rumor.pubkey = user.pubkey;
         rumor.content = input.message;
@@ -75,7 +75,7 @@ class OfferService {
 
         const user = await signer.user();
 
-        const rumor = new NDKEvent(ndk as unknown as ConstructorParameters<typeof NDKEvent>[0]);
+        const rumor = createEvent();
         rumor.kind = NOSTR_KINDS.OFFER;
         rumor.pubkey = user.pubkey;
         rumor.content = 'Offer accepted';
@@ -117,7 +117,7 @@ class OfferService {
 
         const user = await signer.user();
 
-        const rumor = new NDKEvent(ndk as unknown as ConstructorParameters<typeof NDKEvent>[0]);
+        const rumor = createEvent();
         rumor.kind = NOSTR_KINDS.OFFER;
         rumor.pubkey = user.pubkey;
         rumor.content = 'Offer declined';
