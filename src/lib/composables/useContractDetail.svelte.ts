@@ -11,7 +11,6 @@ import { ndk, NOSTR_KINDS } from '$lib/nostr';
 import type { Contract, ContractConfirmation, PullRequest, PRStatus } from '$lib/types/offer';
 import type { Job } from '$lib/types/job';
 import type { NDKUserProfile, NDKFilter, NDKEvent } from '@nostr-dev-kit/ndk';
-import { onDestroy } from 'svelte';
 
 // ========== TYPES ==========
 
@@ -103,7 +102,13 @@ export function useContractDetail(contractId: () => string) {
 
     // ========== SETUP SUBSCRIPTIONS ==========
 
+    // Store cleanup functions
+    let cleanupFns: (() => void)[] = [];
+
     function setupSubscriptions(contractEventId: string) {
+        // Clean up any existing subscriptions first
+        cleanupSubscriptions();
+
         // Subscribe to confirmation events (Kind 30108)
         confirmationStore = ndk.storeSubscribe({
             kinds: [NOSTR_KINDS.CONTRACT_CONFIRMATION as number],
@@ -125,13 +130,18 @@ export function useContractDetail(contractId: () => string) {
             prEvents = events;
         });
 
-        // Cleanup on destroy
-        onDestroy(() => {
-            unsubConfirm();
-            unsubPR();
-            confirmationStore?.unsubscribe?.();
-            prStore?.unsubscribe?.();
-        });
+        // Store cleanup functions for later
+        cleanupFns = [
+            unsubConfirm,
+            unsubPR,
+            () => confirmationStore?.unsubscribe?.(),
+            () => prStore?.unsubscribe?.()
+        ];
+    }
+
+    function cleanupSubscriptions() {
+        cleanupFns.forEach(fn => fn());
+        cleanupFns = [];
     }
 
     // ========== LOAD DATA ==========
@@ -325,6 +335,9 @@ export function useContractDetail(contractId: () => string) {
         requestChanges: requestChangesAction,
 
         // Refresh (for manual refresh if needed)
-        refresh: loadContract
+        refresh: loadContract,
+
+        // Cleanup (call in component onDestroy)
+        destroy: cleanupSubscriptions
     };
 }
