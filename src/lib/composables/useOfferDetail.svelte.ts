@@ -164,7 +164,7 @@ export function useOfferDetail(offerId: () => string) {
         ) ?? null;
     });
 
-    const latestPendingOfferForMe = $derived(() => {
+    const latestPendingOfferForMe = $derived.by(() => {
         const myPubkey = authService.user?.pubkey;
         if (!myPubkey) return null;
 
@@ -178,14 +178,7 @@ export function useOfferDetail(offerId: () => string) {
     const pendingOffersForMe = $derived.by(() => {
         const myPubkey = authService.user?.pubkey;
         if (!myPubkey) return [];
-        const result = offerChain.filter(o => o.recipientPubkey === myPubkey && o.status === 'pending');
-        console.log('[useOfferDetail] pendingOffersForMe:', {
-            myPubkey: myPubkey?.slice(0, 8),
-            offerChainLength: offerChain.length,
-            pendingCount: result.length,
-            chain: offerChain.map(o => ({ id: o.id.slice(0, 8), recipient: o.recipientPubkey?.slice(0, 8), status: o.status }))
-        });
-        return result;
+        return offerChain.filter(o => o.recipientPubkey === myPubkey && o.status === 'pending');
     });
 
     // ========== DERIVED STATUS ==========
