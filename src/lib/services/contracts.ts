@@ -364,6 +364,8 @@ class ContractService {
             '#s': ['bitspark']
         } as NDKFilter);
 
+        console.log('[getLatestPR] contractId:', contractId?.slice(0, 8), 'events:', events.size);
+
         if (events.size === 0) return null;
 
         // Get all events sorted by time (newest first)
@@ -371,8 +373,10 @@ class ContractService {
             (b.created_at ?? 0) - (a.created_at ?? 0)
         );
 
-        // Find the latest PR submission (Kind 30105)
+        // Find the latest PR submission (Kind 1105)
         const latestSubmission = sorted.find(e => e.kind === NOSTR_KINDS.PULL_REQUEST);
+        console.log('[getLatestPR] latestSubmission kind:', latestSubmission?.kind, 'expected:', NOSTR_KINDS.PULL_REQUEST);
+
         if (!latestSubmission) return null;
 
         // Parse the PR
