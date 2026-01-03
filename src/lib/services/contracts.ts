@@ -114,16 +114,24 @@ class ContractService {
 
     /**
      * Subscribe to contracts for current user
+     * User may be tagged as participant OR be the author (IO)
      */
     subscribeToMyContracts() {
         const user = ndk.activeUser;
         if (!user) return null;
 
-        return ndk.storeSubscribe({
-            kinds: [NOSTR_KINDS.CONTRACT as number],
-            '#p': [user.pubkey],
-            '#s': ['bitspark']
-        } as NDKFilter);
+        // Fetch contracts where user is tagged as participant
+        // OR where user is the author (IO creates the contract)
+        return ndk.storeSubscribe([
+            {
+                kinds: [NOSTR_KINDS.CONTRACT as number],
+                '#p': [user.pubkey]
+            },
+            {
+                kinds: [NOSTR_KINDS.CONTRACT as number],
+                authors: [user.pubkey]
+            }
+        ] as NDKFilter[]);
     }
 
     /**
