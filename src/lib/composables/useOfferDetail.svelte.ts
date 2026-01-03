@@ -3,38 +3,130 @@
  * 
  * Centralized business logic for offer detail page.
  * Provides userRole determination ('io' | 'dev' | null) for clean component delegation.
+ * REAL-TIME reactive updates via offerEvents subscription.
  */
 
 import { offerService, jobService, profileService, authService, contractService } from '$lib/services';
+import { offerEvents } from '$lib/services/giftwrap';
 import type { Offer, Contract } from '$lib/types/offer';
 import type { Job } from '$lib/types/job';
-import type { NDKUserProfile } from '@nostr-dev-kit/ndk';
+import type { NDKUserProfile, NDKEvent } from '@nostr-dev-kit/ndk';
 import { goto } from '$app/navigation';
 
 export type UserRole = 'io' | 'dev' | null;
 
 export function useOfferDetail(offerId: () => string) {
-    // State
-    let offer = $state<Offer | null>(null);
+    // ========== STATE ==========
     let job = $state<Job | null>(null);
     let existingContract = $state<Contract | null>(null);
     let senderProfile = $state<NDKUserProfile | undefined>(undefined);
-    let offerChain = $state<Offer[]>([]);
     let isLoading = $state(true);
 
-    // Load offer and related data
-    async function loadOffer() {
+    // Reactive state from subscription
+    let allOfferEvents = $state<NDKEvent[]>([]);
+
+    // Cleanup function
+    let cleanupFn: (() => void) | null = null;
+
+    // ========== DERIVED FROM SUBSCRIPTION ==========
+
+    // Parse all events to offers
+    const allOffers = $derived.by(() => {
+        return allOfferEvents.map(e => offerService.parseOfferEvent(e));
+    });
+
+    // Get the initial offer
+    const offer = $derived.by((): Offer | null => {
+        return allOffers.find(o => o.id === offerId()) ?? null;
+    });
+
+    // Build offer chain reactively
+    const offerChain = $derived.by((): Offer[] => {
+        const id = offerId();
+        if (!id || allOffers.length === 0) return [];
+
+        // Build maps for traversal
+        const offerMap = new Map<string, Offer>();
+        const childrenMap = new Map<string, string[]>();
+
+        for (const o of allOffers) {
+            offerMap.set(o.id, o);
+            if (o.prevOfferId) {
+                const children = childrenMap.get(o.prevOfferId) || [];
+                children.push(o.id);
+                childrenMap.set(o.prevOfferId, children);
+            }
+        }
+
+        const startOffer = offerMap.get(id);
+        if (!startOffer) return [];
+
+        // Find root
+        let rootId = id;
+        let current = startOffer;
+        while (current.prevOfferId && offerMap.has(current.prevOfferId)) {
+            rootId = current.prevOfferId;
+            current = offerMap.get(rootId)!;
+        }
+
+        // Build chain forward from root
+        const chain: Offer[] = [];
+        const queue = [rootId];
+        const visited = new Set<string>();
+
+        while (queue.length > 0) {
+            const chainId = queue.shift()!;
+            if (visited.has(chainId)) continue;
+            visited.add(chainId);
+
+            const o = offerMap.get(chainId);
+            if (o) {
+                chain.push(o);
+                const children = childrenMap.get(chainId) || [];
+                queue.push(...children);
+            }
+        }
+
+        // Sort by creation time
+        chain.sort((a, b) => (a.createdAt ?? 0) - (b.createdAt ?? 0));
+
+        // Deduplicate
+        const seen = new Set<string>();
+        return chain.filter(o => {
+            const key = `${o.pubkey}-${o.status}`;
+            if (seen.has(key)) return false;
+            seen.add(key);
+            return true;
+        });
+    });
+
+    // ========== SETUP SUBSCRIPTION ==========
+
+    function setupSubscription() {
+        cleanupFn?.();
+        cleanupFn = offerEvents.subscribe(events => {
+            allOfferEvents = events;
+        });
+    }
+
+    // ========== LOAD METADATA ==========
+
+    async function loadMetadata() {
         if (!authService.isLoggedIn) return;
 
         isLoading = true;
         try {
-            offer = await offerService.getOffer(offerId());
-            if (offer) {
-                job = await jobService.getJob(offer.jobId);
-                senderProfile = await profileService.getProfile(offer.pubkey);
-                offerChain = await offerService.getOfferChain(offer.id);
-                // Check if contract already exists
-                existingContract = await contractService.getContractByJobId(offer.jobId);
+            // Setup live subscription
+            setupSubscription();
+
+            // Wait a moment for events to load
+            await new Promise(resolve => setTimeout(resolve, 300));
+
+            const currentOffer = offer;
+            if (currentOffer) {
+                job = await jobService.getJob(currentOffer.jobId);
+                senderProfile = await profileService.getProfile(currentOffer.pubkey);
+                existingContract = await contractService.getContractByJobId(currentOffer.jobId);
             }
         } catch (e) {
             console.error('[OfferDetail] Load error:', e);
@@ -49,40 +141,29 @@ export function useOfferDetail(offerId: () => string) {
         const id = offerId();
 
         if (loggedIn && id) {
-            setTimeout(() => loadOffer(), 500);
+            setTimeout(() => loadMetadata(), 500);
         }
     });
 
     // ========== ROLE DETERMINATION ==========
 
-    /**
-     * Determine user's role for this offer chain:
-     * - 'io': User is the job owner (Issue Owner)
-     * - 'dev': User is a developer (not job owner)
-     * - null: Unknown (job not loaded or not logged in)
-     */
-    const userRole = $derived<UserRole>(() => {
+    const userRole = $derived.by((): UserRole => {
         if (!job || !authService.user?.pubkey) return null;
         return authService.user.pubkey === job.pubkey ? 'io' : 'dev';
     });
 
     // ========== OFFER CHAIN ANALYSIS ==========
 
-    /**
-     * Find accepted offer from Dev in chain (Dev accepted IO's counter)
-     */
-    const acceptedOfferFromDev = $derived(() => {
+    const acceptedOfferFromDev = $derived.by(() => {
         if (!job) return null;
+        const j = job;
         return offerChain.find(o =>
             o.status === 'accepted' &&
-            o.pubkey !== job.pubkey &&
+            o.pubkey !== j.pubkey &&
             o.prevOfferId
         ) ?? null;
     });
 
-    /**
-     * Find latest pending offer addressed to current user
-     */
     const latestPendingOfferForMe = $derived(() => {
         const myPubkey = authService.user?.pubkey;
         if (!myPubkey) return null;
@@ -94,9 +175,6 @@ export function useOfferDetail(offerId: () => string) {
         return pendingForMe[0] ?? null;
     });
 
-    /**
-     * Get all pending offers addressed to current user (for action buttons)
-     */
     const pendingOffersForMe = $derived(() => {
         const myPubkey = authService.user?.pubkey;
         if (!myPubkey) return [];
@@ -106,15 +184,15 @@ export function useOfferDetail(offerId: () => string) {
     // ========== DERIVED STATUS ==========
 
     const canCreateContract = $derived(
-        userRole() === 'io' && acceptedOfferFromDev() !== null
+        userRole === 'io' && acceptedOfferFromDev !== null
     );
 
     const canTakeActions = $derived(
-        latestPendingOfferForMe() !== null && !acceptedOfferFromDev()
+        latestPendingOfferForMe !== null && !acceptedOfferFromDev
     );
 
-    const effectiveStatus = $derived(() => {
-        if (acceptedOfferFromDev()) return 'accepted';
+    const effectiveStatus = $derived.by(() => {
+        if (acceptedOfferFromDev) return 'accepted';
         const declined = offerChain.find(o => o.status === 'declined');
         if (declined) return 'declined';
         return offer?.status ?? 'pending';
@@ -124,7 +202,7 @@ export function useOfferDetail(offerId: () => string) {
 
     async function acceptOffer(targetOffer: Offer) {
         await offerService.acceptOffer(targetOffer);
-        window.location.reload();
+        // No reload needed - subscription will update!
     }
 
     async function declineOffer(targetOffer: Offer) {
@@ -134,11 +212,12 @@ export function useOfferDetail(offerId: () => string) {
 
     async function createContract() {
         if (!job) return;
+        const j = job;
 
-        const acceptedOffer = acceptedOfferFromDev();
+        const acceptedOffer = acceptedOfferFromDev;
         if (!acceptedOffer) return;
 
-        const ioCounter = offerChain.find(o => o.pubkey === job.pubkey);
+        const ioCounter = offerChain.find(o => o.pubkey === j.pubkey);
 
         if (ioCounter?.event && acceptedOffer.event) {
             await contractService.createContract({
@@ -148,7 +227,7 @@ export function useOfferDetail(offerId: () => string) {
                 counterOffer: ioCounter.event,
                 acceptOffer: acceptedOffer.event,
                 agreedBid: acceptedOffer.bid,
-                message: `Contract for job: ${job.title ?? 'Unknown'}`
+                message: `Contract for job: ${j.title ?? 'Unknown'}`
             });
         }
 
@@ -158,7 +237,7 @@ export function useOfferDetail(offerId: () => string) {
     // ========== PUBLIC API ==========
 
     return {
-        // Data
+        // Data (reactive!)
         offer: () => offer,
         job: () => job,
         existingContract: () => existingContract,
@@ -180,6 +259,9 @@ export function useOfferDetail(offerId: () => string) {
         // Actions
         acceptOffer,
         declineOffer,
-        createContract
+        createContract,
+
+        // Cleanup
+        destroy: () => cleanupFn?.()
     };
 }
