@@ -28,7 +28,7 @@
 		}
 
 		// Don't follow yourself
-		if (pubkey === authService.currentUser?.pubkey) {
+		if (pubkey === authService.user?.pubkey) {
 			return;
 		}
 
@@ -49,7 +49,7 @@
 	}
 
 	// Hide if viewing own profile
-	const isOwnProfile = $derived(pubkey === authService.currentUser?.pubkey);
+	const isOwnProfile = $derived(pubkey === authService.user?.pubkey);
 </script>
 
 {#if !isOwnProfile}
