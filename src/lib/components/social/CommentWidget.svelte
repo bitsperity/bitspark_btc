@@ -1,9 +1,9 @@
 <!--
-  CommentWidget - Threaded comment section for any event
+  CommentWidget - Threaded comment section with unlimited nesting
   
   Features:
   - Collapsible with comment count header
-  - Threaded/nested comment display
+  - Recursive threaded/nested comment display
   - New comment form
 -->
 <script lang="ts">
@@ -29,36 +29,30 @@
 	const comments = commentService.subscribeComments(eventId);
 	const commentCount = commentService.subscribeCommentCount(eventId);
 
-	// Build threaded comment tree
-	const threadedComments = $derived(buildCommentTree($comments));
+	// Build children map for the entire tree
+	const childrenMap = $derived(buildChildrenMap($comments));
 
-	function buildCommentTree(flatComments: Comment[]): { comment: Comment; replies: Comment[] }[] {
-		// Map comments by ID
-		const commentMap = new Map<string, Comment>();
-		flatComments.forEach(c => commentMap.set(c.id, c));
-
-		// Find top-level comments (no replyToCommentId or replyToCommentId is the event itself)
-		const topLevel: Comment[] = [];
-		const childrenMap = new Map<string, Comment[]>();
-
+	function buildChildrenMap(flatComments: Comment[]): Map<string, Comment[]> {
+		const map = new Map<string, Comment[]>();
+		
 		for (const comment of flatComments) {
-			if (!comment.replyToCommentId || !commentMap.has(comment.replyToCommentId)) {
-				// Top-level comment
-				topLevel.push(comment);
-			} else {
-				// Child comment
-				const children = childrenMap.get(comment.replyToCommentId) || [];
+			if (comment.replyToCommentId) {
+				const children = map.get(comment.replyToCommentId) || [];
 				children.push(comment);
-				childrenMap.set(comment.replyToCommentId, children);
+				map.set(comment.replyToCommentId, children);
 			}
 		}
-
-		// Build tree structure
-		return topLevel.map(comment => ({
-			comment,
-			replies: childrenMap.get(comment.id) || []
-		}));
+		
+		return map;
 	}
+
+	// Get only top-level comments
+	const topLevelComments = $derived(() => {
+		const commentIds = new Set($comments.map(c => c.id));
+		return $comments.filter(c => 
+			!c.replyToCommentId || !commentIds.has(c.replyToCommentId)
+		);
+	});
 
 	// Cleanup subscription on destroy
 	onDestroy(() => {
@@ -86,14 +80,15 @@
 	{#if isOpen}
 		<div class="comment-content">
 			<Stack gap={0}>
-				{#if threadedComments.length === 0}
+				{#if topLevelComments().length === 0}
 					<p class="no-comments">No comments yet. Be the first!</p>
 				{:else}
-					{#each threadedComments as { comment, replies } (comment.id)}
+					{#each topLevelComments() as comment (comment.id)}
 						<CommentItem 
 							{comment} 
 							rootEventId={eventId}
-							replies={replies}
+							{childrenMap}
+							depth={0}
 						/>
 					{/each}
 				{/if}

@@ -1,7 +1,7 @@
 <!--
-  CommentItem - Single comment with reply button and nested replies
+  CommentItem - Single comment with infinite nesting support
   
-  Twitter/Instagram-style threaded comments.
+  Recursively renders children using childrenMap lookup.
 -->
 <script lang="ts">
 	import { Avatar, Row, Button } from '$lib/components';
@@ -10,20 +10,24 @@
 	import CommentForm from './CommentForm.svelte';
 	import type { Comment } from '$lib/types/social';
 	import type { NDKUserProfile } from '@nostr-dev-kit/ndk';
-	import { MessageCircle } from 'lucide-svelte';
+	import { MessageCircle, ChevronDown, ChevronRight } from 'lucide-svelte';
 
 	interface Props {
 		comment: Comment;
-		rootEventId: string;  // Original event (idea/job) for reply context
-		depth?: number;       // Nesting depth for indentation
-		replies?: Comment[];  // Child comments
+		rootEventId: string;         // Original event (idea/job) for reply context
+		childrenMap: Map<string, Comment[]>;  // Full map of parent -> children
+		depth?: number;              // Nesting depth for indentation
 	}
 
-	let { comment, rootEventId, depth = 0, replies = [] }: Props = $props();
+	let { comment, rootEventId, childrenMap, depth = 0 }: Props = $props();
 
 	// State
 	let showReplyForm = $state(false);
 	let showReplies = $state(depth < 2); // Auto-expand first 2 levels
+
+	// Get direct children of this comment
+	const replies = $derived(childrenMap.get(comment.id) || []);
+	const hasReplies = $derived(replies.length > 0);
 
 	// Fetch author profile
 	let authorProfile = $state<NDKUserProfile | undefined>(undefined);
@@ -55,10 +59,13 @@
 	}
 
 	const relativeTime = $derived(getRelativeTime(comment.createdAt));
-	const hasReplies = $derived(replies.length > 0);
 
 	function handleReplySubmit() {
 		showReplyForm = false;
+	}
+
+	function toggleReplies() {
+		showReplies = !showReplies;
 	}
 </script>
 
@@ -92,20 +99,26 @@
 			</div>
 		{/if}
 
-		<!-- Replies -->
+		<!-- Replies (recursive) -->
 		{#if hasReplies}
-			{#if !showReplies}
-				<button class="show-replies-btn" onclick={() => showReplies = true}>
-					View {replies.length} {replies.length === 1 ? 'reply' : 'replies'}
-				</button>
-			{:else}
+			<button class="toggle-replies-btn" onclick={toggleReplies}>
+				{#if showReplies}
+					<ChevronDown size={14} />
+				{:else}
+					<ChevronRight size={14} />
+				{/if}
+				<span>{replies.length} {replies.length === 1 ? 'reply' : 'replies'}</span>
+			</button>
+			
+			{#if showReplies}
 				<div class="replies">
 					{#each replies as reply (reply.id)}
+						<!-- Recursive call with same childrenMap -->
 						<svelte:self 
 							comment={reply} 
 							rootEventId={rootEventId}
+							childrenMap={childrenMap}
 							depth={depth + 1}
-							replies={[]}
 						/>
 					{/each}
 				</div>
@@ -126,7 +139,7 @@
 	}
 
 	.comment-item.nested {
-		margin-left: var(--space-6);
+		margin-left: var(--space-4);
 		padding-left: var(--space-3);
 		border-left: 2px solid rgba(255, 255, 255, 0.1);
 		border-bottom: none;
@@ -168,7 +181,8 @@
 		margin-top: var(--space-2);
 	}
 
-	.reply-btn {
+	.reply-btn,
+	.toggle-replies-btn {
 		display: inline-flex;
 		align-items: center;
 		gap: var(--space-1);
@@ -182,28 +196,20 @@
 		transition: color var(--duration-fast) var(--ease-out);
 	}
 
-	.reply-btn:hover {
+	.reply-btn:hover,
+	.toggle-replies-btn:hover {
 		color: var(--primary);
+	}
+
+	.toggle-replies-btn {
+		margin-top: var(--space-2);
+		padding-left: 0;
 	}
 
 	.reply-form-wrapper {
 		margin-top: var(--space-3);
 		padding-top: var(--space-3);
 		border-top: 1px solid rgba(255, 255, 255, 0.05);
-	}
-
-	.show-replies-btn {
-		margin-top: var(--space-2);
-		padding: var(--space-1) 0;
-		background: transparent;
-		border: none;
-		color: var(--primary);
-		font-size: 0.8rem;
-		cursor: pointer;
-	}
-
-	.show-replies-btn:hover {
-		text-decoration: underline;
 	}
 
 	.replies {
