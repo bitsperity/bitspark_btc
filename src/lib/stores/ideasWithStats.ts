@@ -1,12 +1,14 @@
 /**
  * Ideas with Stats Store
  * 
- * Combines Ideas with Job stats for enriched display.
+ * Combines Ideas with Job and Contract stats for enriched display.
  */
 
 import { derived, writable, type Readable } from 'svelte/store';
 import { ideaService } from '$lib/services/ideas';
 import { jobService } from '$lib/services/jobs';
+import { ndk } from '$lib/nostr';
+import { NOSTR_KINDS } from '$lib/nostr/config';
 import type { Idea } from '$lib/types/idea';
 import type { Job } from '$lib/types/job';
 
@@ -59,6 +61,7 @@ export function createIdeasWithStatsStore() {
     // Parsed data stores
     const ideas = writable<Idea[]>([]);
     const jobs = writable<Job[]>([]);
+    const assignedJobIds = writable<Set<string>>(new Set()); // Jobs with contracts
 
     // Loading state
     const isLoading = writable(true);
@@ -67,6 +70,7 @@ export function createIdeasWithStatsStore() {
     let isStarted = false;
     let ideasUnsubscribe: (() => void) | null = null;
     let jobsUnsubscribe: (() => void) | null = null;
+    let contractsUnsubscribe: any = null;
 
     /**
      * Start subscriptions
@@ -88,6 +92,23 @@ export function createIdeasWithStatsStore() {
         jobsUnsubscribe = jobsStore.subscribe((events: any[]) => {
             jobs.set(events.map((e: any) => jobService.parseJobEvent(e)));
         });
+
+        // Subscribe to contracts to know which jobs are assigned
+        const contractsFilter = {
+            kinds: [NOSTR_KINDS.CONTRACT as number],
+            '#s': ['bitspark']
+        };
+        contractsUnsubscribe = ndk.subscribe(contractsFilter, { closeOnEose: false });
+        contractsUnsubscribe.on('event', (event: any) => {
+            // Extract job ID from contract
+            const jobTag = event.tags.find((t: string[]) => t[0] === 'e' && t[3] === 'job');
+            if (jobTag) {
+                assignedJobIds.update(set => {
+                    set.add(jobTag[1]);
+                    return new Set(set);
+                });
+            }
+        });
     }
 
     /**
@@ -96,6 +117,7 @@ export function createIdeasWithStatsStore() {
     function stop() {
         if (ideasUnsubscribe) ideasUnsubscribe();
         if (jobsUnsubscribe) jobsUnsubscribe();
+        if (contractsUnsubscribe) contractsUnsubscribe.stop();
         isStarted = false;
     }
 
@@ -103,15 +125,17 @@ export function createIdeasWithStatsStore() {
      * Enriched ideas with stats
      */
     const ideasWithStats: Readable<IdeaWithStats[]> = derived(
-        [ideas, jobs, filters],
-        ([$ideas, $jobs, $filters]) => {
+        [ideas, jobs, assignedJobIds, filters],
+        ([$ideas, $jobs, $assignedJobIds, $filters]) => {
             const now = Date.now();
             const oneWeekAgo = now - 7 * 24 * 60 * 60 * 1000;
 
             // Enrich each idea
             let enriched = $ideas.map(idea => {
                 const ideaJobs = $jobs.filter(j => j.ideaId === idea.id);
-                const openJobs = ideaJobs.filter(j => j.status === 'open');
+
+                // Open = no contract for this job
+                const openJobs = ideaJobs.filter(j => !$assignedJobIds.has(j.id));
 
                 // Calculate total bounty from job amount tags
                 const totalBounty = ideaJobs.reduce((sum, j) => {
