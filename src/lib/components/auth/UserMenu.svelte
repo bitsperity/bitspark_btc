@@ -1,11 +1,12 @@
 <!--
   UserMenu - Dropdown menu for logged in user
   
-  Shows avatar, name, and menu options (Profile, Edit, Settings, Logout).
+  Shows avatar, name, and menu options.
+  Auto-retries profile fetch if missing.
 -->
 <script lang="ts">
 	import { authService } from '$lib/services';
-	import { Avatar } from '$lib/components';
+	import { Avatar, Skeleton } from '$lib/components';
 	import { User, Settings, LogOut, ChevronDown, Edit, Lightbulb, Briefcase, Send, FileCheck } from 'lucide-svelte';
 
 	let menuOpen = $state(false);
@@ -23,7 +24,6 @@
 		closeMenu();
 	}
 
-	// Close menu on outside click
 	function handleClickOutside(event: MouseEvent) {
 		const target = event.target as HTMLElement;
 		if (!target.closest('.user-menu')) {
@@ -38,17 +38,32 @@
 		}
 	});
 
+	// Auto-retry profile fetch if missing
+	$effect(() => {
+		const user = authService.user;
+		if (user && !user.profile?.name && !authService.profileLoading) {
+			// Profile is missing, retry fetch
+			authService.retryFetchProfile();
+		}
+	});
+
 	const profile = $derived(authService.user?.profile);
-	const displayName = $derived(profile?.name ?? profile?.displayName ?? 'Anonymous');
+	const displayName = $derived(profile?.name ?? profile?.displayName);
 	const avatarUrl = $derived(profile?.image ?? profile?.picture);
-	const fallback = $derived(displayName[0]?.toUpperCase() ?? '?');
+	const fallback = $derived(displayName?.[0]?.toUpperCase() ?? '?');
+	const isProfileLoading = $derived(authService.profileLoading || (!displayName && authService.isLoggedIn));
 </script>
 
 {#if authService.isLoggedIn}
 	<div class="user-menu">
 		<button class="user-menu-trigger" onclick={toggleMenu}>
-			<Avatar src={avatarUrl} {fallback} size="sm" />
-			<span class="user-name">{displayName}</span>
+			{#if isProfileLoading}
+				<Skeleton width="28px" height="28px" borderRadius="50%" />
+				<Skeleton width="60px" height="14px" />
+			{:else}
+				<Avatar src={avatarUrl} {fallback} size="sm" />
+				<span class="user-name">{displayName ?? 'User'}</span>
+			{/if}
 			<ChevronDown size={14} class={menuOpen ? 'chevron open' : 'chevron'} />
 		</button>
 

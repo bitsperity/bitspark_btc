@@ -1,36 +1,32 @@
 /**
  * AuthService - Handles NIP-07 authentication
  * 
- * Uses a reactive signal (_authVersion) to trigger UI updates.
- * ndk.activeUser is source of truth, signal triggers reactivity.
- * 
- * Usage:
- *   import { authService } from '$lib/services';
- *   
- *   await authService.login();
- *   authService.user  // Current user (reactive)
- *   authService.isLoggedIn  // Boolean (reactive)
+ * Features:
+ * - NIP-07 browser extension login
+ * - Auto-reconnect before login
+ * - Profile fetch with timeout
+ * - Reactive state with $state
  */
 
 import { NDKNip07Signer, type NDKUser } from '@nostr-dev-kit/ndk';
-import { ndk } from '$lib/nostr';
+import { ndk, reconnect } from '$lib/nostr';
 import { giftWrapService } from './giftwrap';
 
+// Profile fetch timeout (5 seconds)
+const PROFILE_TIMEOUT = 5000;
+
 class AuthService {
-    // Reactive signal - increment to trigger UI updates
     private _authVersion = $state(0);
     private _isLoading = $state(false);
     private _error = $state<string | undefined>(undefined);
+    private _profileLoading = $state(false);
 
-    // Reading _authVersion makes these getters reactive
     get user(): NDKUser | undefined {
-        // Touch version to make this getter reactive
         void this._authVersion;
         return ndk.activeUser;
     }
 
     get isLoggedIn(): boolean {
-        // Touch version to make this getter reactive
         void this._authVersion;
         return ndk.activeUser !== undefined;
     }
@@ -39,12 +35,16 @@ class AuthService {
         return this._isLoading;
     }
 
+    get profileLoading(): boolean {
+        return this._profileLoading;
+    }
+
     get error(): string | undefined {
         return this._error;
     }
 
     /**
-     * Login with NIP-07 browser extension (Alby, nos2x, etc.)
+     * Login with NIP-07 browser extension
      */
     async login(): Promise<NDKUser> {
         if (typeof window === 'undefined') {
@@ -59,16 +59,30 @@ class AuthService {
         this._error = undefined;
 
         try {
+            // Ensure NDK connection before login
+            console.log('[Auth] Ensuring NDK connection...');
+            try {
+                await reconnect();
+            } catch (e) {
+                console.warn('[Auth] Reconnect failed, trying login anyway');
+            }
+
             const signer = new NDKNip07Signer();
             ndk.signer = signer;
 
             const user = await signer.user();
-            await user.fetchProfile();
-
             ndk.activeUser = user;
 
-            // Trigger reactive update
+            // Trigger reactive update immediately (user is logged in)
             this._authVersion++;
+            this._isLoading = false;
+
+            // Fetch profile in background with timeout
+            this._profileLoading = true;
+            this.fetchProfileWithTimeout(user).finally(() => {
+                this._profileLoading = false;
+                this._authVersion++;
+            });
 
             // Start encrypted event subscription
             giftWrapService.start();
@@ -85,19 +99,47 @@ class AuthService {
     }
 
     /**
+     * Fetch profile with timeout - doesn't block login
+     */
+    private async fetchProfileWithTimeout(user: NDKUser): Promise<void> {
+        try {
+            const fetchPromise = user.fetchProfile();
+            const timeoutPromise = new Promise<never>((_, reject) =>
+                setTimeout(() => reject(new Error('Profile fetch timeout')), PROFILE_TIMEOUT)
+            );
+
+            await Promise.race([fetchPromise, timeoutPromise]);
+            console.log('[Auth] Profile fetched successfully');
+        } catch (error) {
+            console.warn('[Auth] Profile fetch failed:', error);
+            // Will retry in UserMenu
+        }
+    }
+
+    /**
+     * Retry fetching profile (called from UserMenu if profile is missing)
+     */
+    async retryFetchProfile(): Promise<void> {
+        if (!ndk.activeUser) return;
+
+        this._profileLoading = true;
+        try {
+            await this.fetchProfileWithTimeout(ndk.activeUser);
+        } finally {
+            this._profileLoading = false;
+            this._authVersion++;
+        }
+    }
+
+    /**
      * Logout - clear current user
      */
     logout(): void {
-        // Stop encrypted event subscription
         giftWrapService.stop();
-
         ndk.signer = undefined;
         ndk.activeUser = undefined;
         this._error = undefined;
-
-        // Trigger reactive update
         this._authVersion++;
-
     }
 
     /**
@@ -108,5 +150,4 @@ class AuthService {
     }
 }
 
-// Singleton export
 export const authService = new AuthService();
