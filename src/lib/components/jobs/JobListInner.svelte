@@ -1,10 +1,10 @@
 <!--
-  JobListInner - Tabbed job list with status filtering
+  JobListInner - Tabbed job list with status filtering and robust loading
   
   Features:
   - Status tabs: Open, Assigned, In Review, Completed
-  - Compact list view
-  - Collapse/expand for many items
+  - Managed subscription with timeout handling
+  - Retry button on connection failure
 -->
 <script lang="ts">
 	import { jobService } from '$lib/services';
@@ -12,7 +12,9 @@
 	import { Skeleton, Stack, Button } from '$lib/components';
 	import JobListItem from './JobListItem.svelte';
 	import { onDestroy } from 'svelte';
-	import type { NDKEvent } from '@nostr-dev-kit/ndk';
+	import { createSubscription, NOSTR_KINDS } from '$lib/nostr';
+	import type { NDKEvent, NDKFilter } from '@nostr-dev-kit/ndk';
+	import { RefreshCw, WifiOff } from 'lucide-svelte';
 
 	interface Props {
 		language?: string;
@@ -21,33 +23,42 @@
 
 	let { language, ideaId }: Props = $props();
 
-	// Subscribe based on filter type
-	const jobsStore = ideaId 
-		? jobService.subscribeToIdeaJobs(ideaId)
-		: jobService.subscribeToJobs(language);
+	// Build filter
+	const filter: NDKFilter = {
+		kinds: [NOSTR_KINDS.JOB as number],
+		'#s': ['bitspark'],
+		limit: 50
+	};
+	if (ideaId) filter['#e'] = [ideaId];
+	if (language) filter['#l'] = [language];
+
+	// Create managed subscription
+	const subscription = createSubscription<Job>(
+		filter,
+		{ timeout: 8000 },
+		(event: NDKEvent) => jobService.parseJobEvent(event)
+	);
+
+	const { store: jobs, state, retry } = subscription;
 
 	let jobsWithStatus = $state<{ job: Job; derivedStatus: JobStatus }[]>([]);
 	let activeTab = $state<JobStatus>('open');
 	let showAll = $state(false);
 	const MAX_VISIBLE = 5;
 
-	// Parse jobs and derive their status
+	// Derive status for each job when data loads
 	$effect(() => {
-		const events = $jobsStore as NDKEvent[];
-		const jobs = events.map(event => jobService.parseJobEvent(event));
-		
-		// Derive status for each job
-		Promise.all(
-			jobs.map(async (job) => {
-				const derivedStatus = await jobService.deriveJobStatus(job.id);
-				return { job, derivedStatus };
-			})
-		).then(results => {
-			jobsWithStatus = results;
-		});
+		if ($jobs.length > 0) {
+			Promise.all(
+				$jobs.map(async (job: Job) => {
+					const derivedStatus = await jobService.deriveJobStatus(job.id);
+					return { job, derivedStatus };
+				})
+			).then(results => {
+				jobsWithStatus = results;
+			});
+		}
 	});
-
-	const isLoading = $derived($jobsStore.length === 0 && jobsWithStatus.length === 0);
 
 	// Group jobs by status
 	const openJobs = $derived(jobsWithStatus.filter(j => j.derivedStatus === 'open'));
@@ -68,7 +79,7 @@
 
 	const hasMore = $derived(currentJobs.length > MAX_VISIBLE);
 
-	onDestroy(() => jobsStore.unsubscribe());
+	onDestroy(() => subscription.unsubscribe());
 
 	function selectTab(tab: JobStatus) {
 		activeTab = tab;
@@ -77,12 +88,21 @@
 </script>
 
 <div class="job-list-container">
-	{#if isLoading}
+	{#if $state === 'loading'}
 		<Stack gap={2}>
 			{#each Array(3) as _}
 				<Skeleton width="100%" height="56px" />
 			{/each}
 		</Stack>
+	{:else if $state === 'timeout'}
+		<div class="timeout-state">
+			<WifiOff size={32} />
+			<p>Could not load jobs</p>
+			<Button variant="secondary" size="sm" onclick={retry}>
+				<RefreshCw size={14} />
+				<span>Retry</span>
+			</Button>
+		</div>
 	{:else if jobsWithStatus.length === 0}
 		<div class="empty-state">
 			<p class="text-muted">No jobs yet.</p>
@@ -223,9 +243,18 @@
 	}
 
 	.empty-state,
-	.empty-tab {
+	.empty-tab,
+	.timeout-state {
 		text-align: center;
 		padding: var(--space-8);
+	}
+
+	.timeout-state {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: var(--space-3);
+		color: var(--text-muted);
 	}
 
 	.show-more {

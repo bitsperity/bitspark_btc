@@ -4,6 +4,7 @@
 	import './layout.css';
 	import { NostrProvider, Container, Row } from '$lib/components';
 	import { LoginButton, UserMenu } from '$lib/components/auth';
+	import ConnectionStatus from '$lib/components/ConnectionStatus.svelte';
 	import { authService } from '$lib/services';
 	import { Zap } from 'lucide-svelte';
 	
@@ -31,6 +32,7 @@
 					<a href="/design" class="nav-link">Design</a>
 				</nav>
 				<div class="header-auth">
+					<ConnectionStatus />
 					{#if authService.isLoggedIn}
 						<UserMenu />
 					{:else}

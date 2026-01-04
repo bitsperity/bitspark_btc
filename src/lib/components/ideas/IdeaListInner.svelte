@@ -1,15 +1,18 @@
 <!--
   IdeaListInner - Actual subscription component (internal)
   
-  Separated to allow re-mounting via {#key} in parent.
+  Uses managed subscription with timeout handling for robust loading.
 -->
 <script lang="ts">
 	import { ideaService } from '$lib/services';
 	import type { Idea } from '$lib/types/idea';
-	import { Skeleton, Stack } from '$lib/components';
+	import { Skeleton, Stack, Button } from '$lib/components';
 	import IdeaCard from './IdeaCard.svelte';
 	import { onDestroy } from 'svelte';
-	import type { NDKEvent } from '@nostr-dev-kit/ndk';
+	import { createSubscription } from '$lib/nostr';
+	import { NOSTR_KINDS } from '$lib/nostr/config';
+	import type { NDKEvent, NDKFilter } from '@nostr-dev-kit/ndk';
+	import { RefreshCw, WifiOff } from 'lucide-svelte';
 
 	interface Props {
 		category?: string;
@@ -17,20 +20,29 @@
 
 	let { category }: Props = $props();
 
-	// Subscribe to ideas - this runs once per mount
-	const ideasStore = ideaService.subscribeToIdeas(category);
+	// Build filter
+	const filter: NDKFilter = {
+		kinds: [NOSTR_KINDS.IDEA as number],
+		'#s': ['bitspark'],
+		limit: 50
+	};
+	if (category) {
+		filter['#c'] = [category];
+	}
 
-	// Parse events to Ideas
-	const ideas = $derived(
-		($ideasStore as NDKEvent[]).map(event => ideaService.parseIdeaEvent(event))
+	// Create managed subscription with 8s timeout
+	const subscription = createSubscription<Idea>(
+		filter,
+		{ timeout: 8000 },
+		(event: NDKEvent) => ideaService.parseIdeaEvent(event)
 	);
 
-	const isLoading = $derived($ideasStore.length === 0);
+	const { store: ideas, state, retry } = subscription;
 
-	onDestroy(() => ideasStore.unsubscribe());
+	onDestroy(() => subscription.unsubscribe());
 </script>
 
-{#if isLoading}
+{#if $state === 'loading'}
 	<div class="ideas-grid">
 		{#each Array(6) as _}
 			<div class="skeleton-card">
@@ -43,14 +55,24 @@
 			</div>
 		{/each}
 	</div>
-{:else if ideas.length === 0}
+{:else if $state === 'timeout'}
+	<div class="timeout-state">
+		<WifiOff size={48} />
+		<h3>Connection Timeout</h3>
+		<p>Could not load ideas from relays.</p>
+		<Button variant="primary" onclick={retry}>
+			<RefreshCw size={16} />
+			<span>Retry</span>
+		</Button>
+	</div>
+{:else if $ideas.length === 0}
 	<div class="empty-state">
 		<p class="text-muted">No ideas found. Be the first!</p>
 		<a href="/ideas/create" class="create-link">Create an Idea</a>
 	</div>
 {:else}
 	<div class="ideas-grid">
-		{#each ideas as idea (idea.id)}
+		{#each $ideas as idea (idea.id)}
 			<IdeaCard {idea} />
 		{/each}
 	</div>
@@ -72,9 +94,27 @@
 		gap: var(--space-4);
 	}
 
-	.empty-state {
+	.empty-state,
+	.timeout-state {
 		text-align: center;
 		padding: var(--space-16);
+	}
+
+	.timeout-state {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: var(--space-4);
+		color: var(--text-muted);
+	}
+
+	.timeout-state h3 {
+		color: var(--text-primary);
+		margin: 0;
+	}
+
+	.timeout-state p {
+		margin: 0;
 	}
 
 	.create-link {

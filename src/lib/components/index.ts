@@ -40,6 +40,9 @@ export { default as Skeleton } from './Skeleton.svelte';
 // Special Effects
 export { default as AuroraBackground } from './AuroraBackground.svelte';
 
+// Connection Status
+export { default as ConnectionStatus } from './ConnectionStatus.svelte';
+
 // Providers
 export { default as NostrProvider } from './NostrProvider.svelte';
 
