@@ -48,12 +48,15 @@ class CommentService {
 
         await event.publish();
 
-        // Update cache optimistically
+        // Update cache optimistically (with duplicate check)
         const comment = this.parseComment(event);
         const cacheKey = replyToCommentId || eventId;
         commentsCache.update(cache => {
             const existing = cache.get(cacheKey) || [];
-            cache.set(cacheKey, [...existing, comment]);
+            // Check for duplicates before adding
+            if (!existing.find(c => c.id === comment.id)) {
+                cache.set(cacheKey, [...existing, comment]);
+            }
             return new Map(cache);
         });
 
