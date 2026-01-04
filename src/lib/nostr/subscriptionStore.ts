@@ -39,7 +39,7 @@ export function createSubscription<T = NDKEvent>(
     options: SubscriptionOptions = {},
     parser?: (event: NDKEvent) => T
 ): ManagedSubscription<T> {
-    const { timeout = 8000, maxRetries = 3, closeOnEose = false } = options;
+    const { timeout = 4000, maxRetries = 3, closeOnEose = false } = options;
 
     const state = writable<SubscriptionState>('loading');
     const events = writable<T[]>([]);
