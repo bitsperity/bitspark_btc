@@ -31,19 +31,13 @@ export async function connectNdk(): Promise<void> {
     try {
         await ndk.connect();
 
-        // Log which relays connected
-        const relays = Array.from(ndk.pool.relays.entries());
-        const connected = relays.filter(([_, r]) => r.connectivity.status === 1);
-        const failed = relays.filter(([_, r]) => r.connectivity.status !== 1);
+        // Wait a moment for WebSockets to establish
+        await new Promise(r => setTimeout(r, 1000));
 
-        console.log(`[NDK] Connected to ${connected.length}/${relays.length} relays:`);
-        connected.forEach(([url]) => console.log(`  ✓ ${url}`));
-        if (failed.length > 0) {
-            console.log('[NDK] Failed relays:');
-            failed.forEach(([url]) => console.log(`  ✗ ${url}`));
-        }
+        logRelayStatus();
 
-        connectionState.set(connected.length > 0 ? 'connected' : 'disconnected');
+        // Check again after 3s (connections may establish later)
+        setTimeout(logRelayStatus, 3000);
 
         // Monitor connection state via relay pool
         monitorRelayConnections();
@@ -52,6 +46,23 @@ export async function connectNdk(): Promise<void> {
         connectionState.set('disconnected');
         throw error;
     }
+}
+
+/**
+ * Log which relays are connected
+ */
+function logRelayStatus(): void {
+    const relays = Array.from(ndk.pool.relays.entries());
+    const connected = relays.filter(([_, r]) => r.connectivity.status === 1);
+    const failed = relays.filter(([_, r]) => r.connectivity.status !== 1);
+
+    console.log(`[NDK] Relay status: ${connected.length}/${relays.length} connected`);
+    connected.forEach(([url]) => console.log(`  ✓ ${url}`));
+    if (failed.length > 0) {
+        failed.forEach(([url]) => console.log(`  ✗ ${url}`));
+    }
+
+    connectionState.set(connected.length > 0 ? 'connected' : 'disconnected');
 }
 
 /**
