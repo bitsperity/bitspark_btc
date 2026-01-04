@@ -103,7 +103,7 @@
 				<span>Retry</span>
 			</Button>
 		</div>
-	{:else if jobsWithStatus.length === 0}
+	{:else if $subscriptionState === 'empty' || jobsWithStatus.length === 0}
 		<div class="empty-state">
 			<p class="text-muted">No jobs yet.</p>
 		</div>

@@ -103,8 +103,12 @@
 		completed: jobsWithStatus.filter(j => j.derivedStatus === 'completed').length
 	});
 
-	const isLoading = $derived($jobsState === 'loading' || $jobsState === 'retrying' || $ideasState === 'loading' || $ideasState === 'retrying');
-	const isTimeout = $derived($jobsState === 'failed');
+	const isLoading = $derived(
+		$jobsState === 'loading' || $jobsState === 'retrying' || 
+		$ideasState === 'loading' || $ideasState === 'retrying'
+	);
+	const isFailed = $derived($jobsState === 'failed');
+	const isEmpty = $derived($jobsState === 'empty' && groupedByIdea().length === 0);
 
 	onDestroy(() => {
 		jobSubscription.unsubscribe();
@@ -173,7 +177,7 @@
 				<Skeleton width="100%" height="80px" />
 			{/each}
 		</Stack>
-	{:else if isTimeout}
+	{:else if isFailed}
 		<div class="timeout-state">
 			<WifiOff size={48} />
 			<h3>Connection Timeout</h3>

@@ -1,25 +1,21 @@
 /**
- * Subscription Store - Enhanced subscription with auto-retry
+ * Subscription Store - Enhanced subscription with EOSE detection
  * 
  * Features:
- * - Auto-retry on timeout (3 attempts with backoff)
- * - Auto-reconnect before retry
- * - State tracking: loading/loaded/retrying/failed
- * - Manual retry only as last resort
+ * - Uses EOSE (End Of Stored Events) to detect empty vs failed
+ * - Fast timeout (3s) with aggressive retry
+ * - Doesn't retry unnecessarily when relay confirms no results
  */
 
 import { writable, derived, get, type Readable } from 'svelte/store';
-import { ndk, reconnect } from './ndk';
-import type { NDKFilter, NDKEvent } from '@nostr-dev-kit/ndk';
+import { ndk, reconnect, connectionState } from './ndk';
+import type { NDKFilter, NDKEvent, NDKSubscriptionOptions } from '@nostr-dev-kit/ndk';
 
-export type SubscriptionState = 'loading' | 'loaded' | 'retrying' | 'failed';
+export type SubscriptionState = 'loading' | 'loaded' | 'empty' | 'retrying' | 'failed';
 
 export interface SubscriptionOptions {
-    /** Timeout in ms before retry (default: 8000) */
     timeout?: number;
-    /** Max auto-retry attempts (default: 3) */
     maxRetries?: number;
-    /** Close subscription after receiving first batch */
     closeOnEose?: boolean;
 }
 
@@ -32,14 +28,14 @@ export interface ManagedSubscription<T> {
 }
 
 /**
- * Create a managed subscription with auto-retry
+ * Create a managed subscription with EOSE detection
  */
 export function createSubscription<T = NDKEvent>(
     filter: NDKFilter | NDKFilter[],
     options: SubscriptionOptions = {},
     parser?: (event: NDKEvent) => T
 ): ManagedSubscription<T> {
-    const { timeout = 4000, maxRetries = 3, closeOnEose = false } = options;
+    const { timeout = 3000, maxRetries = 2, closeOnEose = false } = options;
 
     const state = writable<SubscriptionState>('loading');
     const events = writable<T[]>([]);
@@ -49,30 +45,39 @@ export function createSubscription<T = NDKEvent>(
     let ndkStore: ReturnType<typeof ndk.storeSubscribe> | null = null;
     let storeUnsubscribe: (() => void) | null = null;
     let currentRetries = 0;
+    let receivedEose = false;
 
     async function startSubscription() {
         state.set(currentRetries > 0 ? 'retrying' : 'loading');
         events.set([]);
+        receivedEose = false;
 
         if (timeoutId) clearTimeout(timeoutId);
 
-        // Set timeout with auto-retry
+        // Timeout only triggers if NO EOSE received
         timeoutId = setTimeout(async () => {
-            if (get(events).length === 0) {
+            // If we got EOSE, relay confirmed results (even if empty)
+            if (receivedEose) return;
+
+            const eventCount = get(events).length;
+            if (eventCount === 0) {
                 currentRetries++;
                 retryCount.set(currentRetries);
 
                 if (currentRetries < maxRetries) {
-                    console.log(`[Subscription] Auto-retry ${currentRetries}/${maxRetries}`);
+                    console.log(`[Subscription] Timeout, retry ${currentRetries}/${maxRetries}`);
                     cleanup();
 
-                    // Backoff: 1s, 2s, 4s
-                    await new Promise(r => setTimeout(r, Math.pow(2, currentRetries - 1) * 1000));
+                    // Quick backoff: 0.5s, 1s
+                    await new Promise(r => setTimeout(r, 500 * currentRetries));
 
-                    try {
-                        await reconnect();
-                    } catch (e) {
-                        console.warn('[Subscription] Reconnect failed');
+                    // Only reconnect if actually disconnected
+                    if (get(connectionState) !== 'connected') {
+                        try {
+                            await reconnect();
+                        } catch (e) {
+                            console.warn('[Subscription] Reconnect failed');
+                        }
                     }
                     startSubscription();
                 } else {
@@ -82,8 +87,28 @@ export function createSubscription<T = NDKEvent>(
             }
         }, timeout);
 
-        // Create subscription
-        ndkStore = ndk.storeSubscribe(filter, { closeOnEose });
+        // Create subscription with EOSE detection
+        const subOpts: NDKSubscriptionOptions = {
+            closeOnEose,
+            groupable: false  // Don't group to ensure we get our own EOSE
+        };
+
+        ndkStore = ndk.storeSubscribe(filter, subOpts);
+
+        // Listen for EOSE on the underlying subscription
+        if (ndkStore.subscription) {
+            ndkStore.subscription.on('eose', () => {
+                receivedEose = true;
+                if (timeoutId) {
+                    clearTimeout(timeoutId);
+                    timeoutId = null;
+                }
+                // If EOSE and no events = empty (not failed)
+                if (get(events).length === 0) {
+                    state.set('empty');
+                }
+            });
+        }
 
         storeUnsubscribe = ndkStore.subscribe((ndkEvents: NDKEvent[]) => {
             if (ndkEvents.length > 0) {
@@ -108,15 +133,18 @@ export function createSubscription<T = NDKEvent>(
         cleanup();
         currentRetries = 0;
         retryCount.set(0);
-        try {
-            await reconnect();
-        } catch (e) {
-            console.warn('[Subscription] Manual reconnect failed');
+        if (get(connectionState) !== 'connected') {
+            try {
+                await reconnect();
+            } catch (e) {
+                console.warn('[Subscription] Manual reconnect failed');
+            }
         }
         startSubscription();
     }
 
     function cleanup() {
+        receivedEose = false;
         if (timeoutId) {
             clearTimeout(timeoutId);
             timeoutId = null;
@@ -131,7 +159,6 @@ export function createSubscription<T = NDKEvent>(
         }
     }
 
-    // Start immediately
     startSubscription();
 
     return {
@@ -147,5 +174,5 @@ export function useSubscription<T = NDKEvent>(
     filter: NDKFilter | NDKFilter[],
     parser?: (event: NDKEvent) => T
 ) {
-    return createSubscription(filter, { timeout: 8000 }, parser);
+    return createSubscription(filter, { timeout: 3000, maxRetries: 2 }, parser);
 }

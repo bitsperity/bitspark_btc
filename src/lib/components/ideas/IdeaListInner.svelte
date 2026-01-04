@@ -65,7 +65,7 @@
 			<span>Retry</span>
 		</Button>
 	</div>
-{:else if $ideas.length === 0}
+{:else if $subscriptionState === 'empty' || $ideas.length === 0}
 	<div class="empty-state">
 		<p class="text-muted">No ideas found. Be the first!</p>
 		<a href="/ideas/create" class="create-link">Create an Idea</a>
