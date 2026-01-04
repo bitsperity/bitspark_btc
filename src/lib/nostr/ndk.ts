@@ -2,7 +2,7 @@
  * NDK Svelte Setup - Singleton NDKSvelte instance
  * 
  * Uses NDKSvelte's built-in connection pool with automatic reconnection.
- * Relies on multiple relays for redundancy.
+ * Listens for relay connect/disconnect events for accurate state.
  */
 
 import NDKSvelte from '@nostr-dev-kit/ndk-svelte';
@@ -14,6 +14,9 @@ import { DEFAULT_RELAYS } from './config';
 export type ConnectionState = 'connecting' | 'connected' | 'disconnected';
 export const connectionState = writable<ConnectionState>('disconnected');
 
+// Track connected relay count
+let connectedRelayCount = 0;
+
 // NDKSvelte instance - singleton with reactive store support
 export const ndk = new NDKSvelte({
     explicitRelayUrls: DEFAULT_RELAYS,
@@ -23,24 +26,49 @@ export const ndk = new NDKSvelte({
 });
 
 /**
- * Connect to relays - NDK handles reconnection automatically
+ * Connect to relays and set up event listeners
  */
 export async function connectNdk(): Promise<void> {
     connectionState.set('connecting');
+    console.log('[NDK] Connecting to relays:', DEFAULT_RELAYS);
+
+    // Listen for relay connect/disconnect events on each relay
+    for (const relay of ndk.pool.relays.values()) {
+        relay.on('connect', () => {
+            connectedRelayCount++;
+            console.log(`[NDK] ✓ Connected to ${relay.url} (${connectedRelayCount} total)`);
+            connectionState.set('connected');
+        });
+
+        relay.on('disconnect', () => {
+            connectedRelayCount = Math.max(0, connectedRelayCount - 1);
+            console.log(`[NDK] ✗ Disconnected from ${relay.url} (${connectedRelayCount} remaining)`);
+            if (connectedRelayCount === 0) {
+                connectionState.set('disconnected');
+            }
+        });
+    }
+
+    // Also listen on the pool level
+    ndk.pool.on('relay:connect', (relay: any) => {
+        console.log(`[NDK] Pool: relay connected ${relay.url}`);
+    });
+
+    ndk.pool.on('relay:disconnect', (relay: any) => {
+        console.log(`[NDK] Pool: relay disconnected ${relay.url}`);
+    });
 
     try {
         await ndk.connect();
+        console.log('[NDK] Connect initiated (waiting for relays...)');
 
-        // Wait a moment for WebSockets to establish
-        await new Promise(r => setTimeout(r, 1000));
-
-        logRelayStatus();
-
-        // Check again after 3s (connections may establish later)
-        setTimeout(logRelayStatus, 3000);
-
-        // Monitor connection state via relay pool
-        monitorRelayConnections();
+        // Set a timeout - if no connections after 10s, log warning
+        setTimeout(() => {
+            if (connectedRelayCount === 0) {
+                console.warn('[NDK] Warning: No relays connected after 10s');
+                connectionState.set('disconnected');
+            }
+        }, 10000);
     } catch (error) {
         console.error('[NDK] Connection error:', error);
         connectionState.set('disconnected');
@@ -49,53 +77,15 @@ export async function connectNdk(): Promise<void> {
 }
 
 /**
- * Log which relays are connected
- */
-function logRelayStatus(): void {
-    const relays = Array.from(ndk.pool.relays.entries());
-    const connected = relays.filter(([_, r]) => r.connectivity.status === 1);
-    const failed = relays.filter(([_, r]) => r.connectivity.status !== 1);
-
-    console.log(`[NDK] Relay status: ${connected.length}/${relays.length} connected`);
-    connected.forEach(([url]) => console.log(`  ✓ ${url}`));
-    if (failed.length > 0) {
-        failed.forEach(([url]) => console.log(`  ✗ ${url}`));
-    }
-
-    connectionState.set(connected.length > 0 ? 'connected' : 'disconnected');
-}
-
-/**
- * Monitor relay connections and update state
- */
-function monitorRelayConnections(): void {
-    // Check connection state periodically
-    setInterval(() => {
-        const connectedCount = Array.from(ndk.pool.relays.values())
-            .filter(r => r.connectivity.status === 1).length;
-
-        const currentState = get(connectionState);
-
-        if (connectedCount === 0 && currentState === 'connected') {
-            connectionState.set('disconnected');
-            console.log('[NDK] All relays disconnected');
-        } else if (connectedCount > 0 && currentState !== 'connected') {
-            connectionState.set('connected');
-            console.log('[NDK] Relay connected');
-        }
-    }, 5000);  // Check every 5 seconds (UI feedback only)
-}
-
-/**
  * Force reconnect - triggers NDK's pool reconnection
  */
 export async function reconnect(): Promise<void> {
     console.log('[NDK] Reconnect requested');
     connectionState.set('connecting');
+    connectedRelayCount = 0;
 
     try {
         await ndk.connect();
-        connectionState.set('connected');
     } catch (error) {
         console.error('[NDK] Reconnect failed:', error);
         connectionState.set('disconnected');
@@ -113,13 +103,8 @@ export function createEvent(): NDKEvent {
 // Browser event listeners for visibility changes
 if (typeof document !== 'undefined') {
     document.addEventListener('visibilitychange', () => {
-        if (document.visibilityState === 'visible') {
-            // Just update UI state, NDK handles reconnection
-            const connectedCount = Array.from(ndk.pool.relays.values())
-                .filter(r => r.connectivity.status === 1).length;
-            if (connectedCount === 0) {
-                reconnect().catch(console.error);
-            }
+        if (document.visibilityState === 'visible' && connectedRelayCount === 0) {
+            reconnect().catch(console.error);
         }
     });
 }
