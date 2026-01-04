@@ -31,9 +31,11 @@
 	const authorAvatar = $derived(authorProfile?.image ?? authorProfile?.picture);
 
 	// Relative time (e.g., "2d ago")
-	function getRelativeTime(date: Date): string {
+	function getRelativeTime(createdAt: Date | number): string {
 		const now = Date.now();
-		const diff = now - date.getTime();
+		// Handle both Date and Unix timestamp
+		const timestamp = typeof createdAt === 'number' ? createdAt * 1000 : createdAt.getTime();
+		const diff = now - timestamp;
 		const seconds = Math.floor(diff / 1000);
 		const minutes = Math.floor(seconds / 60);
 		const hours = Math.floor(minutes / 60);
