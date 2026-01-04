@@ -74,12 +74,23 @@
 				});
 				jobs = Array.from(events).map((e: any) => jobService.parseJobEvent(e));
 			} else if (tab === 'contracts') {
-				const events = await ndk.fetchEvents({
+				// Contracts where user is author OR party
+				const asAuthor = await ndk.fetchEvents({
+					kinds: [NOSTR_KINDS.CONTRACT as number],
+					authors: [pk],
+					'#s': ['bitspark']
+				});
+				const asParty = await ndk.fetchEvents({
 					kinds: [NOSTR_KINDS.CONTRACT as number],
 					'#p': [pk],
 					'#s': ['bitspark']
 				});
-				contracts = Array.from(events).map((e: any) => contractService.parseContractEvent(e));
+				
+				// Combine and dedupe
+				const allEvents = new Map();
+				asAuthor.forEach(e => allEvents.set(e.id, e));
+				asParty.forEach(e => allEvents.set(e.id, e));
+				contracts = Array.from(allEvents.values()).map((e: any) => contractService.parseContractEvent(e));
 			}
 		} catch (error) {
 			console.error('[Profile] Failed to load content:', error);

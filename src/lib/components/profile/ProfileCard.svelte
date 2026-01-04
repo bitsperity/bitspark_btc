@@ -82,13 +82,24 @@
 			});
 			jobsCount = jobs.size;
 
-			// Count Contracts (as party)
-			const contracts = await ndk.fetchEvents({
+			// Count Contracts (as author OR as party via p-tag)
+			const contractsAsAuthor = await ndk.fetchEvents({
+				kinds: [NOSTR_KINDS.CONTRACT as number],
+				authors: [pk],
+				'#s': ['bitspark']
+			});
+			
+			const contractsAsParty = await ndk.fetchEvents({
 				kinds: [NOSTR_KINDS.CONTRACT as number],
 				'#p': [pk],
 				'#s': ['bitspark']
 			});
-			contractsCount = contracts.size;
+			
+			// Combine and dedupe by ID
+			const allContracts = new Set<string>();
+			contractsAsAuthor.forEach(e => allContracts.add(e.id));
+			contractsAsParty.forEach(e => allContracts.add(e.id));
+			contractsCount = allContracts.size;
 		} catch (error) {
 			console.error('[ProfileCard] Failed to load stats:', error);
 		}
