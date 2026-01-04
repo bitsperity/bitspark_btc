@@ -3,12 +3,10 @@
 -->
 <script lang="ts">
 	import { Container, Stack, AuroraBackground, Row, Button } from '$lib/components';
-	import { CategoryFilter, IdeaList } from '$lib/components/ideas';
+	import { IdeaList } from '$lib/components/ideas';
 	import { authService } from '$lib/services';
 	import { goto } from '$app/navigation';
 	import { Plus } from 'lucide-svelte';
-
-	let selectedCategory = $state<string | undefined>(undefined);
 </script>
 
 <AuroraBackground />
@@ -30,14 +28,8 @@
 				{/if}
 			</Row>
 
-			<!-- Category Filter -->
-			<CategoryFilter 
-				selected={selectedCategory}
-				onchange={(cat) => selectedCategory = cat}
-			/>
-
-			<!-- Ideas Grid -->
-			<IdeaList category={selectedCategory} />
+			<!-- Ideas Grid with integrated filters -->
+			<IdeaList />
 		</Stack>
 	</Container>
 </main>
