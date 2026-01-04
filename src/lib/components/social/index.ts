@@ -7,3 +7,4 @@ export { default as FollowButton } from './FollowButton.svelte';
 export { default as CommentWidget } from './CommentWidget.svelte';
 export { default as CommentForm } from './CommentForm.svelte';
 export { default as CommentItem } from './CommentItem.svelte';
+export { default as FollowingList } from './FollowingList.svelte';

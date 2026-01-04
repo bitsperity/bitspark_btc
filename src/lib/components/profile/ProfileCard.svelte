@@ -2,12 +2,14 @@
   ProfileCard - Displays user profile information
   
   Uses NDK getUser and fetchProfile for profile data.
+  Shows following count with modal.
 -->
 <script lang="ts">
 	import { ndk } from '$lib/nostr';
 	import { Card, Avatar, Badge, Skeleton, Stack, Row, Button } from '$lib/components';
-	import { FollowButton } from '$lib/components/social';
-	import { Zap, ExternalLink } from 'lucide-svelte';
+	import { FollowButton, FollowingList } from '$lib/components/social';
+	import { socialService, authService } from '$lib/services';
+	import { Zap, ExternalLink, Users } from 'lucide-svelte';
 	import type { NDKUserProfile } from '@nostr-dev-kit/ndk';
 
 	interface Props {
@@ -20,6 +22,13 @@
 	let profile = $state<NDKUserProfile | undefined>(undefined);
 	let npub = $state<string>('');
 	let isLoading = $state(true);
+	let showFollowingModal = $state(false);
+
+	// Subscribe to following list (for count)
+	const followingList = socialService.subscribeFollowing();
+
+	// Check if viewing own profile
+	const isOwnProfile = $derived(pubkey === authService.user?.pubkey);
 
 	// Fetch profile when pubkey changes
 	$effect(() => {
@@ -83,6 +92,14 @@
 				<p class="text-body bio">{profile.about}</p>
 			{/if}
 
+			<!-- Following count (only for own profile) -->
+			{#if isOwnProfile}
+				<button class="following-btn" onclick={() => showFollowingModal = true}>
+					<Users size={16} />
+					<span>Following: {$followingList.length}</span>
+				</button>
+			{/if}
+
 			<!-- Links -->
 			<Row gap={3} wrap>
 				{#if profile.website}
@@ -119,6 +136,13 @@
 	{/if}
 </Card>
 
+<!-- Following Modal -->
+<FollowingList 
+	bind:open={showFollowingModal} 
+	{pubkey} 
+	onclose={() => showFollowingModal = false} 
+/>
+
 <style>
 	.npub {
 		font-family: var(--font-mono);
@@ -142,5 +166,26 @@
 
 	.profile-link:hover {
 		color: var(--orange-400);
+	}
+
+	.following-btn {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--space-2);
+		padding: var(--space-2) var(--space-4);
+		background: var(--bg-glass);
+		border: 1px solid rgba(255, 255, 255, 0.1);
+		border-radius: var(--radius-lg);
+		color: var(--text-secondary);
+		font-size: 0.875rem;
+		cursor: pointer;
+		transition: all var(--duration-fast) var(--ease-out);
+		width: fit-content;
+	}
+
+	.following-btn:hover {
+		background: var(--bg-elevated);
+		color: var(--primary);
+		border-color: var(--primary);
 	}
 </style>
