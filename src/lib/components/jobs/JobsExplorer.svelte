@@ -103,8 +103,8 @@
 		completed: jobsWithStatus.filter(j => j.derivedStatus === 'completed').length
 	});
 
-	const isLoading = $derived($jobsState === 'loading' || $ideasState === 'loading');
-	const isTimeout = $derived($jobsState === 'timeout');
+	const isLoading = $derived($jobsState === 'loading' || $jobsState === 'retrying' || $ideasState === 'loading' || $ideasState === 'retrying');
+	const isTimeout = $derived($jobsState === 'failed');
 
 	onDestroy(() => {
 		jobSubscription.unsubscribe();

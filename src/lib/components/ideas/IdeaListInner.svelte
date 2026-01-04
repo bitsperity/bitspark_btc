@@ -42,7 +42,7 @@
 	onDestroy(() => subscription.unsubscribe());
 </script>
 
-{#if $subscriptionState === 'loading'}
+{#if $subscriptionState === 'loading' || $subscriptionState === 'retrying'}
 	<div class="ideas-grid">
 		{#each Array(6) as _}
 			<div class="skeleton-card">
@@ -55,7 +55,7 @@
 			</div>
 		{/each}
 	</div>
-{:else if $subscriptionState === 'timeout'}
+{:else if $subscriptionState === 'failed'}
 	<div class="timeout-state">
 		<WifiOff size={48} />
 		<h3>Connection Timeout</h3>

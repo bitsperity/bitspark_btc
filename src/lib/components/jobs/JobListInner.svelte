@@ -88,13 +88,13 @@
 </script>
 
 <div class="job-list-container">
-	{#if $subscriptionState === 'loading'}
+	{#if $subscriptionState === 'loading' || $subscriptionState === 'retrying'}
 		<Stack gap={2}>
 			{#each Array(3) as _}
 				<Skeleton width="100%" height="56px" />
 			{/each}
 		</Stack>
-	{:else if $subscriptionState === 'timeout'}
+	{:else if $subscriptionState === 'failed'}
 		<div class="timeout-state">
 			<WifiOff size={32} />
 			<p>Could not load jobs</p>
