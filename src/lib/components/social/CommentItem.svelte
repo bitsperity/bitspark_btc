@@ -1,7 +1,7 @@
 <!--
-  CommentItem - Single comment with infinite nesting support
+  CommentItem - Single comment with lazy-loaded replies
   
-  Recursively renders children using childrenMap lookup.
+  Fetches replies on-demand when user clicks to expand.
 -->
 <script lang="ts">
 	import { Avatar, Row, Button } from '$lib/components';
@@ -10,24 +10,26 @@
 	import CommentForm from './CommentForm.svelte';
 	import type { Comment } from '$lib/types/social';
 	import type { NDKUserProfile } from '@nostr-dev-kit/ndk';
-	import { MessageCircle, ChevronDown, ChevronRight } from 'lucide-svelte';
+	import { MessageCircle, ChevronDown, ChevronRight, Loader } from 'lucide-svelte';
+	import { get } from 'svelte/store';
 
 	interface Props {
 		comment: Comment;
-		rootEventId: string;         // Original event (idea/job) for reply context
-		childrenMap: Map<string, Comment[]>;  // Full map of parent -> children
-		depth?: number;              // Nesting depth for indentation
+		rootEventId: string;  // Original event (idea/job)
+		depth?: number;
 	}
 
-	let { comment, rootEventId, childrenMap, depth = 0 }: Props = $props();
+	let { comment, rootEventId, depth = 0 }: Props = $props();
 
 	// State
 	let showReplyForm = $state(false);
-	let showReplies = $state(depth === 0); // Only top-level expanded by default
+	let showReplies = $state(false);
+	let isLoadingReplies = $state(false);
+	let replyCount = $state(0);
 
-	// Get direct children of this comment
-	const replies = $derived(childrenMap.get(comment.id) || []);
-	const hasReplies = $derived(replies.length > 0);
+	// Subscribe to replies for this comment
+	const replies = commentService.subscribeReplies(comment.id);
+	const hasLoaded = commentService.hasLoadedReplies(comment.id);
 
 	// Fetch author profile
 	let authorProfile = $state<NDKUserProfile | undefined>(undefined);
@@ -62,10 +64,23 @@
 
 	function handleReplySubmit() {
 		showReplyForm = false;
+		// After posting a reply, load replies to show it
+		loadReplies();
 	}
 
-	function toggleReplies() {
+	async function toggleReplies() {
+		if (!showReplies) {
+			await loadReplies();
+		}
 		showReplies = !showReplies;
+	}
+
+	async function loadReplies() {
+		if (!get(hasLoaded)) {
+			isLoadingReplies = true;
+			await commentService.fetchReplies(comment.id);
+			isLoadingReplies = false;
+		}
 	}
 </script>
 
@@ -99,30 +114,43 @@
 			</div>
 		{/if}
 
-		<!-- Replies (recursive) -->
-		{#if hasReplies}
-			<button class="toggle-replies-btn" onclick={toggleReplies}>
-				{#if showReplies}
+		<!-- Replies Toggle & List -->
+		{#if $replies.length > 0 || $hasLoaded}
+			<button class="toggle-replies-btn" onclick={toggleReplies} disabled={isLoadingReplies}>
+				{#if isLoadingReplies}
+					<Loader size={14} class="spinner" />
+					<span>Loading...</span>
+				{:else if showReplies}
 					<ChevronDown size={14} />
+					<span>Hide {$replies.length} {$replies.length === 1 ? 'reply' : 'replies'}</span>
 				{:else}
 					<ChevronRight size={14} />
+					<span>{$replies.length} {$replies.length === 1 ? 'reply' : 'replies'}</span>
 				{/if}
-				<span>{replies.length} {replies.length === 1 ? 'reply' : 'replies'}</span>
 			</button>
 			
-			{#if showReplies}
+			{#if showReplies && $replies.length > 0}
 				<div class="replies">
-					{#each replies as reply (reply.id)}
-						<!-- Recursive call with same childrenMap -->
+					{#each $replies as reply (reply.id)}
 						<svelte:self 
 							comment={reply} 
 							rootEventId={rootEventId}
-							childrenMap={childrenMap}
 							depth={depth + 1}
 						/>
 					{/each}
 				</div>
 			{/if}
+		{:else if !$hasLoaded}
+			<!-- Show "Load replies" button if we haven't checked yet -->
+			<button class="toggle-replies-btn" onclick={toggleReplies} disabled={isLoadingReplies}>
+				{#if isLoadingReplies}
+					<Loader size={14} class="spinner" />
+					<span>Loading...</span>
+				{:else}
+					<ChevronRight size={14} />
+					<span>Load replies</span>
+				{/if}
+			</button>
 		{/if}
 	</div>
 </div>
@@ -204,6 +232,20 @@
 	.toggle-replies-btn {
 		margin-top: var(--space-2);
 		padding-left: 0;
+	}
+
+	.toggle-replies-btn:disabled {
+		opacity: 0.7;
+		cursor: wait;
+	}
+
+	:global(.spinner) {
+		animation: spin 1s linear infinite;
+	}
+
+	@keyframes spin {
+		from { transform: rotate(0deg); }
+		to { transform: rotate(360deg); }
 	}
 
 	.reply-form-wrapper {

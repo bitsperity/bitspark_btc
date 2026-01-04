@@ -1,10 +1,8 @@
 <!--
-  CommentWidget - Threaded comment section with unlimited nesting
+  CommentWidget - Threaded comments with lazy-loaded replies
   
-  Features:
-  - Collapsible with comment count header
-  - Recursive threaded/nested comment display
-  - New comment form
+  Only fetches top-level comments initially.
+  Replies are loaded on-demand in each CommentItem.
 -->
 <script lang="ts">
 	import { Stack } from '$lib/components';
@@ -13,7 +11,6 @@
 	import CommentForm from './CommentForm.svelte';
 	import { MessageCircle, ChevronDown, ChevronUp } from 'lucide-svelte';
 	import { onDestroy } from 'svelte';
-	import type { Comment } from '$lib/types/social';
 
 	interface Props {
 		eventId: string;
@@ -25,34 +22,9 @@
 	// State
 	let isOpen = $state(!collapsed);
 
-	// Subscribe to comments
-	const comments = commentService.subscribeComments(eventId);
+	// Subscribe to top-level comments only
+	const comments = commentService.subscribeTopLevelComments(eventId);
 	const commentCount = commentService.subscribeCommentCount(eventId);
-
-	// Build children map for the entire tree
-	const childrenMap = $derived(buildChildrenMap($comments));
-
-	function buildChildrenMap(flatComments: Comment[]): Map<string, Comment[]> {
-		const map = new Map<string, Comment[]>();
-		
-		for (const comment of flatComments) {
-			if (comment.replyToCommentId) {
-				const children = map.get(comment.replyToCommentId) || [];
-				children.push(comment);
-				map.set(comment.replyToCommentId, children);
-			}
-		}
-		
-		return map;
-	}
-
-	// Get only top-level comments
-	const topLevelComments = $derived(() => {
-		const commentIds = new Set($comments.map(c => c.id));
-		return $comments.filter(c => 
-			!c.replyToCommentId || !commentIds.has(c.replyToCommentId)
-		);
-	});
 
 	// Cleanup subscription on destroy
 	onDestroy(() => {
@@ -80,14 +52,13 @@
 	{#if isOpen}
 		<div class="comment-content">
 			<Stack gap={0}>
-				{#if topLevelComments().length === 0}
+				{#if $comments.length === 0}
 					<p class="no-comments">No comments yet. Be the first!</p>
 				{:else}
-					{#each topLevelComments() as comment (comment.id)}
+					{#each $comments as comment (comment.id)}
 						<CommentItem 
 							{comment} 
 							rootEventId={eventId}
-							{childrenMap}
 							depth={0}
 						/>
 					{/each}
