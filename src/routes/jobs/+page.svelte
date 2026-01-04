@@ -1,11 +1,9 @@
 <!--
-  Job Explorer - Browse all open jobs
+  Job Explorer - Browse all open jobs grouped by idea
 -->
 <script lang="ts">
-	import { Container, Stack, AuroraBackground, Row } from '$lib/components';
-	import { JobList, LanguageFilter } from '$lib/components/jobs';
-
-	let selectedLanguage = $state<string | undefined>(undefined);
+	import { Container, Stack, AuroraBackground } from '$lib/components';
+	import { JobsExplorer } from '$lib/components/jobs';
 </script>
 
 <AuroraBackground />
@@ -18,12 +16,7 @@
 				<p class="text-muted">Find work on exciting projects</p>
 			</div>
 
-			<LanguageFilter 
-				selected={selectedLanguage}
-				onchange={(lang) => selectedLanguage = lang}
-			/>
-
-			<JobList language={selectedLanguage} />
+			<JobsExplorer />
 		</Stack>
 	</Container>
 </main>
