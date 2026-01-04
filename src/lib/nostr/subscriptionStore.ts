@@ -8,7 +8,7 @@
  */
 
 import { writable, derived, get, type Readable, type Writable } from 'svelte/store';
-import { ndk } from './ndk';
+import { ndk, reconnect } from './ndk';
 import type { NDKFilter, NDKEvent, NDKSubscription } from '@nostr-dev-kit/ndk';
 
 export type SubscriptionState = 'loading' | 'loaded' | 'timeout' | 'error';
@@ -92,8 +92,14 @@ export function createSubscription<T = NDKEvent>(
         });
     }
 
-    function retry() {
+    async function retry() {
         cleanup();
+        // Reconnect NDK before retrying subscription
+        try {
+            await reconnect();
+        } catch (e) {
+            console.warn('[Subscription] Reconnect failed, trying subscription anyway');
+        }
         startSubscription();
     }
 
