@@ -1,12 +1,8 @@
 /**
  * NDK Svelte Setup - Singleton NDKSvelte instance
  * 
- * Features:
- * - Reactive Svelte store subscriptions
- * - Automatic health check (30s interval)
- * - Visibility-based reconnection (tab switch)
- * - Online/offline detection
- * - Connection state tracking
+ * Uses NDKSvelte's built-in connection pool with automatic reconnection.
+ * Relies on multiple relays for redundancy.
  */
 
 import NDKSvelte from '@nostr-dev-kit/ndk-svelte';
@@ -21,29 +17,24 @@ export const connectionState = writable<ConnectionState>('disconnected');
 // NDKSvelte instance - singleton with reactive store support
 export const ndk = new NDKSvelte({
     explicitRelayUrls: DEFAULT_RELAYS,
-    enableOutboxModel: true,
+    enableOutboxModel: false,  // Simplified for stability
     autoConnectUserRelays: false,
     autoFetchUserMutelist: false
 });
 
-let isConnected = false;
-let reconnectTimer: ReturnType<typeof setInterval> | null = null;
-let reconnectAttempts = 0;
-const MAX_RECONNECT_ATTEMPTS = 5;
-
 /**
- * Connect to relays
+ * Connect to relays - NDK handles reconnection automatically
  */
 export async function connectNdk(): Promise<void> {
     connectionState.set('connecting');
-    reconnectAttempts = 0;
 
     try {
         await ndk.connect();
-        isConnected = true;
         connectionState.set('connected');
-        startHealthCheck();
         console.log('[NDK] Connected to relays');
+
+        // Monitor connection state via relay pool
+        monitorRelayConnections();
     } catch (error) {
         console.error('[NDK] Connection error:', error);
         connectionState.set('disconnected');
@@ -52,69 +43,35 @@ export async function connectNdk(): Promise<void> {
 }
 
 /**
- * Get number of connected relays
+ * Monitor relay connections and update state
  */
-function getConnectedRelayCount(): number {
-    return Array.from(ndk.pool.relays.values()).filter(
-        r => r.connectivity.status === 1
-    ).length;
-}
+function monitorRelayConnections(): void {
+    // Check connection state periodically
+    setInterval(() => {
+        const connectedCount = Array.from(ndk.pool.relays.values())
+            .filter(r => r.connectivity.status === 1).length;
 
-/**
- * Check if connection is healthy and reconnect if needed
- */
-async function checkConnectionHealth(): Promise<void> {
-    const connectedCount = getConnectedRelayCount();
+        const currentState = get(connectionState);
 
-    // Update state based on actual connections
-    if (connectedCount === 0 && get(connectionState) === 'connected') {
-        connectionState.set('disconnected');
-    } else if (connectedCount > 0 && get(connectionState) !== 'connected') {
-        connectionState.set('connected');
-    }
-
-    // Reconnect if no connections
-    if (connectedCount === 0 && isConnected && reconnectAttempts < MAX_RECONNECT_ATTEMPTS) {
-        console.log('[NDK] No connections, attempting reconnect...');
-        reconnectAttempts++;
-        connectionState.set('connecting');
-
-        try {
-            await ndk.connect();
-            connectionState.set('connected');
-            reconnectAttempts = 0;
-            console.log('[NDK] Reconnected successfully');
-        } catch (error) {
-            console.error('[NDK] Reconnection failed:', error);
+        if (connectedCount === 0 && currentState === 'connected') {
             connectionState.set('disconnected');
+            console.log('[NDK] All relays disconnected');
+        } else if (connectedCount > 0 && currentState !== 'connected') {
+            connectionState.set('connected');
+            console.log('[NDK] Relay connected');
         }
-    }
+    }, 5000);  // Check every 5 seconds (UI feedback only)
 }
 
 /**
- * Start periodic health check (every 15 seconds)
- */
-function startHealthCheck(): void {
-    if (reconnectTimer) {
-        clearInterval(reconnectTimer);
-    }
-
-    reconnectTimer = setInterval(() => {
-        checkConnectionHealth();
-    }, 15000);  // Check every 15 seconds
-}
-
-/**
- * Force reconnect (call manually if needed)
+ * Force reconnect - triggers NDK's pool reconnection
  */
 export async function reconnect(): Promise<void> {
-    console.log('[NDK] Force reconnect requested');
+    console.log('[NDK] Reconnect requested');
     connectionState.set('connecting');
-    reconnectAttempts = 0;
 
     try {
         await ndk.connect();
-        isConnected = true;
         connectionState.set('connected');
     } catch (error) {
         console.error('[NDK] Reconnect failed:', error);
@@ -130,28 +87,26 @@ export function createEvent(): NDKEvent {
     return new NDKEvent(ndk as any);
 }
 
-// ============================================
-// Browser Event Listeners (SSR-safe)
-// ============================================
-
+// Browser event listeners for visibility changes
 if (typeof document !== 'undefined') {
-    // Visibility change - reconnect when tab becomes visible
     document.addEventListener('visibilitychange', () => {
-        if (document.visibilityState === 'visible' && isConnected) {
-            console.log('[NDK] Tab visible, checking connection...');
-            checkConnectionHealth();
+        if (document.visibilityState === 'visible') {
+            // Just update UI state, NDK handles reconnection
+            const connectedCount = Array.from(ndk.pool.relays.values())
+                .filter(r => r.connectivity.status === 1).length;
+            if (connectedCount === 0) {
+                reconnect().catch(console.error);
+            }
         }
     });
 }
 
 if (typeof window !== 'undefined') {
-    // Online event - reconnect when network comes back
     window.addEventListener('online', () => {
-        console.log('[NDK] Network online, reconnecting...');
+        console.log('[NDK] Network online');
         reconnect().catch(console.error);
     });
 
-    // Offline event - update state
     window.addEventListener('offline', () => {
         console.log('[NDK] Network offline');
         connectionState.set('disconnected');
