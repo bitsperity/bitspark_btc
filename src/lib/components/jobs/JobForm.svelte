@@ -103,19 +103,19 @@
 			/>
 
 			<Textarea 
+				label="Description (what this job is about)"
+				placeholder="We need a developer to implement the authentication flow. This includes..."
+				rows={6}
+				bind:value={content}
+			/>
+
+			<Textarea 
 				label="Definition of Done * (acceptance criteria)"
 				placeholder="- [ ] User can login via NIP-07
 - [ ] Profile page displays all fields
 - [ ] Tests pass with 80% coverage"
 				rows={4}
 				bind:value={requirements}
-			/>
-
-			<Textarea 
-				label="Description (what this job is about)"
-				placeholder="We need a developer to implement the authentication flow. This includes..."
-				rows={6}
-				bind:value={content}
 			/>
 
 			<Input 
