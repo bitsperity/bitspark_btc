@@ -9,7 +9,7 @@
   - Jobs section
 -->
 <script lang="ts">
-	import { Container, Stack, Row, AuroraBackground, Badge, Avatar, Button, Skeleton } from '$lib/components';
+	import { Container, Stack, Row, AuroraBackground, Badge, Avatar, Button, Skeleton, Modal } from '$lib/components';
 	import { MarkdownRenderer } from '$lib/components';
 	import { JobList, JobForm } from '$lib/components/jobs';
 	import { ideaService, profileService, authService } from '$lib/services';
@@ -138,22 +138,21 @@
 							<Button 
 								variant="secondary" 
 								size="sm"
-								onclick={() => showJobForm = !showJobForm}
+								onclick={() => showJobForm = true}
 							>
 								<Plus size={14} />
-								<span>{showJobForm ? 'Cancel' : 'Create Job'}</span>
+								<span>Create Job</span>
 							</Button>
 						{/if}
 					</Row>
 
-					{#if showJobForm && isOwner}
-						<div class="job-form-wrapper">
-							<JobForm 
-								ideaId={idea.id} 
-								oncancel={() => showJobForm = false}
-							/>
-						</div>
-					{/if}
+					<!-- Create Job Modal -->
+					<Modal bind:open={showJobForm} title="Create New Job">
+						<JobForm 
+							ideaId={idea.id} 
+							oncancel={() => showJobForm = false}
+						/>
+					</Modal>
 
 					<JobList ideaId={idea.id} />
 				</section>
