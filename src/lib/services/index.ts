@@ -13,3 +13,5 @@ export { offerService } from './offers';
 export { contractService } from './contracts';
 export { giftWrapService, offerEvents, dmEvents, contractEvents } from './giftwrap';
 export { relayService, type RelayInfo } from './relays';
+export { socialService } from './social';
+export { commentService } from './comments';

@@ -1,0 +1,9 @@
+/**
+ * Social Components Barrel Export
+ */
+
+export { default as LikeButton } from './LikeButton.svelte';
+export { default as FollowButton } from './FollowButton.svelte';
+export { default as CommentWidget } from './CommentWidget.svelte';
+export { default as CommentForm } from './CommentForm.svelte';
+export { default as CommentItem } from './CommentItem.svelte';

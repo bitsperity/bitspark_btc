@@ -12,6 +12,7 @@
 	import { Container, Stack, Row, AuroraBackground, Badge, Avatar, Button, Skeleton, Modal } from '$lib/components';
 	import { MarkdownRenderer } from '$lib/components';
 	import { JobList, JobForm } from '$lib/components/jobs';
+	import { CommentWidget, LikeButton } from '$lib/components/social';
 	import { ideaService, profileService, authService } from '$lib/services';
 	import type { Idea } from '$lib/types/idea';
 	import type { NDKUserProfile } from '@nostr-dev-kit/ndk';
@@ -155,6 +156,11 @@
 					</Modal>
 
 					<JobList ideaId={idea.id} />
+				</section>
+
+				<!-- Comments Section -->
+				<section class="comments-section">
+					<CommentWidget eventId={idea.id} collapsed={false} />
 				</section>
 			</Stack>
 		</Container>
