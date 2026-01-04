@@ -92,7 +92,7 @@ async function checkConnectionHealth(): Promise<void> {
 }
 
 /**
- * Start periodic health check (every 30 seconds)
+ * Start periodic health check (every 15 seconds)
  */
 function startHealthCheck(): void {
     if (reconnectTimer) {
@@ -101,7 +101,7 @@ function startHealthCheck(): void {
 
     reconnectTimer = setInterval(() => {
         checkConnectionHealth();
-    }, 30000);
+    }, 15000);  // Check every 15 seconds
 }
 
 /**
