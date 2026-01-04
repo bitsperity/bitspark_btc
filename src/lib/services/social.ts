@@ -17,11 +17,11 @@ const KIND_REACTION = 7;
 const reactionsCache = writable<Map<string, Set<string>>>(new Map()); // eventId -> Set of pubkeys
 const myReactions = writable<Set<string>>(new Set()); // eventIds I've liked
 const followingList = writable<Set<string>>(new Set()); // pubkeys I'm following
-const followersCache = writable<Map<string, Set<string>>>(new Map()); // pubkey -> Set of followers
+const followersCache = writable<Map<string, number>>(new Map()); // pubkey -> follower count (lazy)
 
-// Track subscriptions
+// Track state
 let reactionsSubscription: any = null;
-let followsSubscription: any = null;
+let followListLoaded = false;
 
 class SocialService {
     // ═══════════════════════════════════════════════════════════════
@@ -230,7 +230,10 @@ class SocialService {
      * Get reactive "am I following" status
      */
     subscribeIsFollowing(pubkey: string): Readable<boolean> {
-        this.ensureFollowsSubscription();
+        // Ensure follow list is loaded
+        if (!followListLoaded) {
+            this.fetchMyFollowList();
+        }
         return derived(followingList, $list => $list.has(pubkey));
     }
 
@@ -238,88 +241,43 @@ class SocialService {
      * Get my following list
      */
     subscribeFollowing(): Readable<string[]> {
-        this.ensureFollowsSubscription();
+        if (!followListLoaded) {
+            this.fetchMyFollowList();
+        }
         return derived(followingList, $list => Array.from($list));
     }
 
     /**
-     * Get followers of a user
-     */
-    subscribeFollowers(pubkey: string): Readable<string[]> {
-        this.ensureFollowsSubscription();
-        return derived(followersCache, $cache => {
-            return Array.from($cache.get(pubkey) || []);
-        });
-    }
-
-    /**
-     * Start follows subscription
-     */
-    private ensureFollowsSubscription(): void {
-        if (followsSubscription) return;
-
-        const user = ndk.activeUser;
-        if (!user) {
-            // No user yet - will be called again when needed
-            return;
-        }
-
-        this.fetchMyFollowList();
-
-        // Subscribe to follow lists to track followers
-        const filter: NDKFilter = {
-            kinds: [KIND_FOLLOW_LIST],
-            limit: 500
-        };
-
-        followsSubscription = ndk.subscribe(filter, { closeOnEose: false });
-
-        followsSubscription.on('event', (event: NDKEvent) => {
-            const following = event.tags
-                .filter(t => t[0] === 'p')
-                .map(t => t[1]);
-
-            // If this is MY follow list, update my following
-            if (event.pubkey === ndk.activeUser?.pubkey) {
-                followingList.set(new Set(following));
-                console.log('[Social] Updated my follow list:', following.length, 'follows');
-            }
-
-            // Update followers cache - this user follows these pubkeys
-            for (const pk of following) {
-                followersCache.update(cache => {
-                    const existing = cache.get(pk) || new Set();
-                    existing.add(event.pubkey);
-                    cache.set(pk, existing);
-                    return new Map(cache);
-                });
-            }
-        });
-    }
-
-    /**
-     * Fetch my follow list (call after login)
+     * Fetch my follow list (non-blocking)
      */
     async fetchMyFollowList(): Promise<void> {
+        if (followListLoaded) return;
+
         const user = ndk.activeUser;
         if (!user) return;
 
+        followListLoaded = true;
         console.log('[Social] Fetching my follow list...');
 
-        const event = await ndk.fetchEvent({
-            kinds: [KIND_FOLLOW_LIST],
-            authors: [user.pubkey]
-        } as NDKFilter);
+        try {
+            const event = await ndk.fetchEvent({
+                kinds: [KIND_FOLLOW_LIST],
+                authors: [user.pubkey]
+            } as NDKFilter);
 
-        if (event) {
-            const following = event.tags
-                .filter(t => t[0] === 'p')
-                .map(t => t[1]);
-            followingList.set(new Set(following));
-            console.log('[Social] Loaded follow list:', following.length, 'follows');
-        } else {
-            followingList.set(new Set());
-            console.log('[Social] No follow list found');
+            if (event) {
+                const following = event.tags
+                    .filter(t => t[0] === 'p')
+                    .map(t => t[1]);
+                followingList.set(new Set(following));
+                console.log('[Social] Loaded follow list:', following.length, 'follows');
+            } else {
+                followingList.set(new Set());
+                console.log('[Social] No follow list found');
+            }
+        } catch (error) {
+            console.error('[Social] Failed to fetch follow list:', error);
+            followListLoaded = false; // Allow retry
         }
     }
 
@@ -327,7 +285,7 @@ class SocialService {
      * Reset state on logout
      */
     reset(): void {
-        followsSubscription = null;
+        followListLoaded = false;
         followingList.set(new Set());
         myReactions.set(new Set());
         console.log('[Social] Reset');
@@ -335,10 +293,11 @@ class SocialService {
 
     /**
      * Initialize service (call on app start or login)
+     * Non-blocking - fetches in background
      */
     init(): void {
-        this.ensureReactionsSubscription();
-        this.ensureFollowsSubscription();
+        // Fetch follow list in background, don't block
+        this.fetchMyFollowList();
     }
 }
 
