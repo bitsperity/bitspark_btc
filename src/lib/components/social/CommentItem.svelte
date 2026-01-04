@@ -23,7 +23,7 @@
 
 	// State
 	let showReplyForm = $state(false);
-	let showReplies = $state(depth < 2); // Auto-expand first 2 levels
+	let showReplies = $state(depth === 0); // Only top-level expanded by default
 
 	// Get direct children of this comment
 	const replies = $derived(childrenMap.get(comment.id) || []);
