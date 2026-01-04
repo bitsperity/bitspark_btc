@@ -3,11 +3,11 @@ FROM node:22-alpine AS builder
 
 WORKDIR /app
 
-# Copy package files
-COPY package*.json ./
+# Copy package files (both files for proper cache invalidation)
+COPY package.json package-lock.json ./
 
-# Install dependencies
-RUN npm ci
+# Install dependencies (use npm install for flexibility)
+RUN npm install
 
 # Copy source
 COPY . .
@@ -33,11 +33,11 @@ FROM node:22-alpine AS development
 
 WORKDIR /app
 
-# Copy package files
-COPY package*.json ./
+# Copy package files (both files for proper cache invalidation)
+COPY package.json package-lock.json ./
 
 # Install dependencies
-RUN npm ci
+RUN npm install
 
 # Copy source
 COPY . .
