@@ -1,5 +1,5 @@
 <!--
-  CommentForm - Input for new comments
+  CommentForm - Input for new comments or replies
 -->
 <script lang="ts">
 	import { Button } from '$lib/components';
@@ -8,10 +8,11 @@
 
 	interface Props {
 		eventId: string;
+		replyToCommentId?: string;  // For threaded replies
 		onSubmit?: () => void;
 	}
 
-	let { eventId, onSubmit }: Props = $props();
+	let { eventId, replyToCommentId, onSubmit }: Props = $props();
 
 	let content = $state('');
 	let isLoading = $state(false);
@@ -28,7 +29,7 @@
 		isLoading = true;
 
 		try {
-			await commentService.createComment(eventId, content.trim());
+			await commentService.createComment(eventId, content.trim(), replyToCommentId);
 			content = '';
 			onSubmit?.();
 		} catch (error) {

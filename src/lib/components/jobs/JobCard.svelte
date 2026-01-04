@@ -4,6 +4,7 @@
 <script lang="ts">
 	import { Card, Badge, Row, Stack, Avatar } from '$lib/components';
 	import JobStatusBadge from './JobStatusBadge.svelte';
+	import { LikeButton } from '$lib/components/social';
 	import { LANGUAGE_LABELS, type Job, type ProgrammingLanguage, type JobStatus } from '$lib/types/job';
 	import { profileService, jobService } from '$lib/services';
 	import type { NDKUserProfile } from '@nostr-dev-kit/ndk';
@@ -62,14 +63,17 @@
 				{/if}
 			</Row>
 
-			<!-- Author -->
-			<Row gap={2} class="author">
-				<Avatar 
-					src={authorProfile?.image} 
-					fallback={authorProfile?.name?.[0] ?? '?'} 
-					size="xs" 
-				/>
-				<span class="author-name">{authorProfile?.name ?? 'Anonymous'}</span>
+			<!-- Author + Like -->
+			<Row justify="between" class="author">
+				<Row gap={2}>
+					<Avatar 
+						src={authorProfile?.image} 
+						fallback={authorProfile?.name?.[0] ?? '?'} 
+						size="xs" 
+					/>
+					<span class="author-name">{authorProfile?.name ?? 'Anonymous'}</span>
+				</Row>
+				<LikeButton eventId={job.id} size="sm" />
 			</Row>
 		</Stack>
 	</Card>

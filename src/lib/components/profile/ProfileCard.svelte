@@ -6,6 +6,7 @@
 <script lang="ts">
 	import { ndk } from '$lib/nostr';
 	import { Card, Avatar, Badge, Skeleton, Stack, Row, Button } from '$lib/components';
+	import { FollowButton } from '$lib/components/social';
 	import { Zap, ExternalLink } from 'lucide-svelte';
 	import type { NDKUserProfile } from '@nostr-dev-kit/ndk';
 
@@ -101,13 +102,13 @@
 			<!-- Actions -->
 			{#if showActions}
 				<Row gap={3}>
-					<Button variant="primary">
-						<Zap size={16} />
-						<span>Zap</span>
-					</Button>
-					<Button variant="glass">
-						<span>Follow</span>
-					</Button>
+					<FollowButton pubkey={pubkey} />
+					{#if profile.lud16}
+						<Button variant="primary">
+							<Zap size={16} />
+							<span>Zap</span>
+						</Button>
+					{/if}
 				</Row>
 			{/if}
 		</Stack>

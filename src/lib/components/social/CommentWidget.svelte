@@ -1,9 +1,9 @@
 <!--
-  CommentWidget - Collapsible comment section for any event
+  CommentWidget - Threaded comment section for any event
   
   Features:
   - Collapsible with comment count header
-  - List of comments with profiles
+  - Threaded/nested comment display
   - New comment form
 -->
 <script lang="ts">
@@ -13,6 +13,7 @@
 	import CommentForm from './CommentForm.svelte';
 	import { MessageCircle, ChevronDown, ChevronUp } from 'lucide-svelte';
 	import { onDestroy } from 'svelte';
+	import type { Comment } from '$lib/types/social';
 
 	interface Props {
 		eventId: string;
@@ -27,6 +28,37 @@
 	// Subscribe to comments
 	const comments = commentService.subscribeComments(eventId);
 	const commentCount = commentService.subscribeCommentCount(eventId);
+
+	// Build threaded comment tree
+	const threadedComments = $derived(buildCommentTree($comments));
+
+	function buildCommentTree(flatComments: Comment[]): { comment: Comment; replies: Comment[] }[] {
+		// Map comments by ID
+		const commentMap = new Map<string, Comment>();
+		flatComments.forEach(c => commentMap.set(c.id, c));
+
+		// Find top-level comments (no replyToCommentId or replyToCommentId is the event itself)
+		const topLevel: Comment[] = [];
+		const childrenMap = new Map<string, Comment[]>();
+
+		for (const comment of flatComments) {
+			if (!comment.replyToCommentId || !commentMap.has(comment.replyToCommentId)) {
+				// Top-level comment
+				topLevel.push(comment);
+			} else {
+				// Child comment
+				const children = childrenMap.get(comment.replyToCommentId) || [];
+				children.push(comment);
+				childrenMap.set(comment.replyToCommentId, children);
+			}
+		}
+
+		// Build tree structure
+		return topLevel.map(comment => ({
+			comment,
+			replies: childrenMap.get(comment.id) || []
+		}));
+	}
 
 	// Cleanup subscription on destroy
 	onDestroy(() => {
@@ -54,11 +86,15 @@
 	{#if isOpen}
 		<div class="comment-content">
 			<Stack gap={0}>
-				{#if $comments.length === 0}
+				{#if threadedComments.length === 0}
 					<p class="no-comments">No comments yet. Be the first!</p>
 				{:else}
-					{#each $comments as comment (comment.id)}
-						<CommentItem {comment} />
+					{#each threadedComments as { comment, replies } (comment.id)}
+						<CommentItem 
+							{comment} 
+							rootEventId={eventId}
+							replies={replies}
+						/>
 					{/each}
 				{/if}
 			</Stack>

@@ -91,6 +91,7 @@
 				<Row justify="between" class="title-row">
 					<h1 class="idea-title">{idea.title}</h1>
 					<Row gap={2}>
+						<LikeButton eventId={idea.id} size="md" />
 						{#if idea.githubRepo}
 							<a href={idea.githubRepo} target="_blank" rel="noopener" class="action-btn">
 								<Github size={18} />
