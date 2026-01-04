@@ -187,9 +187,18 @@ class CommentService {
         sub.on('event', (event: NDKEvent) => {
             const comment = this.parseComment(event);
 
+            console.log('[Comments] Received event:', {
+                id: event.id?.slice(0, 8),
+                content: event.content?.slice(0, 30),
+                eTags: event.tags.filter(t => t[0] === 'e'),
+                replyToCommentId: comment.replyToCommentId,
+                rootEventId: comment.replyToEventId
+            });
+
             // Only add top-level comments to the main event cache
-            // (comments with no replyToCommentId or where replyToCommentId is the event itself)
+            // Top-level = has no replyToCommentId (not replying to another comment)
             if (!comment.replyToCommentId) {
+                console.log('[Comments] ✓ Adding top-level comment:', event.id?.slice(0, 8));
                 commentsCache.update(cache => {
                     const existing = cache.get(eventId) || [];
                     if (!existing.find(c => c.id === comment.id)) {
@@ -222,29 +231,38 @@ class CommentService {
         const { getTag } = createTagAccessors(event);
         const base = parseBaseEvent(event);
 
-        // Parse e tags to find root and reply
+        // Parse e tags to find what this comment replies to
         const eTags = event.tags.filter(t => t[0] === 'e');
-        let rootEventId = '';
+        let replyToEventId = '';
         let replyToCommentId: string | undefined;
 
-        for (const tag of eTags) {
-            const marker = tag[3];
-            if (marker === 'root') {
-                rootEventId = tag[1];
-            } else if (marker === 'reply') {
-                replyToCommentId = tag[1];
+        if (eTags.length === 1) {
+            // Single e-tag = top-level comment on an event (idea/job)
+            replyToEventId = eTags[0][1];
+            // No replyToCommentId = this is NOT a reply to another comment
+        } else if (eTags.length >= 2) {
+            // Multiple e-tags = reply to a comment
+            // Look for markers
+            for (const tag of eTags) {
+                const marker = tag[3];
+                if (marker === 'root') {
+                    replyToEventId = tag[1];
+                } else if (marker === 'reply') {
+                    replyToCommentId = tag[1];
+                }
             }
-        }
 
-        // Fallback: if no markers, first e tag is root
-        if (!rootEventId && eTags.length > 0) {
-            rootEventId = eTags[0][1];
+            // Fallback if no markers: first = root, second = reply
+            if (!replyToEventId && !replyToCommentId) {
+                replyToEventId = eTags[0][1];
+                replyToCommentId = eTags[1][1];
+            }
         }
 
         return {
             ...base,
             content: event.content,
-            replyToEventId: rootEventId,
+            replyToEventId,
             replyToCommentId
         };
     }
