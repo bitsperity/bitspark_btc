@@ -259,20 +259,12 @@ class SocialService {
         if (followsSubscription) return;
 
         const user = ndk.activeUser;
-        if (!user) return;
+        if (!user) {
+            // No user yet - will be called again when needed
+            return;
+        }
 
-        // Fetch my follow list
-        ndk.fetchEvent({
-            kinds: [KIND_FOLLOW_LIST],
-            authors: [user.pubkey]
-        } as NDKFilter).then(event => {
-            if (event) {
-                const following = event.tags
-                    .filter(t => t[0] === 'p')
-                    .map(t => t[1]);
-                followingList.set(new Set(following));
-            }
-        });
+        this.fetchMyFollowList();
 
         // Subscribe to follow lists to track followers
         const filter: NDKFilter = {
@@ -287,6 +279,12 @@ class SocialService {
                 .filter(t => t[0] === 'p')
                 .map(t => t[1]);
 
+            // If this is MY follow list, update my following
+            if (event.pubkey === ndk.activeUser?.pubkey) {
+                followingList.set(new Set(following));
+                console.log('[Social] Updated my follow list:', following.length, 'follows');
+            }
+
             // Update followers cache - this user follows these pubkeys
             for (const pk of following) {
                 followersCache.update(cache => {
@@ -300,7 +298,43 @@ class SocialService {
     }
 
     /**
-     * Initialize service (call on app start)
+     * Fetch my follow list (call after login)
+     */
+    async fetchMyFollowList(): Promise<void> {
+        const user = ndk.activeUser;
+        if (!user) return;
+
+        console.log('[Social] Fetching my follow list...');
+
+        const event = await ndk.fetchEvent({
+            kinds: [KIND_FOLLOW_LIST],
+            authors: [user.pubkey]
+        } as NDKFilter);
+
+        if (event) {
+            const following = event.tags
+                .filter(t => t[0] === 'p')
+                .map(t => t[1]);
+            followingList.set(new Set(following));
+            console.log('[Social] Loaded follow list:', following.length, 'follows');
+        } else {
+            followingList.set(new Set());
+            console.log('[Social] No follow list found');
+        }
+    }
+
+    /**
+     * Reset state on logout
+     */
+    reset(): void {
+        followsSubscription = null;
+        followingList.set(new Set());
+        myReactions.set(new Set());
+        console.log('[Social] Reset');
+    }
+
+    /**
+     * Initialize service (call on app start or login)
      */
     init(): void {
         this.ensureReactionsSubscription();
