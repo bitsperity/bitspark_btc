@@ -7,6 +7,7 @@
 
 import NDKSvelte from '@nostr-dev-kit/ndk-svelte';
 import { NDKEvent } from '@nostr-dev-kit/ndk';
+import NDKCacheDexie from '@nostr-dev-kit/ndk-cache-dexie';
 import { writable, get } from 'svelte/store';
 import { DEFAULT_RELAYS } from './config';
 
@@ -17,10 +18,11 @@ export const connectionState = writable<ConnectionState>('disconnected');
 // Track connected relay count
 let connectedRelayCount = 0;
 
-// NDKSvelte instance - singleton with reactive store support
+// NDKSvelte instance with cache for offline support
 export const ndk = new NDKSvelte({
     explicitRelayUrls: DEFAULT_RELAYS,
-    enableOutboxModel: false,  // Simplified for stability
+    cacheAdapter: new NDKCacheDexie({ dbName: 'bitspark' }),
+    enableOutboxModel: false,
     autoConnectUserRelays: false,
     autoFetchUserMutelist: false
 });
