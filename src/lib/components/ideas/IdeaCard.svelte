@@ -1,15 +1,17 @@
 <!--
-  IdeaCard - Displays an idea in a card format
+  IdeaCard - Displays an idea with job stats
+  
+  Shows: title, summary, categories, job count, bounty, hot badge, relative time
 -->
 <script lang="ts">
-	import type { Idea } from '$lib/types/idea';
+	import type { IdeaWithStats } from '$lib/stores';
 	import { Card, Badge, Avatar, Row, Stack } from '$lib/components';
 	import { profileService } from '$lib/services';
-	import { Github, Zap } from 'lucide-svelte';
+	import { Github, Zap, Briefcase, Flame } from 'lucide-svelte';
 	import type { NDKUserProfile } from '@nostr-dev-kit/ndk';
 
 	interface Props {
-		idea: Idea;
+		idea: IdeaWithStats;
 	}
 
 	let { idea }: Props = $props();
@@ -28,34 +30,81 @@
 	const authorName = $derived(authorProfile?.name ?? authorProfile?.displayName ?? 'Anonymous');
 	const authorAvatar = $derived(authorProfile?.image ?? authorProfile?.picture);
 
-	// Format date
-	const formattedDate = $derived(new Date(idea.createdAt * 1000).toLocaleDateString());
+	// Relative time (e.g., "2d ago")
+	function getRelativeTime(date: Date): string {
+		const now = Date.now();
+		const diff = now - date.getTime();
+		const seconds = Math.floor(diff / 1000);
+		const minutes = Math.floor(seconds / 60);
+		const hours = Math.floor(minutes / 60);
+		const days = Math.floor(hours / 24);
+		const weeks = Math.floor(days / 7);
+		const months = Math.floor(days / 30);
+		
+		if (months > 0) return `${months}mo`;
+		if (weeks > 0) return `${weeks}w`;
+		if (days > 0) return `${days}d`;
+		if (hours > 0) return `${hours}h`;
+		if (minutes > 0) return `${minutes}m`;
+		return 'now';
+	}
+
+	const relativeTime = $derived(getRelativeTime(idea.createdAt));
+	
+	// Format bounty (e.g., "45k sats")
+	function formatBounty(sats: number): string {
+		if (sats >= 1000000) return `${(sats / 1000000).toFixed(1)}M sats`;
+		if (sats >= 1000) return `${(sats / 1000).toFixed(0)}k sats`;
+		return `${sats} sats`;
+	}
 </script>
 
 <a href="/ideas/{idea.id}" class="idea-card-link">
 	<Card variant="glow" class="idea-card">
-		<!-- Banner -->
+		<!-- Banner + Hot Badge -->
 		{#if idea.bannerUrl}
 			<div class="idea-banner">
 				<img src={idea.bannerUrl} alt={idea.title} />
+				{#if idea.isHot}
+					<div class="hot-badge">
+						<Flame size={12} />
+						<span>Hot</span>
+					</div>
+				{/if}
+			</div>
+		{:else if idea.isHot}
+			<div class="hot-badge-standalone">
+				<Flame size={12} />
+				<span>Hot</span>
 			</div>
 		{/if}
 
 		<Stack gap={3}>
-			<!-- Title -->
-			<h3 class="idea-title">{idea.title}</h3>
-
-			<!-- Summary -->
-			<p class="idea-summary">{idea.summary}</p>
-
 			<!-- Categories -->
 			{#if idea.categories.length > 0}
 				<Row gap={2} wrap>
-					{#each idea.categories as category}
-						<Badge variant="default">{category}</Badge>
+					{#each idea.categories.slice(0, 2) as category}
+						<Badge variant="default" size="sm">{category}</Badge>
 					{/each}
 				</Row>
 			{/if}
+
+			<!-- Title -->
+			<h3 class="idea-title">{idea.title}</h3>
+
+			<!-- Job Stats Line -->
+			<Row gap={3} class="job-stats">
+				<span class="stat">
+					<Briefcase size={14} />
+					{idea.openJobCount} open job{idea.openJobCount !== 1 ? 's' : ''}
+				</span>
+				{#if idea.totalBounty > 0}
+					<span class="stat bounty">
+						<Zap size={14} />
+						{formatBounty(idea.totalBounty)}
+					</span>
+				{/if}
+			</Row>
 
 			<!-- Footer -->
 			<Row justify="between" class="idea-footer">
@@ -67,7 +116,7 @@
 					{#if idea.githubRepo}
 						<Github size={14} class="icon-muted" />
 					{/if}
-					<span class="date">{formattedDate}</span>
+					<span class="date">{relativeTime}</span>
 				</Row>
 			</Row>
 		</Stack>
@@ -82,6 +131,7 @@
 
 	:global(.idea-card) {
 		transition: transform var(--duration-normal) var(--ease-out);
+		position: relative;
 	}
 
 	.idea-card-link:hover :global(.idea-card) {
@@ -94,6 +144,7 @@
 		border-radius: var(--radius-lg) var(--radius-lg) 0 0;
 		overflow: hidden;
 		aspect-ratio: 16/9;
+		position: relative;
 	}
 
 	.idea-banner img {
@@ -102,22 +153,59 @@
 		object-fit: cover;
 	}
 
+	.hot-badge {
+		position: absolute;
+		top: var(--space-2);
+		right: var(--space-2);
+		display: flex;
+		align-items: center;
+		gap: var(--space-1);
+		padding: var(--space-1) var(--space-2);
+		background: linear-gradient(135deg, var(--warning) 0%, #ff6b35 100%);
+		color: white;
+		font-size: 0.7rem;
+		font-weight: 600;
+		border-radius: var(--radius-full);
+		text-transform: uppercase;
+	}
+
+	.hot-badge-standalone {
+		position: absolute;
+		top: var(--space-2);
+		right: var(--space-2);
+		display: flex;
+		align-items: center;
+		gap: var(--space-1);
+		padding: var(--space-1) var(--space-2);
+		background: linear-gradient(135deg, var(--warning) 0%, #ff6b35 100%);
+		color: white;
+		font-size: 0.7rem;
+		font-weight: 600;
+		border-radius: var(--radius-full);
+		text-transform: uppercase;
+	}
+
 	.idea-title {
 		font-size: 1.25rem;
 		font-weight: 600;
 		color: var(--text-primary);
 		margin: 0;
+		line-height: 1.3;
 	}
 
-	.idea-summary {
+	:global(.job-stats) {
 		font-size: 0.875rem;
-		color: var(--text-muted);
-		line-height: 1.5;
-		display: -webkit-box;
-		-webkit-line-clamp: 2;
-		-webkit-box-orient: vertical;
-		overflow: hidden;
-		margin: 0;
+		color: var(--text-secondary);
+	}
+
+	.stat {
+		display: flex;
+		align-items: center;
+		gap: var(--space-1);
+	}
+
+	.stat.bounty {
+		color: var(--warning);
 	}
 
 	:global(.idea-footer) {

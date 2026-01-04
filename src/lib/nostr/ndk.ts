@@ -46,7 +46,7 @@ function setupRelayListeners(): void {
     listenersSetup = true;
 
     // Listen on pool level for all relay events
-    ndk.pool.on('relay:connect', (relay: NDKRelay) => {
+    ndk.pool.on('relay:connect', (relay: any) => {
         connectedRelays.update(set => {
             set.add(relay.url);
             console.log(`[NDK] ✓ Connected to ${relay.url} (${set.size} total)`);
@@ -54,7 +54,7 @@ function setupRelayListeners(): void {
         });
     });
 
-    ndk.pool.on('relay:disconnect', (relay: NDKRelay) => {
+    ndk.pool.on('relay:disconnect', (relay: any) => {
         connectedRelays.update(set => {
             set.delete(relay.url);
             console.log(`[NDK] ✗ Disconnected from ${relay.url} (${set.size} remaining)`);

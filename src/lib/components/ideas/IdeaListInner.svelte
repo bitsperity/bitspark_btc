@@ -1,48 +1,54 @@
 <!--
-  IdeaListInner - Actual subscription component (internal)
+  IdeaListInner - Ideas listing with filtering and stats
   
-  Uses managed subscription with timeout handling for robust loading.
+  Uses ideasWithStats store for enriched data with job counts.
 -->
 <script lang="ts">
-	import { ideaService } from '$lib/services';
-	import type { Idea } from '$lib/types/idea';
 	import { Skeleton, Stack, Button } from '$lib/components';
 	import IdeaCard from './IdeaCard.svelte';
-	import { onDestroy } from 'svelte';
-	import { createSubscription } from '$lib/nostr';
-	import { NOSTR_KINDS } from '$lib/nostr/config';
-	import type { NDKEvent, NDKFilter } from '@nostr-dev-kit/ndk';
+	import IdeaFilters from './IdeaFilters.svelte';
+	import { onMount, onDestroy } from 'svelte';
+	import { ideasWithStatsStore, type IdeaFilterOptions } from '$lib/stores';
 	import { RefreshCw, WifiOff } from 'lucide-svelte';
+	import { get } from 'svelte/store';
 
-	interface Props {
-		category?: string;
+	// Start subscriptions on mount
+	onMount(() => {
+		ideasWithStatsStore.start();
+	});
+
+	onDestroy(() => {
+		ideasWithStatsStore.stop();
+	});
+
+	// Subscribe to stores
+	const ideas = ideasWithStatsStore;
+	const isLoading = ideasWithStatsStore.isLoading;
+	
+	// Get current filters reactively
+	let currentFilters = $state<IdeaFilterOptions>({ search: '', category: null, status: 'all', sortBy: 'newest' });
+	
+	$effect(() => {
+		const unsub = ideasWithStatsStore.filters.subscribe(f => {
+			currentFilters = f;
+		});
+		return unsub;
+	});
+
+	function handleFilterChange(key: keyof IdeaFilterOptions, value: any) {
+		ideasWithStatsStore.setFilter(key, value);
 	}
 
-	let { category }: Props = $props();
-
-	// Build filter
-	const filter: NDKFilter = {
-		kinds: [NOSTR_KINDS.IDEA as number],
-		'#s': ['bitspark'],
-		limit: 50
-	};
-	if (category) {
-		filter['#c'] = [category];
+	function handleRetry() {
+		ideasWithStatsStore.stop();
+		ideasWithStatsStore.start();
 	}
-
-	// Create managed subscription with 8s timeout
-	const subscription = createSubscription<Idea>(
-		filter,
-		{ timeout: 8000 },
-		(event: NDKEvent) => ideaService.parseIdeaEvent(event)
-	);
-
-	const { store: ideas, state: subscriptionState, retry } = subscription;
-
-	onDestroy(() => subscription.unsubscribe());
 </script>
 
-{#if $subscriptionState === 'loading' || $subscriptionState === 'retrying'}
+<!-- Filters -->
+<IdeaFilters filters={currentFilters} onFilterChange={handleFilterChange} />
+
+{#if $isLoading}
 	<div class="ideas-grid">
 		{#each Array(6) as _}
 			<div class="skeleton-card">
@@ -55,21 +61,20 @@
 			</div>
 		{/each}
 	</div>
-{:else if $subscriptionState === 'failed'}
-	<div class="timeout-state">
-		<WifiOff size={48} />
-		<h3>Connection Timeout</h3>
-		<p>Could not load ideas from relays.</p>
-		<Button variant="primary" onclick={retry}>
-			<RefreshCw size={16} />
-			<span>Retry</span>
-		</Button>
-	</div>
-{:else if $subscriptionState === 'empty' || $ideas.length === 0}
-	<div class="empty-state">
-		<p class="text-muted">No ideas found. Be the first!</p>
-		<a href="/ideas/create" class="create-link">Create an Idea</a>
-	</div>
+{:else if $ideas.length === 0}
+	{#if currentFilters.search || currentFilters.category}
+		<div class="empty-state">
+			<p class="text-muted">No ideas match your filters.</p>
+			<Button variant="ghost" onclick={() => ideasWithStatsStore.resetFilters()}>
+				Clear Filters
+			</Button>
+		</div>
+	{:else}
+		<div class="empty-state">
+			<p class="text-muted">No ideas found. Be the first!</p>
+			<a href="/ideas/create" class="create-link">Create an Idea</a>
+		</div>
+	{/if}
 {:else}
 	<div class="ideas-grid">
 		{#each $ideas as idea (idea.id)}
@@ -94,27 +99,13 @@
 		gap: var(--space-4);
 	}
 
-	.empty-state,
-	.timeout-state {
+	.empty-state {
 		text-align: center;
 		padding: var(--space-16);
-	}
-
-	.timeout-state {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		gap: var(--space-4);
-		color: var(--text-muted);
-	}
-
-	.timeout-state h3 {
-		color: var(--text-primary);
-		margin: 0;
-	}
-
-	.timeout-state p {
-		margin: 0;
 	}
 
 	.create-link {
