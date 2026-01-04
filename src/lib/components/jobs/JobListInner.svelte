@@ -39,7 +39,7 @@
 		(event: NDKEvent) => jobService.parseJobEvent(event)
 	);
 
-	const { store: jobs, state, retry } = subscription;
+	const { store: jobs, state: subscriptionState, retry } = subscription;
 
 	let jobsWithStatus = $state<{ job: Job; derivedStatus: JobStatus }[]>([]);
 	let activeTab = $state<JobStatus>('open');
@@ -88,13 +88,13 @@
 </script>
 
 <div class="job-list-container">
-	{#if $state === 'loading'}
+	{#if $subscriptionState === 'loading'}
 		<Stack gap={2}>
 			{#each Array(3) as _}
 				<Skeleton width="100%" height="56px" />
 			{/each}
 		</Stack>
-	{:else if $state === 'timeout'}
+	{:else if $subscriptionState === 'timeout'}
 		<div class="timeout-state">
 			<WifiOff size={32} />
 			<p>Could not load jobs</p>

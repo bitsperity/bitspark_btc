@@ -37,12 +37,12 @@
 		(event: NDKEvent) => ideaService.parseIdeaEvent(event)
 	);
 
-	const { store: ideas, state, retry } = subscription;
+	const { store: ideas, state: subscriptionState, retry } = subscription;
 
 	onDestroy(() => subscription.unsubscribe());
 </script>
 
-{#if $state === 'loading'}
+{#if $subscriptionState === 'loading'}
 	<div class="ideas-grid">
 		{#each Array(6) as _}
 			<div class="skeleton-card">
@@ -55,7 +55,7 @@
 			</div>
 		{/each}
 	</div>
-{:else if $state === 'timeout'}
+{:else if $subscriptionState === 'timeout'}
 	<div class="timeout-state">
 		<WifiOff size={48} />
 		<h3>Connection Timeout</h3>
