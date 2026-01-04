@@ -30,8 +30,20 @@ export async function connectNdk(): Promise<void> {
 
     try {
         await ndk.connect();
-        connectionState.set('connected');
-        console.log('[NDK] Connected to relays');
+
+        // Log which relays connected
+        const relays = Array.from(ndk.pool.relays.entries());
+        const connected = relays.filter(([_, r]) => r.connectivity.status === 1);
+        const failed = relays.filter(([_, r]) => r.connectivity.status !== 1);
+
+        console.log(`[NDK] Connected to ${connected.length}/${relays.length} relays:`);
+        connected.forEach(([url]) => console.log(`  ✓ ${url}`));
+        if (failed.length > 0) {
+            console.log('[NDK] Failed relays:');
+            failed.forEach(([url]) => console.log(`  ✗ ${url}`));
+        }
+
+        connectionState.set(connected.length > 0 ? 'connected' : 'disconnected');
 
         // Monitor connection state via relay pool
         monitorRelayConnections();

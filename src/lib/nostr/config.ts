@@ -6,10 +6,11 @@
 
 // Default relays for BitSpark
 // Primary: local Umbrel relay, Fallback: public relays
+// Edit these to customize your relay setup
 export const DEFAULT_RELAYS = [
     'ws://umbrel.local:4848',   // Primary (local)
-    'wss://relay.damus.io',     // Fallback
-    'wss://relay.nostr.band'    // Fallback
+    'wss://relay.damus.io',     // Fallback 1
+    'wss://nos.lol'             // Fallback 2
 ];
 
 // App identifier tag - used in all BitSpark events
