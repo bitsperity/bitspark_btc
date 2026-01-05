@@ -191,9 +191,9 @@
 		} else if (type === 'job') {
 			goto(`/jobs/${event.id}`);
 		} 
-		// For likes and comments, navigate to root Idea/Job with comment highlight
+		// For likes and comments, navigate to root Idea/Job with comments tab and highlight
 		else if (type === 'like' || type === 'comment') {
-			const commentParam = originalTargetId ? `?comment=${originalTargetId}` : '';
+			const commentParam = originalTargetId ? `?tab=comments&comment=${originalTargetId}` : '?tab=comments';
 			if (rootEventId && targetType === 'idea') {
 				goto(`/ideas/${rootEventId}${commentParam}`);
 			} else if (rootEventId && targetType === 'job') {

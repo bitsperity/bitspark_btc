@@ -18,10 +18,38 @@
 	import type { NDKUserProfile } from '@nostr-dev-kit/ndk';
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
-	import { ArrowLeft, Github, Zap, Plus, Briefcase } from 'lucide-svelte';
+	import { ArrowLeft, Github, Zap, Plus, Briefcase, MessageCircle, FileText } from 'lucide-svelte';
 
 	const eventId = $derived($page.params.id);
 	const highlightCommentId = $derived($page.url.searchParams.get('comment'));
+	
+	// Tab state from URL - default to 'comments' if highlightCommentId exists
+	const urlTab = $derived($page.url.searchParams.get('tab'));
+	let activeTab = $state<'details' | 'comments'>(highlightCommentId ? 'comments' : 'details');
+	
+	// Sync tab with URL
+	$effect(() => {
+		if (highlightCommentId) {
+			activeTab = 'comments';
+		} else if (urlTab === 'comments') {
+			activeTab = 'comments';
+		} else {
+			activeTab = 'details';
+		}
+	});
+	
+	function setTab(tab: 'details' | 'comments') {
+		activeTab = tab;
+		// Update URL without navigation
+		const url = new URL(window.location.href);
+		if (tab === 'details') {
+			url.searchParams.delete('tab');
+			url.searchParams.delete('comment');
+		} else {
+			url.searchParams.set('tab', 'comments');
+		}
+		window.history.replaceState({}, '', url.toString());
+	}
 
 	let idea = $state<Idea | null>(null);
 	let authorProfile = $state<NDKUserProfile | undefined>(undefined);
@@ -125,45 +153,70 @@
 					<span class="date-inline">{formattedDate}</span>
 				</Row>
 
-				<!-- Description (no card) -->
-				<div class="description-section">
-					<MarkdownRenderer content={idea.content} />
+				<!-- Tab Navigation -->
+				<div class="tab-nav">
+					<button 
+						class="tab-btn" 
+						class:active={activeTab === 'details'}
+						onclick={() => setTab('details')}
+					>
+						<FileText size={16} />
+						<span>Details</span>
+					</button>
+					<button 
+						class="tab-btn" 
+						class:active={activeTab === 'comments'}
+						onclick={() => setTab('comments')}
+					>
+						<MessageCircle size={16} />
+						<span>Comments</span>
+					</button>
 				</div>
 
-				<!-- Jobs Section -->
-				<section class="jobs-section">
-					<Row justify="between">
-						<Row gap={2}>
-							<Briefcase size={20} class="jobs-icon" />
-							<h2 class="section-title">Jobs</h2>
+				<!-- Tab Content: Details -->
+				{#if activeTab === 'details'}
+					<!-- Description (no card) -->
+					<div class="description-section">
+						<MarkdownRenderer content={idea.content} />
+					</div>
+
+					<!-- Jobs Section -->
+					<section class="jobs-section">
+						<Row justify="between">
+							<Row gap={2}>
+								<Briefcase size={20} class="jobs-icon" />
+								<h2 class="section-title">Jobs</h2>
+							</Row>
+							{#if isOwner}
+								<Button 
+									variant="secondary" 
+									size="sm"
+									onclick={() => showJobForm = true}
+								>
+									<Plus size={14} />
+									<span>Create Job</span>
+								</Button>
+							{/if}
 						</Row>
-						{#if isOwner}
-							<Button 
-								variant="secondary" 
-								size="sm"
-								onclick={() => showJobForm = true}
-							>
-								<Plus size={14} />
-								<span>Create Job</span>
-							</Button>
-						{/if}
-					</Row>
 
-					<!-- Create Job Modal -->
-					<Modal bind:open={showJobForm} title="Create New Job">
-						<JobForm 
-							ideaId={idea.id} 
-							oncancel={() => showJobForm = false}
-						/>
-					</Modal>
+						<!-- Create Job Modal -->
+						<Modal bind:open={showJobForm} title="Create New Job">
+							<JobForm 
+								ideaId={idea.id} 
+								oncancel={() => showJobForm = false}
+							/>
+						</Modal>
 
-					<JobList ideaId={idea.id} />
-				</section>
+						<JobList ideaId={idea.id} />
+					</section>
+				{/if}
 
-				<!-- Comments Section -->
-				<section class="comments-section">
-					<CommentWidget eventId={idea.id} collapsed={false} {highlightCommentId} />
-				</section>
+				<!-- Tab Content: Comments -->
+				{#if activeTab === 'comments'}
+					<section class="comments-section">
+						<CommentWidget eventId={idea.id} collapsed={false} {highlightCommentId} />
+					</section>
+				{/if}
 			</Stack>
 		</Container>
 	{:else}
@@ -308,5 +361,38 @@
 	:global(.not-found) {
 		text-align: center;
 		padding: var(--space-12) 0;
+	}
+
+	/* Tab Navigation */
+	.tab-nav {
+		display: flex;
+		gap: var(--space-2);
+		border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+		padding-bottom: var(--space-3);
+	}
+
+	.tab-btn {
+		display: flex;
+		align-items: center;
+		gap: var(--space-2);
+		padding: var(--space-3) var(--space-5);
+		background: transparent;
+		border: none;
+		border-radius: var(--radius-lg);
+		color: var(--text-muted);
+		font-size: 0.95rem;
+		font-weight: 500;
+		cursor: pointer;
+		transition: all var(--duration-fast) var(--ease-out);
+	}
+
+	.tab-btn:hover {
+		background: var(--bg-glass);
+		color: var(--text-primary);
+	}
+
+	.tab-btn.active {
+		background: var(--primary);
+		color: white;
 	}
 </style>
