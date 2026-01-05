@@ -55,9 +55,10 @@
 
 <main class="page">
 	<Container>
-		<Stack gap={6}>
+		<!-- Sticky Header -->
+		<div class="sticky-header">
 			<!-- Header -->
-			<div>
+			<div class="header-section">
 				<Row gap={2} class="header-row">
 					<Rss size={24} />
 					<h1 class="text-display-lg">Your Feed</h1>
@@ -107,7 +108,10 @@
 					Likes
 				</button>
 			</div>
+		</div>
 
+		<!-- Scrollable Feed Content -->
+		<div class="feed-scroll-area">
 			<!-- Content -->
 			{#if !authService.isLoggedIn}
 				<div class="empty-state">
@@ -160,18 +164,51 @@
 					{/if}
 				</Stack>
 			{/if}
-		</Stack>
+		</div>
 	</Container>
 </main>
 
 <style>
 	.page {
-		padding: var(--space-8) 0;
-		min-height: 100vh;
+		height: calc(100vh - 60px); /* Minus navbar height */
+		display: flex;
+		flex-direction: column;
+		overflow: hidden;
+	}
+
+	.page :global(.container) {
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		overflow: hidden;
+	}
+
+	.sticky-header {
+		flex-shrink: 0;
+		padding: var(--space-6) 0;
+		background: var(--bg-base);
+	}
+
+	.header-section {
+		margin-bottom: var(--space-4);
 	}
 
 	:global(.header-row) {
 		margin-bottom: var(--space-2);
+	}
+
+	.filter-tabs {
+		display: flex;
+		gap: var(--space-2);
+		flex-wrap: wrap;
+		padding-bottom: var(--space-4);
+		border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+	}
+
+	.feed-scroll-area {
+		flex: 1;
+		overflow-y: auto;
+		padding: var(--space-4) 0;
 	}
 
 	.filter-tabs {
