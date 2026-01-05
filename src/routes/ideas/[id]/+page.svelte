@@ -21,6 +21,7 @@
 	import { ArrowLeft, Github, Zap, Plus, Briefcase } from 'lucide-svelte';
 
 	const eventId = $derived($page.params.id);
+	const highlightCommentId = $derived($page.url.searchParams.get('comment'));
 
 	let idea = $state<Idea | null>(null);
 	let authorProfile = $state<NDKUserProfile | undefined>(undefined);
@@ -161,7 +162,7 @@
 
 				<!-- Comments Section -->
 				<section class="comments-section">
-					<CommentWidget eventId={idea.id} collapsed={false} />
+					<CommentWidget eventId={idea.id} collapsed={false} {highlightCommentId} />
 				</section>
 			</Stack>
 		</Container>

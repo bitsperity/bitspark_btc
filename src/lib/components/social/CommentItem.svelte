@@ -17,9 +17,25 @@
 		comment: Comment;
 		rootEventId: string;  // Original event (idea/job)
 		depth?: number;
+		highlightCommentId?: string | null;
 	}
 
-	let { comment, rootEventId, depth = 0 }: Props = $props();
+	let { comment, rootEventId, depth = 0, highlightCommentId = null }: Props = $props();
+
+	// Check if this comment should be highlighted
+	const isHighlighted = $derived(highlightCommentId === comment.id);
+
+	// Reference for scrolling
+	let commentElement: HTMLElement | undefined = $state();
+
+	// Scroll into view if highlighted
+	$effect(() => {
+		if (isHighlighted && commentElement) {
+			setTimeout(() => {
+				commentElement?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+			}, 300);
+		}
+	});
 
 	// State
 	let showReplyForm = $state(false);
@@ -84,7 +100,13 @@
 	}
 </script>
 
-<div class="comment-item" class:nested={depth > 0}>
+<div 
+	bind:this={commentElement}
+	id="comment-{comment.id}"
+	class="comment-item" 
+	class:nested={depth > 0}
+	class:highlighted={isHighlighted}
+>
 	<Avatar src={authorAvatar} fallback={authorName[0]} size="sm" />
 	
 	<div class="comment-body">
@@ -136,6 +158,7 @@
 							comment={reply} 
 							rootEventId={rootEventId}
 							depth={depth + 1}
+							{highlightCommentId}
 						/>
 					{/each}
 				</div>
@@ -171,6 +194,24 @@
 		padding-left: var(--space-3);
 		border-left: 2px solid rgba(255, 255, 255, 0.1);
 		border-bottom: none;
+	}
+
+	.comment-item.highlighted {
+		background: rgba(249, 115, 22, 0.1);
+		border-left: 3px solid var(--orange-500);
+		margin-left: 0;
+		padding-left: var(--space-3);
+		border-radius: var(--radius-md);
+		animation: highlightPulse 2s ease-out;
+	}
+
+	@keyframes highlightPulse {
+		0% {
+			background: rgba(249, 115, 22, 0.3);
+		}
+		100% {
+			background: rgba(249, 115, 22, 0.1);
+		}
 	}
 
 	.comment-body {

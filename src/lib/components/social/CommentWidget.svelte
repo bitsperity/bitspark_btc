@@ -15,12 +15,13 @@
 	interface Props {
 		eventId: string;
 		collapsed?: boolean;
+		highlightCommentId?: string | null;
 	}
 
-	let { eventId, collapsed = true }: Props = $props();
+	let { eventId, collapsed = true, highlightCommentId = null }: Props = $props();
 
-	// State
-	let isOpen = $state(!collapsed);
+	// State - auto-open if we have a comment to highlight
+	let isOpen = $state(!collapsed || !!highlightCommentId);
 
 	// Subscribe to top-level comments only
 	const comments = commentService.subscribeTopLevelComments(eventId);
@@ -60,6 +61,7 @@
 							{comment} 
 							rootEventId={eventId}
 							depth={0}
+							{highlightCommentId}
 						/>
 					{/each}
 				{/if}

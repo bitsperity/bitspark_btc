@@ -35,6 +35,7 @@
 	let targetType = $state<'idea' | 'job' | null>(null);
 	let wasComment = $state(false); // Track if original target was a comment
 	let rootEventId = $state<string | null>(null); // The actual Idea/Job ID for navigation
+	let originalTargetId = $state<string | null>(null); // The comment ID for highlighting
 
 	// Load profile on mount
 	$effect(() => {
@@ -66,6 +67,7 @@
 			// Track if original target was a comment
 			if (targetEvent.kind === 1) {
 				wasComment = true;
+				originalTargetId = targetEvent.id; // Store the comment ID
 			}
 			
 			// If target is a comment (Kind 1), traverse up to find parent Idea/Job
@@ -189,12 +191,13 @@
 		} else if (type === 'job') {
 			goto(`/jobs/${event.id}`);
 		} 
-		// For likes and comments, navigate to root Idea/Job
+		// For likes and comments, navigate to root Idea/Job with comment highlight
 		else if (type === 'like' || type === 'comment') {
+			const commentParam = originalTargetId ? `?comment=${originalTargetId}` : '';
 			if (rootEventId && targetType === 'idea') {
-				goto(`/ideas/${rootEventId}`);
+				goto(`/ideas/${rootEventId}${commentParam}`);
 			} else if (rootEventId && targetType === 'job') {
-				goto(`/jobs/${rootEventId}`);
+				goto(`/jobs/${rootEventId}${commentParam}`);
 			}
 		}
 	}
