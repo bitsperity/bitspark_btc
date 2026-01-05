@@ -47,6 +47,21 @@
 	const replies = commentService.subscribeReplies(comment.id);
 	const hasLoaded = commentService.hasLoadedReplies(comment.id);
 
+	// Auto-expand replies when looking for a highlighted comment
+	$effect(() => {
+		if (highlightCommentId && !isHighlighted) {
+			// We're looking for a comment to highlight - load and expand replies
+			loadRepliesAndExpand();
+		}
+	});
+
+	async function loadRepliesAndExpand() {
+		if (!get(hasLoaded)) {
+			await commentService.fetchReplies(comment.id);
+		}
+		showReplies = true;
+	}
+
 	// Fetch author profile
 	let authorProfile = $state<NDKUserProfile | undefined>(undefined);
 	
