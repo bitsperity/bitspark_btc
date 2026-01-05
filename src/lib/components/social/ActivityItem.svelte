@@ -34,6 +34,7 @@
 	let targetTitle = $state<string | null>(null);
 	let targetType = $state<'idea' | 'job' | null>(null);
 	let wasComment = $state(false); // Track if original target was a comment
+	let rootEventId = $state<string | null>(null); // The actual Idea/Job ID for navigation
 
 	// Load profile on mount
 	$effect(() => {
@@ -83,10 +84,12 @@
 			// Now we should have the root Idea/Job
 			if (targetEvent.kind === NOSTR_KINDS.IDEA) {
 				targetType = 'idea';
+				rootEventId = targetEvent.id; // Store the Idea ID
 				const titleTag = targetEvent.tags.find(t => t[0] === 'title');
 				targetTitle = titleTag?.[1] ?? 'an idea';
 			} else if (targetEvent.kind === NOSTR_KINDS.JOB) {
 				targetType = 'job';
+				rootEventId = targetEvent.id; // Store the Job ID
 				const titleTag = targetEvent.tags.find(t => t[0] === 'title');
 				targetTitle = titleTag?.[1] ?? 'a job';
 			} else if (targetEvent.kind === 1) {
@@ -179,22 +182,19 @@
 
 	function handleClick() {
 		const type = activityType();
-		const id = targetId();
 		
-		if (!id) return;
-		
-		// For ideas and jobs created
+		// For ideas and jobs created directly
 		if (type === 'idea') {
-			goto(`/ideas/${id}`);
+			goto(`/ideas/${event.id}`);
 		} else if (type === 'job') {
-			goto(`/jobs/${id}`);
+			goto(`/jobs/${event.id}`);
 		} 
-		// For likes and comments, navigate to target
+		// For likes and comments, navigate to root Idea/Job
 		else if (type === 'like' || type === 'comment') {
-			if (targetType === 'idea') {
-				goto(`/ideas/${id}`);
-			} else if (targetType === 'job') {
-				goto(`/jobs/${id}`);
+			if (rootEventId && targetType === 'idea') {
+				goto(`/ideas/${rootEventId}`);
+			} else if (rootEventId && targetType === 'job') {
+				goto(`/jobs/${rootEventId}`);
 			}
 		}
 	}

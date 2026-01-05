@@ -175,18 +175,9 @@
 	}
 
 	.filter-tabs {
-		position: sticky;
-		top: 60px; /* Below navbar */
-		z-index: 10;
 		display: flex;
 		gap: var(--space-2);
 		flex-wrap: wrap;
-		padding: var(--space-4) 0;
-		margin: 0 calc(-1 * var(--space-4));
-		padding-left: var(--space-4);
-		padding-right: var(--space-4);
-		background: rgba(10, 10, 15, 0.95);
-		backdrop-filter: blur(8px);
 	}
 
 	.filter-tab {
