@@ -32,7 +32,6 @@
 					{#if authService.isLoggedIn}
 						<a href="/feed" class="nav-link">Feed</a>
 					{/if}
-					<a href="/design" class="nav-link">Design</a>
 				</nav>
 				<div class="header-auth">
 					<ConnectionStatus />
