@@ -27,6 +27,15 @@
 	const comments = commentService.subscribeTopLevelComments(eventId);
 	const commentCount = commentService.subscribeCommentCount(eventId);
 
+	// Debug: log highlight
+	$effect(() => {
+		if (highlightCommentId) {
+			console.log('[CommentWidget] Highlight requested:', highlightCommentId);
+			console.log('[CommentWidget] Top-level comments loaded:', $comments.length);
+			console.log('[CommentWidget] Top-level IDs:', $comments.map(c => c.id));
+		}
+	});
+
 	// Cleanup subscription on destroy
 	onDestroy(() => {
 		commentService.unsubscribe(eventId);
