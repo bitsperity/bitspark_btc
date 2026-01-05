@@ -280,6 +280,27 @@ class CommentService {
             activeSubscriptions.delete(eventId);
         }
     }
+
+    /**
+     * Check if a comment ID exists in the reply subtree of a parent comment
+     * Uses the already-loaded comment cache
+     */
+    isCommentInSubtree(parentCommentId: string, targetCommentId: string): boolean {
+        const cache = get(commentsCache);
+        const replies = cache.get(parentCommentId) || [];
+
+        for (const reply of replies) {
+            if (reply.id === targetCommentId) {
+                return true;
+            }
+            // Recursively check nested replies
+            if (this.isCommentInSubtree(reply.id, targetCommentId)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
 
 export const commentService = new CommentService();

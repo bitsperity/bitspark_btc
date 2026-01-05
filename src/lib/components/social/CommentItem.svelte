@@ -47,19 +47,24 @@
 	const replies = commentService.subscribeReplies(comment.id);
 	const hasLoaded = commentService.hasLoadedReplies(comment.id);
 
-	// Auto-expand replies when looking for a highlighted comment
+	// Auto-expand replies ONLY if highlighted comment is in our subtree
 	$effect(() => {
 		if (highlightCommentId && !isHighlighted) {
-			// We're looking for a comment to highlight - load and expand replies
-			loadRepliesAndExpand();
+			// First load replies to check the subtree
+			checkAndExpandIfNeeded();
 		}
 	});
 
-	async function loadRepliesAndExpand() {
+	async function checkAndExpandIfNeeded() {
+		// Load replies first if needed
 		if (!get(hasLoaded)) {
 			await commentService.fetchReplies(comment.id);
 		}
-		showReplies = true;
+		
+		// Only expand if the highlighted comment is in our subtree
+		if (commentService.isCommentInSubtree(comment.id, highlightCommentId!)) {
+			showReplies = true;
+		}
 	}
 
 	// Fetch author profile
