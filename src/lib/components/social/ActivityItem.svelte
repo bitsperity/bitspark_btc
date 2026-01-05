@@ -33,6 +33,7 @@
 	let profile = $state<NDKUserProfile | null>(null);
 	let targetTitle = $state<string | null>(null);
 	let targetType = $state<'idea' | 'job' | null>(null);
+	let wasComment = $state(false); // Track if original target was a comment
 
 	// Load profile on mount
 	$effect(() => {
@@ -60,6 +61,11 @@
 			// Fetch the target event
 			let targetEvent = await ndk.fetchEvent(targetId);
 			if (!targetEvent) return;
+			
+			// Track if original target was a comment
+			if (targetEvent.kind === 1) {
+				wasComment = true;
+			}
 			
 			// If target is a comment (Kind 1), traverse up to find parent Idea/Job
 			let maxDepth = 5; // Prevent infinite loops
@@ -138,6 +144,9 @@
 		}
 		
 		if (type === 'like') {
+			if (wasComment && targetTitle) {
+				return `comment on "${targetTitle}"`;
+			}
 			return targetTitle ?? 'a post';
 		}
 		
