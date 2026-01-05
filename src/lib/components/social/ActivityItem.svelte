@@ -6,14 +6,22 @@
   - job: User created a job
   - comment: User commented on something
   - like: User liked something
+  
+  Features:
+  - Shows avatar + username
+  - Resolves target for likes/comments
+  - Click navigates to target
 -->
 <script lang="ts">
-	import { Row, Stack, Badge } from '$lib/components';
+	import { Row, Stack } from '$lib/components';
 	import { UserAvatar } from '$lib/components';
+	import { profileService } from '$lib/services';
+	import { ndk } from '$lib/nostr';
 	import { goto } from '$app/navigation';
 	import { Lightbulb, Briefcase, MessageCircle, Heart, ExternalLink } from 'lucide-svelte';
 	import type { NDKEvent } from '@nostr-dev-kit/ndk';
 	import { NOSTR_KINDS } from '$lib/nostr/config';
+	import type { NDKUserProfile } from '@nostr-dev-kit/ndk';
 
 	interface Props {
 		event: NDKEvent;
@@ -21,13 +29,63 @@
 
 	let { event }: Props = $props();
 
+	// Profile state
+	let profile = $state<NDKUserProfile | null>(null);
+	let targetTitle = $state<string | null>(null);
+	let targetType = $state<'idea' | 'job' | null>(null);
+
+	// Load profile on mount
+	$effect(() => {
+		loadProfile();
+		loadTarget();
+	});
+
+	async function loadProfile() {
+		profile = await profileService.getProfile(event.pubkey);
+	}
+
+	async function loadTarget() {
+		const type = activityType();
+		
+		// Only need to load target for likes and comments
+		if (type !== 'like' && type !== 'comment') return;
+		
+		// Get target event ID from e-tag
+		const eTag = event.tags.find(t => t[0] === 'e');
+		if (!eTag) return;
+		
+		const targetId = eTag[1];
+		
+		try {
+			// Fetch the target event
+			const targetEvent = await ndk.fetchEvent(targetId);
+			if (!targetEvent) return;
+			
+			// Determine type and extract title
+			if (targetEvent.kind === NOSTR_KINDS.IDEA) {
+				targetType = 'idea';
+				const titleTag = targetEvent.tags.find(t => t[0] === 'title');
+				targetTitle = titleTag?.[1] ?? 'an idea';
+			} else if (targetEvent.kind === NOSTR_KINDS.JOB) {
+				targetType = 'job';
+				const titleTag = targetEvent.tags.find(t => t[0] === 'title');
+				targetTitle = titleTag?.[1] ?? 'a job';
+			} else if (targetEvent.kind === 1) {
+				// Comment - try to get parent
+				targetTitle = 'a comment';
+			}
+		} catch (error) {
+			console.error('[ActivityItem] Failed to load target:', error);
+		}
+	}
+
 	// Derive activity type from event kind
 	const activityType = $derived(() => {
 		switch (event.kind) {
 			case NOSTR_KINDS.IDEA: return 'idea';
 			case NOSTR_KINDS.JOB: return 'job';
-			case 1: return 'comment'; // Kind 1 = Note/Comment
-			case 7: return 'like'; // Kind 7 = Reaction
+			case 1: return 'comment';
+			case 7: return 'like';
 			default: return 'unknown';
 		}
 	});
@@ -40,7 +98,7 @@
 			case 'job':
 				return { icon: Briefcase, label: 'posted a job', color: 'var(--primary)' };
 			case 'comment':
-				return { icon: MessageCircle, label: 'commented', color: 'var(--success)' };
+				return { icon: MessageCircle, label: 'commented on', color: 'var(--success)' };
 			case 'like':
 				return { icon: Heart, label: 'liked', color: 'var(--error)' };
 			default:
@@ -48,29 +106,32 @@
 		}
 	});
 
-	// Extract title/content preview
+	// Username
+	const username = $derived(profile?.name ?? profile?.displayName ?? 'Someone');
+
+	// Content preview
 	const contentPreview = $derived(() => {
 		const type = activityType();
 		
 		if (type === 'idea' || type === 'job') {
-			// Get title from tags
 			const titleTag = event.tags.find(t => t[0] === 'title');
 			return titleTag?.[1] ?? 'Untitled';
 		}
 		
 		if (type === 'comment') {
-			// Show content preview (first 100 chars)
-			return event.content?.slice(0, 100) + (event.content?.length > 100 ? '...' : '');
+			// Show comment text + target
+			const text = event.content?.slice(0, 80) + (event.content?.length > 80 ? '...' : '');
+			return targetTitle ? `"${text}"` : text;
 		}
 		
 		if (type === 'like') {
-			return 'a post'; // Could lazy-load target later
+			return targetTitle ?? 'a post';
 		}
 		
 		return '';
 	});
 
-	// Get target event ID (for navigation)
+	// Get target event ID for navigation
 	const targetId = $derived(() => {
 		const type = activityType();
 		
@@ -78,7 +139,6 @@
 			return event.id;
 		}
 		
-		// For comments and likes, get the e-tag (target event)
 		const eTag = event.tags.find(t => t[0] === 'e');
 		return eTag?.[1] ?? null;
 	});
@@ -101,30 +161,58 @@
 		
 		if (!id) return;
 		
+		// For ideas and jobs created
 		if (type === 'idea') {
 			goto(`/ideas/${id}`);
 		} else if (type === 'job') {
 			goto(`/jobs/${id}`);
+		} 
+		// For likes and comments, navigate to target
+		else if (type === 'like' || type === 'comment') {
+			if (targetType === 'idea') {
+				goto(`/ideas/${id}`);
+			} else if (targetType === 'job') {
+				goto(`/jobs/${id}`);
+			}
 		}
-		// Comments and likes could navigate to the target event
 	}
+
+	// Can navigate (has valid target)
+	const canNavigate = $derived(() => {
+		const type = activityType();
+		if (type === 'idea' || type === 'job') return true;
+		return targetType !== null;
+	});
 </script>
 
-<button class="activity-item" onclick={handleClick}>
+<button 
+	class="activity-item" 
+	class:clickable={canNavigate()}
+	onclick={handleClick}
+	disabled={!canNavigate()}
+>
 	<div class="activity-icon" style:color={activityMeta().color}>
 		<svelte:component this={activityMeta().icon} size={18} />
 	</div>
 	
 	<div class="activity-content">
-		<Row gap={2} class="activity-header">
-			<UserAvatar pubkey={event.pubkey} size="sm" clickable={false} />
+		<div class="activity-header">
+			<UserAvatar pubkey={event.pubkey} size="xs" clickable={false} />
+			<span class="username">{username}</span>
 			<span class="activity-action">{activityMeta().label}</span>
 			<span class="activity-time">{formatTime(event.created_at ?? 0)}</span>
-		</Row>
+		</div>
 		
-		{#if contentPreview()}
-			<p class="activity-preview">{contentPreview()}</p>
-		{/if}
+		<p class="activity-preview">
+			{#if activityType() === 'like' || activityType() === 'comment'}
+				{#if targetType === 'idea'}
+					<Lightbulb size={12} class="inline-icon" />
+				{:else if targetType === 'job'}
+					<Briefcase size={12} class="inline-icon" />
+				{/if}
+			{/if}
+			{contentPreview()}
+		</p>
 	</div>
 </button>
 
@@ -137,16 +225,24 @@
 		background: var(--bg-glass);
 		border: 1px solid rgba(255, 255, 255, 0.05);
 		border-radius: var(--radius-lg);
-		cursor: pointer;
 		text-align: left;
 		width: 100%;
 		transition: all var(--duration-fast) var(--ease-out);
 	}
 
-	.activity-item:hover {
+	.activity-item.clickable {
+		cursor: pointer;
+	}
+
+	.activity-item.clickable:hover {
 		background: var(--bg-elevated);
 		border-color: rgba(255, 255, 255, 0.1);
 		transform: translateY(-1px);
+	}
+
+	.activity-item:disabled {
+		cursor: default;
+		opacity: 0.8;
 	}
 
 	.activity-icon {
@@ -161,8 +257,17 @@
 		min-width: 0;
 	}
 
-	:global(.activity-header) {
+	.activity-header {
+		display: flex;
+		align-items: center;
+		gap: var(--space-2);
 		flex-wrap: wrap;
+	}
+
+	.username {
+		font-weight: 600;
+		color: var(--text-primary);
+		font-size: 0.875rem;
 	}
 
 	.activity-action {
@@ -181,8 +286,13 @@
 		font-size: 0.875rem;
 		color: var(--text-primary);
 		line-height: 1.4;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		white-space: nowrap;
+		display: flex;
+		align-items: center;
+		gap: var(--space-1);
+	}
+
+	:global(.inline-icon) {
+		flex-shrink: 0;
+		opacity: 0.7;
 	}
 </style>
