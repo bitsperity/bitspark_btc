@@ -58,10 +58,23 @@
 		
 		try {
 			// Fetch the target event
-			const targetEvent = await ndk.fetchEvent(targetId);
+			let targetEvent = await ndk.fetchEvent(targetId);
 			if (!targetEvent) return;
 			
-			// Determine type and extract title
+			// If target is a comment (Kind 1), traverse up to find parent Idea/Job
+			let maxDepth = 5; // Prevent infinite loops
+			while (targetEvent.kind === 1 && maxDepth > 0) {
+				const parentTag = targetEvent.tags.find(t => t[0] === 'e');
+				if (!parentTag) break;
+				
+				const parentEvent = await ndk.fetchEvent(parentTag[1]);
+				if (!parentEvent) break;
+				
+				targetEvent = parentEvent;
+				maxDepth--;
+			}
+			
+			// Now we should have the root Idea/Job
 			if (targetEvent.kind === NOSTR_KINDS.IDEA) {
 				targetType = 'idea';
 				const titleTag = targetEvent.tags.find(t => t[0] === 'title');
@@ -71,8 +84,8 @@
 				const titleTag = targetEvent.tags.find(t => t[0] === 'title');
 				targetTitle = titleTag?.[1] ?? 'a job';
 			} else if (targetEvent.kind === 1) {
-				// Comment - try to get parent
-				targetTitle = 'a comment';
+				// Still a comment (couldn't find parent)
+				targetTitle = `"${targetEvent.content?.slice(0, 40)}..."`;
 			}
 		} catch (error) {
 			console.error('[ActivityItem] Failed to load target:', error);
