@@ -36,9 +36,13 @@
 		}
 	});
 
-	onMount(() => {
+	// Start/stop feed based on auth state
+	$effect(() => {
 		if (authService.isLoggedIn) {
+			console.log('[Feed] User logged in, starting activity feed...');
 			startActivityFeed();
+		} else {
+			stopActivityFeed();
 		}
 	});
 
