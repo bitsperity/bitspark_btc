@@ -29,8 +29,11 @@
 	let isLoading = $state(true);
 
 	onMount(() => {
+		console.log('[Feed] Mounted, checking following list...');
+		
 		// Subscribe to following changes
 		const unsub = following.subscribe(followList => {
+			console.log('[Feed] Following list updated:', followList.length, 'follows');
 			if (followList.length > 0) {
 				loadFeed(followList);
 			} else {
@@ -43,6 +46,7 @@
 
 	async function loadFeed(authors: string[]) {
 		isLoading = true;
+		console.log('[Feed] Loading content from:', authors.length, 'authors');
 
 		// Fetch Ideas from followed users
 		const ideasFilter: NDKFilter = {
@@ -55,6 +59,7 @@
 		const ideasEvents = await ndk.fetchEvents(ideasFilter);
 		const ideas = Array.from(ideasEvents).map((e: any) => ideaService.parseIdeaEvent(e));
 		feedIdeas.set(ideas);
+		console.log('[Feed] Loaded', ideas.length, 'ideas');
 
 		// Fetch Jobs from followed users
 		const jobsFilter: NDKFilter = {
@@ -67,6 +72,7 @@
 		const jobsEvents = await ndk.fetchEvents(jobsFilter);
 		const jobs = Array.from(jobsEvents).map((e: any) => jobService.parseJobEvent(e));
 		feedJobs.set(jobs);
+		console.log('[Feed] Loaded', jobs.length, 'jobs');
 
 		isLoading = false;
 	}
