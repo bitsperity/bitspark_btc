@@ -283,9 +283,14 @@ class CommentService {
 
     /**
      * Check if a comment ID exists in the reply subtree of a parent comment
-     * Uses the already-loaded comment cache
+     * Fetches replies if not already loaded to ensure complete tree traversal
      */
-    isCommentInSubtree(parentCommentId: string, targetCommentId: string): boolean {
+    async isCommentInSubtree(parentCommentId: string, targetCommentId: string, maxDepth = 5): Promise<boolean> {
+        if (maxDepth <= 0) return false;
+        
+        // Ensure replies are loaded
+        await this.fetchReplies(parentCommentId);
+        
         const cache = get(commentsCache);
         const replies = cache.get(parentCommentId) || [];
 
@@ -294,7 +299,7 @@ class CommentService {
                 return true;
             }
             // Recursively check nested replies
-            if (this.isCommentInSubtree(reply.id, targetCommentId)) {
+            if (await this.isCommentInSubtree(reply.id, targetCommentId, maxDepth - 1)) {
                 return true;
             }
         }

@@ -56,13 +56,9 @@
 	});
 
 	async function checkAndExpandIfNeeded() {
-		// Load replies first if needed
-		if (!get(hasLoaded)) {
-			await commentService.fetchReplies(comment.id);
-		}
-		
-		// Only expand if the highlighted comment is in our subtree
-		if (commentService.isCommentInSubtree(comment.id, highlightCommentId!)) {
+		// Check if the highlighted comment is in our subtree (this also loads replies)
+		const isInSubtree = await commentService.isCommentInSubtree(comment.id, highlightCommentId!);
+		if (isInSubtree) {
 			showReplies = true;
 		}
 	}
