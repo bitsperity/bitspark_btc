@@ -4,6 +4,7 @@
  * Unified subscription for activity from followed users.
  * - Time-windowed (7 days)
  * - Limited (100 events initial)
+ * - Live updates via subscription
  * - Supports load more
  */
 
@@ -17,6 +18,7 @@ import type { NDKEvent, NDKFilter } from '@nostr-dev-kit/ndk';
 const INITIAL_LIMIT = 50;
 const LOAD_MORE_LIMIT = 30;
 const TIME_WINDOW_DAYS = 7;
+const MAX_ACTIVITIES = 200;
 
 // Activity types
 export type ActivityType = 'idea' | 'job' | 'comment' | 'like' | 'unknown';
@@ -32,7 +34,8 @@ const activities = writable<Activity[]>([]);
 const isLoading = writable(false);
 const hasMore = writable(true);
 let oldestTimestamp: number | null = null;
-let subscription: any = null;
+let liveSubscription: any = null;
+let followingUnsubscribe: (() => void) | null = null;
 
 /**
  * Get activity type from event kind
@@ -59,18 +62,69 @@ function parseActivity(event: NDKEvent): Activity {
 }
 
 /**
- * Start or refresh the activity subscription
+ * Add activity to store (with dedup and limit)
  */
-export async function loadActivities(): Promise<void> {
-    const following = get(socialService.subscribeFollowing());
+function addActivity(activity: Activity): void {
+    activities.update(existing => {
+        // Check if already exists
+        if (existing.find(a => a.event.id === activity.event.id)) {
+            return existing;
+        }
 
-    console.log('[ActivityFeed] Loading activities for', following.length, 'follows');
+        // Add and sort
+        const updated = [activity, ...existing];
+        updated.sort((a, b) => b.createdAt - a.createdAt);
 
-    if (following.length === 0) {
-        activities.set([]);
-        isLoading.set(false);
-        return;
+        // Limit max size
+        if (updated.length > MAX_ACTIVITIES) {
+            return updated.slice(0, MAX_ACTIVITIES);
+        }
+
+        return updated;
+    });
+}
+
+/**
+ * Start live subscription and load initial data
+ */
+export function startActivityFeed(): void {
+    console.log('[ActivityFeed] Starting...');
+
+    // Watch for following list changes
+    if (followingUnsubscribe) {
+        followingUnsubscribe();
     }
+
+    const followingStore = socialService.subscribeFollowing();
+    followingUnsubscribe = followingStore.subscribe(following => {
+        console.log('[ActivityFeed] Following list updated:', following.length);
+
+        if (following.length > 0) {
+            loadActivities(following);
+            startLiveSubscription(following);
+        } else {
+            activities.set([]);
+            stopLiveSubscription();
+        }
+    });
+}
+
+/**
+ * Stop the feed
+ */
+export function stopActivityFeed(): void {
+    if (followingUnsubscribe) {
+        followingUnsubscribe();
+        followingUnsubscribe = null;
+    }
+    stopLiveSubscription();
+}
+
+/**
+ * Load initial activities
+ */
+async function loadActivities(following: string[]): Promise<void> {
+    if (get(isLoading)) return;
 
     isLoading.set(true);
 
@@ -92,7 +146,6 @@ export async function loadActivities(): Promise<void> {
 
         activities.set(parsed);
 
-        // Track oldest for pagination
         if (parsed.length > 0) {
             oldestTimestamp = parsed[parsed.length - 1].createdAt;
         }
@@ -104,6 +157,41 @@ export async function loadActivities(): Promise<void> {
         console.error('[ActivityFeed] Failed to load:', error);
     } finally {
         isLoading.set(false);
+    }
+}
+
+/**
+ * Start live subscription for new events
+ */
+function startLiveSubscription(following: string[]): void {
+    stopLiveSubscription();
+
+    const filter: NDKFilter = {
+        kinds: [1, 7, NOSTR_KINDS.IDEA as number, NOSTR_KINDS.JOB as number],
+        authors: following,
+        since: Math.floor(Date.now() / 1000) // Only new events from now
+    };
+
+    console.log('[ActivityFeed] Starting live subscription...');
+
+    liveSubscription = ndk.subscribe(filter, { closeOnEose: false });
+
+    liveSubscription.on('event', (event: NDKEvent) => {
+        const activity = parseActivity(event);
+        if (activity.type !== 'unknown') {
+            console.log('[ActivityFeed] New activity:', activity.type);
+            addActivity(activity);
+        }
+    });
+}
+
+/**
+ * Stop live subscription
+ */
+function stopLiveSubscription(): void {
+    if (liveSubscription) {
+        liveSubscription.stop();
+        liveSubscription = null;
     }
 }
 
@@ -132,10 +220,8 @@ export async function loadMore(): Promise<void> {
             .filter(a => a.type !== 'unknown')
             .sort((a, b) => b.createdAt - a.createdAt);
 
-        // Append to existing
         activities.update(existing => {
             const combined = [...existing, ...parsed];
-            // Dedupe by event ID
             const unique = Array.from(new Map(combined.map(a => [a.event.id, a])).values());
             return unique.sort((a, b) => b.createdAt - a.createdAt);
         });
@@ -162,10 +248,7 @@ export function reset(): void {
     isLoading.set(false);
     hasMore.set(true);
     oldestTimestamp = null;
-    if (subscription) {
-        subscription.stop();
-        subscription = null;
-    }
+    stopActivityFeed();
 }
 
 // Filtered stores

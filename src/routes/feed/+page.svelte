@@ -15,10 +15,11 @@
 		likeActivities,
 		activityFeedLoading,
 		activityFeedHasMore,
-		loadActivities,
+		startActivityFeed,
+		stopActivityFeed,
 		loadMore
 	} from '$lib/stores/activityFeed';
-	import { onMount } from 'svelte';
+	import { onMount, onDestroy } from 'svelte';
 	import { Users, Lightbulb, Briefcase, MessageCircle, Heart, Rss, Loader } from 'lucide-svelte';
 
 	// Filter state
@@ -37,8 +38,12 @@
 
 	onMount(() => {
 		if (authService.isLoggedIn) {
-			loadActivities();
+			startActivityFeed();
 		}
+	});
+
+	onDestroy(() => {
+		stopActivityFeed();
 	});
 </script>
 
