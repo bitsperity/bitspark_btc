@@ -134,7 +134,8 @@
 		position: relative;
 	}
 
-	:global(.list-card:hover) .delete-btn {
+	/* Hover on the link wrapper - not the card */
+	.list-card-link:hover .delete-btn {
 		opacity: 1;
 	}
 
