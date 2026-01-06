@@ -7,7 +7,7 @@
 <script lang="ts">
 	import { authService } from '$lib/services';
 	import { Avatar, Skeleton } from '$lib/components';
-	import { User, Settings, LogOut, ChevronDown, Edit, Lightbulb, Briefcase, Send, FileCheck } from 'lucide-svelte';
+	import { User, Settings, LogOut, ChevronDown, Edit, Lightbulb, Briefcase, Send, FileCheck, FolderOpen } from 'lucide-svelte';
 
 	let menuOpen = $state(false);
 
@@ -92,6 +92,10 @@
 				<a href="/dashboard/contracts" class="menu-item" onclick={closeMenu}>
 					<FileCheck size={16} />
 					<span>My Contracts</span>
+				</a>
+				<a href="/lists" class="menu-item" onclick={closeMenu}>
+					<FolderOpen size={16} />
+					<span>My Lists</span>
 				</a>
 				<a href="/settings" class="menu-item" onclick={closeMenu}>
 					<Settings size={16} />

@@ -16,3 +16,4 @@ export { relayService, type RelayInfo } from './relays';
 export { socialService } from './social';
 export { commentService } from './comments';
 export { bookmarkService } from './bookmarks';
+export { listService, type List, type ListItem } from './lists';

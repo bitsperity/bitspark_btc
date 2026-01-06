@@ -13,6 +13,7 @@ import { ndk, reconnect } from '$lib/nostr';
 import { giftWrapService } from './giftwrap';
 import { socialService } from './social';
 import { bookmarkService } from './bookmarks';
+import { listService } from './lists';
 
 // Profile fetch timeout (5 seconds)
 const PROFILE_TIMEOUT = 5000;
@@ -94,6 +95,9 @@ class AuthService {
 
             // Initialize bookmarks
             bookmarkService.init();
+
+            // Initialize lists
+            listService.init();
 
             return user;
         } catch (error) {
