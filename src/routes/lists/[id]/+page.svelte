@@ -330,28 +330,12 @@
 </Modal>
 
 <style>
-	.page {
-		padding: var(--space-8) 0;
-		min-height: 100vh;
-	}
-
+	/* Page-specific styles only - utilities from pages.css */
+	
 	.header {
 		display: flex;
 		flex-direction: column;
 		gap: var(--space-4);
-	}
-
-	.back-link {
-		display: inline-flex;
-		align-items: center;
-		gap: var(--space-2);
-		color: var(--text-muted);
-		text-decoration: none;
-		font-size: 0.875rem;
-	}
-
-	.back-link:hover {
-		color: var(--text-primary);
 	}
 
 	:global(.title-row) {
@@ -390,34 +374,10 @@
 		color: var(--text-secondary);
 	}
 
-	.section-title {
-		font-size: 1.125rem;
-		font-weight: 600;
-		color: var(--text-primary);
-		margin: 0;
-	}
-
-	.content-grid {
-		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-		gap: var(--space-4);
-	}
-
 	.comments-list {
 		display: flex;
 		flex-direction: column;
 		gap: var(--space-3);
-	}
-
-	.empty-state {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		gap: var(--space-4);
-		padding: var(--space-16);
-		color: var(--text-muted);
-		text-align: center;
 	}
 
 	.empty-state h3 {
@@ -425,43 +385,7 @@
 		margin: 0;
 	}
 
-	.loading {
-		text-align: center;
-		padding: var(--space-8);
-		color: var(--text-muted);
-	}
-
-	.form-group {
-		display: flex;
-		flex-direction: column;
-		gap: var(--space-2);
-	}
-
-	.form-group label {
-		font-size: 0.875rem;
-		font-weight: 500;
-		color: var(--text-secondary);
-	}
-
-	.input {
-		padding: var(--space-3);
-		background: var(--bg-input);
-		border: 1px solid var(--border-subtle);
-		border-radius: var(--radius-md);
-		color: var(--text-primary);
-		font-size: 0.875rem;
-	}
-
-	.input:focus {
-		outline: none;
-		border-color: var(--primary);
-	}
-
-	.textarea {
-		resize: vertical;
-		min-height: 80px;
-	}
-
+	/* Item wrapper with hover reveal */
 	.list-item-wrapper {
 		position: relative;
 	}
@@ -474,31 +398,6 @@
 		position: absolute;
 		top: var(--space-2);
 		right: var(--space-2);
-		width: 28px;
-		height: 28px;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		background: rgba(0, 0, 0, 0.5);
-		backdrop-filter: blur(8px);
-		border: 1px solid rgba(255, 255, 255, 0.1);
-		border-radius: var(--radius-md);
-		color: var(--text-muted);
-		cursor: pointer;
-		opacity: 0;
-		transition: all var(--duration-fast) var(--ease-out);
-		z-index: 10;
-	}
-
-	.remove-btn:hover {
-		background: rgba(220, 38, 38, 0.8);
-		border-color: rgba(220, 38, 38, 0.5);
-		color: white;
-		transform: scale(1.1);
-	}
-
-	.comment-wrapper {
-		position: relative;
 	}
 
 	.comment-wrapper .remove-btn {

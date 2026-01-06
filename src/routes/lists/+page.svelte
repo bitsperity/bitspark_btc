@@ -143,41 +143,12 @@
 </Modal>
 
 <style>
-	.page {
-		padding: var(--space-8) 0;
-		min-height: 100vh;
-	}
-
-	:global(.header) {
-		margin-bottom: var(--space-4);
-	}
-
-	:global(.header-icon) {
-		color: var(--primary);
-	}
-
+	/* Page-specific styles only - utilities from pages.css */
 	.page-title {
 		font-size: 1.75rem;
 		font-weight: 700;
 		color: var(--text-primary);
 		margin: 0;
-	}
-
-	.lists-grid {
-		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-		gap: var(--space-4);
-	}
-
-	.empty-state {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		gap: var(--space-4);
-		padding: var(--space-16);
-		color: var(--text-muted);
-		text-align: center;
 	}
 
 	.empty-state h3 {
@@ -188,42 +159,5 @@
 	.empty-state p {
 		max-width: 400px;
 		margin: 0;
-	}
-
-	.loading {
-		text-align: center;
-		padding: var(--space-8);
-		color: var(--text-muted);
-	}
-
-	.form-group {
-		display: flex;
-		flex-direction: column;
-		gap: var(--space-2);
-	}
-
-	.form-group label {
-		font-size: 0.875rem;
-		font-weight: 500;
-		color: var(--text-secondary);
-	}
-
-	.input {
-		padding: var(--space-3);
-		background: var(--bg-input);
-		border: 1px solid var(--border-subtle);
-		border-radius: var(--radius-md);
-		color: var(--text-primary);
-		font-size: 0.875rem;
-	}
-
-	.input:focus {
-		outline: none;
-		border-color: var(--primary);
-	}
-
-	.textarea {
-		resize: vertical;
-		min-height: 80px;
 	}
 </style>
