@@ -189,6 +189,9 @@ class ListService {
         // Generate unique d-tag
         const dTag = `list-${Date.now()}`;
 
+        // Mark as pending BEFORE publish (subscription might receive before optimistic update)
+        pendingOptimisticIds.add(dTag);
+
         const event = createEvent();
         event.kind = KIND_BOOKMARK_SET;
         event.content = '';
@@ -212,9 +215,6 @@ class ListService {
             items: [],
             createdAt: Math.floor(Date.now() / 1000)
         };
-
-        // Mark as pending optimistic (subscription will skip this ID)
-        pendingOptimisticIds.add(dTag);
 
         // Optimistic update
         const current = get(listsCache);
