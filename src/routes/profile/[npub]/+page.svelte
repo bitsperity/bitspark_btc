@@ -12,6 +12,7 @@
 	import { IdeaCard } from '$lib/components/ideas';
 	import { JobCard } from '$lib/components/jobs';
 	import { ContractCard } from '$lib/components/contracts';
+	import { BookmarkedCommentCard } from '$lib/components/social';
 	import { ndk } from '$lib/nostr';
 	import { NOSTR_KINDS } from '$lib/nostr/config';
 	import { ideaService, jobService, contractService, bookmarkService, authService } from '$lib/services';
@@ -146,12 +147,20 @@
 			
 			if (commentIds.length > 0) {
 				const events = await ndk.fetchEvents({ ids: commentIds });
-				bookmarkedComments = Array.from(events).map(e => ({
-					id: e.id,
-					content: e.content,
-					pubkey: e.pubkey,
-					createdAt: e.created_at ?? 0
-				}));
+				bookmarkedComments = Array.from(events).map(e => {
+					// Extract root event ID from e-tags
+					const rootTag = e.tags.find(t => t[0] === 'e' && t[3] === 'root');
+					const firstETag = e.tags.find(t => t[0] === 'e');
+					const rootEventId = rootTag?.[1] ?? firstETag?.[1];
+					
+					return {
+						id: e.id,
+						content: e.content,
+						pubkey: e.pubkey,
+						createdAt: e.created_at ?? 0,
+						rootEventId
+					};
+				});
 			} else {
 				bookmarkedComments = [];
 			}
@@ -285,9 +294,7 @@
 							<h3 class="section-title">Comments</h3>
 							<div class="comment-list">
 								{#each bookmarkedComments as comment (comment.id)}
-									<div class="bookmarked-comment">
-										<p>{comment.content.slice(0, 100)}{comment.content.length > 100 ? '...' : ''}</p>
-									</div>
+									<BookmarkedCommentCard {comment} />
 								{/each}
 							</div>
 						{/if}
@@ -372,19 +379,5 @@
 		display: flex;
 		flex-direction: column;
 		gap: var(--space-3);
-	}
-
-	.bookmarked-comment {
-		padding: var(--space-4);
-		background: var(--bg-glass);
-		border-radius: var(--radius-md);
-		border: 1px solid var(--border-subtle);
-	}
-
-	.bookmarked-comment p {
-		margin: 0;
-		color: var(--text-secondary);
-		font-size: 0.875rem;
-		line-height: 1.5;
 	}
 </style>
