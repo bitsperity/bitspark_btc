@@ -71,7 +71,10 @@ class ListService {
             };
 
             const events = await ndk.fetchEvents(filter);
-            const lists = Array.from(events).map(e => this.parseListEvent(e));
+            const allLists = Array.from(events).map(e => this.parseListEvent(e));
+
+            // Filter out invalid lists (no title or d-tag)
+            const lists = allLists.filter(l => l.title !== 'Untitled List' && l.id);
 
             // Only cache if loading own lists
             const user = ndk.activeUser;
