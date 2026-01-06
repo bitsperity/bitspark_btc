@@ -36,6 +36,9 @@ export interface List {
 const listsCache = writable<List[]>([]);
 const isLoading = writable(false);
 
+// Track IDs added via optimistic update to avoid duplicate from subscription
+const pendingOptimisticIds = new Set<string>();
+
 // Active subscription
 let subscription: any = null;
 
@@ -109,35 +112,30 @@ class ListService {
             if (event.tags.some(t => t[0] === 'deleted')) {
                 const current = get(listsCache);
                 listsCache.set(current.filter(l => l.id !== newList.id));
+                pendingOptimisticIds.delete(newList.id);
                 return;
             }
 
-            // Get fresh reference to avoid race conditions
-            const current = get(listsCache);
+            // Skip if this ID was added via optimistic update (avoid duplicate)
+            if (pendingOptimisticIds.has(newList.id)) {
+                pendingOptimisticIds.delete(newList.id);
+                console.log('[Lists] Skipped optimistic duplicate:', newList.title);
+                return;
+            }
 
-            // Check if list already exists by d-tag (not event id)
+            const current = get(listsCache);
             const existingIndex = current.findIndex(l => l.id === newList.id);
 
             if (existingIndex >= 0) {
-                // Only update if newer or same time (for item updates)
                 if (newList.createdAt >= current[existingIndex].createdAt) {
                     const updated = [...current];
                     updated[existingIndex] = newList;
                     listsCache.set(updated);
-                    console.log('[Lists] Updated existing list via subscription:', newList.title);
+                    console.log('[Lists] Updated via subscription:', newList.title);
                 }
             } else {
-                // Double-check: re-get cache to avoid race condition with optimistic update
-                const recheckCurrent = get(listsCache);
-                const recheckIndex = recheckCurrent.findIndex(l => l.id === newList.id);
-
-                if (recheckIndex < 0) {
-                    // New list - add to cache
-                    listsCache.set([...recheckCurrent, newList]);
-                    console.log('[Lists] Added new list via subscription:', newList.title);
-                } else {
-                    console.log('[Lists] Skipped duplicate via subscription:', newList.title);
-                }
+                listsCache.set([...current, newList]);
+                console.log('[Lists] Added via subscription:', newList.title);
             }
         });
     }
@@ -214,6 +212,9 @@ class ListService {
             items: [],
             createdAt: Math.floor(Date.now() / 1000)
         };
+
+        // Mark as pending optimistic (subscription will skip this ID)
+        pendingOptimisticIds.add(dTag);
 
         // Optimistic update
         const current = get(listsCache);
