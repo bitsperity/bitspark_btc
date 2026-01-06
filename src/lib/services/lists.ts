@@ -64,36 +64,20 @@ class ListService {
         isLoading.set(true);
 
         try {
-            // Fetch list events
-            const listFilter: NDKFilter = {
+            const filter: NDKFilter = {
                 kinds: [KIND_BOOKMARK_SET],
                 authors: [pubkey],
                 '#s': ['bitspark']
             };
-            const events = await ndk.fetchEvents(listFilter);
-            const allLists = Array.from(events).map(e => this.parseListEvent(e));
+            const events = await ndk.fetchEvents(filter);
 
-            // Fetch Kind 5 delete events to filter out deleted lists
-            const deleteFilter: NDKFilter = {
-                kinds: [5],
-                authors: [pubkey]
-            };
-            const deleteEvents = await ndk.fetchEvents(deleteFilter);
-            const deletedEventIds = new Set<string>();
-            for (const delEvent of deleteEvents) {
-                for (const tag of delEvent.tags) {
-                    if (tag[0] === 'e') {
-                        deletedEventIds.add(tag[1]);
-                    }
-                }
-            }
+            // parseListEvent returns null for deleted lists
+            const allLists = Array.from(events)
+                .map(e => this.parseListEvent(e))
+                .filter((l): l is List => l !== null);
 
-            // Filter out invalid lists and deleted lists
-            const lists = allLists.filter(l =>
-                l.title !== 'Untitled List' &&
-                l.id &&
-                !deletedEventIds.has(l.eventId)
-            );
+            // Filter out invalid lists (no title or d-tag)
+            const lists = allLists.filter(l => l.title !== 'Untitled List' && l.id);
 
             // Only cache if loading own lists
             const user = ndk.activeUser;
@@ -101,7 +85,7 @@ class ListService {
                 listsCache.set(lists);
             }
 
-            console.log('[Lists] Loaded', lists.length, 'lists (filtered', deletedEventIds.size, 'deleted)');
+            console.log('[Lists] Loaded', lists.length, 'lists');
             return lists;
         } catch (error) {
             console.error('[Lists] Failed to load:', error);
@@ -169,9 +153,14 @@ class ListService {
     }
 
     /**
-     * Parse list event into List object
+     * Parse list event into List object (returns null if deleted)
      */
-    private parseListEvent(event: NDKEvent): List {
+    private parseListEvent(event: NDKEvent): List | null {
+        // Check if this list was deleted
+        if (event.tags.some(t => t[0] === 'deleted')) {
+            return null;
+        }
+
         const items: ListItem[] = [];
         let title = 'Untitled List';
         let description: string | undefined;
@@ -253,30 +242,29 @@ class ListService {
     }
 
     /**
-     * Delete a list using NIP-09 (Kind 5)
+     * Delete a list by publishing replacement with deleted tag
      */
     async deleteList(listId: string): Promise<void> {
         const user = ndk.activeUser;
         if (!user) throw new Error('Not logged in');
 
-        // Find the list to get its eventId
-        const list = get(listsCache).find(l => l.id === listId);
-        if (!list?.eventId) {
-            console.error('[Lists] Cannot delete - list not found or no eventId');
-            return;
-        }
+        // Publish replacement event with deleted tag
+        const event = createEvent();
+        event.kind = KIND_BOOKMARK_SET;
+        event.content = '';
+        event.tags = [
+            APP_TAG,
+            ['d', listId],
+            ['deleted', 'true']
+        ];
 
-        // Publish Kind 5 delete event (NIP-09)
-        const deleteEvent = createEvent();
-        deleteEvent.kind = 5;
-        deleteEvent.tags = [['e', list.eventId]];
-        await deleteEvent.publish();
+        await event.publish();
 
         // Optimistic update
         const current = get(listsCache);
         listsCache.set(current.filter(l => l.id !== listId));
 
-        console.log('[Lists] Deleted list via Kind 5:', listId);
+        console.log('[Lists] Deleted list (replacement method):', listId);
     }
 
     /**
