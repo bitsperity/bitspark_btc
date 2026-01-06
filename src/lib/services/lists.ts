@@ -112,6 +112,7 @@ class ListService {
                 return;
             }
 
+            // Get fresh reference to avoid race conditions
             const current = get(listsCache);
 
             // Check if list already exists by d-tag (not event id)
@@ -123,12 +124,21 @@ class ListService {
                     const updated = [...current];
                     updated[existingIndex] = newList;
                     listsCache.set(updated);
+                    console.log('[Lists] Updated existing list via subscription:', newList.title);
                 }
             } else {
-                // New list - add to cache
-                listsCache.set([...current, newList]);
+                // Double-check: re-get cache to avoid race condition with optimistic update
+                const recheckCurrent = get(listsCache);
+                const recheckIndex = recheckCurrent.findIndex(l => l.id === newList.id);
+
+                if (recheckIndex < 0) {
+                    // New list - add to cache
+                    listsCache.set([...recheckCurrent, newList]);
+                    console.log('[Lists] Added new list via subscription:', newList.title);
+                } else {
+                    console.log('[Lists] Skipped duplicate via subscription:', newList.title);
+                }
             }
-            console.log('[Lists] Updated via subscription:', newList.title);
         });
     }
 
