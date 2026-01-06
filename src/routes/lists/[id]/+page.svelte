@@ -198,9 +198,9 @@
 									<Edit size={14} />
 									Edit
 								</Button>
-							<Button variant="ghost" size="sm" onclick={() => { console.log('[ListDetail] Delete button clicked, showDeleteModal before:', showDeleteModal); showDeleteModal = true; console.log('[ListDetail] showDeleteModal after:', showDeleteModal); }}>
+							<button class="icon-btn" onclick={() => { console.log('[ListDetail] Delete clicked'); showDeleteModal = true; }} title="Delete list">
 								<Trash2 size={14} />
-							</Button>
+							</button>
 							</Row>
 						{/if}
 					</Row>
@@ -402,5 +402,23 @@
 
 	.comment-wrapper .remove-btn {
 		top: var(--space-3);
+	}
+
+	.icon-btn {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: var(--space-2);
+		background: transparent;
+		border: none;
+		border-radius: var(--radius-md);
+		color: var(--text-muted);
+		cursor: pointer;
+		transition: all var(--duration-fast) var(--ease-out);
+	}
+
+	.icon-btn:hover {
+		background: rgba(255, 255, 255, 0.1);
+		color: var(--text-primary);
 	}
 </style>
