@@ -23,6 +23,12 @@
 	let newListDescription = $state('');
 	let isCreating = $state(false);
 
+	// Delete confirmation modal
+	let showDeleteModal = $state(false);
+	let deleteTargetId = $state<string | null>(null);
+	let deleteTargetTitle = $state<string>('');
+	let isDeleting = $state(false);
+
 	async function handleCreateList() {
 		if (!newListTitle.trim()) return;
 		
@@ -47,13 +53,24 @@
 		showCreateModal = true;
 	}
 
-	async function handleDeleteList(listId: string) {
-		console.log('[Lists Page] handleDeleteList called with:', listId);
+	function openDeleteModal(listId: string) {
+		const list = $lists.find(l => l.id === listId);
+		deleteTargetId = listId;
+		deleteTargetTitle = list?.title ?? 'this list';
+		showDeleteModal = true;
+	}
+
+	async function handleConfirmDelete() {
+		if (!deleteTargetId) return;
+		isDeleting = true;
 		try {
-			await listService.deleteList(listId);
-			console.log('[Lists Page] Delete successful');
+			await listService.deleteList(deleteTargetId);
+			showDeleteModal = false;
+			deleteTargetId = null;
 		} catch (error) {
 			console.error('[Lists] Failed to delete list:', error);
+		} finally {
+			isDeleting = false;
 		}
 	}
 </script>
@@ -102,7 +119,7 @@
 			{:else}
 				<div class="lists-grid">
 					{#each $lists as list (list.id)}
-						<ListCard {list} ondelete={handleDeleteList} />
+						<ListCard {list} ondelete={openDeleteModal} />
 					{/each}
 				</div>
 			{/if}
@@ -137,6 +154,21 @@
 			<Button variant="ghost" onclick={() => showCreateModal = false}>Cancel</Button>
 			<Button onclick={handleCreateList} disabled={!newListTitle.trim() || isCreating}>
 				{isCreating ? 'Creating...' : 'Create List'}
+			</Button>
+		</Row>
+	</Stack>
+</Modal>
+
+<!-- Delete Confirmation Modal -->
+<Modal bind:open={showDeleteModal} title="Delete List">
+	<Stack gap={4}>
+		<p style="color: var(--text-secondary);">
+			Are you sure you want to delete <strong>"{deleteTargetTitle}"</strong>? This cannot be undone.
+		</p>
+		<Row gap={3} justify="end">
+			<Button variant="ghost" onclick={() => showDeleteModal = false}>Cancel</Button>
+			<Button onclick={handleConfirmDelete} disabled={isDeleting}>
+				{isDeleting ? 'Deleting...' : 'Delete'}
 			</Button>
 		</Row>
 	</Stack>
