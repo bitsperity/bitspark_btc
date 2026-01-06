@@ -48,12 +48,17 @@
 	}
 
 	async function handleDeleteList(listId: string) {
+		console.log('[Lists Page] handleDeleteList called with:', listId);
 		if (confirm('Are you sure you want to delete this list?')) {
+			console.log('[Lists Page] User confirmed deletion');
 			try {
 				await listService.deleteList(listId);
+				console.log('[Lists Page] Delete successful');
 			} catch (error) {
 				console.error('[Lists] Failed to delete list:', error);
 			}
+		} else {
+			console.log('[Lists Page] User cancelled deletion');
 		}
 	}
 </script>
