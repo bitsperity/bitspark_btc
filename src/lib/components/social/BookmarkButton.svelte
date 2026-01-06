@@ -165,7 +165,7 @@
 
 			<!-- New List -->
 			{#if showNewListInput}
-				<form class="new-list-form" onsubmit={handleCreateList} onclick={(e) => e.preventDefault()}>
+				<form class="new-list-form" onsubmit={handleCreateList} onclick={(e) => e.stopPropagation()}>
 					<input 
 						type="text"
 						bind:value={newListName}
@@ -177,7 +177,7 @@
 						type="submit" 
 						class="new-list-submit"
 						disabled={!newListName.trim() || isCreatingList}
-						onclick={(e) => e.preventDefault()}
+						onclick={(e) => e.stopPropagation()}
 					>
 						{isCreatingList ? '...' : 'Add'}
 					</button>
