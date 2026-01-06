@@ -43,6 +43,11 @@
 	let showDeleteModal = $state(false);
 	let isDeleting = $state(false);
 
+	// Remove item modal
+	let showRemoveModal = $state(false);
+	let removeTargetId = $state<string | null>(null);
+	let isRemoving = $state(false);
+
 	// Check if owner
 	const isOwner = $derived(authService.user !== undefined);
 
@@ -159,9 +164,23 @@
 		}
 	}
 
-	async function removeItem(eventId: string) {
-		if (!list) return;
-		await listService.removeFromList(list.id, eventId);
+	function openRemoveModal(eventId: string) {
+		removeTargetId = eventId;
+		showRemoveModal = true;
+	}
+
+	async function handleConfirmRemove() {
+		if (!list || !removeTargetId) return;
+		isRemoving = true;
+		try {
+			await listService.removeFromList(list.id, removeTargetId);
+			showRemoveModal = false;
+			removeTargetId = null;
+		} catch (error) {
+			console.error('[ListDetail] Failed to remove item:', error);
+		} finally {
+			isRemoving = false;
+		}
 	}
 </script>
 
@@ -235,7 +254,7 @@
 								{#each ideas as idea (idea.id)}
 									<div class="list-item-wrapper">
 										<IdeaCard {idea} />
-										<button class="remove-btn" onclick={() => removeItem(idea.id)} title="Remove from list">
+										<button class="remove-btn" onclick={() => openRemoveModal(idea.id)} title="Remove from list">
 											<X size={14} />
 										</button>
 									</div>
@@ -254,7 +273,7 @@
 								{#each jobs as job (job.id)}
 									<div class="list-item-wrapper">
 										<JobCard {job} />
-										<button class="remove-btn" onclick={() => removeItem(job.id)} title="Remove from list">
+										<button class="remove-btn" onclick={() => openRemoveModal(job.id)} title="Remove from list">
 											<X size={14} />
 										</button>
 									</div>
@@ -273,7 +292,7 @@
 								{#each comments as comment (comment.id)}
 									<div class="list-item-wrapper comment-wrapper">
 										<BookmarkedCommentCard {comment} />
-										<button class="remove-btn" onclick={() => removeItem(comment.id)} title="Remove from list">
+										<button class="remove-btn" onclick={() => openRemoveModal(comment.id)} title="Remove from list">
 											<X size={14} />
 										</button>
 									</div>
@@ -325,6 +344,19 @@
 			<Button variant="ghost" onclick={() => showDeleteModal = false}>Cancel</Button>
 			<Button variant="primary" onclick={handleDelete} disabled={isDeleting}>
 				{isDeleting ? 'Deleting...' : 'Delete List'}
+			</Button>
+		</Row>
+	</Stack>
+</Modal>
+
+<!-- Remove Item Modal -->
+<Modal bind:open={showRemoveModal} title="Remove Item">
+	<Stack gap={4}>
+		<p style="color: var(--text-secondary);">Remove this item from the list?</p>
+		<Row gap={3} justify="end">
+			<Button variant="ghost" onclick={() => showRemoveModal = false}>Cancel</Button>
+			<Button variant="primary" onclick={handleConfirmRemove} disabled={isRemoving}>
+				{isRemoving ? 'Removing...' : 'Remove'}
 			</Button>
 		</Row>
 	</Stack>
@@ -398,7 +430,7 @@
 	.remove-btn {
 		position: absolute;
 		top: var(--space-2);
-		right: var(--space-2);
+		left: var(--space-2);
 	}
 
 	.comment-wrapper .remove-btn {
