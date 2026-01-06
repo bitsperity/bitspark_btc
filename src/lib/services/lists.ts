@@ -114,17 +114,20 @@ class ListService {
         subscription.on('event', (event: NDKEvent) => {
             const newList = this.parseListEvent(event);
 
-            // Skip lists without proper title (old/broken events)
-            if (newList.title === 'Untitled List' || !newList.id) {
-                console.log('[Lists] Skipped invalid list (no title or d-tag):', event.id);
+            // parseListEvent returns null for deleted lists - remove from cache
+            if (newList === null) {
+                const dTag = event.tags.find(t => t[0] === 'd')?.[1];
+                if (dTag) {
+                    const current = get(listsCache);
+                    listsCache.set(current.filter(l => l.id !== dTag));
+                    console.log('[Lists] Removed deleted list:', dTag);
+                }
                 return;
             }
 
-            // Skip deleted lists
-            if (event.tags.some(t => t[0] === 'deleted')) {
-                const current = get(listsCache);
-                listsCache.set(current.filter(l => l.id !== newList.id));
-                pendingOptimisticIds.delete(newList.id);
+            // Skip lists without proper title (old/broken events)
+            if (newList.title === 'Untitled List' || !newList.id) {
+                console.log('[Lists] Skipped invalid list (no title or d-tag):', event.id);
                 return;
             }
 
