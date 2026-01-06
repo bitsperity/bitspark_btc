@@ -111,8 +111,8 @@
 <style>
 	.delete-icon-btn {
 		position: absolute;
-		top: 8px;
-		left: 8px;
+		top: -4px;
+		right: -4px;
 		display: flex;
 		align-items: center;
 		justify-content: center;
