@@ -198,9 +198,9 @@
 									<Edit size={14} />
 									Edit
 								</Button>
-							<Button variant="ghost" size="sm" onclick={() => { console.log('[ListDetail] Delete button clicked'); showDeleteModal = true; }}>
-									<Trash2 size={14} />
-								</Button>
+							<Button variant="ghost" size="sm" onclick={() => { console.log('[ListDetail] Delete button clicked, showDeleteModal before:', showDeleteModal); showDeleteModal = true; console.log('[ListDetail] showDeleteModal after:', showDeleteModal); }}>
+								<Trash2 size={14} />
+							</Button>
 							</Row>
 						{/if}
 					</Row>
@@ -322,7 +322,7 @@
 		<p>Are you sure you want to delete "{list?.title}"? This cannot be undone.</p>
 		<Row gap={3} justify="end">
 			<Button variant="ghost" onclick={() => showDeleteModal = false}>Cancel</Button>
-			<Button variant="danger" onclick={handleDelete} disabled={isDeleting}>
+			<Button variant="primary" onclick={handleDelete} disabled={isDeleting}>
 				{isDeleting ? 'Deleting...' : 'Delete List'}
 			</Button>
 		</Row>
