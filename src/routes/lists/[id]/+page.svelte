@@ -200,6 +200,7 @@
 								</Button>
 							<button class="icon-btn" onclick={() => { console.log('[ListDetail] Delete clicked'); showDeleteModal = true; }} title="Delete list">
 								<Trash2 size={14} />
+								Delete
 							</button>
 							</Row>
 						{/if}
