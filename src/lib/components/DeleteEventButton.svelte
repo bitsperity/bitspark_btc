@@ -108,6 +108,9 @@
 
 <style>
 	.delete-icon-btn {
+		position: absolute;
+		top: 8px;
+		right: 8px;
 		display: flex;
 		align-items: center;
 		justify-content: center;
