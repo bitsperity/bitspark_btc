@@ -429,12 +429,33 @@
 
 	.remove-btn {
 		position: absolute;
-		top: var(--space-2);
-		left: var(--space-2);
+		top: -4px;
+		right: -4px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 28px;
+		height: 28px;
+		background: rgba(0, 0, 0, 0.5);
+		backdrop-filter: blur(8px);
+		border: 1px solid rgba(255, 255, 255, 0.1);
+		border-radius: var(--radius-md);
+		color: var(--text-muted);
+		cursor: pointer;
+		opacity: 0;
+		transition: all var(--duration-fast) var(--ease-out);
+		z-index: 10;
+	}
+
+	.remove-btn:hover {
+		background: rgba(220, 38, 38, 0.8);
+		border-color: rgba(220, 38, 38, 0.5);
+		color: white;
+		transform: scale(1.1);
 	}
 
 	.comment-wrapper .remove-btn {
-		top: var(--space-3);
+		top: -4px;
 	}
 
 	.icon-btn {
