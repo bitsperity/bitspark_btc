@@ -7,6 +7,7 @@
 	import { LikeButton, BookmarkButton } from '$lib/components/social';
 	import { LANGUAGE_LABELS, type Job, type ProgrammingLanguage, type JobStatus } from '$lib/types/job';
 	import { profileService, jobService } from '$lib/services';
+	import { goto } from '$app/navigation';
 	import type { NDKUserProfile } from '@nostr-dev-kit/ndk';
 	import { Briefcase } from 'lucide-svelte';
 
@@ -29,9 +30,15 @@
 	const displayLanguages = $derived(
 		job.languages.slice(0, 3).map(l => LANGUAGE_LABELS[l as ProgrammingLanguage] ?? l)
 	);
+
+	function handleCardClick(e: MouseEvent) {
+		if (!e.defaultPrevented) {
+			goto(`/jobs/${job.id}`);
+		}
+	}
 </script>
 
-<a href="/jobs/{job.id}" class="job-card-link">
+<div class="job-card-link" onclick={handleCardClick} role="button" tabindex="0">
 	<Card hover>
 		<Stack gap={4}>
 			<!-- Banner -->
@@ -80,13 +87,14 @@
 			</Row>
 		</Stack>
 	</Card>
-</a>
+</div>
 
 <style>
 	.job-card-link {
 		text-decoration: none;
 		color: inherit;
 		display: block;
+		cursor: pointer;
 	}
 
 	.job-title {

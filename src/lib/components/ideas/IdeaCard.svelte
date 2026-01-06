@@ -8,6 +8,7 @@
 	import { Card, Badge, Avatar, Row, Stack } from '$lib/components';
 	import { LikeButton, BookmarkButton } from '$lib/components/social';
 	import { profileService } from '$lib/services';
+	import { goto } from '$app/navigation';
 	import { Github, Zap, Briefcase, Flame } from 'lucide-svelte';
 	import type { NDKUserProfile } from '@nostr-dev-kit/ndk';
 
@@ -60,9 +61,16 @@
 		if (sats >= 1000) return `${(sats / 1000).toFixed(0)}k sats`;
 		return `${sats} sats`;
 	}
+
+	function handleCardClick(e: MouseEvent) {
+		// Only navigate if click wasn't stopped by a child component
+		if (!e.defaultPrevented) {
+			goto(`/ideas/${idea.id}`);
+		}
+	}
 </script>
 
-<a href="/ideas/{idea.id}" class="idea-card-link">
+<div class="idea-card-link" onclick={handleCardClick} role="button" tabindex="0">
 	<Card variant="glow" class="idea-card">
 		<!-- Banner + Hot Badge -->
 		{#if idea.bannerUrl}
@@ -126,12 +134,13 @@
 			</Row>
 		</Stack>
 	</Card>
-</a>
+</div>
 
 <style>
 	.idea-card-link {
 		text-decoration: none;
 		display: block;
+		cursor: pointer;
 	}
 
 	:global(.idea-card) {

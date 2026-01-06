@@ -132,7 +132,7 @@
 			class="dropdown"
 			onmouseenter={handleDropdownMouseEnter}
 			onmouseleave={handleDropdownMouseLeave}
-			onclick={(e) => e.stopPropagation()}
+			onclick={(e) => e.preventDefault()}
 		>
 			<!-- Quick Bookmark Status -->
 			<button class="dropdown-item" onclick={handleClick}>
