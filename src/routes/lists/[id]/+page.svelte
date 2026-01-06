@@ -44,10 +44,7 @@
 	let isDeleting = $state(false);
 
 	// Check if owner
-	const isOwner = $derived(() => {
-		const user = authService.user;
-		return user !== undefined; // If logged in, they own their lists
-	});
+	const isOwner = $derived(authService.user !== undefined);
 
 	// Subscribe to list updates - only update list reference, not trigger loadItems
 	const lists = listService.subscribeLists();
@@ -193,7 +190,7 @@
 								<p class="list-description">{list.description}</p>
 							{/if}
 						</div>
-						{#if isOwner()}
+						{#if isOwner}
 							<Row gap={2}>
 								<Button variant="ghost" size="sm" onclick={openEditModal}>
 									<Edit size={14} />
