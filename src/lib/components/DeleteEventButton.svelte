@@ -60,7 +60,9 @@
 		showModal = true;
 	}
 
-	async function handleConfirm() {
+	async function handleConfirm(e: MouseEvent) {
+		e.preventDefault();
+		e.stopPropagation();
 		isDeleting = true;
 		try {
 			await onDelete();
@@ -110,7 +112,7 @@
 	.delete-icon-btn {
 		position: absolute;
 		top: 8px;
-		right: 8px;
+		left: 8px;
 		display: flex;
 		align-items: center;
 		justify-content: center;
