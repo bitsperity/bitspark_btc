@@ -474,23 +474,27 @@
 		position: absolute;
 		top: var(--space-2);
 		right: var(--space-2);
-		width: 24px;
-		height: 24px;
+		width: 28px;
+		height: 28px;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		background: var(--bg-error, rgba(220, 38, 38, 0.9));
-		border: none;
-		border-radius: 50%;
-		color: white;
+		background: rgba(0, 0, 0, 0.5);
+		backdrop-filter: blur(8px);
+		border: 1px solid rgba(255, 255, 255, 0.1);
+		border-radius: var(--radius-md);
+		color: var(--text-muted);
 		cursor: pointer;
 		opacity: 0;
-		transition: opacity var(--duration-fast) var(--ease-out);
+		transition: all var(--duration-fast) var(--ease-out);
 		z-index: 10;
 	}
 
 	.remove-btn:hover {
-		background: var(--error, #dc2626);
+		background: rgba(220, 38, 38, 0.8);
+		border-color: rgba(220, 38, 38, 0.5);
+		color: white;
+		transform: scale(1.1);
 	}
 
 	.comment-wrapper {

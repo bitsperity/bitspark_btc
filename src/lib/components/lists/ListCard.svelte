@@ -6,24 +6,37 @@
 <script lang="ts">
 	import { Card, Row, Badge } from '$lib/components';
 	import type { List } from '$lib/services';
-	import { FolderOpen, Lightbulb, Briefcase, MessageCircle } from 'lucide-svelte';
+	import { FolderOpen, Lightbulb, Briefcase, MessageCircle, Trash2 } from 'lucide-svelte';
 
 	interface Props {
 		list: List;
 		href?: string;
+		ondelete?: (listId: string) => void;
 	}
 
-	let { list, href = `/lists/${list.id}` }: Props = $props();
+	let { list, href = `/lists/${list.id}`, ondelete }: Props = $props();
 
 	// Count by type
 	const ideaCount = $derived(list.items.filter(i => i.type === 'idea').length);
 	const jobCount = $derived(list.items.filter(i => i.type === 'job').length);
 	const commentCount = $derived(list.items.filter(i => i.type === 'comment').length);
 	const totalCount = $derived(list.items.length);
+
+	function handleDelete(e: MouseEvent) {
+		e.preventDefault();
+		e.stopPropagation();
+		ondelete?.(list.id);
+	}
 </script>
 
 <a {href} class="list-card-link">
 	<Card hover class="list-card">
+		{#if ondelete}
+			<button class="delete-btn" onclick={handleDelete} title="Delete list">
+				<Trash2 size={14} />
+			</button>
+		{/if}
+		
 		<Row justify="between" align="start">
 			<div class="list-info">
 				<Row gap={2}>
@@ -115,5 +128,40 @@
 		gap: var(--space-1);
 		font-size: 0.75rem;
 		color: var(--text-muted);
+	}
+
+	:global(.list-card) {
+		position: relative;
+	}
+
+	:global(.list-card:hover) .delete-btn {
+		opacity: 1;
+	}
+
+	.delete-btn {
+		position: absolute;
+		top: var(--space-2);
+		right: var(--space-2);
+		width: 28px;
+		height: 28px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background: rgba(0, 0, 0, 0.5);
+		backdrop-filter: blur(8px);
+		border: 1px solid rgba(255, 255, 255, 0.1);
+		border-radius: var(--radius-md);
+		color: var(--text-muted);
+		cursor: pointer;
+		opacity: 0;
+		transition: all var(--duration-fast) var(--ease-out);
+		z-index: 10;
+	}
+
+	.delete-btn:hover {
+		background: rgba(220, 38, 38, 0.8);
+		border-color: rgba(220, 38, 38, 0.5);
+		color: white;
+		transform: scale(1.1);
 	}
 </style>

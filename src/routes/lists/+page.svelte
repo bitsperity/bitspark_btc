@@ -46,6 +46,16 @@
 		newListDescription = '';
 		showCreateModal = true;
 	}
+
+	async function handleDeleteList(listId: string) {
+		if (confirm('Are you sure you want to delete this list?')) {
+			try {
+				await listService.deleteList(listId);
+			} catch (error) {
+				console.error('[Lists] Failed to delete list:', error);
+			}
+		}
+	}
 </script>
 
 <svelte:head>
@@ -92,7 +102,7 @@
 			{:else}
 				<div class="lists-grid">
 					{#each $lists as list (list.id)}
-						<ListCard {list} />
+						<ListCard {list} ondelete={handleDeleteList} />
 					{/each}
 				</div>
 			{/if}
