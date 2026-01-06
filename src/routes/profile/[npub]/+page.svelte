@@ -13,12 +13,13 @@
 	import { JobCard } from '$lib/components/jobs';
 	import { ContractCard } from '$lib/components/contracts';
 	import { BookmarkedCommentCard } from '$lib/components/social';
+	import { ListCard } from '$lib/components/lists';
 	import { ndk } from '$lib/nostr';
 	import { NOSTR_KINDS } from '$lib/nostr/config';
-	import { ideaService, jobService, contractService, bookmarkService, authService } from '$lib/services';
+	import { ideaService, jobService, contractService, bookmarkService, authService, listService, type List } from '$lib/services';
 	import { nip19 } from 'nostr-tools';
 	import { page } from '$app/stores';
-	import { Lightbulb, Briefcase, FileCheck, Bookmark } from 'lucide-svelte';
+	import { Lightbulb, Briefcase, FileCheck, Bookmark, FolderOpen } from 'lucide-svelte';
 	import type { Idea } from '$lib/types/idea';
 	import type { Job } from '$lib/types/job';
 	import type { Contract } from '$lib/types/contract';
@@ -41,7 +42,7 @@
 	});
 
 	// Tab state
-	let activeTab = $state<'ideas' | 'jobs' | 'contracts' | 'bookmarks'>('ideas');
+	let activeTab = $state<'ideas' | 'jobs' | 'contracts' | 'bookmarks' | 'lists'>('ideas');
 
 	// Check if viewing own profile
 	const isOwnProfile = $derived(() => {
@@ -56,6 +57,7 @@
 	let bookmarkedIdeas = $state<Idea[]>([]);
 	let bookmarkedJobs = $state<Job[]>([]);
 	let bookmarkedComments = $state<Comment[]>([]);
+	let userLists = $state<List[]>([]);
 	let isLoadingContent = $state(false);
 
 	// Load content when tab changes or pubkey changes
@@ -171,10 +173,25 @@
 		}
 	}
 
-	function setTab(tab: 'ideas' | 'jobs' | 'contracts' | 'bookmarks') {
+	function setTab(tab: 'ideas' | 'jobs' | 'contracts' | 'bookmarks' | 'lists') {
 		activeTab = tab;
 		if (tab === 'bookmarks') {
 			loadBookmarks();
+		} else if (tab === 'lists') {
+			loadLists();
+		}
+	}
+
+	async function loadLists() {
+		if (!isOwnProfile()) return;
+		
+		isLoadingContent = true;
+		try {
+			userLists = await listService.loadLists(pubkey());
+		} catch (error) {
+			console.error('[Profile] Failed to load lists:', error);
+		} finally {
+			isLoadingContent = false;
 		}
 	}
 </script>
@@ -220,6 +237,14 @@
 					>
 						<Bookmark size={16} />
 						<span>Bookmarks</span>
+					</button>
+					<button 
+						class="tab" 
+						class:active={activeTab === 'lists'} 
+						onclick={() => setTab('lists')}
+					>
+						<FolderOpen size={16} />
+						<span>Lists</span>
 					</button>
 				{/if}
 			</div>
@@ -298,6 +323,27 @@
 								{/each}
 							</div>
 						{/if}
+					</Stack>
+				{/if}
+			{:else if activeTab === 'lists'}
+				{#if userLists.length === 0}
+					<div class="empty-state">
+						<FolderOpen size={48} />
+						<h3>No lists yet</h3>
+						<p>Create lists to organize your favorite content.</p>
+						<a href="/lists" class="manage-link">Manage Lists</a>
+					</div>
+				{:else}
+					<Stack gap={4}>
+						<div class="lists-header">
+							<span>{userLists.length} list{userLists.length !== 1 ? 's' : ''}</span>
+							<a href="/lists" class="manage-link">Manage All</a>
+						</div>
+						<div class="content-grid">
+							{#each userLists as list (list.id)}
+								<ListCard {list} />
+							{/each}
+						</div>
 					</Stack>
 				{/if}
 			{/if}
@@ -379,5 +425,24 @@
 		display: flex;
 		flex-direction: column;
 		gap: var(--space-3);
+	}
+
+	.lists-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		color: var(--text-muted);
+		font-size: 0.875rem;
+	}
+
+	.manage-link {
+		color: var(--primary);
+		text-decoration: none;
+		font-size: 0.875rem;
+		font-weight: 500;
+	}
+
+	.manage-link:hover {
+		text-decoration: underline;
 	}
 </style>
