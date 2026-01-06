@@ -23,12 +23,6 @@
 	let newListDescription = $state('');
 	let isCreating = $state(false);
 
-	// Delete confirmation modal
-	let showDeleteModal = $state(false);
-	let deleteTargetId = $state<string | null>(null);
-	let deleteTargetTitle = $state<string>('');
-	let isDeleting = $state(false);
-
 	async function handleCreateList() {
 		if (!newListTitle.trim()) return;
 		
@@ -51,27 +45,6 @@
 		newListTitle = '';
 		newListDescription = '';
 		showCreateModal = true;
-	}
-
-	function openDeleteModal(listId: string) {
-		const list = $lists.find(l => l.id === listId);
-		deleteTargetId = listId;
-		deleteTargetTitle = list?.title ?? 'this list';
-		showDeleteModal = true;
-	}
-
-	async function handleConfirmDelete() {
-		if (!deleteTargetId) return;
-		isDeleting = true;
-		try {
-			await listService.deleteList(deleteTargetId);
-			showDeleteModal = false;
-			deleteTargetId = null;
-		} catch (error) {
-			console.error('[Lists] Failed to delete list:', error);
-		} finally {
-			isDeleting = false;
-		}
 	}
 </script>
 
@@ -115,11 +88,10 @@
 						<Plus size={16} />
 						Create Your First List
 					</Button>
-				</div>
 			{:else}
 				<div class="lists-grid">
 					{#each $lists as list (list.id)}
-						<ListCard {list} ondelete={openDeleteModal} />
+						<ListCard {list} />
 					{/each}
 				</div>
 			{/if}
@@ -159,20 +131,6 @@
 	</Stack>
 </Modal>
 
-<!-- Delete Confirmation Modal -->
-<Modal bind:open={showDeleteModal} title="Delete List">
-	<Stack gap={4}>
-		<p style="color: var(--text-secondary);">
-			Are you sure you want to delete <strong>"{deleteTargetTitle}"</strong>? This cannot be undone.
-		</p>
-		<Row gap={3} justify="end">
-			<Button variant="ghost" onclick={() => showDeleteModal = false}>Cancel</Button>
-			<Button onclick={handleConfirmDelete} disabled={isDeleting}>
-				{isDeleting ? 'Deleting...' : 'Delete'}
-			</Button>
-		</Row>
-	</Stack>
-</Modal>
 
 <style>
 	/* Page-specific styles only - utilities from pages.css */

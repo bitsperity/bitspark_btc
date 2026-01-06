@@ -13,6 +13,7 @@ export { default as Card } from './Card.svelte';
 export { default as Badge } from './Badge.svelte';
 export { default as Avatar } from './Avatar.svelte';
 export { default as UserAvatar } from './UserAvatar.svelte';
+export { default as DeleteEventButton } from './DeleteEventButton.svelte';
 
 // Form Components
 export { default as Input } from './Input.svelte';

@@ -4,17 +4,18 @@
   Shows title, description, item count, and navigates to list detail.
 -->
 <script lang="ts">
-	import { Card, Row, Badge } from '$lib/components';
+	import { Card, Row, Badge, DeleteEventButton } from '$lib/components';
 	import type { List } from '$lib/services';
-	import { FolderOpen, Lightbulb, Briefcase, MessageCircle, Trash2 } from 'lucide-svelte';
+	import { listService } from '$lib/services';
+	import { FolderOpen, Lightbulb, Briefcase, MessageCircle } from 'lucide-svelte';
 
 	interface Props {
 		list: List;
 		href?: string;
-		ondelete?: (listId: string) => void;
+		showDelete?: boolean;
 	}
 
-	let { list, href = `/lists/${list.id}`, ondelete }: Props = $props();
+	let { list, href = `/lists/${list.id}`, showDelete = true }: Props = $props();
 
 	// Count by type
 	const ideaCount = $derived(list.items.filter(i => i.type === 'idea').length);
@@ -22,25 +23,20 @@
 	const commentCount = $derived(list.items.filter(i => i.type === 'comment').length);
 	const totalCount = $derived(list.items.length);
 
-	function handleDelete(e: MouseEvent) {
-		console.log('[ListCard] Delete clicked for:', list.id, list.title);
-		e.preventDefault();
-		e.stopPropagation();
-		if (ondelete) {
-			console.log('[ListCard] Calling ondelete');
-			ondelete(list.id);
-		} else {
-			console.error('[ListCard] ondelete is undefined!');
-		}
+	async function handleDelete() {
+		await listService.deleteList(list.id);
 	}
 </script>
 
 <a {href} class="list-card-link">
 	<div class="card-wrapper">
-		{#if ondelete}
-			<button class="delete-btn" onclick={handleDelete} title="Delete list">
-				<Trash2 size={14} />
-			</button>
+		{#if showDelete}
+			<DeleteEventButton
+				eventId={list.id}
+				onDelete={handleDelete}
+				confirmTitle="Delete List?"
+				confirmMessage="Are you sure you want to delete '{list.title}'? This cannot be undone."
+			/>
 		{/if}
 		<Card hover class="list-card">
 			<Row justify="between" align="start">
@@ -139,36 +135,5 @@
 
 	.card-wrapper {
 		position: relative;
-	}
-
-	.card-wrapper:hover .delete-btn {
-		opacity: 1;
-	}
-
-	.delete-btn {
-		position: absolute;
-		top: 8px;
-		right: 8px;
-		width: 28px;
-		height: 28px;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		background: rgba(0, 0, 0, 0.5);
-		backdrop-filter: blur(8px);
-		border: 1px solid rgba(255, 255, 255, 0.1);
-		border-radius: var(--radius-md);
-		color: var(--text-muted);
-		cursor: pointer;
-		opacity: 0;
-		transition: all var(--duration-fast) var(--ease-out);
-		z-index: 10;
-	}
-
-	.delete-btn:hover {
-		background: rgba(220, 38, 38, 0.8);
-		border-color: rgba(220, 38, 38, 0.5);
-		color: white;
-		transform: scale(1.1);
 	}
 </style>
