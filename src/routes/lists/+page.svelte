@@ -88,6 +88,7 @@
 						<Plus size={16} />
 						Create Your First List
 					</Button>
+				</div>
 			{:else}
 				<div class="lists-grid">
 					{#each $lists as list (list.id)}
