@@ -49,11 +49,23 @@
 		return user !== undefined; // If logged in, they own their lists
 	});
 
-	// Subscribe to list updates
+	// Subscribe to list updates - only update list reference, not trigger loadItems
 	const lists = listService.subscribeLists();
+	
+	// Track which list we've loaded items for
+	let loadedListId = $state<string | null>(null);
+	
 	$effect(() => {
-		list = $lists.find(l => l.id === listId);
-		if (list) {
+		const found = $lists.find(l => l.id === listId);
+		if (found) {
+			list = found;
+		}
+	});
+
+	// Load items only when list ID changes
+	$effect(() => {
+		if (list && list.id !== loadedListId) {
+			loadedListId = list.id;
 			loadItems();
 		}
 	});

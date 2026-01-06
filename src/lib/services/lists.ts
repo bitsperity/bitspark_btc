@@ -104,17 +104,28 @@ class ListService {
 
         subscription.on('event', (event: NDKEvent) => {
             const newList = this.parseListEvent(event);
+
+            // Skip deleted lists
+            if (event.tags.some(t => t[0] === 'deleted')) {
+                const current = get(listsCache);
+                listsCache.set(current.filter(l => l.id !== newList.id));
+                return;
+            }
+
             const current = get(listsCache);
 
-            // Update or add list
+            // Check if list already exists by d-tag (not event id)
             const existingIndex = current.findIndex(l => l.id === newList.id);
+
             if (existingIndex >= 0) {
-                // Only update if newer
-                if (newList.createdAt > current[existingIndex].createdAt) {
-                    current[existingIndex] = newList;
-                    listsCache.set([...current]);
+                // Only update if newer or same time (for item updates)
+                if (newList.createdAt >= current[existingIndex].createdAt) {
+                    const updated = [...current];
+                    updated[existingIndex] = newList;
+                    listsCache.set(updated);
                 }
             } else {
+                // New list - add to cache
                 listsCache.set([...current, newList]);
             }
             console.log('[Lists] Updated via subscription:', newList.title);
