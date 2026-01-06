@@ -23,9 +23,15 @@
 	const totalCount = $derived(list.items.length);
 
 	function handleDelete(e: MouseEvent) {
+		console.log('[ListCard] Delete clicked for:', list.id, list.title);
 		e.preventDefault();
 		e.stopPropagation();
-		ondelete?.(list.id);
+		if (ondelete) {
+			console.log('[ListCard] Calling ondelete');
+			ondelete(list.id);
+		} else {
+			console.error('[ListCard] ondelete is undefined!');
+		}
 	}
 </script>
 
@@ -141,8 +147,8 @@
 
 	.delete-btn {
 		position: absolute;
-		top: var(--space-2);
-		right: var(--space-2);
+		top: 8px;
+		right: 8px;
 		width: 28px;
 		height: 28px;
 		display: flex;
