@@ -120,10 +120,12 @@
 	}
 
 	function openEditModal() {
+		console.log('[ListDetail] openEditModal called, list:', list);
 		if (!list) return;
 		editTitle = list.title;
 		editDescription = list.description ?? '';
 		showEditModal = true;
+		console.log('[ListDetail] showEditModal set to:', showEditModal);
 	}
 
 	async function handleEdit() {
@@ -196,7 +198,7 @@
 									<Edit size={14} />
 									Edit
 								</Button>
-								<Button variant="ghost" size="sm" onclick={() => showDeleteModal = true}>
+							<Button variant="ghost" size="sm" onclick={() => { console.log('[ListDetail] Delete button clicked'); showDeleteModal = true; }}>
 									<Trash2 size={14} />
 								</Button>
 							</Row>
@@ -285,7 +287,7 @@
 </main>
 
 <!-- Edit Modal -->
-<Modal bind:isOpen={showEditModal} title="Edit List">
+<Modal bind:open={showEditModal} title="Edit List">
 	<Stack gap={4}>
 		<div class="form-group">
 			<label for="edit-title">List Name</label>
@@ -315,7 +317,7 @@
 </Modal>
 
 <!-- Delete Modal -->
-<Modal bind:isOpen={showDeleteModal} title="Delete List">
+<Modal bind:open={showDeleteModal} title="Delete List">
 	<Stack gap={4}>
 		<p>Are you sure you want to delete "{list?.title}"? This cannot be undone.</p>
 		<Row gap={3} justify="end">
