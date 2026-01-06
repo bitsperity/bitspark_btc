@@ -4,7 +4,7 @@
 <script lang="ts">
 	import { Card, Badge, Row, Stack, Avatar } from '$lib/components';
 	import JobStatusBadge from './JobStatusBadge.svelte';
-	import { LikeButton } from '$lib/components/social';
+	import { LikeButton, BookmarkButton } from '$lib/components/social';
 	import { LANGUAGE_LABELS, type Job, type ProgrammingLanguage, type JobStatus } from '$lib/types/job';
 	import { profileService, jobService } from '$lib/services';
 	import type { NDKUserProfile } from '@nostr-dev-kit/ndk';
@@ -73,7 +73,10 @@
 					/>
 					<span class="author-name">{authorProfile?.name ?? 'Anonymous'}</span>
 				</Row>
-				<LikeButton eventId={job.id} size="sm" />
+				<Row gap={2}>
+					<LikeButton eventId={job.id} size="sm" />
+					<BookmarkButton eventId={job.id} type="job" size="sm" />
+				</Row>
 			</Row>
 		</Stack>
 	</Card>

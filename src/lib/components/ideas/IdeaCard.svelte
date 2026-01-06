@@ -6,7 +6,7 @@
 <script lang="ts">
 	import type { IdeaWithStats } from '$lib/stores';
 	import { Card, Badge, Avatar, Row, Stack } from '$lib/components';
-	import { LikeButton } from '$lib/components/social';
+	import { LikeButton, BookmarkButton } from '$lib/components/social';
 	import { profileService } from '$lib/services';
 	import { Github, Zap, Briefcase, Flame } from 'lucide-svelte';
 	import type { NDKUserProfile } from '@nostr-dev-kit/ndk';
@@ -120,6 +120,7 @@
 						<Github size={14} class="icon-muted" />
 					{/if}
 					<LikeButton eventId={idea.id} size="sm" />
+					<BookmarkButton eventId={idea.id} type="idea" size="sm" />
 					<span class="date">{relativeTime}</span>
 				</Row>
 			</Row>

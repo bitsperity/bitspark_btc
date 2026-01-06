@@ -12,6 +12,7 @@ import { NDKNip07Signer, type NDKUser } from '@nostr-dev-kit/ndk';
 import { ndk, reconnect } from '$lib/nostr';
 import { giftWrapService } from './giftwrap';
 import { socialService } from './social';
+import { bookmarkService } from './bookmarks';
 
 // Profile fetch timeout (5 seconds)
 const PROFILE_TIMEOUT = 5000;
@@ -90,6 +91,9 @@ class AuthService {
 
             // Initialize social features (follows, likes)
             socialService.init();
+
+            // Initialize bookmarks
+            bookmarkService.init();
 
             return user;
         } catch (error) {
