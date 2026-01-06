@@ -234,29 +234,30 @@ class ListService {
     }
 
     /**
-     * Delete a list
+     * Delete a list using NIP-09 (Kind 5)
      */
     async deleteList(listId: string): Promise<void> {
         const user = ndk.activeUser;
         if (!user) throw new Error('Not logged in');
 
-        // Publish empty list to "delete" (NIP-09 deletion is also an option)
-        const event = createEvent();
-        event.kind = KIND_BOOKMARK_SET;
-        event.content = '';
-        event.tags = [
-            APP_TAG,
-            ['d', listId],
-            ['deleted', 'true']
-        ];
+        // Find the list to get its eventId
+        const list = get(listsCache).find(l => l.id === listId);
+        if (!list?.eventId) {
+            console.error('[Lists] Cannot delete - list not found or no eventId');
+            return;
+        }
 
-        await event.publish();
+        // Publish Kind 5 delete event (NIP-09)
+        const deleteEvent = createEvent();
+        deleteEvent.kind = 5;
+        deleteEvent.tags = [['e', list.eventId]];
+        await deleteEvent.publish();
 
         // Optimistic update
         const current = get(listsCache);
         listsCache.set(current.filter(l => l.id !== listId));
 
-        console.log('[Lists] Deleted list:', listId);
+        console.log('[Lists] Deleted list via Kind 5:', listId);
     }
 
     /**

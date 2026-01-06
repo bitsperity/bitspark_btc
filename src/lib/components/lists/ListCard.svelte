@@ -30,15 +30,15 @@
 
 <a {href} class="list-card-link">
 	<div class="card-wrapper">
-		{#if showDelete}
-			<DeleteEventButton
-				eventId={list.id}
-				onDelete={handleDelete}
-				confirmTitle="Delete List?"
-				confirmMessage="Are you sure you want to delete '{list.title}'? This cannot be undone."
-			/>
-		{/if}
 		<Card hover class="list-card">
+			{#if showDelete}
+				<DeleteEventButton
+					eventId={list.id}
+					onDelete={handleDelete}
+					confirmTitle="Delete List?"
+					confirmMessage="Are you sure you want to delete '{list.title}'? This cannot be undone."
+				/>
+			{/if}
 			<Row justify="between" align="start">
 				<div class="list-info">
 					<Row gap={2}>
