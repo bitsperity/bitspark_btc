@@ -132,10 +132,9 @@
 			class="dropdown"
 			onmouseenter={handleDropdownMouseEnter}
 			onmouseleave={handleDropdownMouseLeave}
-			onclick={(e) => e.preventDefault()}
 		>
 			<!-- Quick Bookmark Status -->
-			<button class="dropdown-item" onclick={handleClick}>
+			<button class="dropdown-item" onclick={(e) => { e.preventDefault(); handleClick(e); }}>
 				<Bookmark size={14} fill={$isBookmarked ? 'currentColor' : 'none'} />
 				<span>Quick Bookmark</span>
 				{#if $isBookmarked}
@@ -183,7 +182,7 @@
 					</button>
 				</form>
 			{:else}
-				<button class="dropdown-item create-new" onclick={showNewListForm}>
+				<button class="dropdown-item create-new" onclick={(e) => { e.preventDefault(); showNewListForm(e); }}>
 					<Plus size={14} />
 					<span>New List...</span>
 				</button>
