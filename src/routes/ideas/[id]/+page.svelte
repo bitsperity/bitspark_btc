@@ -122,7 +122,7 @@
 					<Row gap={2}>
 						<LikeButton eventId={idea.id} size="md" />
 						{#if idea.githubRepo}
-							<a href={idea.githubRepo} target="_blank" rel="noopener" class="action-btn">
+							<a href={idea.githubRepo} target="_blank" rel="noopener" class="edit-action-btn">
 								<Github size={18} />
 								<span>GitHub</span>
 							</a>
@@ -233,9 +233,7 @@
 </main>
 
 <style>
-	.page {
-		min-height: 100vh;
-	}
+	/* Page-specific styles - utilities from pages.css */
 
 	/* Full-width banner */
 	.banner-wrapper {
@@ -251,20 +249,6 @@
 		object-fit: cover;
 	}
 
-	.back-link {
-		display: inline-flex;
-		align-items: center;
-		gap: var(--space-2);
-		color: var(--text-muted);
-		text-decoration: none;
-		font-size: 0.875rem;
-		margin-bottom: var(--space-2);
-	}
-
-	.back-link:hover {
-		color: var(--text-primary);
-	}
-
 	:global(.title-row) {
 		flex-wrap: wrap;
 		gap: var(--space-4);
@@ -277,7 +261,8 @@
 		margin: 0;
 	}
 
-	.action-btn {
+	/* Edit action button - different from central action-btn */
+	.edit-action-btn {
 		display: flex;
 		align-items: center;
 		gap: var(--space-2);
@@ -291,7 +276,7 @@
 		transition: all 0.2s ease;
 	}
 
-	.action-btn:hover {
+	.edit-action-btn:hover {
 		background: var(--bg-elevated);
 		color: var(--text-primary);
 	}
@@ -315,18 +300,13 @@
 		align-items: center;
 	}
 
-	.author-name {
-		font-size: 0.875rem;
-		color: var(--text-secondary);
-		font-weight: 500;
-	}
-
 	.date-inline {
 		font-size: 0.875rem;
 		color: var(--text-muted);
 	}
 
-	.description-section {
+	.description-section,
+	.jobs-section {
 		padding: var(--space-5);
 		background: var(--bg-glass);
 		border-radius: var(--radius-lg);
@@ -334,10 +314,6 @@
 	}
 
 	.jobs-section {
-		padding: var(--space-5);
-		background: var(--bg-glass);
-		border-radius: var(--radius-lg);
-		border: 1px solid var(--border-subtle);
 		display: flex;
 		flex-direction: column;
 		gap: var(--space-4);
@@ -347,20 +323,8 @@
 		color: var(--text-muted);
 	}
 
-	.section-title {
-		font-size: 1.125rem;
-		font-weight: 600;
-		color: var(--text-primary);
-		margin: 0;
-	}
-
 	.job-form-wrapper {
 		margin-top: var(--space-2);
-	}
-
-	:global(.not-found) {
-		text-align: center;
-		padding: var(--space-12) 0;
 	}
 
 	/* Tab Navigation */

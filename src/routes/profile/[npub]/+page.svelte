@@ -352,10 +352,7 @@
 </main>
 
 <style>
-	.page {
-		padding: var(--space-8) 0;
-		min-height: 100vh;
-	}
+	/* Page-specific styles - utilities from pages.css */
 
 	.tabs {
 		display: flex;
@@ -389,36 +386,6 @@
 	.tab.active {
 		color: var(--primary);
 		background: rgba(249, 115, 22, 0.15);
-	}
-
-	.content-grid {
-		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-		gap: var(--space-6);
-	}
-
-	.empty-state {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		gap: var(--space-4);
-		padding: var(--space-16);
-		color: var(--text-muted);
-		text-align: center;
-	}
-
-	.loading {
-		text-align: center;
-		padding: var(--space-8);
-		color: var(--text-muted);
-	}
-
-	.section-title {
-		font-size: 1rem;
-		font-weight: 600;
-		color: var(--text-secondary);
-		margin: 0;
 	}
 
 	.comment-list {
