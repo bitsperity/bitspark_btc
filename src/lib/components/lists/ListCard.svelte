@@ -30,49 +30,50 @@
 </script>
 
 <a {href} class="list-card-link">
-	<Card hover class="list-card">
+	<div class="card-wrapper">
 		{#if ondelete}
 			<button class="delete-btn" onclick={handleDelete} title="Delete list">
 				<Trash2 size={14} />
 			</button>
 		{/if}
-		
-		<Row justify="between" align="start">
-			<div class="list-info">
-				<Row gap={2}>
-					<FolderOpen size={18} class="list-icon" />
-					<h3 class="list-title">{list.title}</h3>
-				</Row>
-				{#if list.description}
-					<p class="list-description">{list.description}</p>
-				{/if}
-			</div>
-			<Badge variant="muted" size="sm">{totalCount} items</Badge>
-		</Row>
-
-		{#if totalCount > 0}
-			<Row gap={3} class="item-counts">
-				{#if ideaCount > 0}
-					<span class="count-badge">
-						<Lightbulb size={12} />
-						{ideaCount}
-					</span>
-				{/if}
-				{#if jobCount > 0}
-					<span class="count-badge">
-						<Briefcase size={12} />
-						{jobCount}
-					</span>
-				{/if}
-				{#if commentCount > 0}
-					<span class="count-badge">
-						<MessageCircle size={12} />
-						{commentCount}
-					</span>
-				{/if}
+		<Card hover class="list-card">
+			<Row justify="between" align="start">
+				<div class="list-info">
+					<Row gap={2}>
+						<FolderOpen size={18} class="list-icon" />
+						<h3 class="list-title">{list.title}</h3>
+					</Row>
+					{#if list.description}
+						<p class="list-description">{list.description}</p>
+					{/if}
+				</div>
+				<Badge variant="muted" size="sm">{totalCount} items</Badge>
 			</Row>
-		{/if}
-	</Card>
+
+			{#if totalCount > 0}
+				<Row gap={3} class="item-counts">
+					{#if ideaCount > 0}
+						<span class="count-badge">
+							<Lightbulb size={12} />
+							{ideaCount}
+						</span>
+					{/if}
+					{#if jobCount > 0}
+						<span class="count-badge">
+							<Briefcase size={12} />
+							{jobCount}
+						</span>
+					{/if}
+					{#if commentCount > 0}
+						<span class="count-badge">
+							<MessageCircle size={12} />
+							{commentCount}
+						</span>
+					{/if}
+				</Row>
+			{/if}
+		</Card>
+	</div>
 </a>
 
 <style>
@@ -130,12 +131,11 @@
 		color: var(--text-muted);
 	}
 
-	:global(.list-card) {
+	.card-wrapper {
 		position: relative;
 	}
 
-	/* Hover on the link wrapper - not the card */
-	.list-card-link:hover .delete-btn {
+	.card-wrapper:hover .delete-btn {
 		opacity: 1;
 	}
 
