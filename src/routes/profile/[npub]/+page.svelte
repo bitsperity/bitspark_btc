@@ -14,10 +14,10 @@
 	import { ContractCard } from '$lib/components/contracts';
 	import { ndk } from '$lib/nostr';
 	import { NOSTR_KINDS } from '$lib/nostr/config';
-	import { ideaService, jobService, contractService } from '$lib/services';
+	import { ideaService, jobService, contractService, bookmarkService, authService } from '$lib/services';
 	import { nip19 } from 'nostr-tools';
 	import { page } from '$app/stores';
-	import { Lightbulb, Briefcase, FileCheck } from 'lucide-svelte';
+	import { Lightbulb, Briefcase, FileCheck, Bookmark } from 'lucide-svelte';
 	import type { Idea } from '$lib/types/idea';
 	import type { Job } from '$lib/types/job';
 	import type { Contract } from '$lib/types/contract';
@@ -39,12 +39,20 @@
 	});
 
 	// Tab state
-	let activeTab = $state<'ideas' | 'jobs' | 'contracts'>('ideas');
+	let activeTab = $state<'ideas' | 'jobs' | 'contracts' | 'bookmarks'>('ideas');
+
+	// Check if viewing own profile
+	const isOwnProfile = $derived(() => {
+		const currentUser = authService.user;
+		return currentUser && currentUser.pubkey === pubkey();
+	});
 
 	// Content stores
 	let ideas = $state<Idea[]>([]);
 	let jobs = $state<Job[]>([]);
 	let contracts = $state<Contract[]>([]);
+	let bookmarkedIdeas = $state<Idea[]>([]);
+	let bookmarkedJobs = $state<Job[]>([]);
 	let isLoadingContent = $state(false);
 
 	// Load content when tab changes or pubkey changes
@@ -99,8 +107,47 @@
 		}
 	}
 
-	function setTab(tab: 'ideas' | 'jobs' | 'contracts') {
+	// Load bookmarks (only for own profile)
+	async function loadBookmarks() {
+		if (!isOwnProfile()) return;
+		
+		isLoadingContent = true;
+		try {
+			const ideaBookmarks = bookmarkService.getBookmarksByType('idea');
+			const jobBookmarks = bookmarkService.getBookmarksByType('job');
+			
+			// Subscribe to get current values
+			let ideaIds: string[] = [];
+			let jobIds: string[] = [];
+			ideaBookmarks.subscribe(items => ideaIds = items.map(i => i.eventId))();
+			jobBookmarks.subscribe(items => jobIds = items.map(i => i.eventId))();
+			
+			// Fetch actual events
+			if (ideaIds.length > 0) {
+				const fetchedIdeas = await Promise.all(ideaIds.map(id => ideaService.getIdea(id)));
+				bookmarkedIdeas = fetchedIdeas.filter((i): i is Idea => i !== null);
+			} else {
+				bookmarkedIdeas = [];
+			}
+			
+			if (jobIds.length > 0) {
+				const fetchedJobs = await Promise.all(jobIds.map(id => jobService.getJob(id)));
+				bookmarkedJobs = fetchedJobs.filter((j): j is Job => j !== null);
+			} else {
+				bookmarkedJobs = [];
+			}
+		} catch (error) {
+			console.error('[Profile] Failed to load bookmarks:', error);
+		} finally {
+			isLoadingContent = false;
+		}
+	}
+
+	function setTab(tab: 'ideas' | 'jobs' | 'contracts' | 'bookmarks') {
 		activeTab = tab;
+		if (tab === 'bookmarks') {
+			loadBookmarks();
+		}
 	}
 </script>
 
@@ -137,6 +184,16 @@
 					<FileCheck size={16} />
 					<span>Contracts</span>
 				</button>
+				{#if isOwnProfile()}
+					<button 
+						class="tab" 
+						class:active={activeTab === 'bookmarks'} 
+						onclick={() => setTab('bookmarks')}
+					>
+						<Bookmark size={16} />
+						<span>Bookmarks</span>
+					</button>
+				{/if}
 			</div>
 
 			<!-- Content -->
@@ -180,6 +237,32 @@
 							<ContractCard {contract} />
 						{/each}
 					</div>
+				{/if}
+			{:else if activeTab === 'bookmarks'}
+				{#if bookmarkedIdeas.length === 0 && bookmarkedJobs.length === 0}
+					<div class="empty-state">
+						<Bookmark size={48} />
+						<p>No bookmarks yet</p>
+					</div>
+				{:else}
+					<Stack gap={4}>
+						{#if bookmarkedIdeas.length > 0}
+							<h3 class="section-title">Ideas</h3>
+							<div class="content-grid">
+								{#each bookmarkedIdeas as idea (idea.id)}
+									<IdeaCard {idea} />
+								{/each}
+							</div>
+						{/if}
+						{#if bookmarkedJobs.length > 0}
+							<h3 class="section-title">Jobs</h3>
+							<div class="content-grid">
+								{#each bookmarkedJobs as job (job.id)}
+									<JobCard {job} />
+								{/each}
+							</div>
+						{/if}
+					</Stack>
 				{/if}
 			{/if}
 		</Stack>
@@ -247,5 +330,12 @@
 		text-align: center;
 		padding: var(--space-8);
 		color: var(--text-muted);
+	}
+
+	.section-title {
+		font-size: 1rem;
+		font-weight: 600;
+		color: var(--text-secondary);
+		margin: 0;
 	}
 </style>
