@@ -101,7 +101,7 @@
 </main>
 
 <!-- Create List Modal -->
-<Modal bind:isOpen={showCreateModal} title="Create New List">
+<Modal bind:open={showCreateModal} title="Create New List">
 	<Stack gap={4}>
 		<div class="form-group">
 			<label for="list-title">List Name</label>
