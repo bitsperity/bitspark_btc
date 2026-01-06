@@ -64,17 +64,36 @@ class ListService {
         isLoading.set(true);
 
         try {
-            const filter: NDKFilter = {
+            // Fetch list events
+            const listFilter: NDKFilter = {
                 kinds: [KIND_BOOKMARK_SET],
                 authors: [pubkey],
                 '#s': ['bitspark']
             };
-
-            const events = await ndk.fetchEvents(filter);
+            const events = await ndk.fetchEvents(listFilter);
             const allLists = Array.from(events).map(e => this.parseListEvent(e));
 
-            // Filter out invalid lists (no title or d-tag)
-            const lists = allLists.filter(l => l.title !== 'Untitled List' && l.id);
+            // Fetch Kind 5 delete events to filter out deleted lists
+            const deleteFilter: NDKFilter = {
+                kinds: [5],
+                authors: [pubkey]
+            };
+            const deleteEvents = await ndk.fetchEvents(deleteFilter);
+            const deletedEventIds = new Set<string>();
+            for (const delEvent of deleteEvents) {
+                for (const tag of delEvent.tags) {
+                    if (tag[0] === 'e') {
+                        deletedEventIds.add(tag[1]);
+                    }
+                }
+            }
+
+            // Filter out invalid lists and deleted lists
+            const lists = allLists.filter(l =>
+                l.title !== 'Untitled List' &&
+                l.id &&
+                !deletedEventIds.has(l.eventId)
+            );
 
             // Only cache if loading own lists
             const user = ndk.activeUser;
@@ -82,7 +101,7 @@ class ListService {
                 listsCache.set(lists);
             }
 
-            console.log('[Lists] Loaded', lists.length, 'lists');
+            console.log('[Lists] Loaded', lists.length, 'lists (filtered', deletedEventIds.size, 'deleted)');
             return lists;
         } catch (error) {
             console.error('[Lists] Failed to load:', error);
