@@ -108,6 +108,12 @@ class ListService {
         subscription.on('event', (event: NDKEvent) => {
             const newList = this.parseListEvent(event);
 
+            // Skip lists without proper title (old/broken events)
+            if (newList.title === 'Untitled List' || !newList.id) {
+                console.log('[Lists] Skipped invalid list (no title or d-tag):', event.id);
+                return;
+            }
+
             // Skip deleted lists
             if (event.tags.some(t => t[0] === 'deleted')) {
                 const current = get(listsCache);
