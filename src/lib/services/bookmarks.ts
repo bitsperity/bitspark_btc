@@ -5,7 +5,7 @@
  * Kind 10003 = Global Bookmarks (replaceable, one per user)
  * 
  * Features:
- * - Add/remove Ideas and Jobs from bookmarks
+ * - Add/remove Ideas, Jobs, and Comments from bookmarks
  * - Subscribe to bookmark changes
  * - Check if event is bookmarked
  */
@@ -19,7 +19,7 @@ const KIND_BOOKMARKS = 10003; // NIP-51 Bookmarks
 
 interface BookmarkedItem {
     eventId: string;
-    type: 'idea' | 'job' | 'unknown';
+    type: 'idea' | 'job' | 'comment' | 'unknown';
     addedAt?: number;
 }
 
@@ -114,7 +114,7 @@ class BookmarkService {
         for (const tag of event.tags) {
             if (tag[0] === 'e') {
                 const eventId = tag[1];
-                const type = tag[3] as 'idea' | 'job' | undefined;
+                const type = tag[3] as 'idea' | 'job' | 'comment' | undefined;
                 items.push({
                     eventId,
                     type: type || 'unknown'
@@ -128,7 +128,7 @@ class BookmarkService {
     /**
      * Add event to bookmarks
      */
-    async addBookmark(eventId: string, type: 'idea' | 'job'): Promise<void> {
+    async addBookmark(eventId: string, type: 'idea' | 'job' | 'comment'): Promise<void> {
         const user = ndk.activeUser;
         if (!user) throw new Error('Not logged in');
 
@@ -175,7 +175,7 @@ class BookmarkService {
     /**
      * Toggle bookmark state
      */
-    async toggleBookmark(eventId: string, type: 'idea' | 'job'): Promise<boolean> {
+    async toggleBookmark(eventId: string, type: 'idea' | 'job' | 'comment'): Promise<boolean> {
         const isMarked = this.isBookmarkedSync(eventId);
 
         if (isMarked) {
@@ -237,7 +237,7 @@ class BookmarkService {
     /**
      * Get bookmarks of specific type
      */
-    getBookmarksByType(type: 'idea' | 'job'): Readable<BookmarkedItem[]> {
+    getBookmarksByType(type: 'idea' | 'job' | 'comment'): Readable<BookmarkedItem[]> {
         return derived(bookmarksCache, $cache =>
             $cache.filter(b => b.type === type)
         );

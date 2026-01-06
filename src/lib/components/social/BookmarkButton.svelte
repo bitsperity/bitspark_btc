@@ -1,5 +1,5 @@
 <!--
-  BookmarkButton - Toggle bookmark on Ideas/Jobs
+  BookmarkButton - Toggle bookmark on Ideas/Jobs/Comments
   
   Uses NIP-51 Kind 10003 bookmarks via bookmarkService.
 -->
@@ -9,7 +9,7 @@
 
 	interface Props {
 		eventId: string;
-		type: 'idea' | 'job';
+		type: 'idea' | 'job' | 'comment';
 		size?: 'sm' | 'md';
 	}
 

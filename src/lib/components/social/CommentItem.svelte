@@ -6,7 +6,7 @@
 <script lang="ts">
 	import { Avatar, Row, Button } from '$lib/components';
 	import { profileService, commentService } from '$lib/services';
-	import { LikeButton } from '$lib/components/social';
+	import { LikeButton, BookmarkButton } from '$lib/components/social';
 	import CommentForm from './CommentForm.svelte';
 	import type { Comment } from '$lib/types/social';
 	import type { NDKUserProfile } from '@nostr-dev-kit/ndk';
@@ -135,6 +135,7 @@
 		
 		<div class="comment-actions">
 			<LikeButton eventId={comment.id} size="sm" />
+			<BookmarkButton eventId={comment.id} type="comment" size="sm" />
 			<button class="reply-btn" onclick={() => showReplyForm = !showReplyForm}>
 				<MessageCircle size={14} />
 				<span>Reply</span>

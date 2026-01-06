@@ -21,6 +21,7 @@
 	import type { Idea } from '$lib/types/idea';
 	import type { Job } from '$lib/types/job';
 	import type { Contract } from '$lib/types/contract';
+	import type { Comment } from '$lib/types/social';
 
 	// Get npub from route params
 	const npub = $derived($page.params.npub);
@@ -53,6 +54,7 @@
 	let contracts = $state<Contract[]>([]);
 	let bookmarkedIdeas = $state<Idea[]>([]);
 	let bookmarkedJobs = $state<Job[]>([]);
+	let bookmarkedComments = $state<Comment[]>([]);
 	let isLoadingContent = $state(false);
 
 	// Load content when tab changes or pubkey changes
@@ -135,6 +137,23 @@
 				bookmarkedJobs = fetchedJobs.filter((j): j is Job => j !== null);
 			} else {
 				bookmarkedJobs = [];
+			}
+			
+			// Fetch bookmarked comments
+			const commentBookmarks = bookmarkService.getBookmarksByType('comment');
+			let commentIds: string[] = [];
+			commentBookmarks.subscribe(items => commentIds = items.map(i => i.eventId))();
+			
+			if (commentIds.length > 0) {
+				const events = await ndk.fetchEvents({ ids: commentIds });
+				bookmarkedComments = Array.from(events).map(e => ({
+					id: e.id,
+					content: e.content,
+					pubkey: e.pubkey,
+					createdAt: e.created_at ?? 0
+				}));
+			} else {
+				bookmarkedComments = [];
 			}
 		} catch (error) {
 			console.error('[Profile] Failed to load bookmarks:', error);
@@ -239,7 +258,7 @@
 					</div>
 				{/if}
 			{:else if activeTab === 'bookmarks'}
-				{#if bookmarkedIdeas.length === 0 && bookmarkedJobs.length === 0}
+				{#if bookmarkedIdeas.length === 0 && bookmarkedJobs.length === 0 && bookmarkedComments.length === 0}
 					<div class="empty-state">
 						<Bookmark size={48} />
 						<p>No bookmarks yet</p>
@@ -259,6 +278,16 @@
 							<div class="content-grid">
 								{#each bookmarkedJobs as job (job.id)}
 									<JobCard {job} />
+								{/each}
+							</div>
+						{/if}
+						{#if bookmarkedComments.length > 0}
+							<h3 class="section-title">Comments</h3>
+							<div class="comment-list">
+								{#each bookmarkedComments as comment (comment.id)}
+									<div class="bookmarked-comment">
+										<p>{comment.content.slice(0, 100)}{comment.content.length > 100 ? '...' : ''}</p>
+									</div>
 								{/each}
 							</div>
 						{/if}
@@ -337,5 +366,25 @@
 		font-weight: 600;
 		color: var(--text-secondary);
 		margin: 0;
+	}
+
+	.comment-list {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-3);
+	}
+
+	.bookmarked-comment {
+		padding: var(--space-4);
+		background: var(--bg-glass);
+		border-radius: var(--radius-md);
+		border: 1px solid var(--border-subtle);
+	}
+
+	.bookmarked-comment p {
+		margin: 0;
+		color: var(--text-secondary);
+		font-size: 0.875rem;
+		line-height: 1.5;
 	}
 </style>
