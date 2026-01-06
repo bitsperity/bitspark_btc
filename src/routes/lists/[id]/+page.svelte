@@ -16,7 +16,7 @@
 	import { ndk } from '$lib/nostr';
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
-	import { ArrowLeft, Edit, Trash2, FolderOpen, Lightbulb, Briefcase, MessageCircle } from 'lucide-svelte';
+	import { ArrowLeft, Edit, Trash2, FolderOpen, Lightbulb, Briefcase, MessageCircle, X } from 'lucide-svelte';
 	import type { Idea } from '$lib/types/idea';
 	import type { Job } from '$lib/types/job';
 	import type { Comment } from '$lib/types/social';
@@ -233,7 +233,12 @@
 							</Row>
 							<div class="content-grid">
 								{#each ideas as idea (idea.id)}
-									<IdeaCard {idea} />
+									<div class="list-item-wrapper">
+										<IdeaCard {idea} />
+										<button class="remove-btn" onclick={() => removeItem(idea.id)} title="Remove from list">
+											<X size={14} />
+										</button>
+									</div>
 								{/each}
 							</div>
 						</section>
@@ -247,7 +252,12 @@
 							</Row>
 							<div class="content-grid">
 								{#each jobs as job (job.id)}
-									<JobCard {job} />
+									<div class="list-item-wrapper">
+										<JobCard {job} />
+										<button class="remove-btn" onclick={() => removeItem(job.id)} title="Remove from list">
+											<X size={14} />
+										</button>
+									</div>
 								{/each}
 							</div>
 						</section>
@@ -261,7 +271,12 @@
 							</Row>
 							<div class="comments-list">
 								{#each comments as comment (comment.id)}
-									<BookmarkedCommentCard {comment} />
+									<div class="list-item-wrapper comment-wrapper">
+										<BookmarkedCommentCard {comment} />
+										<button class="remove-btn" onclick={() => removeItem(comment.id)} title="Remove from list">
+											<X size={14} />
+										</button>
+									</div>
 								{/each}
 							</div>
 						</section>
@@ -446,5 +461,44 @@
 	.textarea {
 		resize: vertical;
 		min-height: 80px;
+	}
+
+	.list-item-wrapper {
+		position: relative;
+	}
+
+	.list-item-wrapper:hover .remove-btn {
+		opacity: 1;
+	}
+
+	.remove-btn {
+		position: absolute;
+		top: var(--space-2);
+		right: var(--space-2);
+		width: 24px;
+		height: 24px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background: var(--bg-error, rgba(220, 38, 38, 0.9));
+		border: none;
+		border-radius: 50%;
+		color: white;
+		cursor: pointer;
+		opacity: 0;
+		transition: opacity var(--duration-fast) var(--ease-out);
+		z-index: 10;
+	}
+
+	.remove-btn:hover {
+		background: var(--error, #dc2626);
+	}
+
+	.comment-wrapper {
+		position: relative;
+	}
+
+	.comment-wrapper .remove-btn {
+		top: var(--space-3);
 	}
 </style>
