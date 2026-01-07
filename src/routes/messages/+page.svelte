@@ -292,11 +292,17 @@
 {/if}
 
 <style>
-	.messages-page {
-		height: 100vh;
-		padding-top: 80px;
+	:global(body:has(.messages-page)) {
 		overflow: hidden;
-		box-sizing: border-box;
+	}
+
+	.messages-page {
+		position: fixed;
+		top: 73px;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		overflow: hidden;
 	}
 
 	.messages-container {

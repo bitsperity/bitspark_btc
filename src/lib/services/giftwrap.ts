@@ -62,10 +62,10 @@ class GiftWrapService {
         }
 
         // Subscribe to all Gift Wraps addressed to me
+        // Note: No limit - we need to receive all new events in real-time
         const filter: NDKFilter = {
             kinds: [GIFT_WRAP_KIND as number],
-            '#p': [user.pubkey],
-            limit: 500
+            '#p': [user.pubkey]
         };
 
         const sub = ndk.subscribe(filter, { closeOnEose: false }) as any;
@@ -73,8 +73,11 @@ class GiftWrapService {
         isRunning = true;
 
         sub.on('event', async (event: NDKEvent) => {
+            console.log('[GiftWrapService] Received gift wrap:', event.id.slice(0, 8));
             await this.processGiftWrap(event);
         });
+
+        console.log('[GiftWrapService] Subscription started for', user.pubkey.slice(0, 8));
     }
 
     /**
