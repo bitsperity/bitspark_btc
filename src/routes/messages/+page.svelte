@@ -12,6 +12,7 @@
 	import { MessageCircle, Send, Plus, ArrowLeft, User } from 'lucide-svelte';
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
 	import type { NDKUserProfile } from '@nostr-dev-kit/ndk';
 
 	// Active conversation
@@ -30,9 +31,18 @@
 	// Mobile view state
 	let showChatOnMobile = $state(false);
 
-	// Initialize DM service
+	// Initialize DM service and handle ?start param
 	onMount(() => {
 		dmService.init();
+		
+		// Check for ?start param (from profile page)
+		const startPubkey = $page.url.searchParams.get('start');
+		if (startPubkey) {
+			activeConvoPubkey = startPubkey;
+			showChatOnMobile = true;
+			// Clean URL
+			goto('/messages', { replaceState: true });
+		}
 	});
 
 	// Select conversation

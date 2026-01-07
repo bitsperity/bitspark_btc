@@ -19,7 +19,7 @@
 	import { ideaService, jobService, contractService, bookmarkService, authService, listService, type List } from '$lib/services';
 	import { nip19 } from 'nostr-tools';
 	import { page } from '$app/stores';
-	import { Lightbulb, Briefcase, FileCheck, Bookmark, FolderOpen } from 'lucide-svelte';
+	import { Lightbulb, Briefcase, FileCheck, Bookmark, FolderOpen, MessageCircle } from 'lucide-svelte';
 	import type { Idea } from '$lib/types/idea';
 	import type { Job } from '$lib/types/job';
 	import type { Contract } from '$lib/types/contract';
@@ -202,6 +202,16 @@
 	<Container>
 		<Stack gap={6}>
 			<ProfileCard pubkey={pubkey()} />
+
+			<!-- Message button for other users -->
+			{#if authService.isLoggedIn && !isOwnProfile()}
+				<div class="profile-actions">
+					<a href="/messages?start={pubkey()}" class="message-btn">
+						<MessageCircle size={18} />
+						Send Message
+					</a>
+				</div>
+			{/if}
 
 			<!-- Tabs -->
 			<div class="tabs">
@@ -411,5 +421,29 @@
 
 	.manage-link:hover {
 		text-decoration: underline;
+	}
+
+	.profile-actions {
+		display: flex;
+		justify-content: center;
+	}
+
+	.message-btn {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--space-2);
+		padding: var(--space-3) var(--space-5);
+		background: var(--primary);
+		color: white;
+		border-radius: var(--radius-md);
+		text-decoration: none;
+		font-weight: 500;
+		font-size: 0.9rem;
+		transition: all var(--duration-fast) var(--ease-out);
+	}
+
+	.message-btn:hover {
+		background: var(--primary-hover);
+		transform: translateY(-1px);
 	}
 </style>
