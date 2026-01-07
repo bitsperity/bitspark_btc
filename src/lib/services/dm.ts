@@ -10,7 +10,7 @@
 import { NDKEvent, NDKKind } from '@nostr-dev-kit/ndk';
 import { ndk } from '$lib/nostr';
 import { giftWrapService, dmEvents } from './giftwrap';
-import { profileService } from './profile';
+import { profileService } from './profiles';
 import { writable, derived, get, type Readable } from 'svelte/store';
 import type { NDKUserProfile } from '@nostr-dev-kit/ndk';
 
