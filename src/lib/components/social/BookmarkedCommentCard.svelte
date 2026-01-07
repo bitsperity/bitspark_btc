@@ -153,9 +153,7 @@
 	}
 
 	.bookmarked-comment-card.clickable:hover {
-		background: var(--bg-glass-hover);
 		border-color: rgba(255, 255, 255, 0.15);
-		transform: translateY(-1px);
 	}
 
 	.content {
