@@ -15,7 +15,7 @@
 	import { FollowButton, FollowingList } from '$lib/components/social';
 	import { socialService, authService, ideaService, jobService } from '$lib/services';
 	import { goto } from '$app/navigation';
-	import { Zap, ExternalLink, Users, Edit, Lightbulb, Briefcase, FileCheck, Github } from 'lucide-svelte';
+	import { Zap, ExternalLink, Users, Edit, Lightbulb, Briefcase, FileCheck, Github, MessageCircle } from 'lucide-svelte';
 	import type { NDKUserProfile } from '@nostr-dev-kit/ndk';
 	import { NOSTR_KINDS } from '$lib/nostr/config';
 
@@ -224,6 +224,10 @@
 						</button>
 					{:else}
 						<FollowButton {pubkey} />
+						<a href="/messages?start={pubkey}" class="message-btn">
+							<MessageCircle size={16} />
+							<span>Message</span>
+						</a>
 					{/if}
 					{#if profile.lud16}
 						<Button variant="primary">
@@ -385,6 +389,26 @@
 	}
 
 	.following-btn:hover {
+		background: var(--bg-elevated);
+		color: var(--primary);
+		border-color: var(--primary);
+	}
+
+	.message-btn {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--space-2);
+		padding: var(--space-2) var(--space-4);
+		background: transparent;
+		border: 1px solid var(--border-subtle);
+		border-radius: var(--radius-md);
+		color: var(--text-secondary);
+		font-size: 0.875rem;
+		text-decoration: none;
+		transition: all var(--duration-fast) var(--ease-out);
+	}
+
+	.message-btn:hover {
 		background: var(--bg-elevated);
 		color: var(--primary);
 		border-color: var(--primary);

@@ -293,14 +293,16 @@
 
 <style>
 	.messages-page {
-		min-height: 100vh;
+		height: 100vh;
 		padding-top: 80px;
+		overflow: hidden;
+		box-sizing: border-box;
 	}
 
 	.messages-container {
 		display: grid;
 		grid-template-columns: 350px 1fr;
-		height: calc(100vh - 80px);
+		height: 100%;
 		max-width: 1400px;
 		margin: 0 auto;
 		background: var(--bg-glass);

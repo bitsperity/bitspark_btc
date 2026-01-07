@@ -203,16 +203,6 @@
 		<Stack gap={6}>
 			<ProfileCard pubkey={pubkey()} />
 
-			<!-- Message button for other users -->
-			{#if authService.isLoggedIn && !isOwnProfile()}
-				<div class="profile-actions">
-					<a href="/messages?start={pubkey()}" class="message-btn">
-						<MessageCircle size={18} />
-						Send Message
-					</a>
-				</div>
-			{/if}
-
 			<!-- Tabs -->
 			<div class="tabs">
 				<button 
