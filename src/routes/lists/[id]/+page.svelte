@@ -290,12 +290,11 @@
 							</Row>
 							<div class="comments-list">
 								{#each comments as comment (comment.id)}
-									<div class="list-item-wrapper comment-wrapper">
-										<BookmarkedCommentCard {comment} />
-										<button class="remove-btn" onclick={() => openRemoveModal(comment.id)} title="Remove from list">
-											<X size={14} />
-										</button>
-									</div>
+									<BookmarkedCommentCard 
+										{comment} 
+										showRemove 
+										onRemove={() => openRemoveModal(comment.id)} 
+									/>
 								{/each}
 							</div>
 						</section>
@@ -452,10 +451,6 @@
 		border-color: rgba(220, 38, 38, 0.5);
 		color: white;
 		transform: scale(1.1);
-	}
-
-	.comment-wrapper .remove-btn {
-		top: -4px;
 	}
 
 	.icon-btn {

@@ -1,24 +1,25 @@
 <!--
   BookmarkedCommentCard - Display a bookmarked comment with author and navigation
   
-  Consistent styling with ActivityItem in Feed.
+  Used in list detail to show comments with optional remove action.
 -->
 <script lang="ts">
 	import { Avatar, Row } from '$lib/components';
-	import { BookmarkButton } from '$lib/components/social';
 	import { profileService } from '$lib/services';
 	import { ndk } from '$lib/nostr';
 	import { NOSTR_KINDS } from '$lib/nostr/config';
 	import { goto } from '$app/navigation';
 	import type { Comment } from '$lib/types/social';
 	import type { NDKUserProfile } from '@nostr-dev-kit/ndk';
-	import { MessageCircle } from 'lucide-svelte';
+	import { MessageCircle, X } from 'lucide-svelte';
 
 	interface Props {
 		comment: Comment;
+		showRemove?: boolean;
+		onRemove?: () => void;
 	}
 
-	let { comment }: Props = $props();
+	let { comment, showRemove = false, onRemove }: Props = $props();
 
 	// Load author profile
 	let authorProfile = $state<NDKUserProfile | undefined>(undefined);
@@ -89,36 +90,49 @@
 		}
 	}
 
+	function handleRemove(e: MouseEvent) {
+		e.preventDefault();
+		e.stopPropagation();
+		if (onRemove) onRemove();
+	}
+
 	const canNavigate = $derived(parentId !== null);
 </script>
 
-<button 
-	class="bookmarked-comment-card"
-	class:clickable={canNavigate}
-	onclick={handleClick}
-	disabled={!canNavigate}
->
-	<Avatar src={authorAvatar} fallback={authorName[0]} size="sm" />
-	
-	<div class="content">
-		<Row justify="between" class="header">
-			<Row gap={2}>
-				<span class="author">{authorName}</span>
-				<span class="time">• {relativeTime}</span>
+<div class="card-wrapper">
+	<button 
+		class="bookmarked-comment-card"
+		class:clickable={canNavigate}
+		onclick={handleClick}
+		disabled={!canNavigate}
+	>
+		<Avatar src={authorAvatar} fallback={authorName[0]} size="sm" />
+		
+		<div class="content">
+			<Row justify="between" class="header">
+				<Row gap={2}>
+					<span class="author">{authorName}</span>
+					<span class="time">• {relativeTime}</span>
+				</Row>
 			</Row>
-			<BookmarkButton eventId={comment.id} type="comment" size="sm" />
-		</Row>
-		
-		<p class="comment-text">{comment.content}</p>
-		
-		{#if parentTitle}
-			<span class="parent-link">
-				<MessageCircle size={12} />
-				on {parentTitle}
-			</span>
-		{/if}
-	</div>
-</button>
+			
+			<p class="comment-text">{comment.content}</p>
+			
+			{#if parentTitle}
+				<span class="parent-link">
+					<MessageCircle size={12} />
+					on {parentTitle}
+				</span>
+			{/if}
+		</div>
+	</button>
+
+	{#if showRemove}
+		<button class="remove-btn" onclick={handleRemove} title="Remove from list">
+			<X size={14} />
+		</button>
+	{/if}
+</div>
 
 <style>
 	.bookmarked-comment-card {
@@ -180,5 +194,41 @@
 		gap: var(--space-1);
 		color: var(--text-muted);
 		font-size: 0.75rem;
+	}
+
+	/* Wrapper for hover reveal */
+	.card-wrapper {
+		position: relative;
+	}
+
+	.card-wrapper:hover .remove-btn {
+		opacity: 1;
+	}
+
+	.remove-btn {
+		position: absolute;
+		top: 8px;
+		right: 8px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 28px;
+		height: 28px;
+		background: rgba(0, 0, 0, 0.5);
+		backdrop-filter: blur(8px);
+		border: 1px solid rgba(255, 255, 255, 0.1);
+		border-radius: var(--radius-md);
+		color: var(--text-muted);
+		cursor: pointer;
+		opacity: 0;
+		transition: all var(--duration-fast) var(--ease-out);
+		z-index: 10;
+	}
+
+	.remove-btn:hover {
+		background: rgba(220, 38, 38, 0.8);
+		border-color: rgba(220, 38, 38, 0.5);
+		color: white;
+		transform: scale(1.1);
 	}
 </style>
