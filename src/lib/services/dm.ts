@@ -73,7 +73,7 @@ class DMService {
 
         // Subscribe to dmEvents from giftWrapService
         dmEvents.subscribe(events => {
-            console.log('[DM] dmEvents updated, count:', events.length);
+
             this.processEvents(events);
         });
 
@@ -144,7 +144,7 @@ class DMService {
                 };
                 cache.set(otherPubkey, updatedConvo);
 
-                console.log('[DM] New message added to conversation:', otherPubkey.slice(0, 8));
+
             } else {
                 cache.set(otherPubkey, convo);
             }

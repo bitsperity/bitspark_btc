@@ -220,9 +220,6 @@
 				</header>
 
 				<div class="messages-scroll">
-					{#if activeConvo}
-						<!-- Debug: {activeConvo.messages.length} messages -->
-					{/if}
 					{#if activeConvo?.messages.length}
 						{#each activeConvo.messages as message (message.id)}
 							<div class="message" class:mine={message.isMe}>

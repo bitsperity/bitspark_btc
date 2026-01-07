@@ -73,7 +73,7 @@ class GiftWrapService {
         isRunning = true;
 
         sub.on('event', async (event: NDKEvent) => {
-            console.log('[GiftWrapService] Received gift wrap:', event.id.slice(0, 8));
+
             await this.processGiftWrap(event);
         });
 
@@ -146,7 +146,7 @@ class GiftWrapService {
                     e.content === unwrapped.content
                 );
                 if (exists) return events;
-                console.log('[GiftWrapService] Added to store - Kind:', unwrapped.kind, 'Content:', unwrapped.content.slice(0, 30));
+
                 return [...events, unwrapped];
             });
         } catch (error) {
