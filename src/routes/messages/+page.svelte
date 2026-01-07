@@ -303,6 +303,7 @@
 		right: 0;
 		bottom: 0;
 		overflow: hidden;
+		padding: var(--space-4);
 	}
 
 	.messages-container {

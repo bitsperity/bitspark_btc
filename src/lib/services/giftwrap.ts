@@ -146,6 +146,7 @@ class GiftWrapService {
                     e.content === unwrapped.content
                 );
                 if (exists) return events;
+                console.log('[GiftWrapService] Added to store - Kind:', unwrapped.kind, 'Content:', unwrapped.content.slice(0, 30));
                 return [...events, unwrapped];
             });
         } catch (error) {
