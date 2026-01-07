@@ -73,6 +73,7 @@ class DMService {
 
         // Subscribe to dmEvents from giftWrapService
         dmEvents.subscribe(events => {
+            console.log('[DM] dmEvents updated, count:', events.length);
             this.processEvents(events);
         });
 
