@@ -5,7 +5,7 @@
 	import { NostrProvider, Container, Row } from '$lib/components';
 	import { LoginButton, UserMenu } from '$lib/components/auth';
 	import ConnectionStatus from '$lib/components/ConnectionStatus.svelte';
-	import { authService } from '$lib/services';
+	import { authService, totalUnread } from '$lib/services';
 	import { Zap } from 'lucide-svelte';
 	
 	let { children } = $props();
@@ -31,6 +31,12 @@
 					<a href="/jobs" class="nav-link">Jobs</a>
 					{#if authService.isLoggedIn}
 						<a href="/feed" class="nav-link">Feed</a>
+						<a href="/messages" class="nav-link messages-link">
+							Messages
+							{#if $totalUnread > 0}
+								<span class="unread-badge">{$totalUnread > 99 ? '99+' : $totalUnread}</span>
+							{/if}
+						</a>
 					{/if}
 				</nav>
 				<div class="header-auth">
@@ -95,6 +101,24 @@
 
 	.nav-link:hover {
 		color: var(--text-primary);
+	}
+
+	.messages-link {
+		position: relative;
+		display: flex;
+		align-items: center;
+		gap: var(--space-2);
+	}
+
+	.unread-badge {
+		background: var(--orange-500);
+		color: white;
+		font-size: 0.65rem;
+		font-weight: 600;
+		padding: 2px 5px;
+		border-radius: 10px;
+		min-width: 16px;
+		text-align: center;
 	}
 
 	.header-auth {

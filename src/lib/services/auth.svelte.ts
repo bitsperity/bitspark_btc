@@ -11,6 +11,7 @@
 import { NDKNip07Signer, type NDKUser } from '@nostr-dev-kit/ndk';
 import { ndk, reconnect } from '$lib/nostr';
 import { giftWrapService } from './giftwrap';
+import { dmService } from './dm';
 import { socialService } from './social';
 import { bookmarkService } from './bookmarks';
 import { listService } from './lists';
@@ -89,6 +90,9 @@ class AuthService {
 
             // Start encrypted event subscription
             giftWrapService.start();
+
+            // Initialize DM service
+            dmService.init();
 
             // Initialize social features (follows, likes)
             socialService.init();

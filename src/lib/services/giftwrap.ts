@@ -102,9 +102,14 @@ class GiftWrapService {
             // Unwrap the gift
             const unwrapped = await giftUnwrap(event, undefined, signer as any);
 
-            // Check if it's a BitSpark event
-            const appTag = unwrapped.tags.find(t => t[0] === 's' && t[1] === 'bitspark');
-            if (!appTag) return;
+            // Kind 14/15 are NIP-17 DMs - allow without APP_TAG
+            const isDM = unwrapped.kind === 14 || unwrapped.kind === 15;
+
+            // For non-DMs, check if it's a BitSpark event
+            if (!isDM) {
+                const appTag = unwrapped.tags.find(t => t[0] === 's' && t[1] === 'bitspark');
+                if (!appTag) return;
+            }
 
             // Get event ID (rumor ID)
             const rumorId = unwrapped.id;
