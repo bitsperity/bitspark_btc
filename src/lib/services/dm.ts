@@ -171,13 +171,43 @@ class DMService {
         const user = ndk.activeUser;
         if (!user) throw new Error('Not logged in');
 
+        const now = Math.floor(Date.now() / 1000);
+        const tempId = `temp-${now}-${Math.random().toString(36).slice(2)}`;
+
+        // Create message object for optimistic update
+        const message: DMMessage = {
+            id: tempId,
+            content: content,
+            senderPubkey: user.pubkey,
+            createdAt: now,
+            isMe: true
+        };
+
+        // Optimistic update - show message immediately
+        conversationsCache.update(cache => {
+            let convo = cache.get(recipientPubkey);
+            if (!convo) {
+                convo = {
+                    participantPubkey: recipientPubkey,
+                    messages: [],
+                    unreadCount: 0
+                };
+                cache.set(recipientPubkey, convo);
+                // Load profile async
+                this.loadParticipantProfile(recipientPubkey);
+            }
+            convo.messages.push(message);
+            convo.lastMessage = message;
+            return cache;
+        });
+
         // Create Kind 14 rumor (unsigned)
         const rumor = new NDKEvent(ndk);
         rumor.kind = DM_KIND;
         rumor.content = content;
         rumor.tags = [['p', recipientPubkey]];
         rumor.pubkey = user.pubkey;
-        rumor.created_at = Math.floor(Date.now() / 1000);
+        rumor.created_at = now;
 
         // Send via gift wrap (to recipient + self)
         await giftWrapService.sendGiftWrap(rumor, recipientPubkey, true, false);
