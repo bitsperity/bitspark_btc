@@ -126,25 +126,27 @@ class DMService {
                     messages: [],
                     unreadCount: 0
                 };
-                cache.set(otherPubkey, convo);
-
                 // Load profile async
                 this.loadParticipantProfile(otherPubkey);
             }
 
-            // Add message if not duplicate
+            // Add message if not duplicate - create NEW array/object for reactivity
             if (!convo.messages.find(m => m.id === message.id)) {
-                convo.messages.push(message);
-                convo.messages.sort((a, b) => a.createdAt - b.createdAt);
-                convo.lastMessage = convo.messages[convo.messages.length - 1];
-
-                // Calculate unread (messages from other after last read)
+                const newMessages = [...convo.messages, message].sort((a, b) => a.createdAt - b.createdAt);
                 const lastRead = timestamps.get(otherPubkey) ?? 0;
-                convo.unreadCount = convo.messages.filter(
-                    m => !m.isMe && m.createdAt > lastRead
-                ).length;
+
+                // Create NEW conversation object for Svelte reactivity
+                const updatedConvo: Conversation = {
+                    ...convo,
+                    messages: newMessages,
+                    lastMessage: newMessages[newMessages.length - 1],
+                    unreadCount: newMessages.filter(m => !m.isMe && m.createdAt > lastRead).length
+                };
+                cache.set(otherPubkey, updatedConvo);
 
                 console.log('[DM] New message added to conversation:', otherPubkey.slice(0, 8));
+            } else {
+                cache.set(otherPubkey, convo);
             }
         }
 
