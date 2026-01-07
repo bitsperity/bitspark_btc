@@ -143,10 +143,13 @@ class DMService {
                 convo.unreadCount = convo.messages.filter(
                     m => !m.isMe && m.createdAt > lastRead
                 ).length;
+
+                console.log('[DM] New message added to conversation:', otherPubkey.slice(0, 8));
             }
         }
 
-        conversationsCache.set(cache);
+        // Create new Map to trigger Svelte reactivity
+        conversationsCache.set(new Map(cache));
     }
 
     /**
