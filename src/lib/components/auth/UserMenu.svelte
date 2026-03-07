@@ -10,6 +10,12 @@
 	import { User, Settings, LogOut, ChevronDown, Edit, Lightbulb, Briefcase, Send, FileCheck, FolderOpen } from 'lucide-svelte';
 
 	let menuOpen = $state(false);
+	let lastProfileFetchAt = $state(0);
+	let profileRetryCount = $state(0);
+	let lastProfilePubkey = $state<string | undefined>(undefined);
+
+	const PROFILE_RETRY_COOLDOWN_MS = 15000;
+	const MAX_PROFILE_RETRIES = 3;
 
 	function toggleMenu() {
 		menuOpen = !menuOpen;
@@ -41,10 +47,28 @@
 	// Auto-retry profile fetch if missing
 	$effect(() => {
 		const user = authService.user;
-		if (user && !user.profile?.name && !authService.profileLoading) {
-			// Profile is missing, retry fetch
-			authService.retryFetchProfile();
+		const pubkey = user?.pubkey;
+		if (!pubkey) return;
+
+		if (pubkey !== lastProfilePubkey) {
+			lastProfilePubkey = pubkey;
+			lastProfileFetchAt = 0;
+			profileRetryCount = 0;
 		}
+
+		const hasProfile =
+			!!user?.profile &&
+			!!(user.profile.name || user.profile.displayName || user.profile.about || user.profile.image || user.profile.picture);
+
+		if (hasProfile || authService.profileLoading) return;
+		if (profileRetryCount >= MAX_PROFILE_RETRIES) return;
+
+		const now = Date.now();
+		if (now - lastProfileFetchAt < PROFILE_RETRY_COOLDOWN_MS) return;
+
+		lastProfileFetchAt = now;
+		profileRetryCount += 1;
+		authService.retryFetchProfile();
 	});
 
 	const profile = $derived(authService.user?.profile);
